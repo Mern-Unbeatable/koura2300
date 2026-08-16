@@ -8,7 +8,7 @@ const FeaturedCategories = memo(() => {
     <section
       id="featured-categories"
       aria-label={LANDING_CONTENT.categories.sectionLabel}
-      className="mx-auto max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8"
+      className="mx-auto max-w-screen-2xl scroll-mt-32 px-4 py-8 sm:px-6 lg:px-8"
     >
       <div className="grid gap-5 md:grid-cols-3">
         {CATEGORY_ITEMS.map((category) => (

@@ -6,7 +6,7 @@ import { ARTICLE_ITEMS } from './landingData';
 
 const LearningSection = memo(() => {
   return (
-    <section id="learning" className="pb-16 sm:pb-22 lg:pb-28">
+    <section id="learning" className="scroll-mt-32 pb-16 sm:pb-22 lg:pb-28">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between border-b border-brand-ink pb-3">
           <h2 className="text-3xl font-semibold uppercase text-brand-ink sm:text-4xl">

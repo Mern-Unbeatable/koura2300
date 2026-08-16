@@ -10,7 +10,7 @@ const LandingFooter = memo(() => {
   const { footer, header } = LANDING_CONTENT;
 
   return (
-    <footer id="footer" className="bg-brand-footer text-white">
+    <footer id="footer" className="scroll-mt-32 bg-brand-footer text-white">
       <div className="mx-auto max-w-screen-2xl px-4 pb-5 pt-16 sm:px-6 lg:px-8 lg:pt-24">
         <div className="grid gap-12 md:grid-cols-2 xl:grid-cols-4">
           <div className="xl:col-span-2">

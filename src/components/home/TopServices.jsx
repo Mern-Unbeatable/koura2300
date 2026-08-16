@@ -27,7 +27,7 @@ const TopServices = memo(({ services }) => {
     <section
       id="top-services"
       aria-label={LANDING_CONTENT.services.title}
-      className="bg-gray-50 py-14 sm:py-18 lg:py-20"
+      className="scroll-mt-32 bg-gray-50 py-14 sm:py-18 lg:py-20"
     >
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between gap-5">

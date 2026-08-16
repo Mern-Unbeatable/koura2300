@@ -19,7 +19,7 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
   }, []);
 
   return (
-    <header className="bg-brand-navy text-white" role="banner">
+    <header className="sticky top-0 z-50 bg-brand-navy text-white" role="banner">
       <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-6 py-3.5">
           <Link
