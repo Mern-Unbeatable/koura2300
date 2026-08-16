@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import useGsapReveal from '../../hooks/useGsapReveal';
 import usePagination from '../../hooks/usePagination';
 import ArticleCard from './ArticleCard';
 import { LANDING_CONTENT } from './landingContent';
@@ -7,17 +8,26 @@ import { ARTICLE_ITEMS } from './landingData';
 
 const ARTICLES_PER_PAGE = 6;
 const ARROW_ICON_SIZE = 14;
+const ARTICLE_SELECTOR = '[data-article-card]';
 const NAVIGATION_BUTTON_CLASS =
-  'flex size-7 cursor-pointer items-center justify-center rounded-full border border-brand-orange text-brand-orange transition-colors hover:bg-brand-orange hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40';
+  'flex size-7 cursor-pointer items-center justify-center rounded-full border border-brand-orange text-brand-orange transition-all duration-200 hover:scale-110 hover:bg-brand-orange hover:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100';
 
 const LearningSection = memo(() => {
   const {
     visibleItems,
+    pageIndex,
+    direction,
     canShowPrevious,
     canShowNext,
     showPreviousPage,
     showNextPage,
   } = usePagination(ARTICLE_ITEMS, ARTICLES_PER_PAGE);
+
+  const gridRef = useGsapReveal({
+    selector: ARTICLE_SELECTOR,
+    trigger: pageIndex,
+    direction,
+  });
 
   return (
     <section id="learning" className="scroll-mt-32 pb-16 sm:pb-22 lg:pb-28">
@@ -48,7 +58,7 @@ const LearningSection = memo(() => {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-x-10 gap-y-8 lg:grid-cols-3">
+        <div ref={gridRef} className="mt-8 grid gap-x-10 gap-y-8 lg:grid-cols-3">
           {visibleItems.map((article) => (
             <ArticleCard key={article.id} article={article} />
           ))}

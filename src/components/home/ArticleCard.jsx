@@ -5,7 +5,7 @@ const ARTICLE_IMAGE_WIDTH = 170;
 const ARTICLE_IMAGE_HEIGHT = 200;
 
 const ArticleCard = memo(({ article }) => (
-  <article className="flex min-w-0 gap-4">
+  <article data-article-card className="flex min-w-0 gap-4">
     <img
       src={article.image}
       alt={article.imageAlt}
