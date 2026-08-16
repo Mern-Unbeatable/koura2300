@@ -32,14 +32,14 @@ const ServiceOverview = memo(() => {
           </ul>
         </div>
 
-        <div className="relative mx-auto min-h-100 w-full max-w-xl sm:min-h-130">
+        <div className="relative min-h-92 w-full sm:min-h-120">
           <LandingPicture
             webpSrc={cleaning.webp}
             pngSrc={cleaning.png}
             alt={LANDING_CONTENT.overview.primaryImageAlt}
             width={cleaning.width}
             height={cleaning.height}
-            className="ml-auto block h-90 w-4/5 overflow-hidden rounded-md sm:h-124"
+            className="ml-auto block h-84 w-4/5 overflow-hidden rounded-md sm:h-112"
           />
           <LandingPicture
             webpSrc={laundry.webp}
@@ -47,7 +47,7 @@ const ServiceOverview = memo(() => {
             alt={LANDING_CONTENT.overview.secondaryImageAlt}
             width={laundry.width}
             height={laundry.height}
-            className="absolute bottom-0 left-0 block h-44 w-3/5 overflow-hidden rounded-md border-r-16 border-t-16 border-white sm:h-72"
+            className="absolute bottom-0 left-0 block h-40 w-3/5 overflow-hidden rounded-md border-r-16 border-t-16 border-white sm:h-64"
           />
         </div>
       </div>
