@@ -161,23 +161,28 @@ describe('Featured categories carousel', () => {
   afterEach(() => {
     jest.restoreAllMocks();
     delete Element.prototype.scrollBy;
+    delete Element.prototype.scrollTo;
   });
 
-  const stubScrollableTrack = () => {
+  const stubScrollableTrack = ({ scrollLeft = 0 } = {}) => {
     const scrollBy = jest.fn();
+    const scrollTo = jest.fn();
 
     jest.spyOn(Element.prototype, 'clientWidth', 'get').mockReturnValue(TRACK_WIDTH);
     jest.spyOn(Element.prototype, 'scrollWidth', 'get').mockReturnValue(CONTENT_WIDTH);
+    jest.spyOn(Element.prototype, 'scrollLeft', 'get').mockReturnValue(scrollLeft);
     Element.prototype.scrollBy = scrollBy;
+    Element.prototype.scrollTo = scrollTo;
 
-    return scrollBy;
+    return { scrollBy, scrollTo };
   };
 
-  it('renders both controls and disables them when the track cannot scroll', () => {
+  it('keeps both controls enabled while the track can loop', () => {
+    stubScrollableTrack();
     renderLandingPage();
 
-    expect(screen.getByRole('button', { name: 'Show previous categories' })).toBeDisabled();
-    expect(screen.getByRole('button', { name: 'Show next categories' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Show previous categories' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Show next categories' })).toBeEnabled();
   });
 
   it('renders every navbar category in the dropdown and carousel', () => {
@@ -198,7 +203,7 @@ describe('Featured categories carousel', () => {
   });
 
   it('scrolls the track forward by one card when the next control is used', async () => {
-    const scrollBy = stubScrollableTrack();
+    const { scrollBy } = stubScrollableTrack();
     const user = userEvent.setup();
     renderLandingPage();
 
@@ -211,13 +216,34 @@ describe('Featured categories carousel', () => {
   });
 
   it('scrolls the track backwards by one card when the previous control is used', async () => {
-    const scrollBy = stubScrollableTrack();
-    jest.spyOn(Element.prototype, 'scrollLeft', 'get').mockReturnValue(TRACK_WIDTH);
+    const { scrollBy } = stubScrollableTrack({ scrollLeft: TRACK_WIDTH });
     const user = userEvent.setup();
     renderLandingPage();
 
     await user.click(screen.getByRole('button', { name: 'Show previous categories' }));
 
     expect(scrollBy).toHaveBeenCalledWith({ left: -TRACK_WIDTH, behavior: 'smooth' });
+  });
+
+  it('loops back to the first card after Walls & Ceilings', async () => {
+    const maxScrollLeft = CONTENT_WIDTH - TRACK_WIDTH;
+    const { scrollTo } = stubScrollableTrack({ scrollLeft: maxScrollLeft });
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    await user.click(screen.getByRole('button', { name: 'Show next categories' }));
+
+    expect(scrollTo).toHaveBeenCalledWith({ left: 0, behavior: 'smooth' });
+  });
+
+  it('loops to the last card when previous is used at the start', async () => {
+    const maxScrollLeft = CONTENT_WIDTH - TRACK_WIDTH;
+    const { scrollTo } = stubScrollableTrack({ scrollLeft: 0 });
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    await user.click(screen.getByRole('button', { name: 'Show previous categories' }));
+
+    expect(scrollTo).toHaveBeenCalledWith({ left: maxScrollLeft, behavior: 'smooth' });
   });
 });

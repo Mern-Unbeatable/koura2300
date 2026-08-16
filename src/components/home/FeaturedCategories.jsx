@@ -9,7 +9,9 @@ import { CATEGORY_ITEMS } from './landingData';
 const EAGER_CARD_COUNT = 3;
 
 const FeaturedCategories = memo(() => {
-  const { trackRef, canScrollPrev, canScrollNext, scrollToPrev, scrollToNext } = useCarousel();
+  const { trackRef, canScrollPrev, canScrollNext, scrollToPrev, scrollToNext } = useCarousel({
+    loop: true,
+  });
 
   return (
     <section
