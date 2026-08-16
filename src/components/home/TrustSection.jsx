@@ -21,7 +21,7 @@ const TrustSection = memo(() => {
               <span className="flex size-12 items-center justify-center rounded-full bg-brand-orange font-bold text-white">
                 {item.number}
               </span>
-              <h3 className="mt-7 text-lg font-medium text-black">{item.title}</h3>
+              <h3 className="mt-7 text-lg font-medium text-brand-ink">{item.title}</h3>
               <p className="mt-2 text-sm leading-6 text-brand-muted">{item.body}</p>
             </li>
           ))}

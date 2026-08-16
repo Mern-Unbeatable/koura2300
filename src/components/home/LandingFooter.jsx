@@ -12,8 +12,8 @@ const LandingFooter = memo(() => {
   return (
     <footer id="footer" className="bg-brand-footer text-white">
       <div className="mx-auto max-w-screen-2xl px-4 pb-5 pt-16 sm:px-6 lg:px-8 lg:pt-24">
-        <div className="grid gap-12 md:grid-cols-2 xl:grid-cols-[1.4fr_0.7fr_0.8fr_1fr]">
-          <div>
+        <div className="grid gap-12 md:grid-cols-2 xl:grid-cols-4">
+          <div className="xl:col-span-2">
             <img
               src={`${LANDING_ASSET_PATH}/logo.svg`}
               alt={header.logoAlt}

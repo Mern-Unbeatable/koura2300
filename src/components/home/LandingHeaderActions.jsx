@@ -6,7 +6,7 @@ import { LANDING_CONTENT } from './landingContent';
 
 const ACTION_ICON_SIZE = 20;
 // Fixed width keeps the four icons on an even pitch regardless of label length.
-const ACTION_CLASS = 'flex w-14 flex-col items-center gap-1 text-[0.6875rem] leading-none';
+const ACTION_CLASS = 'flex w-14 flex-col items-center gap-1 text-xs leading-none';
 
 const getCartLabel = (totalItems) =>
   `Cart, ${totalItems} ${totalItems === 1 ? 'item' : 'items'}`;
@@ -27,7 +27,7 @@ const LandingHeaderActions = memo(({ totalItems }) => (
       <span className="relative">
         <ShoppingCart size={ACTION_ICON_SIZE} aria-hidden="true" />
         {totalItems > 0 && (
-          <span className="absolute -right-2.5 -top-2 flex size-4 items-center justify-center rounded-full bg-brand-orange text-[0.625rem] font-semibold">
+          <span className="absolute -right-2.5 -top-2 flex size-4 items-center justify-center rounded-full bg-brand-orange text-xs font-semibold">
             {totalItems}
           </span>
         )}
