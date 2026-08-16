@@ -58,7 +58,7 @@ const LearningSection = memo(() => {
           </div>
         </div>
 
-        <div ref={gridRef} className="mt-8 grid gap-x-10 gap-y-8 lg:grid-cols-3">
+        <div ref={gridRef} className="mt-8 grid items-start gap-x-10 gap-y-8 lg:grid-cols-3">
           {visibleItems.map((article) => (
             <ArticleCard key={article.id} article={article} />
           ))}

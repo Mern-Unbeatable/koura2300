@@ -12,7 +12,7 @@ const ArticleCard = memo(({ article }) => (
       width={ARTICLE_IMAGE_WIDTH}
       height={ARTICLE_IMAGE_HEIGHT}
       loading="lazy"
-      className="h-full min-h-40 w-30 shrink-0 rounded object-cover sm:w-36"
+      className="h-40 w-30 shrink-0 rounded object-cover sm:h-44 sm:w-36"
     />
     <div className="flex min-w-0 flex-1 flex-col justify-between py-1">
       <div>
