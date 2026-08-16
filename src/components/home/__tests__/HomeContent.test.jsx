@@ -137,6 +137,44 @@ describe('Landing page', () => {
   });
 });
 
+describe('Learn, Grow article pagination', () => {
+  it('shows the next group of shared article cards when the next arrow is clicked', async () => {
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    expect(
+      screen.getByRole('heading', { name: '5 Signs Your Home Needs a Plumbing Repair' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'How to Prevent Costly Water Leaks' }),
+    ).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Show next articles' }));
+
+    expect(
+      screen.queryByRole('heading', { name: '5 Signs Your Home Needs a Plumbing Repair' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'How to Prevent Costly Water Leaks' }),
+    ).toBeInTheDocument();
+  });
+
+  it('returns to the first article group with the previous arrow', async () => {
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    const previousButton = screen.getByRole('button', { name: 'Show previous articles' });
+    expect(previousButton).toBeDisabled();
+
+    await user.click(screen.getByRole('button', { name: 'Show next articles' }));
+    await user.click(previousButton);
+
+    expect(
+      screen.getByRole('heading', { name: '5 Signs Your Home Needs a Plumbing Repair' }),
+    ).toBeInTheDocument();
+  });
+});
+
 describe('Featured categories carousel', () => {
   const TRACK_WIDTH = 300;
   const CONTENT_WIDTH = 900;

@@ -1,13 +1,16 @@
 import React, { memo } from 'react';
 import { LANDING_CONTENT } from './landingContent';
 
+const ARTICLE_IMAGE_WIDTH = 170;
+const ARTICLE_IMAGE_HEIGHT = 200;
+
 const ArticleCard = memo(({ article }) => (
   <article className="flex min-w-0 gap-4">
     <img
       src={article.image}
       alt={article.imageAlt}
-      width="170"
-      height="200"
+      width={ARTICLE_IMAGE_WIDTH}
+      height={ARTICLE_IMAGE_HEIGHT}
       loading="lazy"
       className="h-full min-h-40 w-30 shrink-0 rounded object-cover sm:w-36"
     />

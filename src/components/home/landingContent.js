@@ -54,6 +54,8 @@ export const LANDING_CONTENT = {
   learn: {
     title: 'Learn, Grow',
     readingMeta: '10 Minutes · Ahmed Awad',
+    previousLabel: 'Show previous articles',
+    nextLabel: 'Show next articles',
   },
   footer: {
     description:
