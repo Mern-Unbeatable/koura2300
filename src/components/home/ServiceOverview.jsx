@@ -1,6 +1,4 @@
 import React, { memo } from 'react';
-import { Link } from 'react-router-dom';
-import { ROUTES } from '../../config';
 import LandingPicture from './LandingPicture';
 import { LANDING_CONTENT } from './landingContent';
 import { SERVICE_CAPABILITIES, SOLUTION_IMAGES } from './landingData';
@@ -32,13 +30,6 @@ const ServiceOverview = memo(() => {
               </li>
             ))}
           </ul>
-
-          <Link
-            to={ROUTES.CONTACT}
-            className="mt-10 inline-flex rounded-md bg-brand-orange px-6 py-3 text-sm font-bold text-white transition-all duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2"
-          >
-            {LANDING_CONTENT.common.contact}
-          </Link>
         </div>
 
         <div className="relative mx-auto min-h-100 w-full max-w-xl sm:min-h-130">

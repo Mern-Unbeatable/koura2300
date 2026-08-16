@@ -8,7 +8,6 @@ export const LANDING_CONTENT = {
   },
   common: {
     viewAll: 'View all',
-    contact: 'Contact Us',
   },
   header: {
     homeLabel: 'Logoipsum home',
