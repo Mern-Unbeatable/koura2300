@@ -6,7 +6,6 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import HomeContent from '../HomeContent';
 import cartReducer from '../../../store/slices/cartSlice';
-import i18n from '../../../i18n';
 
 const createTestStore = () =>
   configureStore({
@@ -29,16 +28,12 @@ const renderLandingPage = () => {
   return store;
 };
 
-beforeEach(async () => {
-  await i18n.changeLanguage('en');
-});
-
 afterEach(() => {
   cleanup();
 });
 
 describe('Landing page', () => {
-  it('renders the complete English landing-page structure', () => {
+  it('renders the complete landing-page structure', () => {
     renderLandingPage();
 
     expect(screen.getByRole('banner')).toBeInTheDocument();
@@ -104,19 +99,11 @@ describe('Landing page', () => {
     expect(screen.getByLabelText('Cart, 1 item')).toBeInTheDocument();
   });
 
-  it('switches every visible section to Polish', async () => {
-    const user = userEvent.setup();
+  it('does not render a language switcher', () => {
     renderLandingPage();
 
-    await user.click(screen.getAllByRole('button', { name: 'Switch language to Polish' })[0]);
-
-    expect(screen.getByRole('heading', { name: 'Najwyżej oceniane usługi' })).toBeInTheDocument();
-    expect(
-      screen.getByRole('heading', {
-        name: 'Profesjonalne rozwiązania dla każdego zakątka Twojego domu',
-      }),
-    ).toBeInTheDocument();
-    expect(document.documentElement).toHaveAttribute('lang', 'pl');
+    expect(screen.queryByRole('button', { name: /switch language/i })).not.toBeInTheDocument();
+    expect(screen.queryByText('PL')).not.toBeInTheDocument();
   });
 
   it('opens and closes the accessible mobile navigation', async () => {

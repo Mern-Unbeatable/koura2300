@@ -1,54 +1,40 @@
 import React, { memo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { MessageCircle, Package, ShoppingCart, UserRound } from 'lucide-react';
 import { ROUTES } from '../../config';
+import { LANDING_CONTENT } from './landingContent';
 
-const LandingHeaderActions = memo(({ totalItems, nextLocale, onLocaleChange }) => {
-  const { t } = useTranslation();
-  const cartLabel = t('landing.header.cartLabel', { count: totalItems });
+const ACTION_ICON_SIZE = 20;
+const ACTION_CLASS = 'flex flex-col items-center gap-1 text-[0.6875rem] font-normal';
 
-  return (
-    <div className="hidden items-center gap-4 lg:flex">
-      <Link to={ROUTES.LOGIN} className="flex flex-col items-center gap-1 text-xs font-medium">
-        <UserRound size={22} aria-hidden="true" />
-        {t('landing.header.account')}
-      </Link>
-      <Link
-        to={ROUTES.ADMIN_ORDERS}
-        className="flex flex-col items-center gap-1 text-xs font-medium"
-      >
-        <Package size={22} aria-hidden="true" />
-        {t('landing.header.order')}
-      </Link>
-      <a
-        href="#top-services"
-        aria-label={cartLabel}
-        className="relative flex flex-col items-center gap-1 text-xs font-medium"
-      >
-        <ShoppingCart size={22} aria-hidden="true" />
-        {t('landing.header.cart')}
-        {totalItems > 0 && (
-          <span className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full bg-brand-orange text-xs">
-            {totalItems}
-          </span>
-        )}
-      </a>
-      <a href="#footer" className="flex flex-col items-center gap-1 text-xs font-medium">
-        <MessageCircle size={22} aria-hidden="true" />
-        {t('landing.header.chat')}
-      </a>
-      <button
-        type="button"
-        onClick={onLocaleChange}
-        aria-label={t(`landing.header.language.${nextLocale}`)}
-        className="rounded-md border border-brand-muted px-2 py-1 text-xs font-semibold transition-colors duration-200 ease-in-out hover:border-white focus:outline-none focus:ring-2 focus:ring-brand-orange"
-      >
-        {nextLocale.toUpperCase()}
-      </button>
-    </div>
-  );
-});
+const getCartLabel = (totalItems) =>
+  `Cart, ${totalItems} ${totalItems === 1 ? 'item' : 'items'}`;
+
+const LandingHeaderActions = memo(({ totalItems }) => (
+  <div className="hidden shrink-0 items-center gap-6 lg:flex">
+    <Link to={ROUTES.LOGIN} className={ACTION_CLASS}>
+      <UserRound size={ACTION_ICON_SIZE} aria-hidden="true" />
+      {LANDING_CONTENT.header.account}
+    </Link>
+    <Link to={ROUTES.ADMIN_ORDERS} className={ACTION_CLASS}>
+      <Package size={ACTION_ICON_SIZE} aria-hidden="true" />
+      {LANDING_CONTENT.header.order}
+    </Link>
+    <a href="#top-services" aria-label={getCartLabel(totalItems)} className={`relative ${ACTION_CLASS}`}>
+      <ShoppingCart size={ACTION_ICON_SIZE} aria-hidden="true" />
+      {LANDING_CONTENT.header.cart}
+      {totalItems > 0 && (
+        <span className="absolute -right-2 -top-2 flex size-5 items-center justify-center rounded-full bg-brand-orange text-xs">
+          {totalItems}
+        </span>
+      )}
+    </a>
+    <a href="#footer" className={ACTION_CLASS}>
+      <MessageCircle size={ACTION_ICON_SIZE} aria-hidden="true" />
+      {LANDING_CONTENT.header.chat}
+    </a>
+  </div>
+));
 
 LandingHeaderActions.displayName = 'LandingHeaderActions';
 

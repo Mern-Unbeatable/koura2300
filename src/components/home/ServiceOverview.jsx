@@ -1,12 +1,11 @@
 import React, { memo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../config';
 import LandingPicture from './LandingPicture';
+import { LANDING_CONTENT } from './landingContent';
 import { SERVICE_CAPABILITIES, SOLUTION_IMAGES } from './landingData';
 
 const ServiceOverview = memo(() => {
-  const { t } = useTranslation();
   const { cleaning, laundry } = SOLUTION_IMAGES;
 
   return (
@@ -14,22 +13,22 @@ const ServiceOverview = memo(() => {
       <div className="mx-auto grid max-w-screen-2xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div>
           <span className="inline-flex rounded-full bg-brand-navy px-4 py-1 text-sm font-semibold text-white">
-            {t('landing.overview.eyebrow')}
+            {LANDING_CONTENT.overview.eyebrow}
           </span>
           <h2 className="mt-4 max-w-2xl text-3xl font-semibold leading-tight text-brand-blue sm:text-4xl lg:text-5xl">
-            {t('landing.overview.title')}
+            {LANDING_CONTENT.overview.title}
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-7 text-brand-ink lg:text-lg">
-            {t('landing.overview.description')}
+            {LANDING_CONTENT.overview.description}
           </p>
 
           <ul className="mt-8 grid gap-5 sm:grid-cols-2">
-            {SERVICE_CAPABILITIES.map(({ id, labelKey, icon: Icon }) => (
+            {SERVICE_CAPABILITIES.map(({ id, label, icon: Icon }) => (
               <li key={id} className="flex items-center gap-4 font-semibold text-brand-ink">
                 <span className="flex size-12 shrink-0 items-center justify-center rounded-md bg-brand-sand">
                   <Icon size={22} aria-hidden="true" />
                 </span>
-                {t(labelKey)}
+                {label}
               </li>
             ))}
           </ul>
@@ -38,7 +37,7 @@ const ServiceOverview = memo(() => {
             to={ROUTES.CONTACT}
             className="mt-10 inline-flex rounded-md bg-brand-orange px-6 py-3 text-sm font-bold text-white transition-all duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2"
           >
-            {t('landing.common.contact')}
+            {LANDING_CONTENT.common.contact}
           </Link>
         </div>
 
@@ -46,7 +45,7 @@ const ServiceOverview = memo(() => {
           <LandingPicture
             webpSrc={cleaning.webp}
             pngSrc={cleaning.png}
-            alt={t('landing.overview.primaryImageAlt')}
+            alt={LANDING_CONTENT.overview.primaryImageAlt}
             width={cleaning.width}
             height={cleaning.height}
             className="ml-auto block h-90 w-4/5 overflow-hidden rounded-md sm:h-124"
@@ -54,7 +53,7 @@ const ServiceOverview = memo(() => {
           <LandingPicture
             webpSrc={laundry.webp}
             pngSrc={laundry.png}
-            alt={t('landing.overview.secondaryImageAlt')}
+            alt={LANDING_CONTENT.overview.secondaryImageAlt}
             width={laundry.width}
             height={laundry.height}
             className="absolute bottom-0 left-0 block h-44 w-3/5 overflow-hidden rounded-md border-r-16 border-t-16 border-white sm:h-72"

@@ -20,65 +20,69 @@ export const SOLUTION_IMAGES = {
 export const CATEGORY_ITEMS = [
   {
     id: 'lighting',
-    titleKey: 'landing.categories.lighting',
+    title: 'Lighting',
     image: `${LANDING_ASSET_PATH}/category-lighting.png`,
-    priceKey: 'landing.categories.price',
+    imageAlt: 'A collection of modern pendant lights',
   },
   {
     id: 'security',
-    titleKey: 'landing.categories.security',
+    title: 'Security',
     image: `${LANDING_ASSET_PATH}/category-security.png`,
-    priceKey: 'landing.categories.price',
+    imageAlt: 'A smart lock installed on a modern front door',
   },
   {
     id: 'closets',
-    titleKey: 'landing.categories.closets',
+    title: 'Closets',
     image: `${LANDING_ASSET_PATH}/category-closets.png`,
-    priceKey: 'landing.categories.price',
+    imageAlt: 'A custom fitted bedroom closet',
   },
 ];
 
 export const SERVICE_ITEMS = [
   {
     id: 'faucet-repair',
-    categoryKey: 'landing.services.categories.plumbing',
-    titleKey: 'landing.services.faucet.title',
-    descriptionKey: 'landing.services.faucet.description',
-    durationKey: 'landing.services.faucet.duration',
-    imageAltKey: 'landing.services.faucet.imageAlt',
+    category: 'Plumbing',
+    title: 'Faucet Repair & Replacement',
+    description:
+      'Expert faucet repair or full replacement for kitchen and bathroom fixtures.',
+    duration: '1–2 hrs',
+    imageAlt: 'A professional repairing a kitchen faucet',
     image: `${LANDING_ASSET_PATH}/service-faucet.png`,
     price: 75,
     rating: '4.9 (312)',
   },
   {
     id: 'drain-cleaning',
-    categoryKey: 'landing.services.categories.plumbing',
-    titleKey: 'landing.services.drain.title',
-    descriptionKey: 'landing.services.drain.description',
-    durationKey: 'landing.services.drain.duration',
-    imageAltKey: 'landing.services.drain.imageAlt',
+    category: 'Plumbing',
+    title: 'Drain Cleaning',
+    description:
+      'Professional drain cleaning to clear clogs in sinks, tubs, and floor drains fast.',
+    duration: '1 hr',
+    imageAlt: 'A professional cleaning a blocked drain',
     image: `${LANDING_ASSET_PATH}/service-drain.png`,
     price: 75,
     rating: '4.8 (204)',
   },
   {
     id: 'outlet-replacement',
-    categoryKey: 'landing.services.categories.electrical',
-    titleKey: 'landing.services.outlet.title',
-    descriptionKey: 'landing.services.outlet.description',
-    durationKey: 'landing.services.outlet.duration',
-    imageAltKey: 'landing.services.outlet.imageAlt',
+    category: 'Electrical',
+    title: 'Outlet & Switch Replacement',
+    description:
+      'Safe replacement of standard outlets, USB outlets, and light switches.',
+    duration: '45 min',
+    imageAlt: 'An electrician replacing a wall outlet',
     image: `${LANDING_ASSET_PATH}/service-electrical.png`,
     price: 75,
     rating: '4.8 (204)',
   },
   {
     id: 'ceiling-fan',
-    categoryKey: 'landing.services.categories.electrical',
-    titleKey: 'landing.services.fan.title',
-    descriptionKey: 'landing.services.fan.description',
-    durationKey: 'landing.services.fan.duration',
-    imageAltKey: 'landing.services.fan.imageAlt',
+    category: 'Electrical',
+    title: 'Ceiling Fan Installation',
+    description:
+      'Complete ceiling fan installation including wiring, mounting, and remote pairing.',
+    duration: '1.5–2 hrs',
+    imageAlt: 'An electrician installing a ceiling fan',
     image: `${LANDING_ASSET_PATH}/service-electrical.png`,
     price: 75,
     rating: '4.8 (204)',
@@ -86,100 +90,117 @@ export const SERVICE_ITEMS = [
 ];
 
 export const SERVICE_CAPABILITIES = [
-  { id: 'plumbing', labelKey: 'landing.overview.capabilities.plumbing', icon: Droplets },
-  { id: 'carpentry', labelKey: 'landing.overview.capabilities.carpentry', icon: Hammer },
-  { id: 'electrical', labelKey: 'landing.overview.capabilities.electrical', icon: Zap },
-  { id: 'furniture', labelKey: 'landing.overview.capabilities.furniture', icon: Armchair },
+  { id: 'plumbing', label: 'Wet / Plumbing Services', icon: Droplets },
+  { id: 'carpentry', label: 'Dry / Carpentry Services', icon: Hammer },
+  { id: 'electrical', label: 'Electrical Repairs & Installations', icon: Zap },
+  { id: 'furniture', label: 'Furniture Assembly & Installation', icon: Armchair },
 ];
 
 export const TRUST_ITEMS = [
   {
     id: 'experts',
     number: '01',
-    titleKey: 'landing.trust.experts.title',
-    bodyKey: 'landing.trust.experts.body',
+    title: 'Skilled & Certified Experts',
+    body:
+      'Our experienced technicians handle every job with precision, professionalism, and attention to detail.',
   },
   {
     id: 'solutions',
     number: '02',
-    titleKey: 'landing.trust.solutions.title',
-    bodyKey: 'landing.trust.solutions.body',
+    title: 'Complete Home Solutions',
+    body:
+      'From plumbing and carpentry to electrical work and furniture assembly, everything is available under one roof.',
   },
   {
     id: 'pricing',
     number: '03',
-    titleKey: 'landing.trust.pricing.title',
-    bodyKey: 'landing.trust.pricing.body',
+    title: 'Transparent Pricing',
+    body:
+      'Enjoy fair, upfront pricing with no hidden charges, so you always know what to expect.',
   },
   {
     id: 'scheduling',
     number: '04',
-    titleKey: 'landing.trust.scheduling.title',
-    bodyKey: 'landing.trust.scheduling.body',
+    title: 'Fast & Flexible Scheduling',
+    body:
+      'Book appointments at your convenience with prompt arrival and efficient service.',
   },
   {
     id: 'satisfaction',
     number: '05',
-    titleKey: 'landing.trust.satisfaction.title',
-    bodyKey: 'landing.trust.satisfaction.body',
+    title: '100% Satisfaction Guaranteed',
+    body:
+      'We stand behind our work and ensure every service is completed to the highest standard.',
   },
 ];
 
 export const ARTICLE_ITEMS = [
   {
     id: 'plumbing',
-    titleKey: 'landing.learn.articles.plumbing.title',
-    bodyKey: 'landing.learn.articles.plumbing.body',
+    title: '5 Signs Your Home Needs a Plumbing Repair',
+    body:
+      'Learn how to spot common plumbing problems early and avoid costly repairs down the road.',
+    imageAlt: 'A plumber working beneath a kitchen sink',
     image: `${LANDING_ASSET_PATH}/article-plumbing.png`,
   },
   {
     id: 'electrician',
-    titleKey: 'landing.learn.articles.electrician.title',
-    bodyKey: 'landing.learn.articles.electrician.body',
+    title: 'When Should You Call a Professional Electrician?',
+    body:
+      'Learn the warning signs of electrical problems and when it is safer to call a qualified professional.',
+    imageAlt: 'An electrician inspecting a wall outlet',
     image: `${LANDING_ASSET_PATH}/article-electrical.png`,
   },
   {
     id: 'repairs',
-    titleKey: 'landing.learn.articles.repairs.title',
-    bodyKey: 'landing.learn.articles.repairs.body',
+    title: 'Small Repairs That Make a Big Difference',
+    body:
+      'Discover quick improvements that make your property more comfortable, functional, and maintained.',
+    imageAlt: 'A professional repairing a wooden door',
     image: `${LANDING_ASSET_PATH}/article-repairs.png`,
   },
   {
     id: 'shape',
-    titleKey: 'landing.learn.articles.shape.title',
-    bodyKey: 'landing.learn.articles.shape.body',
+    title: 'Simple Ways to Keep Your Home in Top Shape',
+    body:
+      'Discover easy maintenance tips that help protect your property and prevent unexpected issues.',
+    imageAlt: 'A worker repairing a wall inside a home',
     image: `${LANDING_ASSET_PATH}/article-maintenance.png`,
   },
   {
     id: 'winter',
-    titleKey: 'landing.learn.articles.winter.title',
-    bodyKey: 'landing.learn.articles.winter.body',
+    title: 'How to Prepare Your Home for Winter',
+    body:
+      'Get ready for colder weather with maintenance tips that keep your space safe and comfortable.',
+    imageAlt: 'A professional inspecting a home heating system',
     image: `${LANDING_ASSET_PATH}/article-winter.png`,
   },
   {
     id: 'routine',
-    titleKey: 'landing.learn.articles.routine.title',
-    bodyKey: 'landing.learn.articles.routine.body',
+    title: 'How Often Should You Maintain Your Home?',
+    body:
+      'A simple maintenance routine can prevent bigger problems. Learn what to check and how often.',
+    imageAlt: 'A home service professional holding cleaning supplies',
     image: `${LANDING_ASSET_PATH}/article-routine.png`,
   },
 ];
 
-export const HEADER_CATEGORY_KEYS = [
-  'lighting',
-  'security',
-  'closets',
-  'fence',
-  'deck',
-  'basement',
-  'appliances',
-  'garage',
-  'garden',
-  'flooring',
-  'windows',
-  'doors',
-  'kitchen',
-  'bathroom',
-  'walls',
+export const HEADER_CATEGORIES = [
+  'Lighting',
+  'Security',
+  'Closets',
+  'Fence',
+  'Deck',
+  'Basement',
+  'Appliances',
+  'Garage',
+  'Garden',
+  'Flooring',
+  'Windows',
+  'Doors',
+  'Kitchen',
+  'Bathroom',
+  'Walls & Ceilings',
 ];
 
 export const FEATURE_ICON_MAP = {

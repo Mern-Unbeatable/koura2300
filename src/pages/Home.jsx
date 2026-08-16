@@ -1,16 +1,14 @@
 import React, { memo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useSEO } from '../hooks/useSEO';
 import HomeContent from '../components/home/HomeContent';
+import { LANDING_CONTENT } from '../components/home/landingContent';
 
 const Home = memo(() => {
-  const { t, i18n } = useTranslation();
-
   useSEO({
-    title: t('landing.seo.title'),
-    description: t('landing.seo.description'),
-    keywords: t('landing.seo.keywords', { returnObjects: true }),
-    locale: i18n.resolvedLanguage,
+    title: LANDING_CONTENT.seo.title,
+    description: LANDING_CONTENT.seo.description,
+    keywords: LANDING_CONTENT.seo.keywords,
+    locale: 'en',
   });
 
   return <HomeContent />;

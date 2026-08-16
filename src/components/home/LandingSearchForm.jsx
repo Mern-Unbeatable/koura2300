@@ -1,55 +1,61 @@
 import React, { memo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ChevronDown, Search } from 'lucide-react';
+import { ChevronDown, Menu, Search } from 'lucide-react';
+import { LANDING_CONTENT } from './landingContent';
 
 const LandingSearchForm = memo(
   ({ idPrefix, searchValue, onSearchChange, onSearchSubmit, showCategory, className }) => {
-    const { t } = useTranslation();
     const searchId = `${idPrefix}-service-search`;
+    const categoryId = `${idPrefix}-service-category`;
 
     return (
       <form role="search" onSubmit={onSearchSubmit} className={className}>
-        {showCategory && (
-          <>
-            <label className="sr-only" htmlFor={`${idPrefix}-service-category`}>
-              {t('landing.header.categoryLabel')}
-            </label>
-            <div className="relative">
-              <select
-                id={`${idPrefix}-service-category`}
-                className="h-11 appearance-none rounded-l-lg border-r border-gray-200 bg-white py-2 pl-3 pr-8 text-sm font-medium text-brand-ink focus:outline-none focus:ring-2 focus:ring-brand-orange"
-                defaultValue="all"
-              >
-                <option value="all">{t('landing.header.allCategories')}</option>
-              </select>
-              <ChevronDown
+        <div className="flex h-11 w-full items-stretch overflow-hidden rounded-md bg-white">
+          {showCategory && (
+            <div className="relative flex shrink-0 items-center">
+              <label className="sr-only" htmlFor={categoryId}>
+                {LANDING_CONTENT.header.categoryLabel}
+              </label>
+              <Menu
                 size={14}
                 aria-hidden="true"
-                className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-brand-ink"
+                className="pointer-events-none absolute left-3 text-brand-ink"
               />
+              <select
+                id={categoryId}
+                defaultValue="all"
+                className="h-full cursor-pointer appearance-none bg-transparent pl-9 pr-7 text-xs font-medium text-brand-ink focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-orange"
+              >
+                <option value="all">{LANDING_CONTENT.header.allCategories}</option>
+              </select>
+              <ChevronDown
+                size={12}
+                aria-hidden="true"
+                className="pointer-events-none absolute right-2.5 text-brand-ink"
+              />
+              <span aria-hidden="true" className="h-5 w-px shrink-0 bg-gray-300" />
             </div>
-          </>
-        )}
-        <label className="sr-only" htmlFor={searchId}>
-          {t('landing.header.searchLabel')}
-        </label>
-        <input
-          id={searchId}
-          type="search"
-          value={searchValue}
-          onChange={onSearchChange}
-          placeholder={t('landing.header.searchPlaceholder')}
-          className={`min-w-0 flex-1 bg-white px-4 text-brand-ink placeholder:text-brand-muted focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-orange ${
-            showCategory ? '' : 'rounded-l-lg py-3'
-          }`}
-        />
-        <button
-          type="submit"
-          aria-label={t('landing.header.searchSubmit')}
-          className="flex w-13 items-center justify-center rounded-r-lg bg-brand-orange px-3 transition-colors duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus:ring-2 focus:ring-white"
-        >
-          <Search size={showCategory ? 22 : 20} aria-hidden="true" />
-        </button>
+          )}
+
+          <label className="sr-only" htmlFor={searchId}>
+            {LANDING_CONTENT.header.searchLabel}
+          </label>
+          <input
+            id={searchId}
+            type="search"
+            value={searchValue}
+            onChange={onSearchChange}
+            placeholder={LANDING_CONTENT.header.searchPlaceholder}
+            className="min-w-0 flex-1 bg-transparent px-3 text-sm text-brand-ink placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-orange"
+          />
+
+          <button
+            type="submit"
+            aria-label={LANDING_CONTENT.header.searchSubmit}
+            className="flex w-12 shrink-0 items-center justify-center bg-brand-orange text-white transition-colors duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+          >
+            <Search size={18} aria-hidden="true" />
+          </button>
+        </div>
       </form>
     );
   },

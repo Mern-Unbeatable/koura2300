@@ -1,0 +1,76 @@
+export const LANDING_CONTENT = {
+  seo: {
+    title: 'Logoipsum | Trusted Home Services',
+    description:
+      'Book trusted professionals for plumbing, electrical, carpentry, furniture assembly, and complete home services.',
+    keywords: ['home services', 'plumbing', 'electrical services', 'carpentry'],
+    pageHeading: 'Trusted professional home services',
+  },
+  common: {
+    viewAll: 'View all',
+    contact: 'Contact Us',
+  },
+  header: {
+    homeLabel: 'Logoipsum home',
+    logoAlt: 'Logoipsum',
+    categoryLabel: 'Service category',
+    allCategories: 'All Categories',
+    searchLabel: 'Search services',
+    searchPlaceholder: 'Search...',
+    searchSubmit: 'Submit service search',
+    account: 'Account',
+    order: 'Order',
+    cart: 'Cart',
+    chat: 'Chat',
+    openMenu: 'Open navigation menu',
+    closeMenu: 'Close navigation menu',
+    categoryNavigation: 'Service categories',
+    mobileNavigation: 'Mobile service categories',
+  },
+  categories: {
+    sectionLabel: 'Featured service categories',
+    rating: '4.9 (184K+)',
+    price: 'From $158',
+  },
+  services: {
+    title: 'Top-rated services',
+    subtitle: 'Most-booked this month, all with verified reviews',
+    noResults: 'No services match your search.',
+    add: 'Add',
+  },
+  overview: {
+    eyebrow: 'Reliable Home Services',
+    title: 'Professional solutions for every corner of your home',
+    description:
+      'From plumbing repairs and electrical installations to carpentry work and furniture assembly, our experienced professionals deliver fast, reliable, and high-quality home services tailored to your needs.',
+    primaryImageAlt: 'A professional cleaning kitchen cabinets',
+    secondaryImageAlt: 'Freshly folded colorful laundry',
+  },
+  trust: {
+    eyebrow: 'Why choose us?',
+    title: 'Trusted professionals for every home project',
+  },
+  learn: {
+    title: 'Learn, Grow',
+    readingMeta: '10 Minutes · Ahmed Awad',
+  },
+  footer: {
+    description:
+      'Stay updated with our latest cleaning tips, service updates, and helpful articles on maintaining a spotless home.',
+    company: 'Company',
+    about: 'About Us',
+    services: 'Services',
+    blog: 'Blog',
+    knowMore: 'Know More',
+    privacy: 'Privacy Policy',
+    terms: 'Terms & Conditions',
+    newsletter: 'Newsletter',
+    emailLabel: 'Email address',
+    emailPlaceholder: 'Email goes here',
+    subscribeLabel: 'Subscribe to newsletter',
+    send: 'Send',
+    emailError: 'Enter a valid email address.',
+    success: 'Thank you for subscribing.',
+    copyright: '2026 Logoipsum. All rights reserved.',
+  },
+};
