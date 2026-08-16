@@ -1,5 +1,18 @@
-@import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
+
+@theme {
+  --font-inter: 'Inter', sans-serif;
+  --color-brand-navy: #1f2a2e;
+  --color-brand-blue: #0b1e3d;
+  --color-brand-ink: #202124;
+  --color-brand-muted: #4d6974;
+  --color-brand-orange: #fc6f32;
+  --color-brand-orange-dark: #e5652e;
+  --color-brand-orange-light: #fff1eb;
+  --color-brand-sand: #f4f3ee;
+  --color-brand-footer: #111d15;
+}
 
 :root {
   --primary-text-color: #373737;
@@ -55,5 +68,5 @@
 
 /* ── Poppins font utility ─────────────────────────────────────────────────── */
 .font-poppins {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }

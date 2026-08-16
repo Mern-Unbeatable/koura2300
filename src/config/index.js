@@ -8,6 +8,8 @@ export const ROUTES = {
   ABOUT: '/about',
   SERVICES: '/services',
   CONTACT: '/contact',
+  PRIVACY_POLICY: '/privacy-policy',
+  TERMS: '/terms-and-conditions',
   LOGIN: '/login',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',

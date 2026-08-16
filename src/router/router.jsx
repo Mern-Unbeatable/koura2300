@@ -63,13 +63,21 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route
+        path={ROUTES.HOME}
+        element={
+          <Suspense fallback={<PageLoader />}>
+            <Home />
+          </Suspense>
+        }
+      />
+
+      <Route
         element={
           <Suspense fallback={<PageLoader />}>
             <Layout />
           </Suspense>
         }
       >
-        <Route path={ROUTES.HOME} element={<Home />} />
         <Route path={ROUTES.ABOUT} element={<About />} />
         <Route path={ROUTES.SERVICES} element={<Services />} />
         <Route path={ROUTES.CONTACT} element={<Contact />} />

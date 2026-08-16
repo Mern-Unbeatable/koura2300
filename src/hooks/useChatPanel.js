@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
-import { useSocket } from '../../hooks/useSocket';
-import { socket } from '../../services/socket';
-import { httpMethods } from '../../services/httpMethods';
-import API_ENDPOINTS from '../../services/httpEndpoint';
+import { useSocket } from './useSocket';
+import { socket } from '../services/socket';
+import { httpMethods } from '../services/httpMethods';
+import API_ENDPOINTS from '../services/httpEndpoint';
 import {
   MESSAGE_POLL_MS,
   ROOM_POLL_MS,
@@ -13,7 +13,7 @@ import {
   normalizeRoom,
   normalizeMessage,
   groupMessages,
-} from './chatUtils';
+} from '../components/chat/chatUtils';
 
 /**
  * Orchestrates chat rooms, messages, polling, and socket events.

@@ -1,0 +1,192 @@
+{
+  "landing": {
+    "seo": {
+      "title": "Logoipsum | Trusted Home Services",
+      "description": "Book trusted professionals for plumbing, electrical, carpentry, furniture assembly, and complete home services.",
+      "keywords": ["home services", "plumbing", "electrical services", "carpentry"],
+      "pageHeading": "Trusted professional home services"
+    },
+    "common": {
+      "viewAll": "View all",
+      "contact": "Contact Us"
+    },
+    "header": {
+      "homeLabel": "Logoipsum home",
+      "logoAlt": "Logoipsum",
+      "categoryLabel": "Service category",
+      "allCategories": "All Categories",
+      "searchLabel": "Search services",
+      "searchPlaceholder": "Search...",
+      "searchSubmit": "Submit service search",
+      "account": "Account",
+      "order": "Order",
+      "cart": "Cart",
+      "cartLabel_one": "Cart, {{count}} item",
+      "cartLabel_other": "Cart, {{count}} items",
+      "chat": "Chat",
+      "openMenu": "Open navigation menu",
+      "closeMenu": "Close navigation menu",
+      "categoryNavigation": "Service categories",
+      "mobileNavigation": "Mobile service categories",
+      "language": {
+        "en": "Switch language to English",
+        "pl": "Switch language to Polish"
+      },
+      "categories": {
+        "lighting": "Lighting",
+        "security": "Security",
+        "closets": "Closets",
+        "fence": "Fence",
+        "deck": "Deck",
+        "basement": "Basement",
+        "appliances": "Appliances",
+        "garage": "Garage",
+        "garden": "Garden",
+        "flooring": "Flooring",
+        "windows": "Windows",
+        "doors": "Doors",
+        "kitchen": "Kitchen",
+        "bathroom": "Bathroom",
+        "walls": "Walls & Ceilings"
+      }
+    },
+    "categories": {
+      "sectionLabel": "Featured service categories",
+      "lighting": "Lighting",
+      "security": "Security",
+      "closets": "Closets",
+      "rating": "4.9 (184K+)",
+      "price": "From $158",
+      "lightingAlt": "A collection of modern pendant lights",
+      "securityAlt": "A smart lock installed on a modern front door",
+      "closetsAlt": "A custom fitted bedroom closet"
+    },
+    "services": {
+      "title": "Top-rated services",
+      "subtitle": "Most-booked this month, all with verified reviews",
+      "noResults": "No services match your search.",
+      "startingPrice": "Starting at ${{price}}",
+      "add": "Add",
+      "addLabel": "Add {{service}} to cart",
+      "categories": {
+        "plumbing": "Plumbing",
+        "electrical": "Electrical"
+      },
+      "faucet": {
+        "title": "Faucet Repair & Replacement",
+        "description": "Expert faucet repair or full replacement for kitchen and bathroom fixtures.",
+        "duration": "1–2 hrs",
+        "imageAlt": "A professional repairing a kitchen faucet"
+      },
+      "drain": {
+        "title": "Drain Cleaning",
+        "description": "Professional drain cleaning to clear clogs in sinks, tubs, and floor drains fast.",
+        "duration": "1 hr",
+        "imageAlt": "A professional cleaning a blocked drain"
+      },
+      "outlet": {
+        "title": "Outlet & Switch Replacement",
+        "description": "Safe replacement of standard outlets, USB outlets, and light switches.",
+        "duration": "45 min",
+        "imageAlt": "An electrician replacing a wall outlet"
+      },
+      "fan": {
+        "title": "Ceiling Fan Installation",
+        "description": "Complete ceiling fan installation including wiring, mounting, and remote pairing.",
+        "duration": "1.5–2 hrs",
+        "imageAlt": "An electrician installing a ceiling fan"
+      }
+    },
+    "overview": {
+      "eyebrow": "Reliable Home Services",
+      "title": "Professional solutions for every corner of your home",
+      "description": "From plumbing repairs and electrical installations to carpentry work and furniture assembly, our experienced professionals deliver fast, reliable, and high-quality home services tailored to your needs.",
+      "primaryImageAlt": "A professional cleaning kitchen cabinets",
+      "secondaryImageAlt": "Freshly folded colorful laundry",
+      "capabilities": {
+        "plumbing": "Wet / Plumbing Services",
+        "carpentry": "Dry / Carpentry Services",
+        "electrical": "Electrical Repairs & Installations",
+        "furniture": "Furniture Assembly & Installation"
+      }
+    },
+    "trust": {
+      "eyebrow": "Why choose us?",
+      "title": "Trusted professionals for every home project",
+      "experts": {
+        "title": "Skilled & Certified Experts",
+        "body": "Our experienced technicians handle every job with precision, professionalism, and attention to detail."
+      },
+      "solutions": {
+        "title": "Complete Home Solutions",
+        "body": "From plumbing and carpentry to electrical work and furniture assembly, everything is available under one roof."
+      },
+      "pricing": {
+        "title": "Transparent Pricing",
+        "body": "Enjoy fair, upfront pricing with no hidden charges, so you always know what to expect."
+      },
+      "scheduling": {
+        "title": "Fast & Flexible Scheduling",
+        "body": "Book appointments at your convenience with prompt arrival and efficient service."
+      },
+      "satisfaction": {
+        "title": "100% Satisfaction Guaranteed",
+        "body": "We stand behind our work and ensure every service is completed to the highest standard."
+      }
+    },
+    "learn": {
+      "title": "Learn, Grow",
+      "readingMeta": "10 Minutes · Ahmed Awad",
+      "articles": {
+        "plumbing": {
+          "title": "5 Signs Your Home Needs a Plumbing Repair",
+          "body": "Learn how to spot common plumbing problems early and avoid costly repairs down the road.",
+          "imageAlt": "A plumber working beneath a kitchen sink"
+        },
+        "electrician": {
+          "title": "When Should You Call a Professional Electrician?",
+          "body": "Learn the warning signs of electrical problems and when it is safer to call a qualified professional.",
+          "imageAlt": "An electrician inspecting a wall outlet"
+        },
+        "repairs": {
+          "title": "Small Repairs That Make a Big Difference",
+          "body": "Discover quick improvements that make your property more comfortable, functional, and maintained.",
+          "imageAlt": "A professional repairing a wooden door"
+        },
+        "shape": {
+          "title": "Simple Ways to Keep Your Home in Top Shape",
+          "body": "Discover easy maintenance tips that help protect your property and prevent unexpected issues.",
+          "imageAlt": "A worker repairing a wall inside a home"
+        },
+        "winter": {
+          "title": "How to Prepare Your Home for Winter",
+          "body": "Get ready for colder weather with maintenance tips that keep your space safe and comfortable.",
+          "imageAlt": "A professional inspecting a home heating system"
+        },
+        "routine": {
+          "title": "How Often Should You Maintain Your Home?",
+          "body": "A simple maintenance routine can prevent bigger problems. Learn what to check and how often.",
+          "imageAlt": "A home service professional holding cleaning supplies"
+        }
+      }
+    },
+    "footer": {
+      "description": "Stay updated with our latest cleaning tips, service updates, and helpful articles on maintaining a spotless home.",
+      "company": "Company",
+      "about": "About Us",
+      "services": "Services",
+      "blog": "Blog",
+      "knowMore": "Know More",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions",
+      "newsletter": "Newsletter",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "Email goes here",
+      "subscribeLabel": "Subscribe to newsletter",
+      "send": "Send",
+      "emailError": "Enter a valid email address.",
+      "success": "Thank you for subscribing.",
+      "copyright": "2026 Logoipsum. All rights reserved."
+    }
+  }
+}

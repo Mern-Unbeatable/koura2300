@@ -1,4 +1,7 @@
 import '@testing-library/jest-dom';
+import { TextDecoder, TextEncoder } from 'util';
+
+Object.assign(globalThis, { TextDecoder, TextEncoder });
 
 // Mock window.matchMedia — not implemented in JSDOM but referenced by dark-mode logic
 Object.defineProperty(window, 'matchMedia', {
