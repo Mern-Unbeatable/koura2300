@@ -1,6 +1,6 @@
 export const LANDING_CONTENT = {
   seo: {
-    title: 'Logoipsum | Trusted Home Services',
+    title: 'Procleaning | Trusted Home Services',
     description:
       'Book trusted professionals for plumbing, electrical, carpentry, furniture assembly, and complete home services.',
     keywords: ['home services', 'plumbing', 'electrical services', 'carpentry'],
@@ -10,8 +10,8 @@ export const LANDING_CONTENT = {
     viewAll: 'View all',
   },
   header: {
-    homeLabel: 'Logoipsum home',
-    logoAlt: 'Logoipsum',
+    homeLabel: 'Procleaning home',
+    logoAlt: 'Procleaning',
     categoryLabel: 'Service category',
     allCategories: 'All Categories',
     searchLabel: 'Search services',
@@ -72,6 +72,6 @@ export const LANDING_CONTENT = {
     send: 'Send',
     emailError: 'Enter a valid email address.',
     success: 'Thank you for subscribing.',
-    copyright: '2026 Logoipsum. All rights reserved.',
+    copyright: '2024 “Procleaning” All Rights Reserved',
   },
 };
