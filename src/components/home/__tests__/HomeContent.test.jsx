@@ -136,3 +136,63 @@ describe('Landing page', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Thank you for subscribing.');
   });
 });
+
+describe('Featured categories carousel', () => {
+  const TRACK_WIDTH = 300;
+  const CONTENT_WIDTH = 900;
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+    delete Element.prototype.scrollBy;
+  });
+
+  const stubScrollableTrack = () => {
+    const scrollBy = jest.fn();
+
+    jest.spyOn(Element.prototype, 'clientWidth', 'get').mockReturnValue(TRACK_WIDTH);
+    jest.spyOn(Element.prototype, 'scrollWidth', 'get').mockReturnValue(CONTENT_WIDTH);
+    Element.prototype.scrollBy = scrollBy;
+
+    return scrollBy;
+  };
+
+  it('renders both controls and disables them when the track cannot scroll', () => {
+    renderLandingPage();
+
+    expect(screen.getByRole('button', { name: 'Show previous categories' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Show next categories' })).toBeDisabled();
+  });
+
+  it('renders enough categories for the controls to reveal new cards', () => {
+    renderLandingPage();
+
+    const carousel = screen.getByRole('region', { name: 'Featured service categories' });
+
+    expect(within(carousel).getAllByRole('heading', { level: 2 }).length).toBeGreaterThan(3);
+    expect(within(carousel).getByRole('heading', { name: 'Plumbing' })).toBeInTheDocument();
+  });
+
+  it('scrolls the track forward by one card when the next control is used', async () => {
+    const scrollBy = stubScrollableTrack();
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    const nextButton = screen.getByRole('button', { name: 'Show next categories' });
+    expect(nextButton).toBeEnabled();
+
+    await user.click(nextButton);
+
+    expect(scrollBy).toHaveBeenCalledWith({ left: TRACK_WIDTH, behavior: 'smooth' });
+  });
+
+  it('scrolls the track backwards by one card when the previous control is used', async () => {
+    const scrollBy = stubScrollableTrack();
+    jest.spyOn(Element.prototype, 'scrollLeft', 'get').mockReturnValue(TRACK_WIDTH);
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    await user.click(screen.getByRole('button', { name: 'Show previous categories' }));
+
+    expect(scrollBy).toHaveBeenCalledWith({ left: -TRACK_WIDTH, behavior: 'smooth' });
+  });
+});

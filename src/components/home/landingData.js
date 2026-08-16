@@ -36,6 +36,24 @@ export const CATEGORY_ITEMS = [
     image: `${LANDING_ASSET_PATH}/category-closets.png`,
     imageAlt: 'A custom fitted bedroom closet',
   },
+  {
+    id: 'plumbing',
+    title: 'Plumbing',
+    image: `${LANDING_ASSET_PATH}/service-faucet.png`,
+    imageAlt: 'A professional fitting a modern kitchen faucet',
+  },
+  {
+    id: 'electrical',
+    title: 'Electrical',
+    image: `${LANDING_ASSET_PATH}/service-electrical.png`,
+    imageAlt: 'An electrician wiring a wall socket',
+  },
+  {
+    id: 'drainage',
+    title: 'Drainage',
+    image: `${LANDING_ASSET_PATH}/service-drain.png`,
+    imageAlt: 'A plumber clearing a blocked sink drain',
+  },
 ];
 
 export const SERVICE_ITEMS = [

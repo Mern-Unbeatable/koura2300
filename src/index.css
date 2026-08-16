@@ -22,6 +22,16 @@
   --button-bg: #2b6a0a;
 }
 
+/* Carousels are driven by their own controls, so the native scrollbar is noise. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @keyframes nav-arrow {
   0%,
   100% {

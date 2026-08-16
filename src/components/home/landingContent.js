@@ -31,6 +31,8 @@ export const LANDING_CONTENT = {
     sectionLabel: 'Featured service categories',
     rating: '4.9 (184K+)',
     price: 'From $158',
+    previousLabel: 'Show previous categories',
+    nextLabel: 'Show next categories',
   },
   services: {
     title: 'Top-rated services',
