@@ -2,10 +2,12 @@ import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../config';
-import { LANDING_ASSET_PATH, SERVICE_CAPABILITIES } from './landingData';
+import LandingPicture from './LandingPicture';
+import { SERVICE_CAPABILITIES, SOLUTION_IMAGES } from './landingData';
 
 const ServiceOverview = memo(() => {
   const { t } = useTranslation();
+  const { cleaning, laundry } = SOLUTION_IMAGES;
 
   return (
     <section className="py-16 sm:py-22 lg:py-28">
@@ -41,21 +43,21 @@ const ServiceOverview = memo(() => {
         </div>
 
         <div className="relative mx-auto min-h-100 w-full max-w-xl sm:min-h-130">
-          <img
-            src={`${LANDING_ASSET_PATH}/solution-cleaning.png`}
+          <LandingPicture
+            webpSrc={cleaning.webp}
+            pngSrc={cleaning.png}
             alt={t('landing.overview.primaryImageAlt')}
-            width="511"
-            height="495"
-            loading="lazy"
-            className="ml-auto h-90 w-4/5 rounded-md object-cover sm:h-124"
+            width={cleaning.width}
+            height={cleaning.height}
+            className="ml-auto block h-90 w-4/5 overflow-hidden rounded-md sm:h-124"
           />
-          <img
-            src={`${LANDING_ASSET_PATH}/solution-laundry.png`}
+          <LandingPicture
+            webpSrc={laundry.webp}
+            pngSrc={laundry.png}
             alt={t('landing.overview.secondaryImageAlt')}
-            width="350"
-            height="288"
-            loading="lazy"
-            className="absolute bottom-0 left-0 h-44 w-3/5 rounded-md border-r-16 border-t-16 border-white object-cover sm:h-72"
+            width={laundry.width}
+            height={laundry.height}
+            className="absolute bottom-0 left-0 block h-44 w-3/5 overflow-hidden rounded-md border-r-16 border-t-16 border-white sm:h-72"
           />
         </div>
       </div>

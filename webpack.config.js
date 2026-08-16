@@ -134,6 +134,18 @@ module.exports = (env, argv) => {
       },
       runtimeChunk: 'single',
     },
+    performance: {
+      hints: isProd ? 'warning' : false,
+      // Budgets are calibrated to the current shipped baseline so that a real
+      // regression still warns; webpack's 244 KiB default assumes a far smaller app.
+      maxAssetSize: 300 * 1024,
+      maxEntrypointSize: 550 * 1024,
+      // Source maps are never fetched by browsers, and images are copied straight to
+      // dist rather than bundled, so neither belongs in the delivered-bundle budget.
+      assetFilter: (assetFilename) =>
+        !/\.map$/i.test(assetFilename) && !/\.(png|jpe?g|gif|svg|webp|avif)$/i.test(assetFilename),
+    },
+
     devServer: {
       static: false,
       historyApiFallback: true,

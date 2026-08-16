@@ -2,6 +2,21 @@ import { Armchair, Droplets, Hammer, LampCeiling, ShieldCheck, Wrench, Zap } fro
 
 export const LANDING_ASSET_PATH = '/assets/landing';
 
+export const SOLUTION_IMAGES = {
+  cleaning: {
+    webp: `${LANDING_ASSET_PATH}/solution-cleaning.webp`,
+    png: `${LANDING_ASSET_PATH}/solution-cleaning.png`,
+    width: 511,
+    height: 495,
+  },
+  laundry: {
+    webp: `${LANDING_ASSET_PATH}/solution-laundry.webp`,
+    png: `${LANDING_ASSET_PATH}/solution-laundry.png`,
+    width: 350,
+    height: 288,
+  },
+};
+
 export const CATEGORY_ITEMS = [
   {
     id: 'lighting',

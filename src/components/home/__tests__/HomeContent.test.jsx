@@ -67,6 +67,19 @@ describe('Landing page', () => {
     expect(serviceImage).toHaveAttribute('height');
   });
 
+  it('serves overview solution images as WebP with PNG fallback', () => {
+    renderLandingPage();
+
+    const primaryImage = screen.getByRole('img', {
+      name: 'A professional cleaning kitchen cabinets',
+    });
+    const primaryPicture = primaryImage.closest('picture');
+    const primarySource = primaryPicture?.querySelector('source[type="image/webp"]');
+
+    expect(primarySource).toHaveAttribute('srcset', expect.stringContaining('.webp'));
+    expect(primaryImage).toHaveAttribute('src', expect.stringContaining('.png'));
+  });
+
   it('filters service cards through the header search form', async () => {
     const user = userEvent.setup();
     renderLandingPage();
