@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Star } from 'lucide-react';
+import CategoryCard from './CategoryCard';
 import CarouselControl from './CarouselControl';
 import useCarousel from '../../hooks/useCarousel';
 import { LANDING_CONTENT } from './landingContent';
@@ -26,33 +26,10 @@ const FeaturedCategories = memo(() => {
         >
           {CATEGORY_ITEMS.map((category, index) => (
             <div key={category.id} className="w-full shrink-0 snap-start px-2.5 md:w-1/3">
-              <article className="h-full rounded-lg bg-brand-orange-light p-4 sm:p-5">
-                <h2 className="text-xl font-semibold text-brand-blue sm:text-2xl">
-                  {category.title}
-                </h2>
-                <div className="mt-3 flex items-center justify-between gap-3 text-sm">
-                  <span className="flex items-center gap-2 font-medium text-brand-ink">
-                    <Star
-                      size={16}
-                      fill="currentColor"
-                      aria-hidden="true"
-                      className="text-brand-orange"
-                    />
-                    {LANDING_CONTENT.categories.rating}
-                  </span>
-                  <span className="font-bold text-brand-orange">
-                    {LANDING_CONTENT.categories.price}
-                  </span>
-                </div>
-                <img
-                  src={category.image}
-                  alt={category.imageAlt}
-                  width="459"
-                  height="414"
-                  loading={index < EAGER_CARD_COUNT ? 'eager' : 'lazy'}
-                  className="mt-4 aspect-11/10 w-full rounded object-cover"
-                />
-              </article>
+              <CategoryCard
+                category={category}
+                loading={index < EAGER_CARD_COUNT ? 'eager' : 'lazy'}
+              />
             </div>
           ))}
         </div>
