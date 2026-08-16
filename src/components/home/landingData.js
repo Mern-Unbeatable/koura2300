@@ -262,48 +262,48 @@ export const ARTICLE_ITEMS = [
     title: 'How to Prevent Costly Water Leaks',
     body:
       'Use these practical checks to find weak plumbing connections before they damage your home.',
-    imageAlt: 'A plumber checking a household water connection',
-    image: `${LANDING_ASSET_PATH}/article-plumbing.png`,
+    imageAlt: 'A close-up of a kitchen faucet water connection',
+    image: `${LANDING_ASSET_PATH}/service-faucet.png`,
   },
   {
     id: 'electrical-safety',
     title: 'Essential Electrical Safety Tips for Every Home',
     body:
       'Protect your family and property by recognizing overloaded circuits and unsafe electrical fittings.',
-    imageAlt: 'An electrician completing a safe electrical repair',
-    image: `${LANDING_ASSET_PATH}/article-electrical.png`,
+    imageAlt: 'An electrician safely testing a wall circuit',
+    image: `${LANDING_ASSET_PATH}/service-electrical.png`,
   },
   {
     id: 'door-care',
     title: 'Easy Ways to Keep Doors Working Smoothly',
     body:
       'Simple hinge, frame, and lock maintenance can make doors safer and extend their useful life.',
-    imageAlt: 'A professional repairing an interior door',
-    image: `${LANDING_ASSET_PATH}/article-repairs.png`,
+    imageAlt: 'A secure front door with a modern handle',
+    image: `${LANDING_ASSET_PATH}/category-security.png`,
   },
   {
     id: 'seasonal-checklist',
     title: 'Your Complete Seasonal Home Checklist',
     body:
       'Stay ahead of repairs with a room-by-room maintenance checklist for every season.',
-    imageAlt: 'A professional performing seasonal home maintenance',
-    image: `${LANDING_ASSET_PATH}/article-maintenance.png`,
+    imageAlt: 'A blocked drain being cleared during seasonal upkeep',
+    image: `${LANDING_ASSET_PATH}/service-drain.png`,
   },
   {
     id: 'heating-efficiency',
     title: 'Simple Steps to Improve Heating Efficiency',
     body:
       'Reduce energy waste and keep rooms comfortable with a few essential heating-system checks.',
-    imageAlt: 'A winter home prepared for efficient heating',
-    image: `${LANDING_ASSET_PATH}/article-winter.png`,
+    imageAlt: 'Warm pendant lighting in a cosy living room',
+    image: `${LANDING_ASSET_PATH}/category-lighting.png`,
   },
   {
     id: 'cleaning-plan',
     title: 'Build a Cleaning Routine That Actually Works',
     body:
       'Create a manageable weekly plan that keeps every room clean without taking over your schedule.',
-    imageAlt: 'A home cleaning professional working in a kitchen',
-    image: `${LANDING_ASSET_PATH}/article-routine.png`,
+    imageAlt: 'A tidy organised closet kept clean by a weekly routine',
+    image: `${LANDING_ASSET_PATH}/category-closets.png`,
   },
 ];
 
