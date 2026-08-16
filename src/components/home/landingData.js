@@ -37,24 +37,80 @@ export const CATEGORY_ITEMS = [
     imageAlt: 'A custom fitted bedroom closet',
   },
   {
-    id: 'plumbing',
-    title: 'Plumbing',
-    image: `${LANDING_ASSET_PATH}/service-faucet.png`,
-    imageAlt: 'A professional fitting a modern kitchen faucet',
+    id: 'fence',
+    title: 'Fence',
+    image: `${LANDING_ASSET_PATH}/article-repairs.png`,
+    imageAlt: 'A professional completing a home repair',
   },
   {
-    id: 'electrical',
-    title: 'Electrical',
+    id: 'deck',
+    title: 'Deck',
+    image: `${LANDING_ASSET_PATH}/article-maintenance.png`,
+    imageAlt: 'A professional maintaining a home surface',
+  },
+  {
+    id: 'basement',
+    title: 'Basement',
+    image: `${LANDING_ASSET_PATH}/article-winter.png`,
+    imageAlt: 'A professional inspecting a home utility space',
+  },
+  {
+    id: 'appliances',
+    title: 'Appliances',
     image: `${LANDING_ASSET_PATH}/service-electrical.png`,
-    imageAlt: 'An electrician wiring a wall socket',
+    imageAlt: 'A professional repairing a household appliance connection',
   },
   {
-    id: 'drainage',
-    title: 'Drainage',
-    image: `${LANDING_ASSET_PATH}/service-drain.png`,
-    imageAlt: 'A plumber clearing a blocked sink drain',
+    id: 'garage',
+    title: 'Garage',
+    image: `${LANDING_ASSET_PATH}/article-routine.png`,
+    imageAlt: 'A professional performing routine home maintenance',
+  },
+  {
+    id: 'garden',
+    title: 'Garden',
+    image: `${LANDING_ASSET_PATH}/article-maintenance.png`,
+    imageAlt: 'A professional maintaining an outdoor home area',
+  },
+  {
+    id: 'flooring',
+    title: 'Flooring',
+    image: `${LANDING_ASSET_PATH}/article-repairs.png`,
+    imageAlt: 'A professional completing an interior surface repair',
+  },
+  {
+    id: 'windows',
+    title: 'Windows',
+    image: `${LANDING_ASSET_PATH}/solution-cleaning.png`,
+    imageAlt: 'A professional cleaning a home interior',
+  },
+  {
+    id: 'doors',
+    title: 'Doors',
+    image: `${LANDING_ASSET_PATH}/category-security.png`,
+    imageAlt: 'A modern secured exterior door',
+  },
+  {
+    id: 'kitchen',
+    title: 'Kitchen',
+    image: `${LANDING_ASSET_PATH}/solution-cleaning.png`,
+    imageAlt: 'A kitchen cleaning service in progress',
+  },
+  {
+    id: 'bathroom',
+    title: 'Bathroom',
+    image: `${LANDING_ASSET_PATH}/service-faucet.png`,
+    imageAlt: 'A professional fitting a bathroom faucet',
+  },
+  {
+    id: 'walls-ceilings',
+    title: 'Walls & Ceilings',
+    image: `${LANDING_ASSET_PATH}/service-electrical.png`,
+    imageAlt: 'A professional working on an interior wall',
   },
 ];
+
+export const HEADER_CATEGORIES = CATEGORY_ITEMS.map(({ title }) => title);
 
 export const SERVICE_ITEMS = [
   {
@@ -201,24 +257,6 @@ export const ARTICLE_ITEMS = [
     imageAlt: 'A home service professional holding cleaning supplies',
     image: `${LANDING_ASSET_PATH}/article-routine.png`,
   },
-];
-
-export const HEADER_CATEGORIES = [
-  'Lighting',
-  'Security',
-  'Closets',
-  'Fence',
-  'Deck',
-  'Basement',
-  'Appliances',
-  'Garage',
-  'Garden',
-  'Flooring',
-  'Windows',
-  'Doors',
-  'Kitchen',
-  'Bathroom',
-  'Walls & Ceilings',
 ];
 
 export const FEATURE_ICON_MAP = {

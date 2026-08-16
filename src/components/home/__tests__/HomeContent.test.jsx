@@ -140,6 +140,23 @@ describe('Landing page', () => {
 describe('Featured categories carousel', () => {
   const TRACK_WIDTH = 300;
   const CONTENT_WIDTH = 900;
+  const EXPECTED_CATEGORIES = [
+    'Lighting',
+    'Security',
+    'Closets',
+    'Fence',
+    'Deck',
+    'Basement',
+    'Appliances',
+    'Garage',
+    'Garden',
+    'Flooring',
+    'Windows',
+    'Doors',
+    'Kitchen',
+    'Bathroom',
+    'Walls & Ceilings',
+  ];
 
   afterEach(() => {
     jest.restoreAllMocks();
@@ -163,13 +180,21 @@ describe('Featured categories carousel', () => {
     expect(screen.getByRole('button', { name: 'Show next categories' })).toBeDisabled();
   });
 
-  it('renders enough categories for the controls to reveal new cards', () => {
+  it('renders every navbar category in the dropdown and carousel', () => {
     renderLandingPage();
 
     const carousel = screen.getByRole('region', { name: 'Featured service categories' });
+    const categorySelect = screen.getByRole('combobox', { name: 'Service category' });
+    const cardNames = within(carousel)
+      .getAllByRole('heading', { level: 2 })
+      .map((heading) => heading.textContent);
+    const optionNames = within(categorySelect)
+      .getAllByRole('option')
+      .slice(1)
+      .map((option) => option.textContent);
 
-    expect(within(carousel).getAllByRole('heading', { level: 2 }).length).toBeGreaterThan(3);
-    expect(within(carousel).getByRole('heading', { name: 'Plumbing' })).toBeInTheDocument();
+    expect(cardNames).toEqual(EXPECTED_CATEGORIES);
+    expect(optionNames).toEqual(EXPECTED_CATEGORIES);
   });
 
   it('scrolls the track forward by one card when the next control is used', async () => {

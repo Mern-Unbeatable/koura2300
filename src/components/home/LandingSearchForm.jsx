@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { ChevronDown, Menu, Search } from 'lucide-react';
 import { LANDING_CONTENT } from './landingContent';
+import { CATEGORY_ITEMS } from './landingData';
 
 const LandingSearchForm = memo(
   ({ idPrefix, searchValue, onSearchChange, onSearchSubmit, showCategory, className }) => {
@@ -26,6 +27,11 @@ const LandingSearchForm = memo(
                 className="h-full cursor-pointer appearance-none rounded-md bg-transparent pl-8 pr-6 text-xs font-medium text-brand-ink focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-orange"
               >
                 <option value="all">{LANDING_CONTENT.header.allCategories}</option>
+                {CATEGORY_ITEMS.map(({ id, title }) => (
+                  <option key={id} value={id}>
+                    {title}
+                  </option>
+                ))}
               </select>
               <ChevronDown
                 size={11}
