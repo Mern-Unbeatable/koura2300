@@ -6,11 +6,17 @@
     <meta name="theme-color" content="#2563eb" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src <%= htmlWebpackPlugin.options.cspScriptSrc %>; style-src 'self' 'unsafe-inline'; connect-src 'self' <%= htmlWebpackPlugin.options.apiBase %> <%= htmlWebpackPlugin.options.wsBase %>; img-src 'self' data:; font-src 'self'; form-action 'self'; base-uri 'self';"
+      content="default-src 'self'; script-src <%= htmlWebpackPlugin.options.cspScriptSrc %>; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' <%= htmlWebpackPlugin.options.apiBase %> <%= htmlWebpackPlugin.options.wsBase %>; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; form-action 'self'; base-uri 'self';"
     />
     <title>Gairewele</title>
     <!-- Prevent dark-mode flash before React mounts (external file keeps CSP strict) -->
     <script src="/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+    />
     <!-- SVG favicon -->
     <link
       rel="icon"
