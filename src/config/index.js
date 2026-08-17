@@ -19,6 +19,7 @@ export const ROUTES = {
   GARDEN: '/garden',
   FLOORING: '/flooring',
   WINDOWS: '/windows',
+  DOORS: '/doors',
   BLOG_DETAILS: '/blog/:slug',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',

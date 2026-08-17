@@ -20,6 +20,7 @@ const CATEGORY_ROUTES = {
   Garden: ROUTES.GARDEN,
   Flooring: ROUTES.FLOORING,
   Windows: ROUTES.WINDOWS,
+  Doors: ROUTES.DOORS,
 };
 
 const DESKTOP_LINK_BASE =
