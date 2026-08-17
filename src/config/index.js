@@ -20,6 +20,7 @@ export const ROUTES = {
   FLOORING: '/flooring',
   WINDOWS: '/windows',
   DOORS: '/doors',
+  KITCHEN: '/kitchen',
   BLOG_DETAILS: '/blog/:slug',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',
