@@ -22,6 +22,7 @@ const Contact = lazy(() => import('../pages/Contact'));
 const Services = lazy(() => import('../pages/Services'));
 const Lighting = lazy(() => import('../pages/Lighting'));
 const Security = lazy(() => import('../pages/Security'));
+const Closets = lazy(() => import('../pages/Closets'));
 const BlogDetails = lazy(() => import('../pages/BlogDetails'));
 const Login = lazy(() => import('../pages/Login'));
 
@@ -88,6 +89,15 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={<PageLoader />}>
             <Security />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={ROUTES.CLOSETS}
+        element={
+          <Suspense fallback={<PageLoader />}>
+            <Closets />
           </Suspense>
         }
       />

@@ -11,6 +11,7 @@ const FEATURED_CATEGORIES_ANCHOR = '/#featured-categories';
 const CATEGORY_ROUTES = {
   Lighting: ROUTES.LIGHTING,
   Security: ROUTES.SECURITY,
+  Closets: ROUTES.CLOSETS,
 };
 
 const DESKTOP_LINK_BASE =
