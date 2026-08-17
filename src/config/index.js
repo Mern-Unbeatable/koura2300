@@ -8,6 +8,7 @@ export const ROUTES = {
   ABOUT: '/about',
   SERVICES: '/services',
   CONTACT: '/contact',
+  BLOG_DETAILS: '/blog/:slug',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',
   LOGIN: '/login',
@@ -23,6 +24,8 @@ export const ROUTES = {
   ADMIN_PRICING: '/admin/pricing',
   ADMIN_MESSAGES: '/admin/messages',
 };
+
+export const buildBlogDetailsRoute = (slug) => `/blog/${slug}`;
 
 export const API_CONFIG = {
   BASE_URL: process.env.REACT_APP_API_BASE_URL || 'https://backend.c4r.co.uk',

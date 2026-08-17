@@ -176,6 +176,16 @@ describe('Landing page', () => {
 });
 
 describe('Learn, Grow article pagination', () => {
+  it('links each shared article card to its details route', () => {
+    renderLandingPage();
+
+    const articleLink = screen
+      .getByRole('heading', { name: '5 Signs Your Home Needs a Plumbing Repair' })
+      .closest('a');
+
+    expect(articleLink).toHaveAttribute('href', '/blog/plumbing');
+  });
+
   it('shows the next group of shared article cards when the next arrow is clicked', async () => {
     const user = userEvent.setup();
     renderLandingPage();
