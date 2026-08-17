@@ -41,7 +41,6 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
             searchValue={searchValue}
             onSearchChange={onSearchChange}
             onSearchSubmit={onSearchSubmit}
-            showCategory
             className="hidden max-w-4xl flex-1 md:block"
           />
 
@@ -66,7 +65,6 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
           searchValue={searchValue}
           onSearchChange={onSearchChange}
           onSearchSubmit={onSearchSubmit}
-          showCategory={false}
           className="block pb-3.5 md:hidden"
         />
 

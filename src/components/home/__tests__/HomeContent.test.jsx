@@ -123,6 +123,17 @@ describe('Landing page', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('offers the category filter on both the mobile and desktop search bars', () => {
+    renderLandingPage();
+
+    const categorySelects = screen.getAllByRole('combobox', { name: 'Service category' });
+
+    expect(categorySelects).toHaveLength(2);
+    categorySelects.forEach((select) => {
+      expect(within(select).getByRole('option', { name: 'All Categories' })).toBeInTheDocument();
+    });
+  });
+
   it('overlays the mobile menu instead of pushing page content down', async () => {
     const user = userEvent.setup();
     renderLandingPage();
@@ -254,7 +265,7 @@ describe('Featured categories carousel', () => {
     renderLandingPage();
 
     const carousel = screen.getByRole('region', { name: 'Featured service categories' });
-    const categorySelect = screen.getByRole('combobox', { name: 'Service category' });
+    const categorySelect = screen.getAllByRole('combobox', { name: 'Service category' })[0];
     const cardNames = within(carousel)
       .getAllByRole('heading', { level: 2 })
       .map((heading) => heading.textContent);
