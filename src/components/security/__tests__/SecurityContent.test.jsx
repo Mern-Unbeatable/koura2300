@@ -76,6 +76,12 @@ describe('Security page', () => {
     });
   });
 
+  it('eases the catalogue in on navigation instead of snapping into place', () => {
+    renderSecurityPage();
+
+    expect(screen.getByRole('main')).toHaveClass('animate-page-enter');
+  });
+
   it('wraps the category tabs onto multiple rows at every breakpoint', () => {
     renderSecurityPage();
 

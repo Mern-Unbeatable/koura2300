@@ -42,6 +42,17 @@
   }
 }
 
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @utility animate-drawer-in {
   animation: drawer-in 0.28s ease-out;
 
@@ -55,6 +66,24 @@
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
+  }
+}
+
+@utility animate-page-enter {
+  animation: page-enter 0.32s ease-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/*
+ * Route chunks load behind a short full-height fallback. Reserving the
+ * scrollbar gutter keeps the page from jumping sideways as it swaps in.
+ */
+@layer base {
+  html {
+    scrollbar-gutter: stable;
   }
 }
 

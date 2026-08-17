@@ -31,7 +31,7 @@ const ServiceCatalogContent = memo(
           onSearchSubmit={handleSearchSubmit}
         />
 
-        <main className="mx-auto max-w-screen-2xl px-4 pb-24 pt-12 sm:px-6 sm:pt-14 lg:px-8 lg:pb-28">
+        <main className="animate-page-enter mx-auto max-w-screen-2xl px-4 pb-24 pt-12 sm:px-6 sm:pt-14 lg:px-8 lg:pb-28">
           <div className="max-w-4xl">
             <h1 className="text-3xl font-bold text-brand-ink sm:text-4xl">
               {content.hero.title}
