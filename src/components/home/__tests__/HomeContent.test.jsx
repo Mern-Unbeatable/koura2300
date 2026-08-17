@@ -123,6 +123,33 @@ describe('Landing page', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('overlays the mobile menu instead of pushing page content down', async () => {
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    await user.click(screen.getByRole('button', { name: 'Open navigation menu' }));
+
+    const drawer = document.getElementById('landing-mobile-navigation');
+
+    expect(drawer).toHaveClass('fixed');
+    expect(document.body).toHaveStyle({ overflow: 'hidden' });
+  });
+
+  it('closes the mobile menu when Escape is pressed', async () => {
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    await user.click(screen.getByRole('button', { name: 'Open navigation menu' }));
+    expect(screen.getByRole('navigation', { name: 'Mobile service categories' })).toBeVisible();
+
+    await user.keyboard('{Escape}');
+
+    expect(
+      screen.queryByRole('navigation', { name: 'Mobile service categories' }),
+    ).not.toBeInTheDocument();
+    expect(document.body).not.toHaveStyle({ overflow: 'hidden' });
+  });
+
   it('validates newsletter email inline and confirms a valid submission', async () => {
     const user = userEvent.setup();
     renderLandingPage();

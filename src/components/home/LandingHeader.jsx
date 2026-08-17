@@ -1,22 +1,22 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { ROUTES } from '../../config';
+import useMobileMenu from '../../hooks/useMobileMenu';
 import { selectTotalItems } from '../../store/slices/cartSlice';
 import CategoryNavigation from './CategoryNavigation';
 import LandingHeaderActions from './LandingHeaderActions';
 import LandingSearchForm from './LandingSearchForm';
+import MobileMenu from './MobileMenu';
 import { LANDING_CONTENT } from './landingContent';
 import { LANDING_ASSET_PATH } from './landingData';
 
+const MENU_ICON_SIZE = 24;
+
 const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => {
   const totalItems = useSelector(selectTotalItems);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleMenuToggle = useCallback(() => {
-    setIsMenuOpen((isOpen) => !isOpen);
-  }, []);
+  const { isMenuOpen, toggleMenu, closeMenu } = useMobileMenu();
 
   return (
     <header className="sticky top-0 z-50 bg-brand-navy text-white" role="banner">
@@ -50,19 +50,13 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
           <div className="flex items-center lg:hidden">
             <button
               type="button"
-              onClick={handleMenuToggle}
+              onClick={toggleMenu}
               aria-expanded={isMenuOpen}
               aria-controls="landing-mobile-navigation"
-              aria-label={
-                isMenuOpen ? LANDING_CONTENT.header.closeMenu : LANDING_CONTENT.header.openMenu
-              }
-              className="rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-brand-orange"
+              aria-label={LANDING_CONTENT.header.openMenu}
+              className="-mr-2 cursor-pointer rounded-md p-2 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-brand-orange"
             >
-              {isMenuOpen ? (
-                <X size={24} aria-hidden="true" />
-              ) : (
-                <Menu size={24} aria-hidden="true" />
-              )}
+              <Menu size={MENU_ICON_SIZE} aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -77,11 +71,9 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
         />
 
         <CategoryNavigation />
-
-        {isMenuOpen && (
-          <CategoryNavigation id="landing-mobile-navigation" isMobile onNavigate={handleMenuToggle} />
-        )}
       </div>
+
+      <MobileMenu isOpen={isMenuOpen} totalItems={totalItems} onClose={closeMenu} />
     </header>
   );
 });
