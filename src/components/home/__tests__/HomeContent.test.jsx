@@ -96,7 +96,7 @@ describe('Landing page', () => {
     await user.click(screen.getByRole('button', { name: 'Add Drain Cleaning to cart' }));
 
     expect(store.getState().cart.totalItems).toBe(1);
-    expect(screen.getByLabelText('Cart, 1 item')).toBeInTheDocument();
+    expect(store.getState().cart.items[0].title).toBe('Drain Cleaning');
   });
 
   it('does not render a language switcher', () => {

@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, Package, ShoppingCart, UserRound, X } from 'lucide-react';
+import { MessageCircle, Package, UserRound, X } from 'lucide-react';
 import { ROUTES } from '../../config';
 import CategoryNavigation from './CategoryNavigation';
 import { LANDING_CONTENT } from './landingContent';
@@ -11,7 +11,7 @@ const CLOSE_ICON_SIZE = 24;
 const ACTION_TILE_CLASS =
   'flex flex-col items-center justify-center gap-2 rounded-lg bg-white/5 py-4 text-xs font-medium transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
-const MobileMenu = memo(({ isOpen, totalItems, onClose }) => {
+const MobileMenu = memo(({ isOpen, onClose }) => {
   if (!isOpen) {
     return null;
   }
@@ -51,7 +51,7 @@ const MobileMenu = memo(({ isOpen, totalItems, onClose }) => {
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <Link to={ROUTES.LOGIN} onClick={onClose} className={ACTION_TILE_CLASS}>
               <UserRound size={ACTION_ICON_SIZE} aria-hidden="true" />
               {header.account}
@@ -61,23 +61,6 @@ const MobileMenu = memo(({ isOpen, totalItems, onClose }) => {
               <Package size={ACTION_ICON_SIZE} aria-hidden="true" />
               {header.order}
             </Link>
-
-            <a
-              href="#top-services"
-              onClick={onClose}
-              aria-label={`Cart, ${totalItems} ${totalItems === 1 ? 'item' : 'items'}`}
-              className={ACTION_TILE_CLASS}
-            >
-              <span className="relative">
-                <ShoppingCart size={ACTION_ICON_SIZE} aria-hidden="true" />
-                {totalItems > 0 && (
-                  <span className="absolute -right-2.5 -top-2 flex size-4 items-center justify-center rounded-full bg-brand-orange text-xs font-semibold">
-                    {totalItems}
-                  </span>
-                )}
-              </span>
-              {header.cart}
-            </a>
 
             <a href="#footer" onClick={onClose} className={ACTION_TILE_CLASS}>
               <MessageCircle size={ACTION_ICON_SIZE} aria-hidden="true" />

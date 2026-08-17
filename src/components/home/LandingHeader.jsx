@@ -1,10 +1,8 @@
 import React, { memo } from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { ROUTES } from '../../config';
 import useMobileMenu from '../../hooks/useMobileMenu';
-import { selectTotalItems } from '../../store/slices/cartSlice';
 import CategoryNavigation from './CategoryNavigation';
 import LandingHeaderActions from './LandingHeaderActions';
 import LandingSearchForm from './LandingSearchForm';
@@ -15,7 +13,6 @@ import { LANDING_ASSET_PATH } from './landingData';
 const MENU_ICON_SIZE = 24;
 
 const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => {
-  const totalItems = useSelector(selectTotalItems);
   const { isMenuOpen, toggleMenu, closeMenu } = useMobileMenu();
 
   return (
@@ -44,7 +41,7 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
             className="hidden max-w-4xl flex-1 md:block"
           />
 
-          <LandingHeaderActions totalItems={totalItems} />
+          <LandingHeaderActions />
 
           <div className="flex items-center lg:hidden">
             <button
@@ -71,7 +68,7 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
         <CategoryNavigation />
       </div>
 
-      <MobileMenu isOpen={isMenuOpen} totalItems={totalItems} onClose={closeMenu} />
+      <MobileMenu isOpen={isMenuOpen} onClose={closeMenu} />
     </header>
   );
 });

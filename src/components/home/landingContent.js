@@ -19,7 +19,6 @@ export const LANDING_CONTENT = {
     searchSubmit: 'Submit service search',
     account: 'Account',
     order: 'Order',
-    cart: 'Cart',
     chat: 'Chat',
     openMenu: 'Open navigation menu',
     closeMenu: 'Close navigation menu',
