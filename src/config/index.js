@@ -12,6 +12,7 @@ export const ROUTES = {
   SECURITY: '/security',
   CLOSETS: '/closets',
   FENCE: '/fence',
+  DECK: '/deck',
   BLOG_DETAILS: '/blog/:slug',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',

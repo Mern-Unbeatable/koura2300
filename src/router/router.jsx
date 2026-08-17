@@ -24,6 +24,7 @@ const Lighting = lazy(() => import('../pages/Lighting'));
 const Security = lazy(() => import('../pages/Security'));
 const Closets = lazy(() => import('../pages/Closets'));
 const Fence = lazy(() => import('../pages/Fence'));
+const Deck = lazy(() => import('../pages/Deck'));
 const BlogDetails = lazy(() => import('../pages/BlogDetails'));
 const Login = lazy(() => import('../pages/Login'));
 
@@ -108,6 +109,15 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={<PageLoader />}>
             <Fence />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={ROUTES.DECK}
+        element={
+          <Suspense fallback={<PageLoader />}>
+            <Deck />
           </Suspense>
         }
       />
