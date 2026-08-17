@@ -76,6 +76,25 @@ describe('Security page', () => {
     });
   });
 
+  it('wraps the category tabs onto multiple rows at every breakpoint', () => {
+    renderSecurityPage();
+
+    const tabs = screen.getByRole('group', {
+      name: 'Filter security services by category',
+    });
+
+    expect(tabs).toHaveClass('flex-wrap');
+    expect(tabs).not.toHaveClass('overflow-x-auto');
+  });
+
+  it('renders each category tab on a single line', () => {
+    renderSecurityPage();
+
+    expect(screen.getByRole('button', { name: 'Smoke & Carbon Monoxide Detectors' })).toHaveClass(
+      'whitespace-nowrap',
+    );
+  });
+
   it('shows only services from the selected category', async () => {
     const user = userEvent.setup();
     renderSecurityPage();

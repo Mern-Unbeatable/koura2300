@@ -3,20 +3,26 @@ import { ChevronDown } from 'lucide-react';
 
 const SELECT_CHEVRON_SIZE = 16;
 
+const CATEGORY_BUTTON_BASE =
+  'cursor-pointer whitespace-nowrap rounded-full border px-4 py-2.5 text-sm font-medium transition-all duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2';
+const CATEGORY_BUTTON_SELECTED =
+  'border-brand-orange bg-brand-orange text-white shadow-sm shadow-brand-orange/30';
+const CATEGORY_BUTTON_IDLE =
+  'border-gray-200 bg-white text-gray-600 hover:border-brand-orange hover:bg-brand-orange-light hover:text-brand-ink';
+
 const CategoryButton = memo(({ category, isSelected, onSelect }) => {
   const handleClick = useCallback(() => {
     onSelect(category);
   }, [category, onSelect]);
-  const stateClass = isSelected
-    ? 'bg-brand-orange text-white shadow-sm'
-    : 'bg-gray-200 text-gray-500 hover:bg-gray-300 hover:text-brand-ink';
 
   return (
     <button
       type="button"
       onClick={handleClick}
       aria-pressed={isSelected}
-      className={`shrink-0 cursor-pointer rounded-lg px-3 py-2.5 text-sm transition-all duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 ${stateClass}`}
+      className={`${CATEGORY_BUTTON_BASE} ${
+        isSelected ? CATEGORY_BUTTON_SELECTED : CATEGORY_BUTTON_IDLE
+      }`}
     >
       {category}
     </button>
@@ -44,11 +50,11 @@ const ServiceCatalogFilters = memo(
     );
 
     return (
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
         <div
           role="group"
           aria-label={groupLabel}
-          className="scrollbar-none flex gap-3 overflow-x-auto pb-1"
+          className="flex min-w-0 flex-wrap gap-2.5 lg:flex-1"
         >
           {categories.map((category) => (
             <CategoryButton
