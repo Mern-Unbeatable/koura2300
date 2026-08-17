@@ -15,6 +15,7 @@ export const ROUTES = {
   DECK: '/deck',
   BASEMENT: '/basement',
   APPLIANCES: '/appliances',
+  GARAGE: '/garage',
   BLOG_DETAILS: '/blog/:slug',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',

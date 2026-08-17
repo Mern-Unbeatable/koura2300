@@ -16,6 +16,7 @@ const CATEGORY_ROUTES = {
   Deck: ROUTES.DECK,
   Basement: ROUTES.BASEMENT,
   Appliances: ROUTES.APPLIANCES,
+  Garage: ROUTES.GARAGE,
 };
 
 const DESKTOP_LINK_BASE =
