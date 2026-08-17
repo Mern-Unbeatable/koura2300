@@ -1,6 +1,5 @@
 import React, { memo, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { LIGHTING_CONTENT } from './lightingCopy';
 
 const PAGINATION_ICON_SIZE = 18;
 
@@ -8,7 +7,6 @@ const PaginationPage = memo(({ pageNumber, isActive, onSelect }) => {
   const handleClick = useCallback(() => {
     onSelect(pageNumber - 1);
   }, [onSelect, pageNumber]);
-
   const stateClass = isActive
     ? 'border-brand-orange text-brand-orange'
     : 'border-gray-200 text-gray-800 hover:border-brand-orange hover:text-brand-orange';
@@ -28,20 +26,17 @@ const PaginationPage = memo(({ pageNumber, isActive, onSelect }) => {
 
 PaginationPage.displayName = 'PaginationPage';
 
-const LightingPagination = memo(
-  ({ pageIndex, pageCount, onPrevious, onNext, onSelectPage }) => {
+const ServiceCatalogPagination = memo(
+  ({ pageIndex, pageCount, labels, onPrevious, onNext, onSelectPage }) => {
     const pageNumbers = Array.from({ length: pageCount }, (_, pageNumber) => pageNumber + 1);
 
     return (
-      <nav
-        aria-label={LIGHTING_CONTENT.pagination.label}
-        className="flex items-center justify-center gap-2"
-      >
+      <nav aria-label={labels.label} className="flex items-center justify-center gap-2">
         <button
           type="button"
           onClick={onPrevious}
           disabled={pageIndex === 0}
-          aria-label={LIGHTING_CONTENT.pagination.previous}
+          aria-label={labels.previous}
           className="flex size-8 cursor-pointer items-center justify-center rounded border border-gray-200 bg-white text-gray-800 transition-all duration-200 ease-in-out hover:border-brand-orange hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:border-transparent disabled:bg-gray-400 disabled:text-white disabled:opacity-50"
         >
           <ChevronLeft size={PAGINATION_ICON_SIZE} aria-hidden="true" />
@@ -60,7 +55,7 @@ const LightingPagination = memo(
           type="button"
           onClick={onNext}
           disabled={pageIndex === pageCount - 1}
-          aria-label={LIGHTING_CONTENT.pagination.next}
+          aria-label={labels.next}
           className="flex size-8 cursor-pointer items-center justify-center rounded border border-gray-200 bg-white text-gray-800 transition-all duration-200 ease-in-out hover:border-brand-orange hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-50"
         >
           <ChevronRight size={PAGINATION_ICON_SIZE} aria-hidden="true" />
@@ -70,6 +65,6 @@ const LightingPagination = memo(
   },
 );
 
-LightingPagination.displayName = 'LightingPagination';
+ServiceCatalogPagination.displayName = 'ServiceCatalogPagination';
 
-export default LightingPagination;
+export default ServiceCatalogPagination;

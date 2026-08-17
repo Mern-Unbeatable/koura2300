@@ -2,13 +2,9 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/slices/cartSlice';
 
-const getCartItem = (service) => ({
-  id: service.id,
-  price: service.price,
-  title: service.title,
-});
+const getCartItem = ({ id, price, title }) => ({ id, price, title });
 
-const useAddLightingService = () => {
+const useAddService = () => {
   const dispatch = useDispatch();
 
   return useCallback(
@@ -19,4 +15,4 @@ const useAddLightingService = () => {
   );
 };
 
-export default useAddLightingService;
+export default useAddService;

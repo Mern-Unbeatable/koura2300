@@ -1,12 +1,11 @@
 import React, { memo } from 'react';
 import ServiceCard, { SERVICE_CARD_VARIANTS } from '../home/ServiceCard';
-import { LIGHTING_CONTENT } from './lightingCopy';
 
-const LightingServiceGrid = memo(({ services, onAddService }) => {
+const ServiceCatalogGrid = memo(({ services, emptyState, onAddService }) => {
   if (services.length === 0) {
     return (
       <p role="status" className="rounded-2xl bg-gray-50 p-10 text-center text-gray-500">
-        {LIGHTING_CONTENT.emptyState}
+        {emptyState}
       </p>
     );
   }
@@ -25,6 +24,6 @@ const LightingServiceGrid = memo(({ services, onAddService }) => {
   );
 });
 
-LightingServiceGrid.displayName = 'LightingServiceGrid';
+ServiceCatalogGrid.displayName = 'ServiceCatalogGrid';
 
-export default LightingServiceGrid;
+export default ServiceCatalogGrid;

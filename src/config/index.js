@@ -9,6 +9,7 @@ export const ROUTES = {
   SERVICES: '/services',
   CONTACT: '/contact',
   LIGHTING: '/lighting',
+  SECURITY: '/security',
   BLOG_DETAILS: '/blog/:slug',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',
