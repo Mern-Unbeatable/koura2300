@@ -1,6 +1,8 @@
 export const LIGHTING_ASSET_PATH = '/assets/lighting';
 export const LIGHTING_PAGE_SIZE = 20;
 
+export const LIGHTING_ALL_CATEGORY = 'All';
+
 export const LIGHTING_CATEGORIES = [
   'Indoor Lighting',
   'Outdoor Lighting',
@@ -9,6 +11,8 @@ export const LIGHTING_CATEGORIES = [
   'Smart Lighting',
   'Lighting Repairs',
 ];
+
+export const LIGHTING_FILTER_TABS = [LIGHTING_ALL_CATEGORY, ...LIGHTING_CATEGORIES];
 
 export const LIGHTING_PRICE_RANGES = [
   { value: 'any', label: 'Any price', minimum: 0, maximum: Number.POSITIVE_INFINITY },
@@ -35,41 +39,11 @@ const CATEGORY_TITLES = {
     'Wall Sconces',
     'Track Lighting',
     'LED Light Upgrades',
-    'Under Cabinet Lighting',
-    'Vanity Light Installation',
-    'Cove Lighting',
-    'Task Lighting',
-    'Accent Lighting',
-    'Staircase Lighting',
-    'Closet Lighting',
-    'Kitchen Lighting',
-    'Bathroom Lighting',
-    'Bedroom Lighting',
-    'Living Room Lighting',
-    'Dining Room Lighting',
-    'Reading Light Installation',
-    'Ceiling Fan Light Kits',
-    'Dimmer-Compatible Fixtures',
-    'Picture Lights',
-    'Mirror Lighting',
-    'Laundry Room Lighting',
-    'Home Office Lighting',
-    'Nursery Lighting',
-    'Hallway Lighting',
-    'Entryway Lighting',
-    'Basement Lighting',
-    'Attic Lighting',
-    'Workshop Lighting',
-    'Utility Room Lighting',
-    'Cabinet Display Lighting',
-    'Shelf Lighting',
-    'Decorative Lighting',
-    'Energy-Efficient Lighting',
-    'Light Fixture Replacement',
-    'Room Lighting Consultation',
   ],
   'Outdoor Lighting': [
-    'Flood Light Installation',
+    'Porch Lights',
+    'Flood Lights',
+    'Motion Sensor Lights',
     'Landscape Lighting',
     'Pathway Lights',
     'Deck Lighting',
@@ -78,30 +52,32 @@ const CATEGORY_TITLES = {
   'Light Fixture Services': [
     'Fixture Installation',
     'Fixture Replacement',
-    'Fixture Assembly',
     'Fixture Relocation',
-    'Fixture Safety Inspection',
+    'Fixture Repair',
+    'Ceiling Fan with Light Installation',
   ],
   'Outlet & Switch Services': [
-    'Light Switch Replacement',
+    'Outlet Replacement',
+    'New Outlet Installation',
+    'GFCI Outlet Installation',
+    'USB Outlet Installation',
+    'Switch Replacement',
     'Dimmer Switch Installation',
-    'Lighting Outlet Installation',
-    'Three-Way Switch Installation',
-    'Faulty Switch Repair',
+    'Smart Switch Installation',
   ],
   'Smart Lighting': [
-    'Smart Bulb Setup',
+    'Smart Bulb Installation',
     'Smart Switch Installation',
-    'Voice-Controlled Lighting',
-    'Automated Lighting Scenes',
-    'Smart Lighting Consultation',
+    'Smart Lighting Setup',
+    'Motion Sensors',
+    'Timer Installation',
   ],
   'Lighting Repairs': [
-    'Flickering Light Repair',
-    'Faulty Fixture Repair',
-    'Lighting Circuit Diagnosis',
-    'Loose Connection Repair',
-    'Lighting Safety Check',
+    'Flickering Lights',
+    'Non-Working Fixtures',
+    'Loose Fixtures',
+    'Bulb Socket Repair',
+    'Wiring Repairs',
   ],
 };
 
@@ -120,13 +96,17 @@ const SERVICE_DESCRIPTIONS = {
     'Thorough lighting diagnosis and repair to restore reliable operation and improve electrical safety.',
 };
 
-const normalizeServiceId = (title) => title.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-');
+const toSlug = (value) => value.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-');
+
+// A few services are offered under more than one category, so the category is
+// part of the id to keep cart entries and React keys unique.
+const buildServiceId = (category, title) => `${toSlug(category)}-${toSlug(title)}`;
 
 const getServicePrice = (serviceIndex) =>
   BASE_PRICE + (serviceIndex % PRICE_TIER_COUNT) * PRICE_STEP;
 
 const createLightingService = (category, title, serviceIndex) => ({
-  id: normalizeServiceId(title),
+  id: buildServiceId(category, title),
   title,
   description: SERVICE_DESCRIPTIONS[category],
   category,

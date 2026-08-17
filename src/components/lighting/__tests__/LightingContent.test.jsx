@@ -67,6 +67,47 @@ describe('Lighting page', () => {
     ).toBeInTheDocument();
   });
 
+  it('selects the All tab by default', () => {
+    renderLightingPage();
+
+    expect(screen.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Indoor Lighting' })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
+  });
+
+  it('shows services from every category while the All tab is selected', () => {
+    renderLightingPage();
+
+    expect(
+      screen.getByRole('heading', { level: 3, name: 'Ceiling Light Installation' }),
+    ).toBeVisible();
+    expect(screen.getByRole('heading', { level: 3, name: 'Porch Lights' })).toBeVisible();
+    expect(screen.getByRole('heading', { level: 3, name: 'Fixture Installation' })).toBeVisible();
+  });
+
+  it('shows only the chosen category once a category tab is selected', async () => {
+    const user = userEvent.setup();
+    renderLightingPage();
+
+    await user.click(screen.getByRole('button', { name: 'Indoor Lighting' }));
+
+    expect(screen.getAllByRole('article')).toHaveLength(8);
+    expect(screen.queryByRole('heading', { level: 3, name: 'Porch Lights' })).not.toBeInTheDocument();
+  });
+
+  it('restores the full catalog when All is selected again', async () => {
+    const user = userEvent.setup();
+    renderLightingPage();
+
+    await user.click(screen.getByRole('button', { name: 'Lighting Repairs' }));
+    await user.click(screen.getByRole('button', { name: 'All' }));
+
+    expect(screen.getAllByRole('article')).toHaveLength(20);
+    expect(screen.getByRole('heading', { level: 3, name: 'Porch Lights' })).toBeVisible();
+  });
+
   it('renders service images with meaningful alternatives and explicit dimensions', () => {
     renderLightingPage();
 
@@ -85,7 +126,7 @@ describe('Lighting page', () => {
 
     await user.click(screen.getByRole('button', { name: 'Outdoor Lighting' }));
 
-    expect(screen.getByRole('heading', { level: 3, name: 'Flood Light Installation' })).toBeVisible();
+    expect(screen.getByRole('heading', { level: 3, name: 'Flood Lights' })).toBeVisible();
     expect(
       screen.queryByRole('heading', { level: 3, name: 'Ceiling Light Installation' }),
     ).not.toBeInTheDocument();

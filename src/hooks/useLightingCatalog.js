@@ -1,16 +1,16 @@
 import { useCallback, useMemo, useState } from 'react';
 import {
-  LIGHTING_CATEGORIES,
+  LIGHTING_ALL_CATEGORY,
   LIGHTING_PAGE_SIZE,
   LIGHTING_PRICE_RANGES,
 } from '../components/lighting/lightingData';
 
-const INITIAL_CATEGORY = LIGHTING_CATEGORIES[0];
+const INITIAL_CATEGORY = LIGHTING_ALL_CATEGORY;
 const INITIAL_PRICE_RANGE = LIGHTING_PRICE_RANGES[0].value;
 const FIRST_PAGE_INDEX = 0;
 
 const isInSelectedCategory = (service, selectedCategory) =>
-  service.category === selectedCategory;
+  selectedCategory === LIGHTING_ALL_CATEGORY || service.category === selectedCategory;
 
 const isInSelectedPriceRange = (service, selectedPriceRange) => {
   const priceRange =

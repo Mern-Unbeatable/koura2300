@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { LIGHTING_CONTENT } from './lightingCopy';
-import { LIGHTING_CATEGORIES, LIGHTING_PRICE_RANGES } from './lightingData';
+import { LIGHTING_FILTER_TABS, LIGHTING_PRICE_RANGES } from './lightingData';
 
 const SELECT_CHEVRON_SIZE = 16;
 
@@ -36,7 +36,7 @@ const LightingFilters = memo(
         aria-label={LIGHTING_CONTENT.filters.groupLabel}
         className="scrollbar-none flex gap-3 overflow-x-auto pb-1"
       >
-        {LIGHTING_CATEGORIES.map((category) => (
+        {LIGHTING_FILTER_TABS.map((category) => (
           <LightingCategoryButton
             key={category}
             category={category}
