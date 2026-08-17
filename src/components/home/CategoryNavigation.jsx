@@ -18,6 +18,7 @@ const CATEGORY_ROUTES = {
   Appliances: ROUTES.APPLIANCES,
   Garage: ROUTES.GARAGE,
   Garden: ROUTES.GARDEN,
+  Flooring: ROUTES.FLOORING,
 };
 
 const DESKTOP_LINK_BASE =
