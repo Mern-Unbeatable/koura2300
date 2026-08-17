@@ -71,7 +71,7 @@ const LandingFooter = memo(() => {
             <button
               type="submit"
               aria-label={footer.subscribeLabel}
-              className="mt-4 rounded-md bg-brand-orange px-7 py-3 text-sm font-bold transition-all duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus:ring-2 focus:ring-white"
+              className="mt-4 rounded-md bg-brand-orange px-7 py-3 text-sm font-bold transition-all duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               {footer.send}
             </button>

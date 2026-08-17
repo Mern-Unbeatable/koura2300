@@ -53,7 +53,7 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
               aria-expanded={isMenuOpen}
               aria-controls="landing-mobile-navigation"
               aria-label={LANDING_CONTENT.header.openMenu}
-              className="-mr-2 cursor-pointer rounded-md p-2 transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-brand-orange"
+              className="-mr-2 cursor-pointer rounded-md p-2 transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
             >
               <Menu size={MENU_ICON_SIZE} aria-hidden="true" />
             </button>

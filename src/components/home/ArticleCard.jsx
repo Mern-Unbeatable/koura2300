@@ -10,7 +10,7 @@ const ArticleCard = memo(({ article }) => (
   <Link
     to={buildBlogDetailsRoute(article.slug ?? article.id)}
     data-article-card
-    className="group block min-w-0 rounded focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2"
+    className="group block min-w-0 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
   >
     <article className="flex min-w-0 gap-4">
       <img

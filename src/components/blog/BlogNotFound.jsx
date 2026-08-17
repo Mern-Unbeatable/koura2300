@@ -11,7 +11,7 @@ const BlogNotFound = memo(() => (
     <p className="mt-4 text-brand-muted">{notFound.body}</p>
     <Link
       to={ROUTES.HOME}
-      className="mt-7 rounded-md bg-brand-orange px-5 py-3 font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2"
+      className="mt-7 rounded-md bg-brand-orange px-5 py-3 font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2"
     >
       {notFound.backLabel}
     </Link>

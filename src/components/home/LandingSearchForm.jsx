@@ -58,7 +58,7 @@ const LandingSearchForm = memo(
             <button
               type="submit"
               aria-label={LANDING_CONTENT.header.searchSubmit}
-              className="flex w-9 shrink-0 cursor-pointer items-center justify-center bg-brand-orange text-white transition-colors duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              className="flex w-9 shrink-0 cursor-pointer items-center justify-center bg-brand-orange text-white transition-colors duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
             >
               <Search size={SEARCH_ICON_SIZE} aria-hidden="true" />
             </button>

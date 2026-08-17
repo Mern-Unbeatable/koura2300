@@ -10,7 +10,7 @@ const ARTICLES_PER_PAGE = 6;
 const ARROW_ICON_SIZE = 14;
 const ARTICLE_SELECTOR = '[data-article-card]';
 const NAVIGATION_BUTTON_CLASS =
-  'flex size-7 cursor-pointer items-center justify-center rounded-full border border-brand-orange text-brand-orange transition-all duration-200 hover:scale-110 hover:bg-brand-orange hover:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100';
+  'flex size-7 cursor-pointer items-center justify-center rounded-full border border-brand-orange text-brand-orange transition-all duration-200 hover:scale-110 hover:bg-brand-orange hover:text-white active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100';
 
 const LearningSection = memo(() => {
   const {
