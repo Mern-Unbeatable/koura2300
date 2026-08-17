@@ -4,8 +4,8 @@ import { ARTICLE_ITEMS } from '../home/landingData';
 const POPULAR_POST_COUNT = 6;
 
 export const BLOG_FEATURE_IMAGE_SIZE = {
-  width: 1536,
-  height: 793,
+  width: 1920,
+  height: 1080,
 };
 
 /**

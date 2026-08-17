@@ -45,12 +45,12 @@ describe('Blog details page', () => {
     renderBlogDetails();
 
     const featureImage = screen.getByRole('img', {
-      name: 'A plumber working beneath a kitchen sink',
+      name: 'A plumber installing pipe fittings with a wrench',
     });
 
     expect(featureImage).toHaveAttribute('src', '/assets/landing/article-plumbing.png');
-    expect(featureImage).toHaveAttribute('width');
-    expect(featureImage).toHaveAttribute('height');
+    expect(featureImage).toHaveAttribute('width', '1920');
+    expect(featureImage).toHaveAttribute('height', '1080');
     expect(featureImage).toHaveAttribute('fetchpriority', 'high');
   });
 
@@ -58,7 +58,7 @@ describe('Blog details page', () => {
     renderBlogDetails('winter');
 
     expect(
-      screen.getByRole('img', { name: 'A professional inspecting a home heating system' }),
+      screen.getByRole('img', { name: 'A technician repairing a home heating system' }),
     ).toHaveAttribute('src', '/assets/landing/article-winter.png');
   });
 

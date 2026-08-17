@@ -22,19 +22,19 @@ export const CATEGORY_ITEMS = [
     id: 'lighting',
     title: 'Lighting',
     image: `${LANDING_ASSET_PATH}/category-lighting.png`,
-    imageAlt: 'A collection of modern pendant lights',
+    imageAlt: 'Warm pendant lights hanging in a modern interior',
   },
   {
     id: 'security',
     title: 'Security',
     image: `${LANDING_ASSET_PATH}/category-security.png`,
-    imageAlt: 'A smart lock installed on a modern front door',
+    imageAlt: 'Classic wooden front doors on a residential building',
   },
   {
     id: 'closets',
     title: 'Closets',
     image: `${LANDING_ASSET_PATH}/category-closets.png`,
-    imageAlt: 'A custom fitted bedroom closet',
+    imageAlt: 'A tidy modern walk-in closet with empty hangers',
   },
   {
     id: 'fence',
@@ -214,7 +214,7 @@ export const ARTICLE_ITEMS = [
     title: '5 Signs Your Home Needs a Plumbing Repair',
     body:
       'Learn how to spot common plumbing problems early and avoid costly repairs down the road.',
-    imageAlt: 'A plumber working beneath a kitchen sink',
+    imageAlt: 'A plumber installing pipe fittings with a wrench',
     image: `${LANDING_ASSET_PATH}/article-plumbing.png`,
   },
   {
@@ -222,7 +222,7 @@ export const ARTICLE_ITEMS = [
     title: 'When Should You Call a Professional Electrician?',
     body:
       'Learn the warning signs of electrical problems and when it is safer to call a qualified professional.',
-    imageAlt: 'An electrician inspecting a wall outlet',
+    imageAlt: 'An electrician repairing wall sockets with pliers',
     image: `${LANDING_ASSET_PATH}/article-electrical.png`,
   },
   {
@@ -230,7 +230,7 @@ export const ARTICLE_ITEMS = [
     title: 'Small Repairs That Make a Big Difference',
     body:
       'Discover quick improvements that make your property more comfortable, functional, and maintained.',
-    imageAlt: 'A professional repairing a wooden door',
+    imageAlt: 'A handyman installing a hinge on a wooden door frame',
     image: `${LANDING_ASSET_PATH}/article-repairs.png`,
   },
   {
@@ -238,7 +238,7 @@ export const ARTICLE_ITEMS = [
     title: 'Simple Ways to Keep Your Home in Top Shape',
     body:
       'Discover easy maintenance tips that help protect your property and prevent unexpected issues.',
-    imageAlt: 'A worker repairing a wall inside a home',
+    imageAlt: 'A person painting an interior wall during a home renovation',
     image: `${LANDING_ASSET_PATH}/article-maintenance.png`,
   },
   {
@@ -246,7 +246,7 @@ export const ARTICLE_ITEMS = [
     title: 'How to Prepare Your Home for Winter',
     body:
       'Get ready for colder weather with maintenance tips that keep your space safe and comfortable.',
-    imageAlt: 'A professional inspecting a home heating system',
+    imageAlt: 'A technician repairing a home heating system',
     image: `${LANDING_ASSET_PATH}/article-winter.png`,
   },
   {
@@ -254,7 +254,7 @@ export const ARTICLE_ITEMS = [
     title: 'How Often Should You Maintain Your Home?',
     body:
       'A simple maintenance routine can prevent bigger problems. Learn what to check and how often.',
-    imageAlt: 'A home service professional holding cleaning supplies',
+    imageAlt: 'Professionals cleaning a bright modern kitchen',
     image: `${LANDING_ASSET_PATH}/article-routine.png`,
   },
   {
@@ -262,7 +262,7 @@ export const ARTICLE_ITEMS = [
     title: 'How to Prevent Costly Water Leaks',
     body:
       'Use these practical checks to find weak plumbing connections before they damage your home.',
-    imageAlt: 'A close-up of a kitchen faucet water connection',
+    imageAlt: 'A modern kitchen sink with a chrome faucet',
     image: `${LANDING_ASSET_PATH}/service-faucet.png`,
   },
   {
@@ -270,7 +270,7 @@ export const ARTICLE_ITEMS = [
     title: 'Essential Electrical Safety Tips for Every Home',
     body:
       'Protect your family and property by recognizing overloaded circuits and unsafe electrical fittings.',
-    imageAlt: 'An electrician safely testing a wall circuit',
+    imageAlt: 'An electrician fitting a wall outlet with a screwdriver',
     image: `${LANDING_ASSET_PATH}/service-electrical.png`,
   },
   {
@@ -278,7 +278,7 @@ export const ARTICLE_ITEMS = [
     title: 'Easy Ways to Keep Doors Working Smoothly',
     body:
       'Simple hinge, frame, and lock maintenance can make doors safer and extend their useful life.',
-    imageAlt: 'A secure front door with a modern handle',
+    imageAlt: 'Classic wooden front doors on a residential building',
     image: `${LANDING_ASSET_PATH}/category-security.png`,
   },
   {
@@ -286,7 +286,7 @@ export const ARTICLE_ITEMS = [
     title: 'Your Complete Seasonal Home Checklist',
     body:
       'Stay ahead of repairs with a room-by-room maintenance checklist for every season.',
-    imageAlt: 'A blocked drain being cleared during seasonal upkeep',
+    imageAlt: 'Exposed plumbing pipes along a construction wall',
     image: `${LANDING_ASSET_PATH}/service-drain.png`,
   },
   {
@@ -294,7 +294,7 @@ export const ARTICLE_ITEMS = [
     title: 'Simple Steps to Improve Heating Efficiency',
     body:
       'Reduce energy waste and keep rooms comfortable with a few essential heating-system checks.',
-    imageAlt: 'Warm pendant lighting in a cosy living room',
+    imageAlt: 'Warm pendant lights hanging in a modern living room',
     image: `${LANDING_ASSET_PATH}/category-lighting.png`,
   },
   {
@@ -302,7 +302,7 @@ export const ARTICLE_ITEMS = [
     title: 'Build a Cleaning Routine That Actually Works',
     body:
       'Create a manageable weekly plan that keeps every room clean without taking over your schedule.',
-    imageAlt: 'A tidy organised closet kept clean by a weekly routine',
+    imageAlt: 'A tidy modern walk-in closet with empty hangers',
     image: `${LANDING_ASSET_PATH}/category-closets.png`,
   },
 ];
