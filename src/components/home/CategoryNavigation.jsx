@@ -12,6 +12,7 @@ const CATEGORY_ROUTES = {
   Lighting: ROUTES.LIGHTING,
   Security: ROUTES.SECURITY,
   Closets: ROUTES.CLOSETS,
+  Fence: ROUTES.FENCE,
 };
 
 const DESKTOP_LINK_BASE =
