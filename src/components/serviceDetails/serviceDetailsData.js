@@ -17,7 +17,7 @@ export const RELATED_IMAGE_HEIGHT = 230;
 export const STAR_COUNT = 5;
 export const STAR_ICON_SIZE = 12;
 export const CLOCK_ICON_SIZE = 13;
-export const LIST_ICON_SIZE = 20;
+export const INCLUSION_CHECK_ICON_SIZE = 12;
 export const FEATURE_ICON_SIZE = 22;
 export const RADIO_ICON_SIZE = 20;
 export const RECYCLE_ICON_SIZE = 20;
@@ -32,8 +32,17 @@ export const GALLERY_THUMBNAIL_GRID_CLASS = 'grid-cols-4';
 export const RELATED_MEDIA_CLASS = 'relative block shrink-0 sm:w-[378px]';
 export const SUMMARY_TITLE_CLASS =
   'text-2xl font-semibold text-brand-ink sm:text-[32px] sm:leading-10';
-export const INCLUDED_ICON_CLASS = 'text-green-600';
-export const EXCLUDED_ICON_CLASS = 'text-red-500';
+export const LIGHTING_CATALOG_TITLE = 'Lighting';
+export const INCLUSION_HEADING_CLASS = 'text-2xl font-bold text-gray-700';
+export const INCLUSION_LIST_CARD_CLASS = 'mt-6 min-h-[248px] rounded-2xl bg-white p-8';
+export const INCLUSION_LIST_CLASS = 'flex flex-col gap-4';
+export const INCLUSION_ITEM_CLASS = 'flex items-center gap-3 text-base leading-6 text-gray-700';
+export const INCLUSION_INCLUDED_BADGE_CLASS =
+  'flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-orange-light';
+export const INCLUSION_EXCLUDED_BADGE_CLASS =
+  'flex size-5 shrink-0 items-center justify-center rounded-full border border-gray-200';
+export const INCLUDED_ICON_CLASS = 'text-brand-orange';
+export const EXCLUDED_ICON_CLASS = 'text-gray-400';
 export const RADIO_FILL_SELECTED = 'currentColor';
 export const RADIO_FILL_IDLE = 'none';
 export const BREADCRUMB_SEPARATOR = '>';
@@ -54,15 +63,32 @@ export const EMPTY_CATALOG_SERVICE_DETAILS = {
   relatedServices: [],
   packages: [],
   overview: '',
+  includedItems: [],
+  excludedItems: [],
 };
 
-export const INCLUDED_ITEMS = [
+export const DEFAULT_INCLUDED_ITEMS = [
   'Qualified technician for the booked service',
   'Professional labor for the selected service',
   'Secure installation or repair as specified',
   'Full functionality testing',
   'Basic cleanup of the work area',
 ];
+
+export const LIGHTING_INCLUDED_ITEMS = [
+  'New ceiling light fixture (customer choice from catalog)',
+  'Professional installation by certified electrician',
+  'Wiring inspection and connector verification',
+  'Cleanup of work area and debris removal',
+  '30-day workmanship warranty',
+];
+
+const INCLUDED_ITEMS_BY_CATALOG = {
+  [LIGHTING_CATALOG_TITLE]: LIGHTING_INCLUDED_ITEMS,
+};
+
+export const getIncludedItems = (catalogTitle) =>
+  INCLUDED_ITEMS_BY_CATALOG[catalogTitle] ?? DEFAULT_INCLUDED_ITEMS;
 
 export const EXCLUDED_ITEMS = [
   'Cost of materials, fixtures, or replacement parts',
@@ -119,6 +145,8 @@ export const getCatalogServiceDetails = (serviceId) => {
     relatedServices: getRelatedCatalogServices(service),
     packages: getServicePackages(service),
     overview: buildServiceOverview(service.title),
+    includedItems: getIncludedItems(service.catalogTitle),
+    excludedItems: EXCLUDED_ITEMS,
   };
 };
 

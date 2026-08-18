@@ -149,8 +149,19 @@ describe('Service details page', () => {
   it('lists what is included and what is not included', () => {
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
-    expect(screen.getByRole('heading', { name: "What's Included" })).toBeInTheDocument();
-    expect(screen.getByText('Qualified technician for the booked service')).toBeInTheDocument();
+    const includedSection = screen.getByRole('heading', { name: "What's Included" }).closest(
+      'section',
+    );
+
+    expect(includedSection).toHaveClass('h-full');
+    expect(screen.getByText('New ceiling light fixture (customer choice from catalog)')).toBeInTheDocument();
+    expect(screen.getByText('Professional installation by certified electrician')).toBeInTheDocument();
+    expect(screen.getByText('Wiring inspection and connector verification')).toBeInTheDocument();
+    expect(screen.getByText('Cleanup of work area and debris removal')).toBeInTheDocument();
+    expect(screen.getByText('30-day workmanship warranty')).toBeInTheDocument();
+    expect(includedSection.querySelectorAll('svg.lucide-check')).toHaveLength(5);
+    expect(includedSection.querySelector('span')).toHaveClass('rounded-full');
+    expect(includedSection.querySelector('span')).toHaveClass('bg-brand-orange-light');
     expect(screen.getByRole('heading', { name: 'Not Included' })).toBeInTheDocument();
     expect(
       screen.getByText('Cost of materials, fixtures, or replacement parts'),
@@ -256,6 +267,10 @@ describe('Service details page', () => {
       }),
     ).toHaveAttribute('href', ROUTES.FENCE);
     expect(screen.getByRole('radio', { name: 'Standard Price $145' })).toBeChecked();
+    expect(
+      screen.queryByText('New ceiling light fixture (customer choice from catalog)'),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText('Qualified technician for the booked service')).toBeInTheDocument();
   });
 
   it('renders a not-found state for an unknown service id', () => {

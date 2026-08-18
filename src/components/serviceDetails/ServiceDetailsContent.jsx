@@ -19,7 +19,8 @@ const buildServiceSeo = (service, overview) => ({
 
 const ServiceDetailsContent = memo(() => {
   const { serviceId } = useParams();
-  const { service, relatedServices, packages, overview } = getCatalogServiceDetails(serviceId);
+  const { service, relatedServices, packages, overview, includedItems, excludedItems } =
+    getCatalogServiceDetails(serviceId);
   const { searchValue, handleSearchChange, handleSearchSubmit } =
     useLandingSearch(ALL_CATALOG_SERVICES);
 
@@ -41,6 +42,8 @@ const ServiceDetailsContent = memo(() => {
           relatedServices={relatedServices}
           packages={packages}
           overview={overview}
+          includedItems={includedItems}
+          excludedItems={excludedItems}
         />
       ) : (
         <ServiceDetailsNotFound />
