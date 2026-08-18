@@ -36,6 +36,7 @@ const Kitchen = lazy(() => import('../pages/Kitchen'));
 const Bathroom = lazy(() => import('../pages/Bathroom'));
 const WallsCeilings = lazy(() => import('../pages/WallsCeilings'));
 const BlogDetails = lazy(() => import('../pages/BlogDetails'));
+const ServiceDetails = lazy(() => import('../pages/ServiceDetails'));
 const Login = lazy(() => import('../pages/Login'));
 
 // Admin pages — each lazy-loaded so they only download when visited
@@ -227,6 +228,15 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={<PageLoader />}>
             <BlogDetails />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={ROUTES.SERVICE_DETAILS}
+        element={
+          <Suspense fallback={<PageLoader />}>
+            <ServiceDetails />
           </Suspense>
         }
       />

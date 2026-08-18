@@ -39,10 +39,11 @@ describe('Walls & Ceilings page', () => {
       screen.getByRole('heading', { level: 1, name: 'Professional Walls & Ceilings Services' }),
     ).toBeInTheDocument();
     expect(screen.getByRole('main')).toHaveClass('animate-page-enter');
-    expect(screen.getByRole('link', { name: 'Walls & Ceilings' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
+    expect(
+      within(screen.getByRole('navigation', { name: 'Service categories' })).getByRole('link', {
+        name: 'Walls & Ceilings',
+      }),
+    ).toHaveAttribute('aria-current', 'page');
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 

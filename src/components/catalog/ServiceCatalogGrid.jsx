@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { buildServiceDetailsRoute } from '../../config';
 import ServiceCard, { SERVICE_CARD_VARIANTS } from '../home/ServiceCard';
 
 const ServiceCatalogGrid = memo(({ services, emptyState, onAddService }) => {
@@ -18,6 +19,7 @@ const ServiceCatalogGrid = memo(({ services, emptyState, onAddService }) => {
           service={service}
           onAdd={onAddService}
           variant={SERVICE_CARD_VARIANTS.CATALOG}
+          detailsPath={buildServiceDetailsRoute(service.id)}
         />
       ))}
     </div>

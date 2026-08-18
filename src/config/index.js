@@ -23,6 +23,7 @@ export const ROUTES = {
   KITCHEN: '/kitchen',
   BATHROOM: '/bathroom',
   WALLS_CEILINGS: '/walls-ceilings',
+  SERVICE_DETAILS: '/service/:serviceId',
   BLOG_DETAILS: '/blog/:slug',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',
@@ -40,7 +41,11 @@ export const ROUTES = {
   ADMIN_MESSAGES: '/admin/messages',
 };
 
+export const SERVICE_DETAILS_PREFIX = '/service/';
+
 export const buildBlogDetailsRoute = (slug) => `/blog/${slug}`;
+
+export const buildServiceDetailsRoute = (serviceId) => `${SERVICE_DETAILS_PREFIX}${serviceId}`;
 
 export const API_CONFIG = {
   BASE_URL: process.env.REACT_APP_API_BASE_URL || 'https://backend.c4r.co.uk',

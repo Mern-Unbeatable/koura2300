@@ -39,10 +39,11 @@ describe('Basement page', () => {
       screen.getByRole('heading', { level: 1, name: 'Professional Basement Services' }),
     ).toBeInTheDocument();
     expect(screen.getByRole('main')).toHaveClass('animate-page-enter');
-    expect(screen.getByRole('link', { name: 'Basement' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
+    expect(
+      within(screen.getByRole('navigation', { name: 'Service categories' })).getByRole('link', {
+        name: 'Basement',
+      }),
+    ).toHaveAttribute('aria-current', 'page');
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 

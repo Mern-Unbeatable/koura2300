@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { isCatalogPathCurrent } from '../catalog/catalogRegistry';
 import { LANDING_CONTENT } from './landingContent';
 import { CATEGORY_ROUTES, HEADER_CATEGORIES } from './landingData';
 
@@ -80,7 +81,7 @@ const CategoryNavigation = memo(({ id, isMobile, onNavigate }) => {
           key={category}
           category={category}
           isMobile={isMobile}
-          isCurrent={CATEGORY_ROUTES[category] === pathname}
+          isCurrent={isCatalogPathCurrent(pathname, CATEGORY_ROUTES[category])}
           onNavigate={onNavigate}
         />
       ))}

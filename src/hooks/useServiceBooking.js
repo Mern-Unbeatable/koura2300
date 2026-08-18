@@ -1,0 +1,146 @@
+import { useCallback, useReducer } from 'react';
+import toast from 'react-hot-toast';
+import useAddService from './useAddService';
+import { SERVICE_DETAILS_CONTENT } from '../components/serviceDetails/serviceDetailsCopy';
+import {
+  SERVICE_PACKAGES,
+  createConfirmedCartItem,
+  isValidUsZip,
+} from '../components/serviceDetails/serviceDetailsData';
+
+const BOOKING_ACTION = {
+  SELECT_PACKAGE: 'SELECT_PACKAGE',
+  SET_NEEDS_MATERIALS: 'SET_NEEDS_MATERIALS',
+  TOGGLE_RECYCLE: 'TOGGLE_RECYCLE',
+  OPEN_ZIP_MODAL: 'OPEN_ZIP_MODAL',
+  CLOSE_ZIP_MODAL: 'CLOSE_ZIP_MODAL',
+  CHANGE_ZIP_CODE: 'CHANGE_ZIP_CODE',
+  SET_ZIP_ERROR: 'SET_ZIP_ERROR',
+  COMPLETE_CONFIRMATION: 'COMPLETE_CONFIRMATION',
+};
+
+const createBookingState = () => ({
+  selectedPackageId: SERVICE_PACKAGES.STANDARD,
+  needsMaterials: true,
+  recycleOldMaterials: false,
+  isZipModalOpen: false,
+  zipCode: '',
+  zipError: '',
+});
+
+const bookingReducer = (state, action) => {
+  switch (action.type) {
+    case BOOKING_ACTION.SELECT_PACKAGE:
+      return { ...state, selectedPackageId: action.packageId };
+    case BOOKING_ACTION.SET_NEEDS_MATERIALS:
+      return { ...state, needsMaterials: action.needsMaterials };
+    case BOOKING_ACTION.TOGGLE_RECYCLE:
+      return { ...state, recycleOldMaterials: !state.recycleOldMaterials };
+    case BOOKING_ACTION.OPEN_ZIP_MODAL:
+      return { ...state, isZipModalOpen: true, zipError: '' };
+    case BOOKING_ACTION.CLOSE_ZIP_MODAL:
+      return { ...state, isZipModalOpen: false, zipError: '' };
+    case BOOKING_ACTION.CHANGE_ZIP_CODE:
+      return { ...state, zipCode: action.zipCode, zipError: '' };
+    case BOOKING_ACTION.SET_ZIP_ERROR:
+      return { ...state, zipError: action.zipError };
+    case BOOKING_ACTION.COMPLETE_CONFIRMATION:
+      return {
+        ...state,
+        isZipModalOpen: false,
+        zipCode: '',
+        zipError: '',
+      };
+    default:
+      return state;
+  }
+};
+
+const useServiceBooking = (service, packages) => {
+  const addService = useAddService();
+  const [state, dispatch] = useReducer(bookingReducer, undefined, createBookingState);
+
+  const selectedPackage =
+    packages.find((servicePackage) => servicePackage.id === state.selectedPackageId) ?? packages[0];
+
+  const handleSelectPackage = useCallback((packageId) => {
+    dispatch({ type: BOOKING_ACTION.SELECT_PACKAGE, packageId });
+  }, []);
+
+  const handleNeedMaterials = useCallback(() => {
+    dispatch({ type: BOOKING_ACTION.SET_NEEDS_MATERIALS, needsMaterials: true });
+  }, []);
+
+  const handleHaveMaterials = useCallback(() => {
+    dispatch({ type: BOOKING_ACTION.SET_NEEDS_MATERIALS, needsMaterials: false });
+  }, []);
+
+  const handleToggleRecycle = useCallback(() => {
+    dispatch({ type: BOOKING_ACTION.TOGGLE_RECYCLE });
+  }, []);
+
+  const handleConfirmJob = useCallback(() => {
+    dispatch({ type: BOOKING_ACTION.OPEN_ZIP_MODAL });
+  }, []);
+
+  const handleCloseZipModal = useCallback(() => {
+    dispatch({ type: BOOKING_ACTION.CLOSE_ZIP_MODAL });
+  }, []);
+
+  const handleZipCodeChange = useCallback((event) => {
+    dispatch({ type: BOOKING_ACTION.CHANGE_ZIP_CODE, zipCode: event.target.value });
+  }, []);
+
+  const handleSubmitZip = useCallback(
+    (event) => {
+      event.preventDefault();
+
+      if (!isValidUsZip(state.zipCode)) {
+        dispatch({
+          type: BOOKING_ACTION.SET_ZIP_ERROR,
+          zipError: SERVICE_DETAILS_CONTENT.zipModal.error,
+        });
+        return;
+      }
+
+      addService(
+        createConfirmedCartItem({
+          service,
+          selectedPackage,
+          needsMaterials: state.needsMaterials,
+          recycleOldMaterials: state.recycleOldMaterials,
+        }),
+      );
+      toast.success(SERVICE_DETAILS_CONTENT.booking.success);
+      dispatch({ type: BOOKING_ACTION.COMPLETE_CONFIRMATION });
+    },
+    [
+      addService,
+      selectedPackage,
+      service,
+      state.needsMaterials,
+      state.recycleOldMaterials,
+      state.zipCode,
+    ],
+  );
+
+  return {
+    selectedPackageId: state.selectedPackageId,
+    selectedPackage,
+    needsMaterials: state.needsMaterials,
+    recycleOldMaterials: state.recycleOldMaterials,
+    isZipModalOpen: state.isZipModalOpen,
+    zipCode: state.zipCode,
+    zipError: state.zipError,
+    handleSelectPackage,
+    handleNeedMaterials,
+    handleHaveMaterials,
+    handleToggleRecycle,
+    handleConfirmJob,
+    handleCloseZipModal,
+    handleZipCodeChange,
+    handleSubmitZip,
+  };
+};
+
+export default useServiceBooking;

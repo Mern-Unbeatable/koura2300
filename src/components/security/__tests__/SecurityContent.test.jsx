@@ -38,10 +38,11 @@ describe('Security page', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Professional Security Services' }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Security' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
+    expect(
+      within(screen.getByRole('navigation', { name: 'Service categories' })).getByRole('link', {
+        name: 'Security',
+      }),
+    ).toHaveAttribute('aria-current', 'page');
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 

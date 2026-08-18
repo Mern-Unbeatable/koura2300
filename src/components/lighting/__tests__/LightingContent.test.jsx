@@ -40,14 +40,20 @@ describe('Lighting page', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Professional Lighting Services' }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Lighting' })).toHaveAttribute('href', '/lighting');
+    expect(
+      within(screen.getByRole('navigation', { name: 'Service categories' })).getByRole('link', {
+        name: 'Lighting',
+      }),
+    ).toHaveAttribute('href', '/lighting');
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
   it('marks the Lighting category link as the current page', () => {
     renderLightingPage();
 
-    const lightingLink = screen.getByRole('link', { name: 'Lighting' });
+    const lightingLink = within(
+      screen.getByRole('navigation', { name: 'Service categories' }),
+    ).getByRole('link', { name: 'Lighting' });
 
     expect(lightingLink).toHaveAttribute('aria-current', 'page');
   });
@@ -55,7 +61,11 @@ describe('Lighting page', () => {
   it('does not mark other category links as the current page', () => {
     renderLightingPage();
 
-    expect(screen.getByRole('link', { name: 'Kitchen' })).not.toHaveAttribute('aria-current');
+    expect(
+      within(screen.getByRole('navigation', { name: 'Service categories' })).getByRole('link', {
+        name: 'Kitchen',
+      }),
+    ).not.toHaveAttribute('aria-current');
   });
 
   it('renders twenty service cards on the first page', () => {
@@ -191,5 +201,18 @@ describe('Lighting page', () => {
     renderLightingPage();
 
     expect(screen.getByRole('button', { name: 'Previous page' })).toBeDisabled();
+  });
+
+  it('links each catalog card to its service details page', () => {
+    renderLightingPage();
+
+    const card = screen
+      .getByRole('heading', { level: 3, name: 'Ceiling Light Installation' })
+      .closest('article');
+
+    expect(within(card).getByRole('link', { name: 'Ceiling Light Installation' })).toHaveAttribute(
+      'href',
+      '/service/indoor-lighting-ceiling-light-installation',
+    );
   });
 });
