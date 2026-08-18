@@ -10,8 +10,12 @@ import {
 } from './serviceDetailsData';
 
 const PACKAGE_CARD_BASE =
-  'flex h-full w-full flex-col rounded-2xl p-4 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'flex h-full w-full flex-col rounded-2xl border-2 p-4 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 const PACKAGE_PRICE_CLASS = 'mt-1 text-[29px] font-semibold leading-none text-brand-orange';
+const PACKAGE_SELECTION_BORDER_CLASS = {
+  true: 'border-brand-orange/40',
+  false: 'border-transparent',
+};
 
 const PACKAGE_CARD_APPEARANCE = {
   [SERVICE_PACKAGES.STANDARD]: {
@@ -65,7 +69,7 @@ const PackageCard = memo(({ servicePackage, isSelected, onSelect }) => {
       aria-checked={isSelected}
       aria-label={packageLabel}
       onClick={handleSelect}
-      className={appearance.card}
+      className={`${appearance.card} ${PACKAGE_SELECTION_BORDER_CLASS[selectedKey]}`}
     >
       <span className={RADIO_STATE_CLASS[selectedKey]} aria-hidden="true">
         <Circle size={RADIO_ICON_SIZE} fill={RADIO_STATE_FILL[selectedKey]} />

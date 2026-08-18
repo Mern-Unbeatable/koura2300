@@ -119,10 +119,19 @@ describe('Service details page', () => {
 
     expect(screen.getByRole('radio', { name: 'Standard Price $145' })).toBeChecked();
     expect(screen.getByRole('radio', { name: 'Premium Price $200' })).not.toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Standard Price $145' })).toHaveClass(
+      'border-brand-orange/40',
+    );
+    expect(screen.getByRole('radio', { name: 'Premium Price $200' })).toHaveClass(
+      'border-transparent',
+    );
 
     await user.click(screen.getByRole('radio', { name: 'Premium Price $200' }));
 
     expect(screen.getByRole('radio', { name: 'Premium Price $200' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Premium Price $200' })).toHaveClass(
+      'border-brand-orange/40',
+    );
   });
 
   it('uses double-check icons on every package feature', () => {
