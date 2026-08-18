@@ -33,6 +33,7 @@ const Flooring = lazy(() => import('../pages/Flooring'));
 const Windows = lazy(() => import('../pages/Windows'));
 const Doors = lazy(() => import('../pages/Doors'));
 const Kitchen = lazy(() => import('../pages/Kitchen'));
+const Bathroom = lazy(() => import('../pages/Bathroom'));
 const BlogDetails = lazy(() => import('../pages/BlogDetails'));
 const Login = lazy(() => import('../pages/Login'));
 
@@ -198,6 +199,15 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={<PageLoader />}>
             <Kitchen />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={ROUTES.BATHROOM}
+        element={
+          <Suspense fallback={<PageLoader />}>
+            <Bathroom />
           </Suspense>
         }
       />

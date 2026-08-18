@@ -22,6 +22,7 @@ const CATEGORY_ROUTES = {
   Windows: ROUTES.WINDOWS,
   Doors: ROUTES.DOORS,
   Kitchen: ROUTES.KITCHEN,
+  Bathroom: ROUTES.BATHROOM,
 };
 
 const DESKTOP_LINK_BASE =

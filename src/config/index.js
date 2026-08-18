@@ -21,6 +21,7 @@ export const ROUTES = {
   WINDOWS: '/windows',
   DOORS: '/doors',
   KITCHEN: '/kitchen',
+  BATHROOM: '/bathroom',
   BLOG_DETAILS: '/blog/:slug',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',
