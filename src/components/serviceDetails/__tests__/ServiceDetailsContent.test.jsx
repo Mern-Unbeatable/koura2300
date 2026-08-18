@@ -30,10 +30,10 @@ const createTestStore = () =>
     },
   });
 
-const renderServiceDetails = (serviceId, store = createTestStore()) => {
+const renderServiceDetails = (serviceId, store = createTestStore(), category) => {
   render(
     <Provider store={store}>
-      <MemoryRouter initialEntries={[buildServiceDetailsRoute(serviceId)]}>
+      <MemoryRouter initialEntries={[buildServiceDetailsRoute(serviceId, category)]}>
         <Routes>
           <Route path={ROUTES.SERVICE_DETAILS} element={<ServiceDetailsContent />} />
         </Routes>
@@ -262,7 +262,15 @@ describe('Service details page', () => {
     ).not.toBeInTheDocument();
     expect(
       within(relatedRegion).getByRole('link', { name: 'Chandelier Installation' }),
-    ).toHaveAttribute('href', buildServiceDetailsRoute('indoor-lighting-chandelier-installation'));
+    ).toHaveAttribute(
+      'href',
+      buildServiceDetailsRoute('indoor-lighting-chandelier-installation'),
+    );
+    expect(within(relatedRegion).getByRole('link', { name: 'Porch Lights' })).toBeInTheDocument();
+    expect(within(relatedRegion).getAllByRole('article')).toHaveLength(20);
+    expect(
+      within(relatedRegion).getByRole('navigation', { name: 'Promotional services pages' }),
+    ).toBeInTheDocument();
     expect(within(relatedRegion).getAllByRole('article')[0]).toHaveClass('min-w-0');
     expect(within(relatedRegion).getByRole('link', { name: 'Chandelier Installation' })).toHaveClass(
       'line-clamp-2',
@@ -274,6 +282,38 @@ describe('Service details page', () => {
 
     expect(store.getState().cart.totalItems).toBe(1);
     expect(store.getState().cart.items[0].title).toBe('Chandelier Installation');
+  });
+
+  it('shows only the remaining cards from the selected category tab', () => {
+    renderServiceDetails(
+      'light-fixture-services-fixture-installation',
+      createTestStore(),
+      'Light Fixture Services',
+    );
+    const relatedRegion = screen.getByRole('region', { name: 'Promotional Feature' });
+
+    expect(within(relatedRegion).getByRole('link', { name: 'Fixture Replacement' })).toHaveAttribute(
+      'href',
+      buildServiceDetailsRoute(
+        'light-fixture-services-fixture-replacement',
+        'Light Fixture Services',
+      ),
+    );
+    expect(within(relatedRegion).getByRole('link', { name: 'Fixture Relocation' })).toBeInTheDocument();
+    expect(within(relatedRegion).getByRole('link', { name: 'Fixture Repair' })).toBeInTheDocument();
+    expect(
+      within(relatedRegion).getByRole('link', { name: 'Ceiling Fan with Light Installation' }),
+    ).toBeInTheDocument();
+    expect(
+      within(relatedRegion).queryByRole('link', { name: 'Fixture Installation' }),
+    ).not.toBeInTheDocument();
+    expect(
+      within(relatedRegion).queryByRole('link', { name: 'Ceiling Light Installation' }),
+    ).not.toBeInTheDocument();
+    expect(within(relatedRegion).getAllByRole('article')).toHaveLength(4);
+    expect(
+      within(relatedRegion).queryByRole('navigation', { name: 'Promotional services pages' }),
+    ).not.toBeInTheDocument();
   });
 
   it('renders a fence card details page from another catalog', () => {
@@ -304,7 +344,7 @@ describe('Service details page', () => {
 
 describe('service details routes', () => {
   it('builds a stable details path for catalog cards', () => {
-    expect(LIGHTING_DETAILS_PATH).toBe(`/service/${LIGHTING_SERVICE_ID}`);
-    expect(FENCE_DETAILS_PATH).toBe(`/service/${FENCE_SERVICE_ID}`);
+    expect(LIGHTING_DETAILS_PATH).toBe(`/service/${LIGHTING_SERVICE_ID}?category=All`);
+    expect(FENCE_DETAILS_PATH).toBe(`/service/${FENCE_SERVICE_ID}?category=All`);
   });
 });

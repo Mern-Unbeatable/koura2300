@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-
-const FIRST_PAGE_INDEX = 0;
+import { FIRST_PAGE_INDEX, paginateItems } from '../components/catalog/catalogData';
 
 const findPriceRange = (priceRanges, selectedValue) =>
   priceRanges.find(({ value }) => value === selectedValue) ?? priceRanges[0];
@@ -22,11 +21,6 @@ const filterServices = ({
   );
 };
 
-const getVisibleServices = (services, pageIndex, pageSize) => {
-  const firstServiceIndex = pageIndex * pageSize;
-  return services.slice(firstServiceIndex, firstServiceIndex + pageSize);
-};
-
 const useServiceCatalog = ({ services, allCategory, priceRanges, pageSize }) => {
   const [selectedCategory, setSelectedCategory] = useState(allCategory);
   const [selectedPriceRange, setSelectedPriceRange] = useState(priceRanges[0].value);
@@ -43,11 +37,9 @@ const useServiceCatalog = ({ services, allCategory, priceRanges, pageSize }) => 
       }),
     [allCategory, priceRanges, selectedCategory, selectedPriceRange, services],
   );
-  const pageCount = Math.max(Math.ceil(filteredServices.length / pageSize), 1);
-  const safePageIndex = Math.min(pageIndex, pageCount - 1);
-  const visibleServices = useMemo(
-    () => getVisibleServices(filteredServices, safePageIndex, pageSize),
-    [filteredServices, pageSize, safePageIndex],
+  const pagination = useMemo(
+    () => paginateItems(filteredServices, pageIndex, pageSize),
+    [filteredServices, pageIndex, pageSize],
   );
 
   const handleCategoryChange = useCallback((category) => {
@@ -60,27 +52,24 @@ const useServiceCatalog = ({ services, allCategory, priceRanges, pageSize }) => 
     setPageIndex(FIRST_PAGE_INDEX);
   }, []);
 
-  const showPage = useCallback(
-    (nextPageIndex) => {
-      setPageIndex(Math.min(Math.max(nextPageIndex, FIRST_PAGE_INDEX), pageCount - 1));
-    },
-    [pageCount],
-  );
+  const showPage = useCallback((nextPageIndex) => {
+    setPageIndex(nextPageIndex);
+  }, []);
 
   const showPreviousPage = useCallback(() => {
     setPageIndex((currentPageIndex) => Math.max(currentPageIndex - 1, FIRST_PAGE_INDEX));
   }, []);
 
   const showNextPage = useCallback(() => {
-    setPageIndex((currentPageIndex) => Math.min(currentPageIndex + 1, pageCount - 1));
-  }, [pageCount]);
+    setPageIndex((currentPageIndex) => currentPageIndex + 1);
+  }, []);
 
   return {
     selectedCategory,
     selectedPriceRange,
-    visibleServices,
-    pageIndex: safePageIndex,
-    pageCount,
+    visibleServices: pagination.items,
+    pageIndex: pagination.pageIndex,
+    pageCount: pagination.pageCount,
     handleCategoryChange,
     handlePriceRangeChange,
     showPage,

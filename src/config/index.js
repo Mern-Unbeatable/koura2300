@@ -42,10 +42,21 @@ export const ROUTES = {
 };
 
 export const SERVICE_DETAILS_PREFIX = '/service/';
+export const SERVICE_DETAILS_CATEGORY_PARAM = 'category';
+export const CATALOG_ALL_CATEGORY = 'All';
 
 export const buildBlogDetailsRoute = (slug) => `/blog/${slug}`;
 
-export const buildServiceDetailsRoute = (serviceId) => `${SERVICE_DETAILS_PREFIX}${serviceId}`;
+export const buildServiceDetailsRoute = (
+  serviceId,
+  category = CATALOG_ALL_CATEGORY,
+) => {
+  const searchParams = new URLSearchParams({
+    [SERVICE_DETAILS_CATEGORY_PARAM]: category,
+  });
+
+  return `${SERVICE_DETAILS_PREFIX}${serviceId}?${searchParams.toString()}`;
+};
 
 export const API_CONFIG = {
   BASE_URL: process.env.REACT_APP_API_BASE_URL || 'https://backend.c4r.co.uk',

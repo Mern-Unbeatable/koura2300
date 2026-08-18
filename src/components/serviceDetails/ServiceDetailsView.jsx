@@ -11,7 +11,15 @@ import ServiceDetailsSummary from './ServiceDetailsSummary';
 import ServiceZipModal from './ServiceZipModal';
 
 const ServiceDetailsView = memo(
-  ({ service, relatedServices, packages, overview, includedItems, excludedItems }) => {
+  ({
+    service,
+    relatedServices,
+    selectedCategory,
+    packages,
+    overview,
+    includedItems,
+    excludedItems,
+  }) => {
     const booking = useServiceBooking(service, packages);
     const handleAddService = useAddService();
 
@@ -53,7 +61,11 @@ const ServiceDetailsView = memo(
           </div>
 
           <ServiceDetailsInclusions includedItems={includedItems} excludedItems={excludedItems} />
-          <ServiceDetailsRelated services={relatedServices} onAdd={handleAddService} />
+          <ServiceDetailsRelated
+            services={relatedServices}
+            selectedCategory={selectedCategory}
+            onAdd={handleAddService}
+          />
         </main>
 
         <ServiceZipModal

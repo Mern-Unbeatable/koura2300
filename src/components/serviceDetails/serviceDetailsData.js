@@ -1,4 +1,4 @@
-import { getCatalogServiceById, getRelatedCatalogServices } from '../catalog/catalogRegistry';
+import { getCatalogServiceById } from '../catalog/catalogRegistry';
 import { SERVICE_DETAILS_CONTENT } from './serviceDetailsCopy';
 
 export const SERVICE_PACKAGES = {
@@ -68,7 +68,6 @@ export const US_ZIP_PATTERN = /^\d{5}(?:-\d{4})?$/;
 
 export const EMPTY_CATALOG_SERVICE_DETAILS = {
   service: undefined,
-  relatedServices: [],
   packages: [],
   overview: '',
   includedItems: [],
@@ -165,7 +164,6 @@ export const getCatalogServiceDetails = (serviceId) => {
 
   return {
     service,
-    relatedServices: getRelatedCatalogServices(service),
     packages: getServicePackages(service),
     overview: buildServiceOverview(service.title),
     includedItems: getIncludedItems(service.catalogTitle),

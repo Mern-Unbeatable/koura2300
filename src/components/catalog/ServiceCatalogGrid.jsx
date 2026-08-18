@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { buildServiceDetailsRoute } from '../../config';
 import ServiceCard, { SERVICE_CARD_VARIANTS } from '../home/ServiceCard';
 
-const ServiceCatalogGrid = memo(({ services, emptyState, onAddService }) => {
+const ServiceCatalogGrid = memo(({ services, emptyState, onAddService, selectedCategory }) => {
   if (services.length === 0) {
     return (
       <p role="status" className="rounded-2xl bg-gray-50 p-10 text-center text-gray-500">
@@ -19,7 +19,7 @@ const ServiceCatalogGrid = memo(({ services, emptyState, onAddService }) => {
           service={service}
           onAdd={onAddService}
           variant={SERVICE_CARD_VARIANTS.CATALOG}
-          detailsPath={buildServiceDetailsRoute(service.id)}
+          detailsPath={buildServiceDetailsRoute(service.id, selectedCategory)}
         />
       ))}
     </div>

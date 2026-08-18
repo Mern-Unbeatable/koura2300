@@ -1,4 +1,17 @@
 export const DEFAULT_CATALOG_PAGE_SIZE = 20;
+export const FIRST_PAGE_INDEX = 0;
+
+export const paginateItems = (items, pageIndex, pageSize) => {
+  const pageCount = Math.max(Math.ceil(items.length / pageSize), 1);
+  const safePageIndex = Math.min(Math.max(pageIndex, FIRST_PAGE_INDEX), pageCount - 1);
+  const startIndex = safePageIndex * pageSize;
+
+  return {
+    pageIndex: safePageIndex,
+    pageCount,
+    items: items.slice(startIndex, startIndex + pageSize),
+  };
+};
 
 export const DEFAULT_CATALOG_PRICE_RANGES = [
   { value: 'any', label: 'Any price', minimum: 0, maximum: Number.POSITIVE_INFINITY },

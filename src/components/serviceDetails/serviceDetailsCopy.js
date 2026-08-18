@@ -34,6 +34,11 @@ export const SERVICE_DETAILS_CONTENT = {
   related: {
     title: 'Promotional Feature',
     startingAt: 'Starting at',
+    pagination: {
+      label: 'Promotional services pages',
+      previous: 'Previous page',
+      next: 'Next page',
+    },
   },
   notFound: {
     title: 'Service not found',

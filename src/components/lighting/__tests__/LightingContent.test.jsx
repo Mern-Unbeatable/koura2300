@@ -4,8 +4,10 @@ import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import { buildServiceDetailsRoute } from '../../../config';
 import cartReducer from '../../../store/slices/cartSlice';
 import LightingContent from '../LightingContent';
+import { LIGHTING_ALL_CATEGORY } from '../lightingData';
 
 const createTestStore = () =>
   configureStore({
@@ -212,7 +214,26 @@ describe('Lighting page', () => {
 
     expect(within(card).getByRole('link', { name: 'Ceiling Light Installation' })).toHaveAttribute(
       'href',
-      '/service/indoor-lighting-ceiling-light-installation',
+      buildServiceDetailsRoute('indoor-lighting-ceiling-light-installation', LIGHTING_ALL_CATEGORY),
+    );
+  });
+
+  it('carries the selected category tab into the service details link', async () => {
+    const user = userEvent.setup();
+    renderLightingPage();
+
+    await user.click(screen.getByRole('button', { name: 'Light Fixture Services' }));
+
+    const card = screen
+      .getByRole('heading', { level: 3, name: 'Fixture Installation' })
+      .closest('article');
+
+    expect(within(card).getByRole('link', { name: 'Fixture Installation' })).toHaveAttribute(
+      'href',
+      buildServiceDetailsRoute(
+        'light-fixture-services-fixture-installation',
+        'Light Fixture Services',
+      ),
     );
   });
 });

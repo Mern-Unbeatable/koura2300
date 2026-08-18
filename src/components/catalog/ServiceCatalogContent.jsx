@@ -58,6 +58,7 @@ const ServiceCatalogContent = memo(
                 services={catalog.visibleServices}
                 emptyState={content.emptyState}
                 onAddService={handleAddService}
+                selectedCategory={catalog.selectedCategory}
               />
             </div>
 

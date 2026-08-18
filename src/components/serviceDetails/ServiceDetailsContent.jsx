@@ -1,9 +1,10 @@
-import React, { memo } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { memo, useMemo } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { CATALOG_ALL_CATEGORY, SERVICE_DETAILS_CATEGORY_PARAM } from '../../config';
 import useLandingSearch from '../../hooks/useLandingSearch';
 import useScrollToTop from '../../hooks/useScrollToTop';
 import { useSEO } from '../../hooks/useSEO';
-import { ALL_CATALOG_SERVICES } from '../catalog/catalogRegistry';
+import { ALL_CATALOG_SERVICES, getPromotionalServices } from '../catalog/catalogRegistry';
 import LandingFooter from '../home/LandingFooter';
 import LandingHeader from '../home/LandingHeader';
 import ServiceDetailsNotFound from './ServiceDetailsNotFound';
@@ -19,8 +20,15 @@ const buildServiceSeo = (service, overview) => ({
 
 const ServiceDetailsContent = memo(() => {
   const { serviceId } = useParams();
-  const { service, relatedServices, packages, overview, includedItems, excludedItems } =
+  const [searchParams] = useSearchParams();
+  const selectedCategory =
+    searchParams.get(SERVICE_DETAILS_CATEGORY_PARAM) ?? CATALOG_ALL_CATEGORY;
+  const { service, packages, overview, includedItems, excludedItems } =
     getCatalogServiceDetails(serviceId);
+  const relatedServices = useMemo(
+    () => (service ? getPromotionalServices(service, selectedCategory) : []),
+    [selectedCategory, service],
+  );
   const { searchValue, handleSearchChange, handleSearchSubmit } =
     useLandingSearch(ALL_CATALOG_SERVICES);
 
@@ -37,9 +45,10 @@ const ServiceDetailsContent = memo(() => {
 
       {service ? (
         <ServiceDetailsView
-          key={service.id}
+          key={`${service.id}-${selectedCategory}`}
           service={service}
           relatedServices={relatedServices}
+          selectedCategory={selectedCategory}
           packages={packages}
           overview={overview}
           includedItems={includedItems}

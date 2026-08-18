@@ -15,8 +15,8 @@ import {
   RELATED_MEDIA_CLASS,
 } from './serviceDetailsData';
 
-const ServiceDetailsRelatedCard = memo(({ service, onAdd }) => {
-  const detailsPath = buildServiceDetailsRoute(service.id);
+const ServiceDetailsRelatedCard = memo(({ service, selectedCategory, onAdd }) => {
+  const detailsPath = buildServiceDetailsRoute(service.id, selectedCategory);
 
   const handleAdd = useCallback(
     (event) => {
