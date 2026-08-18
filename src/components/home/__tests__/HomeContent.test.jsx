@@ -294,6 +294,25 @@ describe('Featured categories carousel', () => {
     expect(optionNames).toEqual(EXPECTED_CATEGORIES);
   });
 
+  it('links each hero category card to its catalogue path', () => {
+    renderLandingPage();
+
+    const carousel = screen.getByRole('region', { name: 'Featured service categories' });
+
+    expect(within(carousel).getByRole('link', { name: /Lighting/ })).toHaveAttribute(
+      'href',
+      '/lighting',
+    );
+    expect(within(carousel).getByRole('link', { name: /Windows/ })).toHaveAttribute(
+      'href',
+      '/windows',
+    );
+    expect(within(carousel).getByRole('link', { name: /Walls & Ceilings/ })).toHaveAttribute(
+      'href',
+      '/walls-ceilings',
+    );
+  });
+
   it('sends the category dropdown to each catalogue path', () => {
     renderLandingPage();
 
