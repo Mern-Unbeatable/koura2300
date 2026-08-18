@@ -18,6 +18,7 @@ export const STAR_COUNT = 5;
 export const STAR_ICON_SIZE = 12;
 export const CLOCK_ICON_SIZE = 13;
 export const INCLUSION_CHECK_ICON_SIZE = 12;
+export const INCLUSION_ALERT_ICON_SIZE = 20;
 export const FEATURE_ICON_SIZE = 22;
 export const RADIO_ICON_SIZE = 20;
 export const RECYCLE_ICON_SIZE = 20;
@@ -40,9 +41,9 @@ export const INCLUSION_ITEM_CLASS = 'flex items-center gap-3 text-base leading-6
 export const INCLUSION_INCLUDED_BADGE_CLASS =
   'flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-orange-light';
 export const INCLUSION_EXCLUDED_BADGE_CLASS =
-  'flex size-5 shrink-0 items-center justify-center rounded-full border border-gray-200';
+  'flex size-5 shrink-0 items-center justify-center';
 export const INCLUDED_ICON_CLASS = 'text-brand-orange';
-export const EXCLUDED_ICON_CLASS = 'text-gray-400';
+export const EXCLUDED_ICON_CLASS = 'text-red-500';
 export const RADIO_FILL_SELECTED = 'currentColor';
 export const RADIO_FILL_IDLE = 'none';
 export const BREADCRUMB_SEPARATOR = '>';
@@ -90,13 +91,28 @@ const INCLUDED_ITEMS_BY_CATALOG = {
 export const getIncludedItems = (catalogTitle) =>
   INCLUDED_ITEMS_BY_CATALOG[catalogTitle] ?? DEFAULT_INCLUDED_ITEMS;
 
-export const EXCLUDED_ITEMS = [
+export const DEFAULT_EXCLUDED_ITEMS = [
   'Cost of materials, fixtures, or replacement parts',
   'Additional wiring, framing, or structural upgrades',
   'Painting or drywall repairs',
   'Complex site conditions billed as an additional fee',
   'Permit fees if required by local code',
 ];
+
+export const LIGHTING_EXCLUDED_ITEMS = [
+  'Materials for recessed can retrofits',
+  'Wall / ceiling drywall repair (if needed)',
+  'Electrical panel upgrades',
+  'Custom fixture orders beyond standard catalog',
+  'Permit fees (if required by municipality)',
+];
+
+const EXCLUDED_ITEMS_BY_CATALOG = {
+  [LIGHTING_CATALOG_TITLE]: LIGHTING_EXCLUDED_ITEMS,
+};
+
+export const getExcludedItems = (catalogTitle) =>
+  EXCLUDED_ITEMS_BY_CATALOG[catalogTitle] ?? DEFAULT_EXCLUDED_ITEMS;
 
 const STANDARD_FEATURES = [
   'Standard Light Installation',
@@ -146,7 +162,7 @@ export const getCatalogServiceDetails = (serviceId) => {
     packages: getServicePackages(service),
     overview: buildServiceOverview(service.title),
     includedItems: getIncludedItems(service.catalogTitle),
-    excludedItems: EXCLUDED_ITEMS,
+    excludedItems: getExcludedItems(service.catalogTitle),
   };
 };
 

@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
-import { Check, X } from 'lucide-react';
+import { Check, CircleAlert } from 'lucide-react';
 import { SERVICE_DETAILS_CONTENT } from './serviceDetailsCopy';
 import {
   EXCLUDED_ICON_CLASS,
   INCLUDED_ICON_CLASS,
+  INCLUSION_ALERT_ICON_SIZE,
   INCLUSION_CHECK_ICON_SIZE,
   INCLUSION_EXCLUDED_BADGE_CLASS,
   INCLUSION_HEADING_CLASS,
@@ -23,11 +24,13 @@ const INCLUSION_APPEARANCE = {
     badgeClassName: INCLUSION_INCLUDED_BADGE_CLASS,
     iconClassName: INCLUDED_ICON_CLASS,
     Icon: Check,
+    iconSize: INCLUSION_CHECK_ICON_SIZE,
   },
   [INCLUSION_KIND.EXCLUDED]: {
     badgeClassName: INCLUSION_EXCLUDED_BADGE_CLASS,
     iconClassName: EXCLUDED_ICON_CLASS,
-    Icon: X,
+    Icon: CircleAlert,
+    iconSize: INCLUSION_ALERT_ICON_SIZE,
   },
 };
 
@@ -38,7 +41,7 @@ const InclusionItem = memo(({ item, kind }) => {
   return (
     <li className={INCLUSION_ITEM_CLASS}>
       <span className={appearance.badgeClassName} aria-hidden="true">
-        <ItemIcon size={INCLUSION_CHECK_ICON_SIZE} className={appearance.iconClassName} />
+        <ItemIcon size={appearance.iconSize} className={appearance.iconClassName} />
       </span>
       {item}
     </li>

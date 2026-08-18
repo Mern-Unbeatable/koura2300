@@ -162,10 +162,19 @@ describe('Service details page', () => {
     expect(includedSection.querySelectorAll('svg.lucide-check')).toHaveLength(5);
     expect(includedSection.querySelector('span')).toHaveClass('rounded-full');
     expect(includedSection.querySelector('span')).toHaveClass('bg-brand-orange-light');
-    expect(screen.getByRole('heading', { name: 'Not Included' })).toBeInTheDocument();
-    expect(
-      screen.getByText('Cost of materials, fixtures, or replacement parts'),
-    ).toBeInTheDocument();
+
+    const excludedSection = screen.getByRole('heading', { name: 'Not Included' }).closest(
+      'section',
+    );
+
+    expect(excludedSection).toHaveClass('h-full');
+    expect(screen.getByText('Materials for recessed can retrofits')).toBeInTheDocument();
+    expect(screen.getByText('Wall / ceiling drywall repair (if needed)')).toBeInTheDocument();
+    expect(screen.getByText('Electrical panel upgrades')).toBeInTheDocument();
+    expect(screen.getByText('Custom fixture orders beyond standard catalog')).toBeInTheDocument();
+    expect(screen.getByText('Permit fees (if required by municipality)')).toBeInTheDocument();
+    expect(excludedSection.querySelectorAll('svg.lucide-circle-alert')).toHaveLength(5);
+    expect(excludedSection.querySelector('svg.lucide-circle-alert')).toHaveClass('text-red-500');
   });
 
   it('toggles materials and recycle options before confirming the job', async () => {
@@ -271,6 +280,8 @@ describe('Service details page', () => {
       screen.queryByText('New ceiling light fixture (customer choice from catalog)'),
     ).not.toBeInTheDocument();
     expect(screen.getByText('Qualified technician for the booked service')).toBeInTheDocument();
+    expect(screen.getByText('Cost of materials, fixtures, or replacement parts')).toBeInTheDocument();
+    expect(screen.queryByText('Materials for recessed can retrofits')).not.toBeInTheDocument();
   });
 
   it('renders a not-found state for an unknown service id', () => {
