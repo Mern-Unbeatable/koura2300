@@ -1,30 +1,11 @@
 import React, { memo } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { ROUTES } from '../../config';
 import { LANDING_CONTENT } from './landingContent';
-import { HEADER_CATEGORIES } from './landingData';
+import { CATEGORY_ROUTES, HEADER_CATEGORIES } from './landingData';
 
 const CHEVRON_SIZE = 16;
 const FEATURED_CATEGORIES_ANCHOR = '/#featured-categories';
-
-const CATEGORY_ROUTES = {
-  Lighting: ROUTES.LIGHTING,
-  Security: ROUTES.SECURITY,
-  Closets: ROUTES.CLOSETS,
-  Fence: ROUTES.FENCE,
-  Deck: ROUTES.DECK,
-  Basement: ROUTES.BASEMENT,
-  Appliances: ROUTES.APPLIANCES,
-  Garage: ROUTES.GARAGE,
-  Garden: ROUTES.GARDEN,
-  Flooring: ROUTES.FLOORING,
-  Windows: ROUTES.WINDOWS,
-  Doors: ROUTES.DOORS,
-  Kitchen: ROUTES.KITCHEN,
-  Bathroom: ROUTES.BATHROOM,
-  'Walls & Ceilings': ROUTES.WALLS_CEILINGS,
-};
 
 const DESKTOP_LINK_BASE =
   'relative rounded-sm whitespace-nowrap py-1 transition-colors duration-200 ease-in-out hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-brand-orange after:transition-transform after:duration-200 after:ease-out hover:after:scale-x-100';

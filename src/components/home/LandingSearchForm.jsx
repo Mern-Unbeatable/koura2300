@@ -1,16 +1,35 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { ChevronDown, Menu, Search } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../config';
 import { LANDING_CONTENT } from './landingContent';
-import { CATEGORY_ITEMS } from './landingData';
+import { ALL_CATEGORIES_VALUE, CATEGORY_ITEMS } from './landingData';
 
 const MENU_ICON_SIZE = 13;
 const CHEVRON_ICON_SIZE = 11;
 const SEARCH_ICON_SIZE = 15;
 
+const getSelectedCategoryPath = (pathname) => {
+  const matchingCategory = CATEGORY_ITEMS.find(({ path }) => path === pathname);
+  return matchingCategory ? matchingCategory.path : ALL_CATEGORIES_VALUE;
+};
+
 const LandingSearchForm = memo(
   ({ idPrefix, searchValue, onSearchChange, onSearchSubmit, className }) => {
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
     const searchId = `${idPrefix}-service-search`;
     const categoryId = `${idPrefix}-service-category`;
+    const selectedCategory = getSelectedCategoryPath(pathname);
+
+    const handleCategoryChange = useCallback(
+      (event) => {
+        const nextPath =
+          event.target.value === ALL_CATEGORIES_VALUE ? ROUTES.HOME : event.target.value;
+        navigate(nextPath);
+      },
+      [navigate],
+    );
 
     return (
       <form role="search" onSubmit={onSearchSubmit} className={className}>
@@ -26,12 +45,13 @@ const LandingSearchForm = memo(
             />
             <select
               id={categoryId}
-              defaultValue="all"
+              value={selectedCategory}
+              onChange={handleCategoryChange}
               className="h-full cursor-pointer appearance-none rounded-md bg-transparent pl-8 pr-6 text-xs font-medium text-brand-ink focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-orange"
             >
-              <option value="all">{LANDING_CONTENT.header.allCategories}</option>
-              {CATEGORY_ITEMS.map(({ id, title }) => (
-                <option key={id} value={id}>
+              <option value={ALL_CATEGORIES_VALUE}>{LANDING_CONTENT.header.allCategories}</option>
+              {CATEGORY_ITEMS.map(({ id, title, path }) => (
+                <option key={id} value={path}>
                   {title}
                 </option>
               ))}

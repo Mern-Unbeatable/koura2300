@@ -3,9 +3,14 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import HomeContent from '../HomeContent';
 import cartReducer from '../../../store/slices/cartSlice';
+
+const CurrentPath = () => {
+  const { pathname } = useLocation();
+  return <div data-testid="current-path">{pathname}</div>;
+};
 
 const createTestStore = () =>
   configureStore({
@@ -20,6 +25,7 @@ const renderLandingPage = () => {
   render(
     <Provider store={store}>
       <MemoryRouter>
+        <CurrentPath />
         <HomeContent />
       </MemoryRouter>
     </Provider>,
@@ -286,6 +292,37 @@ describe('Featured categories carousel', () => {
 
     expect(cardNames).toEqual(EXPECTED_CATEGORIES);
     expect(optionNames).toEqual(EXPECTED_CATEGORIES);
+  });
+
+  it('sends the category dropdown to each catalogue path', () => {
+    renderLandingPage();
+
+    const categorySelect = screen.getAllByRole('combobox', { name: 'Service category' })[0];
+
+    expect(within(categorySelect).getByRole('option', { name: 'All Categories' })).toHaveValue(
+      'all',
+    );
+    expect(within(categorySelect).getByRole('option', { name: 'Windows' })).toHaveValue('/windows');
+    expect(within(categorySelect).getByRole('option', { name: 'Doors' })).toHaveValue('/doors');
+    expect(within(categorySelect).getByRole('option', { name: 'Kitchen' })).toHaveValue('/kitchen');
+    expect(within(categorySelect).getByRole('option', { name: 'Bathroom' })).toHaveValue(
+      '/bathroom',
+    );
+    expect(within(categorySelect).getByRole('option', { name: 'Walls & Ceilings' })).toHaveValue(
+      '/walls-ceilings',
+    );
+  });
+
+  it('navigates to the selected catalogue from the category dropdown', async () => {
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    await user.selectOptions(
+      screen.getAllByRole('combobox', { name: 'Service category' })[0],
+      '/kitchen',
+    );
+
+    expect(screen.getByTestId('current-path')).toHaveTextContent('/kitchen');
   });
 
   it('scrolls the track forward by one card when the next control is used', async () => {

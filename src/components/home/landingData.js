@@ -1,4 +1,5 @@
 import { Armchair, Droplets, Hammer, LampCeiling, ShieldCheck, Wrench, Zap } from 'lucide-react';
+import { ROUTES } from '../../config';
 
 export const LANDING_ASSET_PATH = '/assets/landing';
 
@@ -17,100 +18,121 @@ export const SOLUTION_IMAGES = {
   },
 };
 
+export const ALL_CATEGORIES_VALUE = 'all';
+
 export const CATEGORY_ITEMS = [
   {
     id: 'lighting',
     title: 'Lighting',
+    path: ROUTES.LIGHTING,
     image: `${LANDING_ASSET_PATH}/category-lighting.png`,
     imageAlt: 'Warm pendant lights hanging in a modern interior',
   },
   {
     id: 'security',
     title: 'Security',
+    path: ROUTES.SECURITY,
     image: `${LANDING_ASSET_PATH}/category-security.png`,
     imageAlt: 'Classic wooden front doors on a residential building',
   },
   {
     id: 'closets',
     title: 'Closets',
+    path: ROUTES.CLOSETS,
     image: `${LANDING_ASSET_PATH}/category-closets.png`,
     imageAlt: 'A tidy modern walk-in closet with empty hangers',
   },
   {
     id: 'fence',
     title: 'Fence',
+    path: ROUTES.FENCE,
     image: `${LANDING_ASSET_PATH}/article-repairs.png`,
     imageAlt: 'A professional completing a home repair',
   },
   {
     id: 'deck',
     title: 'Deck',
+    path: ROUTES.DECK,
     image: `${LANDING_ASSET_PATH}/article-maintenance.png`,
     imageAlt: 'A professional maintaining a home surface',
   },
   {
     id: 'basement',
     title: 'Basement',
+    path: ROUTES.BASEMENT,
     image: `${LANDING_ASSET_PATH}/article-winter.png`,
     imageAlt: 'A professional inspecting a home utility space',
   },
   {
     id: 'appliances',
     title: 'Appliances',
+    path: ROUTES.APPLIANCES,
     image: `${LANDING_ASSET_PATH}/service-electrical.png`,
     imageAlt: 'A professional repairing a household appliance connection',
   },
   {
     id: 'garage',
     title: 'Garage',
+    path: ROUTES.GARAGE,
     image: `${LANDING_ASSET_PATH}/article-routine.png`,
     imageAlt: 'A professional performing routine home maintenance',
   },
   {
     id: 'garden',
     title: 'Garden',
+    path: ROUTES.GARDEN,
     image: `${LANDING_ASSET_PATH}/article-maintenance.png`,
     imageAlt: 'A professional maintaining an outdoor home area',
   },
   {
     id: 'flooring',
     title: 'Flooring',
+    path: ROUTES.FLOORING,
     image: `${LANDING_ASSET_PATH}/article-repairs.png`,
     imageAlt: 'A professional completing an interior surface repair',
   },
   {
     id: 'windows',
     title: 'Windows',
+    path: ROUTES.WINDOWS,
     image: `${LANDING_ASSET_PATH}/solution-cleaning.png`,
     imageAlt: 'A professional cleaning a home interior',
   },
   {
     id: 'doors',
     title: 'Doors',
+    path: ROUTES.DOORS,
     image: `${LANDING_ASSET_PATH}/category-security.png`,
     imageAlt: 'A modern secured exterior door',
   },
   {
     id: 'kitchen',
     title: 'Kitchen',
+    path: ROUTES.KITCHEN,
     image: `${LANDING_ASSET_PATH}/solution-cleaning.png`,
     imageAlt: 'A kitchen cleaning service in progress',
   },
   {
     id: 'bathroom',
     title: 'Bathroom',
+    path: ROUTES.BATHROOM,
     image: `${LANDING_ASSET_PATH}/service-faucet.png`,
     imageAlt: 'A professional fitting a bathroom faucet',
   },
   {
     id: 'walls-ceilings',
     title: 'Walls & Ceilings',
+    path: ROUTES.WALLS_CEILINGS,
     image: `${LANDING_ASSET_PATH}/service-electrical.png`,
     imageAlt: 'A professional working on an interior wall',
   },
 ];
 
 export const HEADER_CATEGORIES = CATEGORY_ITEMS.map(({ title }) => title);
+
+export const CATEGORY_ROUTES = Object.fromEntries(
+  CATEGORY_ITEMS.map(({ title, path }) => [title, path]),
+);
 
 export const SERVICE_ITEMS = [
   {
