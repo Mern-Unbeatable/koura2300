@@ -83,7 +83,13 @@
  */
 @layer base {
   html {
-    scrollbar-gutter: stable;
+    overflow-x: clip;
+  }
+
+  @media (min-width: 1024px) {
+    html {
+      scrollbar-gutter: stable;
+    }
   }
 }
 

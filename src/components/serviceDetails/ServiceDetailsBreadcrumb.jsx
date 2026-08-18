@@ -7,8 +7,8 @@ import { BREADCRUMB_SEPARATOR } from './serviceDetailsData';
 const { breadcrumb } = SERVICE_DETAILS_CONTENT;
 
 const ServiceDetailsBreadcrumb = memo(({ catalogTitle, catalogPath, serviceTitle }) => (
-  <nav aria-label={breadcrumb.label} className="text-sm text-gray-500">
-    <ol className="flex flex-wrap items-center gap-2">
+  <nav aria-label={breadcrumb.label} className="min-w-0 text-sm text-gray-500">
+    <ol className="flex min-w-0 flex-wrap items-center gap-2">
       <li>
         <Link
           to={ROUTES.HOME}

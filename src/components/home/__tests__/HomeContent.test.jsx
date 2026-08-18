@@ -43,6 +43,7 @@ describe('Landing page', () => {
     renderLandingPage();
 
     expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByRole('banner')).toHaveClass('overflow-x-clip');
     expect(screen.getByRole('heading', { name: 'Top-rated services' })).toBeInTheDocument();
     expect(
       screen.getByRole('heading', {
@@ -137,6 +138,8 @@ describe('Landing page', () => {
     expect(categorySelects).toHaveLength(2);
     categorySelects.forEach((select) => {
       expect(within(select).getByRole('option', { name: 'All Categories' })).toBeInTheDocument();
+      expect(select).toHaveClass('min-w-0');
+      expect(select).toHaveClass('w-full');
     });
   });
 

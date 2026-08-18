@@ -5,9 +5,9 @@ import { RECYCLE_ICON_SIZE } from './serviceDetailsData';
 
 const { booking } = SERVICE_DETAILS_CONTENT;
 
-const TOGGLE_TRACK_CLASS = 'grid w-[362px] max-w-full grid-cols-2 rounded-full bg-gray-100 p-0.5';
+const TOGGLE_TRACK_CLASS = 'grid w-full max-w-[362px] grid-cols-2 rounded-full bg-gray-100 p-0.5';
 const TOGGLE_BUTTON_BASE =
-  'w-full rounded-full px-4 py-2 text-center text-sm font-medium whitespace-nowrap transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'w-full min-w-0 rounded-full px-2 py-2 text-center text-xs font-medium leading-tight sm:px-4 sm:text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 const TOGGLE_BUTTON_STYLES = {
   active: `${TOGGLE_BUTTON_BASE} bg-brand-orange text-white hover:bg-brand-orange-dark`,
   idle: `${TOGGLE_BUTTON_BASE} text-brand-ink hover:bg-gray-200`,

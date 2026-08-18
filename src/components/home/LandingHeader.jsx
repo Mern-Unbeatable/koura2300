@@ -16,20 +16,20 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
   const { isMenuOpen, toggleMenu, closeMenu } = useMobileMenu();
 
   return (
-    <header className="sticky top-0 z-50 bg-brand-navy text-white" role="banner">
-      <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-6 py-3.5">
+    <header className="sticky top-0 z-50 overflow-x-clip bg-brand-navy text-white" role="banner">
+      <div className="mx-auto min-w-0 max-w-screen-2xl px-4 sm:px-6 lg:px-8">
+        <div className="flex min-w-0 items-center justify-between gap-3 py-3.5 sm:gap-6">
           <Link
             to={ROUTES.HOME}
             aria-label={LANDING_CONTENT.header.homeLabel}
-            className="shrink-0"
+            className="min-w-0 shrink-0"
           >
             <img
               src={`${LANDING_ASSET_PATH}/logo.svg`}
               alt={LANDING_CONTENT.header.logoAlt}
               width="220"
               height="40"
-              className="h-8 w-auto"
+              className="h-8 w-auto max-w-38 sm:max-w-none"
             />
           </Link>
 
@@ -38,7 +38,7 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
             searchValue={searchValue}
             onSearchChange={onSearchChange}
             onSearchSubmit={onSearchSubmit}
-            className="hidden max-w-4xl flex-1 md:block"
+            className="hidden min-w-0 max-w-4xl flex-1 md:block"
           />
 
           <LandingHeaderActions />
@@ -62,7 +62,7 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
           searchValue={searchValue}
           onSearchChange={onSearchChange}
           onSearchSubmit={onSearchSubmit}
-          className="block pb-3.5 md:hidden"
+          className="block min-w-0 pb-3.5 md:hidden"
         />
 
         <CategoryNavigation />

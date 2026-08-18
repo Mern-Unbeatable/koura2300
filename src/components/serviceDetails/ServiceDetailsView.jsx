@@ -17,17 +17,17 @@ const ServiceDetailsView = memo(
 
     return (
       <>
-        <main className="animate-page-enter mx-auto max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28">
+        <main className="animate-page-enter mx-auto min-w-0 max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28">
           <ServiceDetailsBreadcrumb
             catalogTitle={service.catalogTitle}
             catalogPath={service.catalogPath}
             serviceTitle={service.title}
           />
 
-          <div className="mt-6 grid items-stretch gap-5 lg:grid-cols-2">
+          <div className="mt-6 grid min-w-0 items-stretch gap-5 lg:grid-cols-2">
             <ServiceDetailsGallery image={service.image} imageAlt={service.imageAlt} />
 
-            <div className="flex h-full flex-col gap-4">
+            <div className="flex h-full min-w-0 flex-col gap-4">
               <ServiceDetailsSummary
                 title={service.title}
                 overview={overview}

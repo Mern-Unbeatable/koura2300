@@ -8,6 +8,14 @@ import { ALL_CATEGORIES_VALUE, CATEGORY_ITEMS } from './landingData';
 const MENU_ICON_SIZE = 13;
 const CHEVRON_ICON_SIZE = 11;
 const SEARCH_ICON_SIZE = 15;
+const SEARCH_ROW_CLASS =
+  'flex w-full min-w-0 items-stretch gap-1.5 max-[359px]:flex-col min-[360px]:h-9';
+const CATEGORY_FIELD_CLASS =
+  'relative flex h-9 min-w-0 items-center rounded-md bg-white max-[359px]:w-full min-[360px]:max-w-[38%] sm:max-w-48';
+const CATEGORY_SELECT_CLASS =
+  'h-full w-full min-w-0 cursor-pointer appearance-none rounded-md bg-transparent py-0 pl-8 pr-6 text-xs font-medium text-brand-ink focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-orange';
+const SEARCH_FIELD_CLASS =
+  'flex h-9 min-w-0 flex-1 items-stretch overflow-hidden rounded-md bg-white';
 
 const getSelectedCategoryPath = (pathname) => {
   const matchingCategory = CATEGORY_ITEMS.find(({ path }) => path === pathname);
@@ -32,9 +40,9 @@ const LandingSearchForm = memo(
     );
 
     return (
-      <form role="search" onSubmit={onSearchSubmit} className={className}>
-        <div className="flex h-9 w-full items-stretch gap-1.5">
-          <div className="relative flex shrink-0 items-center rounded-md bg-white">
+      <form role="search" onSubmit={onSearchSubmit} className={`min-w-0 ${className}`}>
+        <div className={SEARCH_ROW_CLASS}>
+          <div className={CATEGORY_FIELD_CLASS}>
             <label className="sr-only" htmlFor={categoryId}>
               {LANDING_CONTENT.header.categoryLabel}
             </label>
@@ -47,7 +55,7 @@ const LandingSearchForm = memo(
               id={categoryId}
               value={selectedCategory}
               onChange={handleCategoryChange}
-              className="h-full cursor-pointer appearance-none rounded-md bg-transparent pl-8 pr-6 text-xs font-medium text-brand-ink focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-orange"
+              className={CATEGORY_SELECT_CLASS}
             >
               <option value={ALL_CATEGORIES_VALUE}>{LANDING_CONTENT.header.allCategories}</option>
               {CATEGORY_ITEMS.map(({ id, title, path }) => (
@@ -63,7 +71,7 @@ const LandingSearchForm = memo(
             />
           </div>
 
-          <div className="flex min-w-0 flex-1 items-stretch overflow-hidden rounded-md bg-white">
+          <div className={SEARCH_FIELD_CLASS}>
             <label className="sr-only" htmlFor={searchId}>
               {LANDING_CONTENT.header.searchLabel}
             </label>

@@ -24,7 +24,7 @@ const ServiceCatalogContent = memo(
     const handleAddService = useAddService();
 
     return (
-      <div className="min-h-screen bg-white font-inter text-brand-ink">
+      <div className="min-h-screen overflow-x-clip bg-white font-inter text-brand-ink">
         <LandingHeader
           searchValue={searchValue}
           onSearchChange={handleSearchChange}

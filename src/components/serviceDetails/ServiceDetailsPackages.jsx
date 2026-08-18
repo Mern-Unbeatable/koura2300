@@ -10,9 +10,9 @@ import {
   SERVICE_PACKAGES,
 } from './serviceDetailsData';
 
-const PACKAGE_GRID_CLASS = 'grid h-full auto-rows-fr items-stretch gap-4 sm:grid-cols-2';
-const PACKAGE_CARD_CELL_CLASS = 'flex h-full min-h-0';
-const PACKAGE_CARD_BASE = `flex ${PACKAGE_CARD_MIN_HEIGHT_CLASS} h-full w-full flex-col self-stretch rounded-2xl border-2 p-4 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`;
+const PACKAGE_GRID_CLASS = 'grid h-full min-w-0 auto-rows-fr items-stretch gap-4 sm:grid-cols-2';
+const PACKAGE_CARD_CELL_CLASS = 'flex h-full min-h-0 min-w-0';
+const PACKAGE_CARD_BASE = `flex ${PACKAGE_CARD_MIN_HEIGHT_CLASS} h-full w-full min-w-0 flex-col self-stretch rounded-2xl border-2 p-4 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`;
 const PACKAGE_PRICE_CLASS = 'mt-1 text-[29px] font-semibold leading-none text-brand-orange';
 const PACKAGE_SELECTION_BORDER_CLASS = {
   true: 'border-brand-orange/40',

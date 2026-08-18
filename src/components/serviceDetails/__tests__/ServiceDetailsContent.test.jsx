@@ -69,8 +69,10 @@ describe('Service details page', () => {
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
     expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByRole('banner')).toHaveClass('overflow-x-clip');
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
     expect(screen.getByRole('main')).toHaveClass('animate-page-enter');
+    expect(screen.getByRole('main')).toHaveClass('min-w-0');
     expect(
       screen.getByRole('heading', { level: 1, name: 'Ceiling Light Installation' }),
     ).toBeInTheDocument();
@@ -111,6 +113,9 @@ describe('Service details page', () => {
     expect(
       screen.getAllByRole('img', { name: 'Chrome lighting fixture above a white sink' }),
     ).toHaveLength(5);
+    expect(
+      screen.getAllByRole('img', { name: 'Chrome lighting fixture above a white sink' })[0],
+    ).toHaveClass('max-w-full');
   });
 
   it('selects the standard package by default and can switch to premium', async () => {
@@ -187,6 +192,7 @@ describe('Service details page', () => {
     );
     expect(screen.getByRole('button', { name: 'I Need Materials' })).toHaveClass('w-full');
     expect(screen.getByRole('button', { name: 'I Have Materials' })).toHaveClass('w-full');
+    expect(screen.getByRole('button', { name: 'I Need Materials' })).toHaveClass('text-xs');
     expect(screen.getByRole('button', { name: 'I Need Materials' })).toHaveClass(
       'hover:bg-brand-orange-dark',
     );
@@ -257,6 +263,10 @@ describe('Service details page', () => {
     expect(
       within(relatedRegion).getByRole('link', { name: 'Chandelier Installation' }),
     ).toHaveAttribute('href', buildServiceDetailsRoute('indoor-lighting-chandelier-installation'));
+    expect(within(relatedRegion).getAllByRole('article')[0]).toHaveClass('min-w-0');
+    expect(within(relatedRegion).getByRole('link', { name: 'Chandelier Installation' })).toHaveClass(
+      'line-clamp-2',
+    );
 
     await user.click(
       within(relatedRegion).getByRole('button', { name: 'Add Chandelier Installation to cart' }),

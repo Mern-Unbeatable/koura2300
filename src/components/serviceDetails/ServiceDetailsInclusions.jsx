@@ -64,7 +64,7 @@ const InclusionList = memo(({ title, items, kind }) => (
 InclusionList.displayName = 'InclusionList';
 
 const ServiceDetailsInclusions = memo(({ includedItems, excludedItems }) => (
-  <div className="mt-16 flex flex-col gap-6">
+  <div className="mt-16 flex min-w-0 flex-col gap-6">
     <InclusionList
       title={SERVICE_DETAILS_CONTENT.inclusions.includedTitle}
       items={includedItems}

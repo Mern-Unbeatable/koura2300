@@ -13,9 +13,9 @@ import {
 } from './serviceDetailsData';
 
 const SELECTED_THUMBNAIL_CLASS =
-  'overflow-hidden rounded-lg ring-2 ring-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'min-w-0 w-full overflow-hidden rounded-lg ring-2 ring-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 const IDLE_THUMBNAIL_CLASS =
-  'overflow-hidden rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'min-w-0 w-full overflow-hidden rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 const GalleryThumbnail = memo(({ image, imageAlt, imageIndex, isSelected, onSelectImage }) => {
   const handleSelect = useCallback(() => {
@@ -47,7 +47,7 @@ const ServiceDetailsGallery = memo(({ image, imageAlt }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(INITIAL_IMAGE_INDEX);
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-3 lg:gap-5">
+    <div className="flex h-full min-h-0 min-w-0 flex-col gap-3 lg:gap-5">
       <img
         src={image}
         alt={imageAlt}

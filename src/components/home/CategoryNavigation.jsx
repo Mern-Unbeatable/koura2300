@@ -72,7 +72,7 @@ const CategoryNavigation = memo(({ id, isMobile, onNavigate }) => {
     : LANDING_CONTENT.header.categoryNavigation;
   const navigationClass = isMobile
     ? 'mt-2 flex flex-col'
-    : 'hidden items-center justify-between border-t border-brand-divider py-3 text-sm font-medium lg:flex';
+    : 'hidden min-w-0 items-center justify-between gap-3 overflow-x-auto border-t border-brand-divider py-3 text-sm font-medium lg:flex';
 
   return (
     <nav id={id} aria-label={navigationLabel} className={navigationClass}>

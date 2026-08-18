@@ -8,6 +8,8 @@ import { SERVICE_DETAILS_CONTENT } from './serviceDetailsCopy';
 import {
   ADD_ICON_SIZE,
   CLOCK_ICON_SIZE,
+  RELATED_CARD_CLASS,
+  RELATED_IMAGE_CLASS,
   RELATED_IMAGE_HEIGHT,
   RELATED_IMAGE_WIDTH,
   RELATED_MEDIA_CLASS,
@@ -26,24 +28,24 @@ const ServiceDetailsRelatedCard = memo(({ service, onAdd }) => {
   );
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white sm:flex-row">
+    <article className={RELATED_CARD_CLASS}>
       <Link to={detailsPath} tabIndex={-1} aria-hidden="true" className={RELATED_MEDIA_CLASS}>
         <img
           src={service.image}
           alt=""
           width={RELATED_IMAGE_WIDTH}
           height={RELATED_IMAGE_HEIGHT}
-          className="h-48 w-full object-cover sm:h-full"
+          className={RELATED_IMAGE_CLASS}
         />
         <span className="absolute left-3 top-3 rounded-full bg-brand-blue px-3 py-1 text-xs font-semibold text-white">
           {service.catalogTitle}
         </span>
       </Link>
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex min-w-0 flex-1 flex-col p-4">
         <h3 className="font-semibold text-brand-ink">
           <Link
             to={detailsPath}
-            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
+            className="line-clamp-2 break-words focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
           >
             {service.title}
           </Link>
@@ -53,7 +55,7 @@ const ServiceDetailsRelatedCard = memo(({ service, onAdd }) => {
           <Clock3 size={CLOCK_ICON_SIZE} aria-hidden="true" />
           {service.duration}
         </span>
-        <div className="mt-auto flex items-end justify-between gap-3 pt-3">
+        <div className="mt-auto flex min-w-0 flex-wrap items-end justify-between gap-3 pt-3">
           <div>
             <p className="text-xl font-bold text-brand-blue">
               {SERVICE_DETAILS_CONTENT.related.startingAt} ${service.price}
