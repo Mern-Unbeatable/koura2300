@@ -125,6 +125,16 @@ describe('Service details page', () => {
     expect(screen.getByRole('radio', { name: 'Premium Price $200' })).toBeChecked();
   });
 
+  it('uses double-check icons on every package feature', () => {
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    const standardCard = screen.getByRole('radio', { name: 'Standard Price $145' });
+    const premiumCard = screen.getByRole('radio', { name: 'Premium Price $200' });
+
+    expect(standardCard.querySelectorAll('svg.lucide-check-check')).toHaveLength(5);
+    expect(premiumCard.querySelectorAll('svg.lucide-check-check')).toHaveLength(6);
+  });
+
   it('lists what is included and what is not included', () => {
     renderServiceDetails(LIGHTING_SERVICE_ID);
 

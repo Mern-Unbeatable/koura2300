@@ -18,6 +18,7 @@ export const STAR_COUNT = 5;
 export const STAR_ICON_SIZE = 12;
 export const CLOCK_ICON_SIZE = 13;
 export const LIST_ICON_SIZE = 20;
+export const FEATURE_ICON_SIZE = 22;
 export const RADIO_ICON_SIZE = 20;
 export const RECYCLE_ICON_SIZE = 20;
 export const CLOSE_ICON_SIZE = 20;
