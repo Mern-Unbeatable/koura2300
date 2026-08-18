@@ -12,8 +12,6 @@ export const INITIAL_IMAGE_INDEX = 0;
 export const HERO_IMAGE_WIDTH = 758;
 export const HERO_IMAGE_HEIGHT = 624;
 export const THUMBNAIL_IMAGE_HEIGHT = 136;
-export const RELATED_IMAGE_WIDTH = 378;
-export const RELATED_IMAGE_HEIGHT = 230;
 export const STAR_COUNT = 5;
 export const STAR_ICON_SIZE = 12;
 export const CLOCK_ICON_SIZE = 13;
@@ -23,7 +21,6 @@ export const FEATURE_ICON_SIZE = 22;
 export const RADIO_ICON_SIZE = 20;
 export const RECYCLE_ICON_SIZE = 20;
 export const CLOSE_ICON_SIZE = 20;
-export const ADD_ICON_SIZE = 14;
 
 export const HERO_IMAGE_CLASS =
   'h-64 w-full min-w-0 max-w-full rounded-xl object-cover sm:h-80 lg:h-auto lg:min-h-0 lg:flex-1';
@@ -31,12 +28,6 @@ export const PACKAGE_CARD_MIN_HEIGHT_CLASS = 'min-h-[310px]';
 export const THUMBNAIL_IMAGE_CLASS =
   'h-16 w-full min-w-0 max-w-full object-cover sm:h-24 lg:h-[136px]';
 export const GALLERY_THUMBNAIL_GRID_CLASS = 'min-w-0 grid-cols-4';
-export const RELATED_MEDIA_CLASS =
-  'relative block min-w-0 w-full overflow-hidden sm:w-[42%] xl:w-[378px] xl:shrink-0';
-export const RELATED_IMAGE_CLASS = 'h-48 w-full max-w-full object-cover sm:h-full';
-export const RELATED_CARD_CLASS =
-  'flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-gray-200 bg-white sm:flex-row';
-export const RELATED_GRID_CLASS = 'mt-8 grid min-w-0 gap-5 lg:grid-cols-2';
 export const SUMMARY_TITLE_CLASS =
   'text-2xl font-semibold text-brand-ink sm:text-[32px] sm:leading-10';
 export const LIGHTING_CATALOG_TITLE = 'Lighting';

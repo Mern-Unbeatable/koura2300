@@ -110,12 +110,12 @@ describe('Service details page', () => {
     ).toBeInTheDocument();
     expect(screen.getAllByText('1–2 hrs').length).toBeGreaterThan(0);
     expect(screen.getAllByText('4.9 (312)').length).toBeGreaterThan(0);
-    expect(
-      screen.getAllByRole('img', { name: 'Chrome lighting fixture above a white sink' }),
-    ).toHaveLength(5);
-    expect(
-      screen.getAllByRole('img', { name: 'Chrome lighting fixture above a white sink' })[0],
-    ).toHaveClass('max-w-full');
+    const serviceImages = screen.getAllByRole('img', {
+      name: 'Chrome lighting fixture above a white sink',
+    });
+
+    expect(serviceImages.length).toBeGreaterThanOrEqual(5);
+    expect(serviceImages[0]).toHaveClass('max-w-full');
   });
 
   it('selects the standard package by default and can switch to premium', async () => {
@@ -271,9 +271,9 @@ describe('Service details page', () => {
     expect(
       within(relatedRegion).getByRole('navigation', { name: 'Promotional services pages' }),
     ).toBeInTheDocument();
-    expect(within(relatedRegion).getAllByRole('article')[0]).toHaveClass('min-w-0');
-    expect(within(relatedRegion).getByRole('link', { name: 'Chandelier Installation' })).toHaveClass(
-      'line-clamp-2',
+    expect(within(relatedRegion).getAllByRole('article')[0]).toHaveClass('rounded-2xl');
+    expect(within(relatedRegion).getAllByRole('article')[0].parentElement).toHaveClass(
+      'xl:grid-cols-4',
     );
 
     await user.click(

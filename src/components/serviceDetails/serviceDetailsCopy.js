@@ -33,7 +33,7 @@ export const SERVICE_DETAILS_CONTENT = {
   },
   related: {
     title: 'Promotional Feature',
-    startingAt: 'Starting at',
+    emptyState: 'No promotional services are available.',
     pagination: {
       label: 'Promotional services pages',
       previous: 'Previous page',
