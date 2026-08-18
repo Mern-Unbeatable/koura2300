@@ -23,6 +23,7 @@ const CATEGORY_ROUTES = {
   Doors: ROUTES.DOORS,
   Kitchen: ROUTES.KITCHEN,
   Bathroom: ROUTES.BATHROOM,
+  'Walls & Ceilings': ROUTES.WALLS_CEILINGS,
 };
 
 const DESKTOP_LINK_BASE =
