@@ -24,7 +24,9 @@ export const RECYCLE_ICON_SIZE = 20;
 export const CLOSE_ICON_SIZE = 20;
 export const ADD_ICON_SIZE = 14;
 
-export const HERO_IMAGE_CLASS = 'h-64 w-full rounded-xl object-cover sm:h-80 lg:h-[624px]';
+export const HERO_IMAGE_CLASS =
+  'h-64 w-full rounded-xl object-cover sm:h-80 lg:h-auto lg:min-h-0 lg:flex-1';
+export const PACKAGE_CARD_MIN_HEIGHT_CLASS = 'min-h-[310px]';
 export const THUMBNAIL_IMAGE_CLASS = 'h-16 w-full object-cover sm:h-24 lg:h-[136px]';
 export const GALLERY_THUMBNAIL_GRID_CLASS = 'grid-cols-4';
 export const RELATED_MEDIA_CLASS = 'relative block shrink-0 sm:w-[378px]';

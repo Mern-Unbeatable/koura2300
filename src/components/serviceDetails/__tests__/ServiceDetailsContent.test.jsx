@@ -119,6 +119,8 @@ describe('Service details page', () => {
 
     expect(screen.getByRole('radio', { name: 'Standard Price $145' })).toBeChecked();
     expect(screen.getByRole('radio', { name: 'Premium Price $200' })).not.toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Standard Price $145' })).toHaveClass('min-h-[310px]');
+    expect(screen.getByRole('radio', { name: 'Premium Price $200' })).toHaveClass('min-h-[310px]');
     expect(screen.getByRole('radio', { name: 'Standard Price $145' })).toHaveClass(
       'border-brand-orange/40',
     );

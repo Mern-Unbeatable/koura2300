@@ -56,7 +56,7 @@ const ServiceDetailsBooking = memo(
     onToggleRecycle,
     onConfirmJob,
   }) => (
-    <div className="flex flex-col gap-6">
+    <div className="mt-auto flex flex-col gap-4">
       <MaterialsToggle
         needsMaterials={needsMaterials}
         onNeedMaterials={onNeedMaterials}

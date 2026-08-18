@@ -23,21 +23,23 @@ const ServiceDetailsView = memo(({ service, relatedServices, packages, overview 
           serviceTitle={service.title}
         />
 
-        <div className="mt-6 grid items-start gap-6 lg:grid-cols-2 lg:gap-5">
+        <div className="mt-6 grid items-stretch gap-5 lg:grid-cols-2">
           <ServiceDetailsGallery image={service.image} imageAlt={service.imageAlt} />
 
-          <div className="flex flex-col gap-6">
+          <div className="flex h-full flex-col gap-4">
             <ServiceDetailsSummary
               title={service.title}
               overview={overview}
               duration={service.duration}
               rating={service.rating}
             />
-            <ServiceDetailsPackages
-              packages={packages}
-              selectedPackageId={booking.selectedPackageId}
-              onSelectPackage={booking.handleSelectPackage}
-            />
+            <div className="flex min-h-0 flex-1 flex-col">
+              <ServiceDetailsPackages
+                packages={packages}
+                selectedPackageId={booking.selectedPackageId}
+                onSelectPackage={booking.handleSelectPackage}
+              />
+            </div>
             <ServiceDetailsBooking
               needsMaterials={booking.needsMaterials}
               recycleOldMaterials={booking.recycleOldMaterials}

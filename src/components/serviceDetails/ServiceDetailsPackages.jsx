@@ -3,14 +3,16 @@ import { CheckCheck, Circle } from 'lucide-react';
 import { SERVICE_DETAILS_CONTENT } from './serviceDetailsCopy';
 import {
   FEATURE_ICON_SIZE,
+  PACKAGE_CARD_MIN_HEIGHT_CLASS,
   RADIO_FILL_IDLE,
   RADIO_FILL_SELECTED,
   RADIO_ICON_SIZE,
   SERVICE_PACKAGES,
 } from './serviceDetailsData';
 
-const PACKAGE_CARD_BASE =
-  'flex h-full w-full flex-col rounded-2xl border-2 p-4 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+const PACKAGE_GRID_CLASS = 'grid h-full auto-rows-fr items-stretch gap-4 sm:grid-cols-2';
+const PACKAGE_CARD_CELL_CLASS = 'flex h-full min-h-0';
+const PACKAGE_CARD_BASE = `flex ${PACKAGE_CARD_MIN_HEIGHT_CLASS} h-full w-full flex-col self-stretch rounded-2xl border-2 p-4 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`;
 const PACKAGE_PRICE_CLASS = 'mt-1 text-[29px] font-semibold leading-none text-brand-orange';
 const PACKAGE_SELECTION_BORDER_CLASS = {
   true: 'border-brand-orange/40',
@@ -76,7 +78,7 @@ const PackageCard = memo(({ servicePackage, isSelected, onSelect }) => {
       </span>
       <span className={appearance.title}>{servicePackage.title}</span>
       <span className={appearance.price}>${servicePackage.price}</span>
-      <ul className="mt-5 flex flex-col gap-3">
+      <ul className="mt-5 flex flex-1 flex-col gap-2">
         {servicePackage.features.map((feature) => (
           <PackageFeature key={feature} feature={feature} />
         ))}
@@ -91,15 +93,16 @@ const ServiceDetailsPackages = memo(({ packages, selectedPackageId, onSelectPack
   <div
     role="radiogroup"
     aria-label={SERVICE_DETAILS_CONTENT.packages.groupLabel}
-    className="grid gap-4 sm:grid-cols-2"
+    className={PACKAGE_GRID_CLASS}
   >
     {packages.map((servicePackage) => (
-      <PackageCard
-        key={servicePackage.id}
-        servicePackage={servicePackage}
-        isSelected={servicePackage.id === selectedPackageId}
-        onSelect={onSelectPackage}
-      />
+      <div key={servicePackage.id} className={PACKAGE_CARD_CELL_CLASS}>
+        <PackageCard
+          servicePackage={servicePackage}
+          isSelected={servicePackage.id === selectedPackageId}
+          onSelect={onSelectPackage}
+        />
+      </div>
     ))}
   </div>
 ));

@@ -16,7 +16,7 @@ const ServiceDetailsSummary = memo(({ title, overview, duration, rating }) => (
         {duration}
       </span>
     </div>
-    <p className="mt-5 text-sm leading-7 text-gray-600 sm:text-base">{overview}</p>
+    <p className="mt-4 text-sm leading-6 text-gray-600">{overview}</p>
   </div>
 ));
 

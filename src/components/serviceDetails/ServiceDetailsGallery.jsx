@@ -47,7 +47,7 @@ const ServiceDetailsGallery = memo(({ image, imageAlt }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(INITIAL_IMAGE_INDEX);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex h-full min-h-0 flex-col gap-3 lg:gap-5">
       <img
         src={image}
         alt={imageAlt}
