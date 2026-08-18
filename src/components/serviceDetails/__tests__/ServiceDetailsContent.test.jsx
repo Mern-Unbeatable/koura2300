@@ -163,6 +163,21 @@ describe('Service details page', () => {
       'aria-pressed',
       'true',
     );
+    expect(screen.getByRole('button', { name: 'I Need Materials' })).toHaveClass('w-full');
+    expect(screen.getByRole('button', { name: 'I Have Materials' })).toHaveClass('w-full');
+    expect(screen.getByRole('button', { name: 'I Need Materials' })).toHaveClass(
+      'hover:bg-brand-orange-dark',
+    );
+    expect(screen.getByRole('button', { name: 'I Have Materials' })).toHaveClass(
+      'hover:bg-gray-200',
+    );
+    expect(screen.getByRole('checkbox', { name: 'Recycle old materials' })).toHaveClass(
+      'hover:border-brand-orange',
+    );
+    expect(screen.getByRole('button', { name: 'Confirmed Job' })).toHaveClass(
+      'rounded-2xl',
+      'hover:bg-brand-orange-dark',
+    );
 
     await user.click(screen.getByRole('button', { name: 'I Have Materials' }));
 
