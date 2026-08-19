@@ -7,6 +7,7 @@ import {
   CHECKOUT_CONTACT_METHODS,
   CHECKOUT_TIME_SLOTS,
   buildCheckoutDates,
+  formatCheckoutMonthYear,
   getServiceIdFromCartItemId,
 } from '../components/checkout/checkoutData';
 import { selectUser } from '../store/slices/authSlice';
@@ -52,6 +53,7 @@ const useCheckout = () => {
   }, []);
 
   const selectedDate = dates.find((date) => date.id === selectedDateId) ?? dates[0];
+  const monthYearLabel = selectedDate?.monthYear ?? formatCheckoutMonthYear(new Date());
   const primaryItem = cartItems[0];
   const primaryItemImage = getPrimaryItemImage(primaryItem);
   const contactLabel =
@@ -71,6 +73,7 @@ const useCheckout = () => {
     primaryItem,
     primaryItemImage,
     selectedDate,
+    monthYearLabel,
     contactLabel,
     handleFieldChange,
     handleConfirm,

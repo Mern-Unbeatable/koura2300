@@ -6,6 +6,7 @@ import { MemoryRouter } from 'react-router-dom';
 import authReducer from '../../../store/slices/authSlice';
 import cartReducer from '../../../store/slices/cartSlice';
 import CheckoutView from '../CheckoutView';
+import { formatCheckoutMonthYear } from '../checkoutData';
 
 const renderCheckout = (cartItems = []) => {
   const store = configureStore({
@@ -36,6 +37,12 @@ const renderCheckout = (cartItems = []) => {
     </Provider>,
   );
 };
+
+describe('formatCheckoutMonthYear', () => {
+  it('formats the present month and year as Month,Year', () => {
+    expect(formatCheckoutMonthYear(new Date(2026, 7, 19))).toBe('August,2026');
+  });
+});
 
 describe('CheckoutView Figma layout', () => {
   it('uses a 70/30 split between the form column and Review Your Order', () => {
@@ -68,6 +75,14 @@ describe('CheckoutView Figma layout', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Phone \/ SMS/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Email' })).toBeInTheDocument();
+  });
+
+  it('shows the current month and year beside Choose a Date with a scrolling strip', () => {
+    renderCheckout();
+
+    expect(screen.getByText('Choose a Date *')).toBeInTheDocument();
+    expect(screen.getByText(formatCheckoutMonthYear(new Date()))).toBeInTheDocument();
+    expect(screen.getByRole('listbox', { name: 'Choose a Date *' })).toHaveClass('overflow-x-auto');
   });
 
   it('renders the order thumbnail, title, and two-tone payment note', () => {

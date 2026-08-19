@@ -1,4 +1,5 @@
-export const CHECKOUT_DATE_COUNT = 11;
+export const CHECKOUT_DATE_COUNT = 30;
+export const CHECKOUT_ISO_PAD_LENGTH = 2;
 export const CHECKOUT_DEFAULT_QUANTITY = 1;
 export const CHECKOUT_INPUT_CLASS =
   'h-11 w-full rounded-[2px] border border-[#e4e7e9] bg-[#e9eaea] px-[15px] text-sm text-[#191c1f] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
@@ -16,10 +17,15 @@ export const CHECKOUT_CONTACT_CHECK_SIZE = 16;
 export const CHECKOUT_UPLOAD_ICON_SIZE = 36;
 export const CHECKOUT_PACKAGE_ID_SUFFIX = /-(standard|premium)$/;
 export const CHECKOUT_SECTION_TITLE_CLASS = 'text-2xl font-medium text-[#191c1f]';
+export const CHECKOUT_DATE_HEADING_CLASS = 'text-lg font-bold leading-[27px] text-[#0b1e3d]';
+export const CHECKOUT_DATE_STRIP_CLASS =
+  'flex h-[76px] gap-2 overflow-x-auto overflow-y-hidden pb-2 [scrollbar-width:thin]';
 export const CHECKOUT_DATE_BUTTON_IDLE =
-  'flex min-w-[60px] shrink-0 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-gray-200 px-3 py-2 text-center transition-colors hover:border-brand-orange/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'flex h-[68px] min-w-[60px] shrink-0 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-[#e5e7eb] px-[14px] py-3 text-center transition-colors hover:border-brand-orange/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_DATE_BUTTON_ACTIVE =
-  'flex min-w-[60px] shrink-0 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-brand-orange bg-brand-orange-light/40 px-3 py-2 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'flex h-[68px] min-w-[60px] shrink-0 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-brand-orange bg-brand-orange-light/40 px-[14px] py-3 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const CHECKOUT_DATE_WEEKDAY_CLASS = 'text-xs font-medium leading-4 text-[#4a5565]';
+export const CHECKOUT_DATE_DAY_CLASS = 'text-lg font-bold leading-7 text-[#0b1e3d]';
 export const CHECKOUT_TIME_BUTTON_IDLE =
   'h-11 cursor-pointer rounded-2xl border-2 border-gray-200 px-[22px] text-sm font-medium text-[#4a5565] transition-colors hover:border-brand-orange/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_TIME_BUTTON_ACTIVE =
@@ -63,16 +69,39 @@ export const CHECKOUT_CONTACT_METHODS = {
 };
 
 const WEEKDAY_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const CHECKOUT_MONTH_NAMES = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const padIsoPart = (value) => String(value).padStart(CHECKOUT_ISO_PAD_LENGTH, '0');
+
+export const toLocalIsoDate = (date) =>
+  `${date.getFullYear()}-${padIsoPart(date.getMonth() + 1)}-${padIsoPart(date.getDate())}`;
+
+export const formatCheckoutMonthYear = (date) =>
+  `${CHECKOUT_MONTH_NAMES[date.getMonth()]},${date.getFullYear()}`;
 
 export const buildCheckoutDates = (count = CHECKOUT_DATE_COUNT, fromDate = new Date()) =>
   Array.from({ length: count }, (_, index) => {
-    const date = new Date(fromDate);
-    date.setDate(fromDate.getDate() + index);
+    const date = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate() + index);
+    const iso = toLocalIsoDate(date);
     return {
-      id: date.toISOString().slice(0, 10),
+      id: iso,
       weekday: WEEKDAY_SHORT[date.getDay()],
       day: String(date.getDate()),
-      iso: date.toISOString().slice(0, 10),
+      iso,
+      monthYear: formatCheckoutMonthYear(date),
     };
   });
 
