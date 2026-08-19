@@ -21,7 +21,7 @@ export const SERVICE_DETAILS_CONTENT = {
   zipPanel: {
     title: 'Choose your location',
     closeLabel: 'Close location form',
-    dividerLabel: 'enter a US zip code',
+    dividerLabel: 'Enter a US zip code',
     inputLabel: 'US zip code',
     inputPlaceholder: 'Enter US zip code',
     apply: 'Apply',

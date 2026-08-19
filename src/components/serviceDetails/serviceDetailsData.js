@@ -35,6 +35,8 @@ export const CONTACT_METHOD_HEADER_MAX_WIDTH_CLASS = 'max-w-[409px]';
 export const CONTACT_METHOD_OPTIONS_MAX_WIDTH_CLASS = 'max-w-[823px]';
 export const CONTACT_METHOD_SECTION_SHADOW_CLASS =
   'shadow-[0px_-6px_68.6px_0px_rgba(125,125,125,0.16)]';
+export const CONTACT_METHOD_ENTER_OFFSET = 16;
+export const CONTACT_METHOD_ENTER_DURATION = 0.45;
 
 export const DETAILS_SPLIT_GRID_CLASS =
   'mt-6 grid min-w-0 items-stretch gap-x-5 gap-y-4 lg:grid-cols-2';
