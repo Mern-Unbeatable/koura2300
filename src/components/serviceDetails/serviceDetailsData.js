@@ -117,7 +117,8 @@ export const SERVICE_CHAT_OFFER_TOTAL = 185;
 export const SERVICE_CHAT_OFFER_CARD_CLASS =
   'min-w-0 rounded-[14px] border-2 border-[#f59e0b] bg-[#fff8ee] p-3 sm:p-[26px]';
 export const SERVICE_CHAT_OFFER_TABLE_GRID_CLASS =
-  'grid min-w-0 grid-cols-[minmax(0,1fr)_auto_auto] items-start gap-x-2 sm:items-center sm:gap-x-4';
+  'grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(3.25rem,5.5rem)_minmax(2.75rem,4rem)] items-center gap-x-1 sm:grid-cols-[minmax(0,1fr)_minmax(5rem,8rem)_minmax(4rem,5.5rem)] sm:gap-x-4';
+export const SERVICE_CHAT_OFFER_QTY_CELL_CLASS = 'text-center whitespace-nowrap';
 export const SERVICE_CHAT_OFFER_TABLE_WRAP_CLASS =
   'mt-4 min-w-0 overflow-hidden rounded-xl border border-[#585858]';
 export const SERVICE_CHAT_OFFER_TABLE_HEADER_CLASS =

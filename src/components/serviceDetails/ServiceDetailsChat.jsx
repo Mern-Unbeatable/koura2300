@@ -18,6 +18,7 @@ import {
   SERVICE_CHAT_OFFER_ICON_WRAP_CLASS,
   SERVICE_CHAT_OFFER_PAY_BUTTON_CLASS,
   SERVICE_CHAT_OFFER_TABLE_GRID_CLASS,
+  SERVICE_CHAT_OFFER_QTY_CELL_CLASS,
   SERVICE_CHAT_OFFER_TABLE_HEADER_CLASS,
   SERVICE_CHAT_OFFER_TABLE_ROW_CLASS,
   SERVICE_CHAT_OFFER_TABLE_TOTAL_CLASS,
@@ -135,8 +136,8 @@ const ServiceDetailsOfferCard = memo(({ offer, copy }) => (
     <div className={SERVICE_CHAT_OFFER_TABLE_WRAP_CLASS}>
       <div className={`${SERVICE_CHAT_OFFER_TABLE_GRID_CLASS} ${SERVICE_CHAT_OFFER_TABLE_HEADER_CLASS}`}>
         <span className="min-w-0">{copy.itemColumn}</span>
-        <span className="shrink-0 whitespace-nowrap">{copy.qtyColumn}</span>
-        <span className="shrink-0 whitespace-nowrap text-right">{copy.costColumn}</span>
+        <span className={SERVICE_CHAT_OFFER_QTY_CELL_CLASS}>{copy.qtyColumn}</span>
+        <span className="whitespace-nowrap text-right">{copy.costColumn}</span>
       </div>
       {offer.lineItems.map((lineItem) => (
         <div
@@ -144,8 +145,8 @@ const ServiceDetailsOfferCard = memo(({ offer, copy }) => (
           className={`${SERVICE_CHAT_OFFER_TABLE_GRID_CLASS} ${SERVICE_CHAT_OFFER_TABLE_ROW_CLASS} bg-white`}
         >
           <span className="min-w-0 break-words font-medium text-[#314158]">{lineItem.item}</span>
-          <span className="shrink-0 whitespace-nowrap text-[#383838]">{lineItem.quantity}</span>
-          <span className="shrink-0 whitespace-nowrap text-right font-semibold text-[#0f172b]">
+          <span className={`${SERVICE_CHAT_OFFER_QTY_CELL_CLASS} text-[#383838]`}>{lineItem.quantity}</span>
+          <span className="whitespace-nowrap text-right font-semibold text-[#0f172b]">
             {lineItem.costLabel}
           </span>
         </div>
