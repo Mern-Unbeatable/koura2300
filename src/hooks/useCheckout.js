@@ -1,13 +1,16 @@
 import { useCallback, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../store/slices/authSlice';
-import { selectCartItems } from '../store/slices/cartSlice';
+import { getCatalogServiceById } from '../components/catalog/catalogRegistry';
 import { CHECKOUT_CONTENT } from '../components/checkout/checkoutCopy';
 import {
   CHECKOUT_CONTACT_METHODS,
   CHECKOUT_TIME_SLOTS,
   buildCheckoutDates,
+  getServiceIdFromCartItemId,
 } from '../components/checkout/checkoutData';
+import { selectUser } from '../store/slices/authSlice';
+import { selectCartItems } from '../store/slices/cartSlice';
 
 const createCheckoutFields = (user) => ({
   firstName: user?.name ?? '',
@@ -17,6 +20,18 @@ const createCheckoutFields = (user) => ({
   city: '',
   zip: '',
 });
+
+const getPrimaryItemImage = (primaryItem) => {
+  if (!primaryItem) {
+    return { src: '', alt: '' };
+  }
+
+  const catalogService = getCatalogServiceById(getServiceIdFromCartItemId(primaryItem.id));
+  return {
+    src: catalogService?.image ?? '',
+    alt: primaryItem.title,
+  };
+};
 
 const useCheckout = () => {
   const user = useSelector(selectUser);
@@ -31,8 +46,14 @@ const useCheckout = () => {
     setFields((previous) => ({ ...previous, [name]: event.target.value }));
   }, []);
 
+  const handleConfirm = useCallback((event) => {
+    event.preventDefault();
+    toast.success(CHECKOUT_CONTENT.confirmSuccess);
+  }, []);
+
   const selectedDate = dates.find((date) => date.id === selectedDateId) ?? dates[0];
   const primaryItem = cartItems[0];
+  const primaryItemImage = getPrimaryItemImage(primaryItem);
   const contactLabel =
     contactMethod === CHECKOUT_CONTACT_METHODS.PHONE
       ? CHECKOUT_CONTENT.phoneSms
@@ -48,9 +69,11 @@ const useCheckout = () => {
     contactMethod,
     cartItems,
     primaryItem,
+    primaryItemImage,
     selectedDate,
     contactLabel,
     handleFieldChange,
+    handleConfirm,
     setSelectedDateId,
     setSelectedTime,
     setContactMethod,

@@ -1,22 +1,40 @@
 import React, { memo } from 'react';
 import { Check, Mail, Phone, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import { ROUTES } from '../../config';
 import useCheckout from '../../hooks/useCheckout';
 import {
   CHECKOUT_CARD_CLASS,
   CHECKOUT_CONFIRM_BUTTON_CLASS,
+  CHECKOUT_CONFIRM_ICON_SIZE,
   CHECKOUT_CONTACT_ACTIVE,
+  CHECKOUT_CONTACT_CHECK_SIZE,
+  CHECKOUT_CONTACT_ICON_SIZE,
+  CHECKOUT_CONTACT_ICON_WRAP_ACTIVE,
+  CHECKOUT_CONTACT_ICON_WRAP_IDLE,
   CHECKOUT_CONTACT_IDLE,
+  CHECKOUT_CONTACT_LABEL_ACTIVE,
+  CHECKOUT_CONTACT_LABEL_IDLE,
   CHECKOUT_CONTACT_METHODS,
   CHECKOUT_DATE_BUTTON_ACTIVE,
   CHECKOUT_DATE_BUTTON_IDLE,
+  CHECKOUT_DEFAULT_QUANTITY,
+  CHECKOUT_EMPTY_PLACEHOLDER,
   CHECKOUT_INPUT_CLASS,
+  CHECKOUT_LAYOUT_CLASS,
+  CHECKOUT_NESTED_CARD_CLASS,
+  CHECKOUT_PARAGRAPH_CLASS,
+  CHECKOUT_PAYMENT_NOTE_BODY_CLASS,
+  CHECKOUT_PAYMENT_NOTE_BOX_CLASS,
+  CHECKOUT_PAYMENT_NOTE_LABEL_CLASS,
+  CHECKOUT_REVIEW_SURFACE_CLASS,
   CHECKOUT_SECTION_TITLE_CLASS,
+  CHECKOUT_SUBHEADING_CLASS,
+  CHECKOUT_THUMBNAIL_SIZE_CLASS,
   CHECKOUT_TIME_BUTTON_ACTIVE,
   CHECKOUT_TIME_BUTTON_IDLE,
   CHECKOUT_UPLOAD_CLASS,
+  CHECKOUT_UPLOAD_ICON_SIZE,
 } from './checkoutData';
 
 const Field = memo(({ id, label, value, onChange, placeholder, type = 'text' }) => (
@@ -37,14 +55,154 @@ const Field = memo(({ id, label, value, onChange, placeholder, type = 'text' }) 
 
 Field.displayName = 'Field';
 
+const UploadSection = memo(({ copy }) => (
+  <section className={CHECKOUT_NESTED_CARD_CLASS}>
+    <h2 className={CHECKOUT_SUBHEADING_CLASS}>{copy.uploadTitle}</h2>
+    <p className={CHECKOUT_PARAGRAPH_CLASS}>{copy.uploadDescription}</p>
+    <label className={`${CHECKOUT_UPLOAD_CLASS} mt-6`}>
+      <Upload
+        size={CHECKOUT_UPLOAD_ICON_SIZE}
+        aria-hidden="true"
+        className="mb-3 text-[#99a1af]"
+      />
+      <span className="text-base font-semibold leading-6 text-[#6a7282]">{copy.uploadAction}</span>
+      <span className="mt-1 text-xs font-medium leading-4 text-[#99a1af]">{copy.uploadTypes}</span>
+      <input type="file" className="sr-only" accept="image/jpeg,image/png,video/mp4" multiple />
+    </label>
+  </section>
+));
+
+UploadSection.displayName = 'UploadSection';
+
+const ContactOption = memo(({ icon: Icon, label, isActive, onClick }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={isActive ? CHECKOUT_CONTACT_ACTIVE : CHECKOUT_CONTACT_IDLE}
+  >
+    <span className={isActive ? CHECKOUT_CONTACT_ICON_WRAP_ACTIVE : CHECKOUT_CONTACT_ICON_WRAP_IDLE}>
+      <Icon size={CHECKOUT_CONTACT_ICON_SIZE} aria-hidden="true" />
+    </span>
+    <span className={isActive ? CHECKOUT_CONTACT_LABEL_ACTIVE : CHECKOUT_CONTACT_LABEL_IDLE}>
+      {label}
+    </span>
+    {isActive ? (
+      <Check size={CHECKOUT_CONTACT_CHECK_SIZE} aria-hidden="true" className="text-[#ff6b1a]" />
+    ) : null}
+  </button>
+));
+
+ContactOption.displayName = 'ContactOption';
+
+const ContactMethodSection = memo(({ copy, contactMethod, onSelect }) => (
+  <section className={CHECKOUT_NESTED_CARD_CLASS}>
+    <h2 className={CHECKOUT_SUBHEADING_CLASS}>{copy.contactTitle}</h2>
+    <p className={CHECKOUT_PARAGRAPH_CLASS}>{copy.contactHint}</p>
+    <div className="mt-6 grid gap-5 sm:grid-cols-2">
+      <ContactOption
+        icon={Phone}
+        label={copy.phoneSms}
+        isActive={contactMethod === CHECKOUT_CONTACT_METHODS.PHONE}
+        onClick={() => onSelect(CHECKOUT_CONTACT_METHODS.PHONE)}
+      />
+      <ContactOption
+        icon={Mail}
+        label={copy.emailContact}
+        isActive={contactMethod === CHECKOUT_CONTACT_METHODS.EMAIL}
+        onClick={() => onSelect(CHECKOUT_CONTACT_METHODS.EMAIL)}
+      />
+    </div>
+  </section>
+));
+
+ContactMethodSection.displayName = 'ContactMethodSection';
+
+const OrderItemRow = memo(({ item, image, assemblyLabel }) => (
+  <div className={`mt-6 flex items-center gap-3 p-3 ${CHECKOUT_REVIEW_SURFACE_CLASS}`}>
+    {image.src ? (
+      <img
+        src={image.src}
+        alt={image.alt}
+        className={`${CHECKOUT_THUMBNAIL_SIZE_CLASS} shrink-0 rounded-xl object-cover`}
+      />
+    ) : null}
+    <div className="min-w-0 flex-1">
+      <p className="truncate text-sm font-semibold leading-5 text-[#0b1e3d]">{item.title}</p>
+      <p className="text-xs leading-4 text-[#99a1af]">{assemblyLabel}</p>
+    </div>
+    <p className="shrink-0 text-base font-bold text-[#0b1e3d]">${item.price}</p>
+  </div>
+));
+
+OrderItemRow.displayName = 'OrderItemRow';
+
+const PaymentNote = memo(({ label, body }) => (
+  <p className={CHECKOUT_PAYMENT_NOTE_BOX_CLASS}>
+    <span className={CHECKOUT_PAYMENT_NOTE_LABEL_CLASS}>{label}</span>
+    <span className={CHECKOUT_PAYMENT_NOTE_BODY_CLASS}>{body}</span>
+  </p>
+));
+
+PaymentNote.displayName = 'PaymentNote';
+
+const OrderSummary = memo(({ copy, fields, checkout }) => (
+  <aside className={`${CHECKOUT_NESTED_CARD_CLASS} lg:sticky lg:top-28`}>
+    <h2 className={CHECKOUT_SUBHEADING_CLASS}>{copy.reviewTitle}</h2>
+    {checkout.primaryItem ? (
+      <OrderItemRow
+        item={checkout.primaryItem}
+        image={checkout.primaryItemImage}
+        assemblyLabel={copy.assemblySuffix(
+          checkout.primaryItem.quantity ?? CHECKOUT_DEFAULT_QUANTITY,
+        )}
+      />
+    ) : (
+      <p className="mt-6 text-sm text-gray-500">{copy.emptyCart}</p>
+    )}
+
+    <dl className={`mt-6 space-y-1 p-4 text-sm text-[#364153] ${CHECKOUT_REVIEW_SURFACE_CLASS}`}>
+      <div className="flex justify-between gap-3">
+        <dt>{copy.nameLabel}</dt>
+        <dd className="font-medium">{fields.firstName || CHECKOUT_EMPTY_PLACEHOLDER}</dd>
+      </div>
+      <div className="flex justify-between gap-3">
+        <dt>{copy.addressLabel}</dt>
+        <dd className="text-right font-medium">
+          {[fields.street, fields.city, fields.zip].filter(Boolean).join(', ') ||
+            CHECKOUT_EMPTY_PLACEHOLDER}
+        </dd>
+      </div>
+      <div className="flex justify-between gap-3">
+        <dt>{copy.dateTimeLabel}</dt>
+        <dd className="text-right font-medium">
+          {checkout.selectedDate?.iso} at {checkout.selectedTime}
+        </dd>
+      </div>
+      <div className="flex justify-between gap-3">
+        <dt>{copy.contactViaLabel}</dt>
+        <dd className="font-medium">{checkout.contactLabel}</dd>
+      </div>
+    </dl>
+
+    <PaymentNote label={copy.paymentNoteLabel} body={copy.paymentNoteBody} />
+
+    <div className="mt-6 flex items-center justify-between gap-4">
+      <Link to={ROUTES.HOME} className="text-sm font-medium hover:text-brand-orange">
+        ← {copy.back}
+      </Link>
+      <button type="submit" className={CHECKOUT_CONFIRM_BUTTON_CLASS}>
+        <Check size={CHECKOUT_CONFIRM_ICON_SIZE} aria-hidden="true" />
+        {copy.confirmPay}
+      </button>
+    </div>
+  </aside>
+));
+
+OrderSummary.displayName = 'OrderSummary';
+
 const CheckoutView = memo(() => {
   const checkout = useCheckout();
-  const { copy, fields, primaryItem } = checkout;
-
-  const handleConfirm = (event) => {
-    event.preventDefault();
-    toast.success(copy.confirmSuccess);
-  };
+  const { copy, fields } = checkout;
 
   return (
     <main className="mx-auto min-w-0 max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 lg:px-8">
@@ -56,8 +214,9 @@ const CheckoutView = memo(() => {
       </Link>
 
       <form
-        className="grid min-w-0 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(280px,420px)]"
-        onSubmit={handleConfirm}
+        aria-label={copy.formLabel}
+        className={CHECKOUT_LAYOUT_CLASS}
+        onSubmit={checkout.handleConfirm}
       >
         <div className={`${CHECKOUT_CARD_CLASS} flex flex-col gap-6`}>
           <section className="flex flex-col gap-6">
@@ -157,100 +316,15 @@ const CheckoutView = memo(() => {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-gray-200 p-8">
-            <h2 className="text-xl font-bold text-[#0b1e3d]">{copy.uploadTitle}</h2>
-            <label className={`${CHECKOUT_UPLOAD_CLASS} mt-4`}>
-              <Upload size={36} aria-hidden="true" className="mb-3 text-gray-400" />
-              {copy.uploadHint}
-              <input type="file" className="sr-only" accept="image/jpeg,image/png,video/mp4" multiple />
-            </label>
-          </section>
-
-          <section className="rounded-2xl border border-gray-200 p-8">
-            <h2 className="text-xl font-bold text-[#0b1e3d]">{copy.contactTitle}</h2>
-            <p className="mt-1 text-sm text-gray-500">{copy.contactHint}</p>
-            <div className="mt-4 grid gap-5 sm:grid-cols-2">
-              <button
-                type="button"
-                onClick={() => checkout.setContactMethod(CHECKOUT_CONTACT_METHODS.PHONE)}
-                className={
-                  checkout.contactMethod === CHECKOUT_CONTACT_METHODS.PHONE
-                    ? CHECKOUT_CONTACT_ACTIVE
-                    : CHECKOUT_CONTACT_IDLE
-                }
-              >
-                <span className="flex size-12 items-center justify-center rounded-2xl bg-brand-orange text-white">
-                  <Phone size={22} aria-hidden="true" />
-                </span>
-                <span className="font-semibold">{copy.phoneSms}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => checkout.setContactMethod(CHECKOUT_CONTACT_METHODS.EMAIL)}
-                className={
-                  checkout.contactMethod === CHECKOUT_CONTACT_METHODS.EMAIL
-                    ? CHECKOUT_CONTACT_ACTIVE
-                    : CHECKOUT_CONTACT_IDLE
-                }
-              >
-                <span className="flex size-12 items-center justify-center rounded-2xl bg-gray-100 text-gray-600">
-                  <Mail size={22} aria-hidden="true" />
-                </span>
-                <span className="font-semibold">{copy.emailContact}</span>
-              </button>
-            </div>
-          </section>
+          <UploadSection copy={copy} />
+          <ContactMethodSection
+            copy={copy}
+            contactMethod={checkout.contactMethod}
+            onSelect={checkout.setContactMethod}
+          />
         </div>
 
-        <aside className={`${CHECKOUT_CARD_CLASS} lg:sticky lg:top-28`}>
-          <h2 className="text-2xl font-semibold text-[#191c1f]">{copy.reviewTitle}</h2>
-          {primaryItem ? (
-            <div className="mt-6 flex items-start justify-between gap-3 border-b border-gray-200 pb-4">
-              <div>
-                <p className="font-semibold">{primaryItem.title}</p>
-                <p className="text-sm text-gray-500">{copy.assemblySuffix(primaryItem.quantity ?? 1)}</p>
-              </div>
-              <p className="font-bold">${primaryItem.price}</p>
-            </div>
-          ) : (
-            <p className="mt-6 text-sm text-gray-500">{copy.emptyCart}</p>
-          )}
-
-          <dl className="mt-4 space-y-2 text-sm">
-            <div className="flex justify-between gap-3">
-              <dt className="text-gray-500">{copy.nameLabel}</dt>
-              <dd className="font-medium">{fields.firstName || '—'}</dd>
-            </div>
-            <div className="flex justify-between gap-3">
-              <dt className="text-gray-500">{copy.addressLabel}</dt>
-              <dd className="text-right font-medium">
-                {[fields.street, fields.city, fields.zip].filter(Boolean).join(', ') || '—'}
-              </dd>
-            </div>
-            <div className="flex justify-between gap-3">
-              <dt className="text-gray-500">{copy.dateTimeLabel}</dt>
-              <dd className="text-right font-medium">
-                {checkout.selectedDate?.iso} at {checkout.selectedTime}
-              </dd>
-            </div>
-            <div className="flex justify-between gap-3">
-              <dt className="text-gray-500">{copy.contactViaLabel}</dt>
-              <dd className="font-medium">{checkout.contactLabel}</dd>
-            </div>
-          </dl>
-
-          <p className="mt-6 rounded-xl bg-blue-50 p-4 text-sm text-[#0b1e3d]">{copy.paymentNote}</p>
-
-          <div className="mt-6 flex items-center justify-between gap-4">
-            <Link to={ROUTES.HOME} className="text-sm font-medium hover:text-brand-orange">
-              ← {copy.back}
-            </Link>
-            <button type="submit" className={CHECKOUT_CONFIRM_BUTTON_CLASS}>
-              <Check size={18} aria-hidden="true" />
-              {copy.confirmPay}
-            </button>
-          </div>
-        </aside>
+        <OrderSummary copy={copy} fields={fields} checkout={checkout} />
       </form>
     </main>
   );
