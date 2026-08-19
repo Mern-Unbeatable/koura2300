@@ -22,6 +22,9 @@ export const RADIO_ICON_SIZE = 20;
 export const RECYCLE_ICON_SIZE = 20;
 export const CLOSE_ICON_SIZE = 20;
 
+export const DETAILS_SPLIT_GRID_CLASS =
+  'mt-6 grid min-w-0 items-stretch gap-x-5 gap-y-4 lg:grid-cols-2';
+export const ZIP_PANEL_GRID_CELL_CLASS = 'min-w-0 lg:col-start-2';
 export const HERO_IMAGE_CLASS =
   'h-64 w-full min-w-0 max-w-full rounded-xl object-cover sm:h-80 lg:h-auto lg:min-h-0 lg:flex-1';
 export const PACKAGE_CARD_MIN_HEIGHT_CLASS = 'min-h-[310px]';
@@ -46,7 +49,7 @@ export const RADIO_FILL_SELECTED = 'currentColor';
 export const RADIO_FILL_IDLE = 'none';
 export const BREADCRUMB_SEPARATOR = '>';
 
-export const ZIP_MODAL_IDS = {
+export const ZIP_PANEL_IDS = {
   TITLE: 'service-zip-title',
   FIELD: 'service-zip-code',
   ERROR: 'service-zip-error',

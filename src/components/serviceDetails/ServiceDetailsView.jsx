@@ -8,7 +8,8 @@ import ServiceDetailsInclusions from './ServiceDetailsInclusions';
 import ServiceDetailsPackages from './ServiceDetailsPackages';
 import ServiceDetailsRelated from './ServiceDetailsRelated';
 import ServiceDetailsSummary from './ServiceDetailsSummary';
-import ServiceZipModal from './ServiceZipModal';
+import ServiceZipPanel from './ServiceZipPanel';
+import { DETAILS_SPLIT_GRID_CLASS, ZIP_PANEL_GRID_CELL_CLASS } from './serviceDetailsData';
 
 const ServiceDetailsView = memo(
   ({
@@ -24,15 +25,14 @@ const ServiceDetailsView = memo(
     const handleAddService = useAddService();
 
     return (
-      <>
-        <main className="animate-page-enter mx-auto min-w-0 max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28">
+      <main className="animate-page-enter mx-auto min-w-0 max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28">
           <ServiceDetailsBreadcrumb
             catalogTitle={service.catalogTitle}
             catalogPath={service.catalogPath}
             serviceTitle={service.title}
           />
 
-          <div className="mt-6 grid min-w-0 items-stretch gap-5 lg:grid-cols-2">
+          <div className={DETAILS_SPLIT_GRID_CLASS}>
             <ServiceDetailsGallery image={service.image} imageAlt={service.imageAlt} />
 
             <div className="flex h-full min-w-0 flex-col gap-4">
@@ -52,12 +52,24 @@ const ServiceDetailsView = memo(
               <ServiceDetailsBooking
                 needsMaterials={booking.needsMaterials}
                 recycleOldMaterials={booking.recycleOldMaterials}
+                isZipPanelOpen={booking.isZipPanelOpen}
                 onNeedMaterials={booking.handleNeedMaterials}
                 onHaveMaterials={booking.handleHaveMaterials}
                 onToggleRecycle={booking.handleToggleRecycle}
                 onConfirmJob={booking.handleConfirmJob}
               />
             </div>
+            {booking.isZipPanelOpen ? (
+              <div className={ZIP_PANEL_GRID_CELL_CLASS}>
+                <ServiceZipPanel
+                  zipCode={booking.zipCode}
+                  zipError={booking.zipError}
+                  onZipCodeChange={booking.handleZipCodeChange}
+                  onClose={booking.handleCloseZipPanel}
+                  onSubmit={booking.handleSubmitZip}
+                />
+              </div>
+            ) : null}
           </div>
 
           <ServiceDetailsInclusions includedItems={includedItems} excludedItems={excludedItems} />
@@ -67,16 +79,6 @@ const ServiceDetailsView = memo(
             onAdd={handleAddService}
           />
         </main>
-
-        <ServiceZipModal
-          isOpen={booking.isZipModalOpen}
-          zipCode={booking.zipCode}
-          zipError={booking.zipError}
-          onZipCodeChange={booking.handleZipCodeChange}
-          onClose={booking.handleCloseZipModal}
-          onSubmit={booking.handleSubmitZip}
-        />
-      </>
     );
   },
 );

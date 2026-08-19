@@ -219,17 +219,30 @@ describe('Service details page', () => {
     expect(screen.getByRole('checkbox', { name: 'Recycle old materials' })).toBeChecked();
   });
 
-  it('opens the zip modal from Confirmed Job and shows an inline zip error', async () => {
+  it('opens the zip form below Confirmed Job and shows an inline zip error', async () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
     await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
 
-    expect(
-      screen.getByRole('dialog', { name: 'Where should we send the pro?' }),
-    ).toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Confirmed Job' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+    const zipPanel = screen.getByRole('region', { name: 'Choose your location' });
+    const heroImage = screen.getAllByRole('img', {
+      name: 'Chrome lighting fixture above a white sink',
+    })[0];
 
-    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(zipPanel).toBeInTheDocument();
+    expect(zipPanel.parentElement).toHaveClass('lg:col-start-2');
+    expect(heroImage).toHaveClass('lg:flex-1');
+    expect(heroImage.compareDocumentPosition(zipPanel) & Node.DOCUMENT_POSITION_FOLLOWING).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Apply' }));
 
     expect(screen.getByRole('alert')).toHaveTextContent('Enter a valid US zip code.');
     expect(toast.success).not.toHaveBeenCalled();
@@ -241,7 +254,7 @@ describe('Service details page', () => {
 
     await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
     await user.type(screen.getByLabelText('US zip code'), '94107');
-    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    await user.click(screen.getByRole('button', { name: 'Apply' }));
 
     expect(store.getState().cart.totalItems).toBe(1);
     expect(store.getState().cart.items[0]).toMatchObject({
@@ -249,7 +262,7 @@ describe('Service details page', () => {
       price: 145,
     });
     expect(toast.success).toHaveBeenCalled();
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Choose your location' })).not.toBeInTheDocument();
   });
 
   it('shows related services from the same catalog and lets them be added', async () => {

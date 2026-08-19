@@ -18,13 +18,13 @@ export const SERVICE_DETAILS_CONTENT = {
     confirm: 'Confirmed Job',
     success: 'Your job has been confirmed.',
   },
-  zipModal: {
-    title: 'Where should we send the pro?',
-    closeLabel: 'Close location dialog',
+  zipPanel: {
+    title: 'Choose your location',
+    closeLabel: 'Close location form',
     dividerLabel: 'enter a US zip code',
     inputLabel: 'US zip code',
     inputPlaceholder: 'Enter US zip code',
-    continue: 'Continue',
+    apply: 'Apply',
     error: 'Enter a valid US zip code.',
   },
   inclusions: {

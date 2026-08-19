@@ -12,8 +12,8 @@ const BOOKING_ACTION = {
   SELECT_PACKAGE: 'SELECT_PACKAGE',
   SET_NEEDS_MATERIALS: 'SET_NEEDS_MATERIALS',
   TOGGLE_RECYCLE: 'TOGGLE_RECYCLE',
-  OPEN_ZIP_MODAL: 'OPEN_ZIP_MODAL',
-  CLOSE_ZIP_MODAL: 'CLOSE_ZIP_MODAL',
+  OPEN_ZIP_PANEL: 'OPEN_ZIP_PANEL',
+  CLOSE_ZIP_PANEL: 'CLOSE_ZIP_PANEL',
   CHANGE_ZIP_CODE: 'CHANGE_ZIP_CODE',
   SET_ZIP_ERROR: 'SET_ZIP_ERROR',
   COMPLETE_CONFIRMATION: 'COMPLETE_CONFIRMATION',
@@ -23,7 +23,7 @@ const createBookingState = () => ({
   selectedPackageId: SERVICE_PACKAGES.STANDARD,
   needsMaterials: true,
   recycleOldMaterials: false,
-  isZipModalOpen: false,
+  isZipPanelOpen: false,
   zipCode: '',
   zipError: '',
 });
@@ -36,10 +36,10 @@ const bookingReducer = (state, action) => {
       return { ...state, needsMaterials: action.needsMaterials };
     case BOOKING_ACTION.TOGGLE_RECYCLE:
       return { ...state, recycleOldMaterials: !state.recycleOldMaterials };
-    case BOOKING_ACTION.OPEN_ZIP_MODAL:
-      return { ...state, isZipModalOpen: true, zipError: '' };
-    case BOOKING_ACTION.CLOSE_ZIP_MODAL:
-      return { ...state, isZipModalOpen: false, zipError: '' };
+    case BOOKING_ACTION.OPEN_ZIP_PANEL:
+      return { ...state, isZipPanelOpen: true, zipError: '' };
+    case BOOKING_ACTION.CLOSE_ZIP_PANEL:
+      return { ...state, isZipPanelOpen: false, zipError: '' };
     case BOOKING_ACTION.CHANGE_ZIP_CODE:
       return { ...state, zipCode: action.zipCode, zipError: '' };
     case BOOKING_ACTION.SET_ZIP_ERROR:
@@ -47,7 +47,7 @@ const bookingReducer = (state, action) => {
     case BOOKING_ACTION.COMPLETE_CONFIRMATION:
       return {
         ...state,
-        isZipModalOpen: false,
+        isZipPanelOpen: false,
         zipCode: '',
         zipError: '',
       };
@@ -80,11 +80,11 @@ const useServiceBooking = (service, packages) => {
   }, []);
 
   const handleConfirmJob = useCallback(() => {
-    dispatch({ type: BOOKING_ACTION.OPEN_ZIP_MODAL });
+    dispatch({ type: BOOKING_ACTION.OPEN_ZIP_PANEL });
   }, []);
 
-  const handleCloseZipModal = useCallback(() => {
-    dispatch({ type: BOOKING_ACTION.CLOSE_ZIP_MODAL });
+  const handleCloseZipPanel = useCallback(() => {
+    dispatch({ type: BOOKING_ACTION.CLOSE_ZIP_PANEL });
   }, []);
 
   const handleZipCodeChange = useCallback((event) => {
@@ -98,7 +98,7 @@ const useServiceBooking = (service, packages) => {
       if (!isValidUsZip(state.zipCode)) {
         dispatch({
           type: BOOKING_ACTION.SET_ZIP_ERROR,
-          zipError: SERVICE_DETAILS_CONTENT.zipModal.error,
+          zipError: SERVICE_DETAILS_CONTENT.zipPanel.error,
         });
         return;
       }
@@ -129,7 +129,7 @@ const useServiceBooking = (service, packages) => {
     selectedPackage,
     needsMaterials: state.needsMaterials,
     recycleOldMaterials: state.recycleOldMaterials,
-    isZipModalOpen: state.isZipModalOpen,
+    isZipPanelOpen: state.isZipPanelOpen,
     zipCode: state.zipCode,
     zipError: state.zipError,
     handleSelectPackage,
@@ -137,7 +137,7 @@ const useServiceBooking = (service, packages) => {
     handleHaveMaterials,
     handleToggleRecycle,
     handleConfirmJob,
-    handleCloseZipModal,
+    handleCloseZipPanel,
     handleZipCodeChange,
     handleSubmitZip,
   };
