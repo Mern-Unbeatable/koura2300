@@ -1,6 +1,6 @@
 import React from 'react';
 import { configureStore } from '@reduxjs/toolkit';
-import { cleanup, render, screen, within } from '@testing-library/react';
+import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
@@ -25,12 +25,21 @@ const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
 const reachContactMethodStep = async (user) => {
   await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
+  await waitFor(() => {
+    expect(screen.getByRole('button', { name: 'Apply' })).toBeInTheDocument();
+  });
   await user.click(screen.getByRole('button', { name: 'Apply' }));
+  await waitFor(() => {
+    expect(screen.getByRole('region', { name: 'Preferred Contact Method' })).toBeInTheDocument();
+  });
 };
 
 const openServiceChat = async (user) => {
   await reachContactMethodStep(user);
   await user.click(screen.getByRole('radio', { name: 'Chat' }));
+  await waitFor(() => {
+    expect(screen.getByRole('region', { name: 'Service pro chat' })).toBeInTheDocument();
+  });
 };
 
 const createTestStore = () =>
@@ -445,7 +454,8 @@ describe('Service details chat', () => {
     expect(screen.getByRole('heading', { level: 3, name: 'Offer Card' })).toBeInTheDocument();
     expect(screen.getByText('Pending Response')).toBeInTheDocument();
     expect(screen.getByText('Booking ID')).toBeInTheDocument();
-    expect(screen.getByText('BK-IND')).toBeInTheDocument();
+    expect(screen.getByText('BK-001')).toBeInTheDocument();
+    expect(screen.getByText('$185')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Pay Now' })).toBeInTheDocument();
     expect(screen.getByLabelText('Type a message')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Send message' })).toBeDisabled();

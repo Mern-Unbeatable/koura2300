@@ -1,15 +1,27 @@
-import React, { memo, useCallback } from 'react';
-import { Package, Send, X } from 'lucide-react';
-import { getBubbleCorners } from '../chat/chatUtils';
+import React, { memo, useCallback, useMemo } from 'react';
+import { Check, Package, Send, X } from 'lucide-react';
+import { getBubbleCorners, groupMessages } from '../chat/chatUtils';
 import useGsapMountEnter from '../../hooks/useGsapMountEnter';
 import useServiceDetailsChat from '../../hooks/useServiceDetailsChat';
 import {
   MOUNT_ENTER_DURATION,
   MOUNT_ENTER_OFFSET,
+  SERVICE_CHAT_BUBBLE_MAX_WIDTH_CLASS,
   SERVICE_CHAT_CLOSE_ICON_SIZE,
   SERVICE_CHAT_HEADER_HEIGHT_CLASS,
   SERVICE_CHAT_MESSAGE_AVATAR_SIZE,
+  SERVICE_CHAT_MESSAGE_GAP_CLASS,
+  SERVICE_CHAT_OFFER_CARD_CLASS,
+  SERVICE_CHAT_OFFER_CARD_WIDTH_CLASS,
+  SERVICE_CHAT_CONTENT_PADDING_CLASS,
   SERVICE_CHAT_OFFER_ICON_SIZE,
+  SERVICE_CHAT_OFFER_ICON_WRAP_CLASS,
+  SERVICE_CHAT_OFFER_PAY_BUTTON_CLASS,
+  SERVICE_CHAT_OFFER_TABLE_GRID_CLASS,
+  SERVICE_CHAT_OFFER_TABLE_HEADER_CLASS,
+  SERVICE_CHAT_OFFER_TABLE_ROW_CLASS,
+  SERVICE_CHAT_OFFER_TABLE_TOTAL_CLASS,
+  SERVICE_CHAT_OFFER_TABLE_WRAP_CLASS,
   SERVICE_CHAT_PANEL_MIN_HEIGHT_CLASS,
   SERVICE_CHAT_PANEL_SHADOW_CLASS,
   SERVICE_CHAT_PAY_ICON_SIZE,
@@ -23,12 +35,15 @@ const PANEL_CLASS = `mt-6 min-w-0 overflow-hidden rounded-xl bg-white ${SERVICE_
 const HEADER_CLASS = `flex items-center justify-between bg-gray-200 px-4 sm:px-9 ${SERVICE_CHAT_HEADER_HEIGHT_CLASS}`;
 const BODY_CLASS = `relative flex flex-col bg-[#f8f8f8] ${SERVICE_CHAT_PANEL_MIN_HEIGHT_CLASS}`;
 const TIMESTAMP_CLASS =
-  'mx-auto flex items-center gap-3 text-base font-medium tracking-[0.5px] text-gray-400 sm:text-lg';
+  'flex items-center gap-3 text-base font-medium tracking-[0.5px] text-gray-400 sm:text-lg';
+const MESSAGES_CLASS = `flex flex-1 flex-col gap-4 overflow-y-auto py-6 ${SERVICE_CHAT_CONTENT_PADDING_CLASS}`;
 const COMPOSER_CLASS = 'mt-auto px-4 py-5 sm:px-9 sm:py-5';
 const INPUT_CLASS =
   'h-13 min-w-0 flex-1 rounded-full bg-white px-5 text-sm text-slate-800 shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-orange';
 const SEND_BUTTON_CLASS =
   'flex size-13 shrink-0 cursor-pointer flex-col items-center justify-center rounded-full bg-white text-gray-400 shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-40';
+const BUBBLE_TEXT_CLASS =
+  'px-5 py-4 font-poppins text-sm leading-7 tracking-[0.5px] text-slate-800 sm:text-lg';
 
 const ChatAvatar = memo(({ size, online = false }) => (
   <div className="relative shrink-0" style={{ width: size, height: size }}>
@@ -50,30 +65,12 @@ const ChatAvatar = memo(({ size, online = false }) => (
 
 ChatAvatar.displayName = 'ChatAvatar';
 
-const ReceivedMessageGroup = memo(({ messages }) => (
-  <div className="flex items-end gap-5">
-    <ChatAvatar size={SERVICE_CHAT_MESSAGE_AVATAR_SIZE} />
-    <div className="flex min-w-0 flex-col gap-1">
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className={`bg-[#f0f2f5] px-5 py-4 font-poppins text-sm leading-7 tracking-[0.5px] text-slate-800 sm:text-lg ${getBubbleCorners('received', message.position)} max-w-[75vw] sm:max-w-[70%]`}
-        >
-          {message.text}
-        </div>
-      ))}
-    </div>
-  </div>
-));
-
-ReceivedMessageGroup.displayName = 'ReceivedMessageGroup';
-
-const SentMessageGroup = memo(({ messages }) => (
-  <div className="flex flex-col items-end gap-1">
+const ReceivedBubbles = memo(({ messages }) => (
+  <div className="flex min-w-0 flex-col gap-1">
     {messages.map((message) => (
       <div
         key={message.id}
-        className={`bg-[#e4e7ec] px-5 py-4 font-poppins text-sm leading-7 tracking-[0.5px] text-slate-800 sm:text-lg ${getBubbleCorners('sent', message.position)} max-w-[75vw] sm:max-w-[70%]`}
+        className={`bg-[#f0f2f5] ${BUBBLE_TEXT_CLASS} ${getBubbleCorners('received', message.position)}`}
       >
         {message.text}
       </div>
@@ -81,66 +78,99 @@ const SentMessageGroup = memo(({ messages }) => (
   </div>
 ));
 
-SentMessageGroup.displayName = 'SentMessageGroup';
+ReceivedBubbles.displayName = 'ReceivedBubbles';
+
+const SentBubbles = memo(({ messages }) => (
+  <div className={`flex min-w-0 flex-col items-end gap-1 ${SERVICE_CHAT_BUBBLE_MAX_WIDTH_CLASS}`}>
+    {messages.map((message) => (
+      <div
+        key={message.id}
+        className={`bg-[#e4e7ec] ${BUBBLE_TEXT_CLASS} ${getBubbleCorners('sent', message.position)}`}
+      >
+        {message.text}
+      </div>
+    ))}
+  </div>
+));
+
+SentBubbles.displayName = 'SentBubbles';
+
+const ReceivedMessageRow = memo(({ messages }) => (
+  <div className="flex w-full justify-start">
+    <div className={`flex min-w-0 items-end ${SERVICE_CHAT_MESSAGE_GAP_CLASS} ${SERVICE_CHAT_BUBBLE_MAX_WIDTH_CLASS}`}>
+      <ChatAvatar size={SERVICE_CHAT_MESSAGE_AVATAR_SIZE} />
+      <ReceivedBubbles messages={messages} />
+    </div>
+  </div>
+));
+
+ReceivedMessageRow.displayName = 'ReceivedMessageRow';
+
+const SentMessageRow = memo(({ messages }) => (
+  <div className="flex w-full justify-end">
+    <SentBubbles messages={messages} />
+  </div>
+));
+
+SentMessageRow.displayName = 'SentMessageRow';
 
 const ServiceDetailsOfferCard = memo(({ offer, copy }) => (
-  <article className="rounded-[14px] border-2 border-amber-500 bg-[#fff8ee] p-5 sm:p-[26px]">
-    <div className="flex flex-wrap items-start justify-between gap-4">
+  <article className={`${SERVICE_CHAT_OFFER_CARD_WIDTH_CLASS} ${SERVICE_CHAT_OFFER_CARD_CLASS}`}>
+    <div className="flex items-center justify-between gap-4">
       <div className="flex min-w-0 items-center gap-3">
-        <span
-          className="flex size-10 shrink-0 items-center justify-center rounded-full bg-green-600 text-white"
-          aria-hidden="true"
-        >
+        <span className={SERVICE_CHAT_OFFER_ICON_WRAP_CLASS} aria-hidden="true">
           <Package size={SERVICE_CHAT_OFFER_ICON_SIZE} />
         </span>
         <div>
-          <h3 className="text-lg font-bold text-gray-900">{copy.title}</h3>
-          <p className="text-xs text-gray-600">{copy.status}</p>
+          <h3 className="text-lg font-bold leading-[27px] text-[#101828]">{copy.title}</h3>
+          <p className="text-xs leading-4 text-[#4a5565]">{copy.status}</p>
         </div>
       </div>
-      <div>
-        <p className="text-sm text-gray-600">{copy.bookingIdLabel}</p>
-        <p className="text-base font-bold text-gray-900">{offer.bookingId}</p>
+      <div className="shrink-0">
+        <p className="text-sm leading-5 text-[#4a5565]">{copy.bookingIdLabel}</p>
+        <p className="text-base font-bold leading-6 text-[#101828]">{offer.bookingId}</p>
       </div>
     </div>
-    <div className="mt-4 overflow-hidden rounded-xl border border-gray-600">
-      <table className="w-full min-w-0 text-left text-sm">
-        <thead className="border-b border-slate-100 bg-white text-xs font-semibold text-gray-700">
-          <tr>
-            <th className="px-4 py-3">{copy.itemColumn}</th>
-            <th className="px-4 py-3">{copy.qtyColumn}</th>
-            <th className="px-4 py-3 text-right">{copy.costColumn}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {offer.lineItems.map((lineItem) => (
-            <tr key={lineItem.id} className="border-b border-gray-300 bg-white">
-              <td className="px-4 py-3 font-medium text-slate-700">{lineItem.item}</td>
-              <td className="px-4 py-3 text-gray-700">{lineItem.quantity}</td>
-              <td className="px-4 py-3 text-right font-semibold text-slate-900">
-                {lineItem.costLabel}
-              </td>
-            </tr>
-          ))}
-          <tr className="bg-white font-bold text-slate-900">
-            <td className="px-4 py-3">{copy.totalLabel}</td>
-            <td className="px-4 py-3" />
-            <td className="px-4 py-3 text-right text-base">{offer.totalLabel}</td>
-          </tr>
-        </tbody>
-      </table>
+
+    <div className={SERVICE_CHAT_OFFER_TABLE_WRAP_CLASS}>
+      <div className={`${SERVICE_CHAT_OFFER_TABLE_GRID_CLASS} ${SERVICE_CHAT_OFFER_TABLE_HEADER_CLASS}`}>
+        <span>{copy.itemColumn}</span>
+        <span>{copy.qtyColumn}</span>
+        <span className="text-right">{copy.costColumn}</span>
+      </div>
+      {offer.lineItems.map((lineItem) => (
+        <div
+          key={lineItem.id}
+          className={`${SERVICE_CHAT_OFFER_TABLE_GRID_CLASS} ${SERVICE_CHAT_OFFER_TABLE_ROW_CLASS} bg-white`}
+        >
+          <span className="font-medium text-[#314158]">{lineItem.item}</span>
+          <span className="text-[#383838]">{lineItem.quantity}</span>
+          <span className="text-right font-semibold text-[#0f172b]">{lineItem.costLabel}</span>
+        </div>
+      ))}
+      <div className={`${SERVICE_CHAT_OFFER_TABLE_GRID_CLASS} ${SERVICE_CHAT_OFFER_TABLE_TOTAL_CLASS}`}>
+        <span>{copy.totalLabel}</span>
+        <span aria-hidden="true" />
+        <span className="text-right text-base">{offer.totalLabel}</span>
+      </div>
     </div>
-    <button
-      type="button"
-      className="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-[10px] bg-amber-500 px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
-    >
-      <Package size={SERVICE_CHAT_PAY_ICON_SIZE} aria-hidden="true" />
+
+    <button type="button" className={SERVICE_CHAT_OFFER_PAY_BUTTON_CLASS}>
+      <Check size={SERVICE_CHAT_PAY_ICON_SIZE} aria-hidden="true" />
       {copy.payNow}
     </button>
   </article>
 ));
 
 ServiceDetailsOfferCard.displayName = 'ServiceDetailsOfferCard';
+
+const AdminOfferRow = memo(({ offer, copy }) => (
+  <div className="flex w-full justify-start">
+    <ServiceDetailsOfferCard offer={offer} copy={copy} />
+  </div>
+));
+
+AdminOfferRow.displayName = 'AdminOfferRow';
 
 const ServiceDetailsChat = memo(({ service, selectedPackage, onClose }) => {
   const {
@@ -158,13 +188,11 @@ const ServiceDetailsChat = memo(({ service, selectedPackage, onClose }) => {
     y: MOUNT_ENTER_OFFSET,
     duration: MOUNT_ENTER_DURATION,
   });
+  const messageGroups = useMemo(() => groupMessages(messages), [messages]);
 
   const handleClose = useCallback(() => {
     onClose();
   }, [onClose]);
-
-  const receivedMessages = messages.filter((message) => message.type === 'received');
-  const sentMessages = messages.filter((message) => message.type === 'sent');
 
   return (
     <div ref={enterRef} className="min-w-0" role="region" aria-label={copy.regionLabel}>
@@ -190,7 +218,7 @@ const ServiceDetailsChat = memo(({ service, selectedPackage, onClose }) => {
         </div>
 
         <div className={BODY_CLASS}>
-          <div className="px-4 pt-5 sm:px-10">
+          <div className={`flex w-full justify-center pt-5 ${SERVICE_CHAT_CONTENT_PADDING_CLASS}`}>
             <div className={TIMESTAMP_CLASS}>
               <span>{timestamp.dateLabel}</span>
               <span className="size-1.5 rounded-full bg-gray-400" aria-hidden="true" />
@@ -198,12 +226,15 @@ const ServiceDetailsChat = memo(({ service, selectedPackage, onClose }) => {
             </div>
           </div>
 
-          <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-6 sm:px-10">
-            {receivedMessages.length > 0 ? (
-              <ReceivedMessageGroup messages={receivedMessages} />
-            ) : null}
-            {sentMessages.length > 0 ? <SentMessageGroup messages={sentMessages} /> : null}
-            <ServiceDetailsOfferCard offer={offer} copy={copy.offerCard} />
+          <div className={MESSAGES_CLASS}>
+            {messageGroups.map((group, groupIndex) =>
+              group.type === 'received' ? (
+                <ReceivedMessageRow key={groupIndex} messages={group.messages} />
+              ) : (
+                <SentMessageRow key={groupIndex} messages={group.messages} />
+              ),
+            )}
+            <AdminOfferRow offer={offer} copy={copy.offerCard} />
           </div>
 
           <div className={COMPOSER_CLASS}>

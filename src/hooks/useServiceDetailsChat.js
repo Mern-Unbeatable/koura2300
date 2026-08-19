@@ -21,10 +21,7 @@ const useServiceDetailsChat = ({ service, selectedPackage }) => {
   const inputRef = useRef(null);
 
   const timestamp = useMemo(() => formatServiceChatTimestamp(), []);
-  const offer = useMemo(
-    () => buildServiceChatOffer({ service, selectedPackage }),
-    [selectedPackage, service],
-  );
+  const offer = useMemo(() => buildServiceChatOffer({ selectedPackage }), [selectedPackage]);
 
   const handleInputChange = useCallback((event) => {
     setInputValue(event.target.value);

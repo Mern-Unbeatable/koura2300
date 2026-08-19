@@ -89,6 +89,30 @@ export const SERVICE_CHAT_PAY_ICON_SIZE = 18;
 export const SERVICE_CHAT_PANEL_MIN_HEIGHT_CLASS = 'min-h-[600px] lg:min-h-[854px]';
 export const SERVICE_CHAT_PANEL_SHADOW_CLASS =
   'shadow-[0px_40px_42.4px_0px_rgba(255,255,255,0.25)]';
+export const SERVICE_CHAT_BUBBLE_MAX_WIDTH_CLASS = 'max-w-[75vw] sm:max-w-[70%] lg:max-w-[65%]';
+export const SERVICE_CHAT_CONTENT_PADDING_CLASS = 'px-4 sm:px-10';
+export const SERVICE_CHAT_MESSAGE_GAP_CLASS = 'gap-[23px]';
+export const SERVICE_CHAT_OFFER_WIDTH_PX = 1118;
+export const SERVICE_CHAT_OFFER_CARD_WIDTH_CLASS = `w-full min-w-0 max-w-[${SERVICE_CHAT_OFFER_WIDTH_PX}px] sm:w-[76.9%]`;
+
+export const SERVICE_CHAT_OFFER_BOOKING_ID = 'BK-001';
+export const SERVICE_CHAT_OFFER_TOTAL = 185;
+export const SERVICE_CHAT_OFFER_CARD_CLASS =
+  'rounded-[14px] border-2 border-[#f59e0b] bg-[#fff8ee] p-[26px]';
+export const SERVICE_CHAT_OFFER_TABLE_GRID_CLASS =
+  'grid grid-cols-[minmax(0,1fr)_minmax(72px,auto)_minmax(64px,auto)] items-center gap-x-4';
+export const SERVICE_CHAT_OFFER_TABLE_WRAP_CLASS =
+  'mt-4 overflow-hidden rounded-xl border border-[#585858]';
+export const SERVICE_CHAT_OFFER_TABLE_HEADER_CLASS =
+  'border-b border-[#f1f5f9] bg-white px-4 py-3 text-xs font-semibold text-[#383838]';
+export const SERVICE_CHAT_OFFER_TABLE_ROW_CLASS =
+  'border-b border-[#c4c4c4] px-4 py-3 text-sm last:border-b-0';
+export const SERVICE_CHAT_OFFER_TABLE_TOTAL_CLASS =
+  'bg-white px-4 py-3.5 text-sm font-bold text-[#0f172b]';
+export const SERVICE_CHAT_OFFER_PAY_BUTTON_CLASS =
+  'mt-4 inline-flex w-[213px] cursor-pointer items-center justify-center gap-1 rounded-[10px] bg-[#f59e0b] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500';
+export const SERVICE_CHAT_OFFER_ICON_WRAP_CLASS =
+  'flex size-10 shrink-0 items-center justify-center rounded-full bg-[#00a63e] text-white';
 
 export const SERVICE_CHAT_PRO = {
   name: 'Ope',
@@ -113,21 +137,16 @@ export const SERVICE_CHAT_OFFER_LINE_ITEMS = [
   { id: 'wire', item: 'AWG Wire 10/2', quantity: '50 ft', cost: 40 },
 ];
 
-export const buildServiceChatOffer = ({ service, selectedPackage }) => {
+export const buildServiceChatOffer = ({ selectedPackage }) => {
   const lineItems = SERVICE_CHAT_OFFER_LINE_ITEMS.map((lineItem) => ({
     ...lineItem,
     costLabel: `$${lineItem.cost}`,
   }));
-  const materialsTotal = SERVICE_CHAT_OFFER_LINE_ITEMS.reduce(
-    (total, lineItem) => total + lineItem.cost,
-    0,
-  );
 
   return {
-    bookingId: `BK-${service.id.slice(0, 3).toUpperCase()}`,
+    bookingId: SERVICE_CHAT_OFFER_BOOKING_ID,
     lineItems,
-    totalLabel: `$${materialsTotal}`,
-    serviceTitle: service.title,
+    totalLabel: `$${SERVICE_CHAT_OFFER_TOTAL}`,
     packagePrice: selectedPackage.price,
   };
 };
