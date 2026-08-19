@@ -3,8 +3,8 @@ import { Mail, MessageSquare, Phone } from 'lucide-react';
 import useGsapMountEnter from '../../hooks/useGsapMountEnter';
 import { SERVICE_DETAILS_CONTENT } from './serviceDetailsCopy';
 import {
-  CONTACT_METHOD_ENTER_DURATION,
-  CONTACT_METHOD_ENTER_OFFSET,
+  MOUNT_ENTER_DURATION,
+  MOUNT_ENTER_OFFSET,
   CONTACT_METHOD_HEADER_MAX_WIDTH_CLASS,
   CONTACT_METHOD_ICON_SIZE,
   CONTACT_METHOD_ICON_WRAP_CLASS,
@@ -68,8 +68,8 @@ ContactMethodOption.displayName = 'ContactMethodOption';
 
 const ServiceDetailsContactMethod = memo(({ selectedContactMethod, onSelectContactMethod }) => {
   const enterRef = useGsapMountEnter({
-    y: CONTACT_METHOD_ENTER_OFFSET,
-    duration: CONTACT_METHOD_ENTER_DURATION,
+    y: MOUNT_ENTER_OFFSET,
+    duration: MOUNT_ENTER_DURATION,
   });
 
   return (
