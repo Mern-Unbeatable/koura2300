@@ -27,6 +27,8 @@ const SECTION_CLASS = `min-w-0 rounded-xl bg-white px-4 py-10 ${CONTACT_METHOD_S
 const OPTIONS_GRID_CLASS = `mx-auto mt-8 grid w-full gap-5 sm:grid-cols-3 ${CONTACT_METHOD_OPTIONS_MAX_WIDTH_CLASS}`;
 const OPTION_CARD_BASE = `flex w-full min-w-0 cursor-pointer flex-col items-center gap-3 rounded-2xl border-2 ${CONTACT_METHOD_OPTION_PADDING_CLASS} transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`;
 
+const OPTION_IDLE_HOVER_CLASS = 'hover:border-brand-orange/40 hover:bg-brand-orange-light/40';
+
 const OPTION_APPEARANCE = {
   true: {
     card: `${OPTION_CARD_BASE} border-brand-orange bg-brand-orange-light`,
@@ -34,9 +36,9 @@ const OPTION_APPEARANCE = {
     label: 'text-sm font-semibold text-brand-orange',
   },
   false: {
-    card: `${OPTION_CARD_BASE} border-gray-200 bg-white`,
-    iconWrap: `${CONTACT_METHOD_ICON_WRAP_CLASS} bg-gray-100 text-gray-500`,
-    label: 'text-sm font-semibold text-gray-600',
+    card: `${OPTION_CARD_BASE} group border-gray-200 bg-white ${OPTION_IDLE_HOVER_CLASS}`,
+    iconWrap: `${CONTACT_METHOD_ICON_WRAP_CLASS} bg-gray-100 text-gray-500 transition-colors group-hover:bg-brand-orange-light group-hover:text-brand-orange`,
+    label: 'text-sm font-semibold text-gray-600 transition-colors group-hover:text-brand-orange/80',
   },
 };
 

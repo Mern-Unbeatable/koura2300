@@ -281,9 +281,21 @@ describe('Service details page', () => {
     expect(
       contactRegion.compareDocumentPosition(includedHeading) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
-    expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveClass('cursor-pointer');
-    expect(screen.getByRole('radio', { name: 'Email' })).toHaveClass('cursor-pointer');
-    expect(chatOption).toHaveClass('cursor-pointer');
+    expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveClass(
+      'cursor-pointer',
+      'hover:border-brand-orange/40',
+      'hover:bg-brand-orange-light/40',
+    );
+    expect(screen.getByRole('radio', { name: 'Email' })).toHaveClass(
+      'cursor-pointer',
+      'hover:border-brand-orange/40',
+      'hover:bg-brand-orange-light/40',
+    );
+    expect(chatOption).toHaveClass(
+      'cursor-pointer',
+      'hover:border-brand-orange/40',
+      'hover:bg-brand-orange-light/40',
+    );
     expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveAttribute(
       'aria-checked',
       'false',
