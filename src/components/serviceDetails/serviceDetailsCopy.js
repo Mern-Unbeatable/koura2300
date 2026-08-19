@@ -27,6 +27,14 @@ export const SERVICE_DETAILS_CONTENT = {
     apply: 'Apply',
     error: 'Enter a valid US zip code.',
   },
+  contactMethod: {
+    title: 'Preferred Contact Method',
+    description: 'How should your pro reach you for updates and confirmation?',
+    groupLabel: 'Preferred contact method',
+    phone: 'Phone / SMS',
+    email: 'Email',
+    chat: 'Chat',
+  },
   inclusions: {
     includedTitle: "What's Included",
     excludedTitle: 'Not Included',

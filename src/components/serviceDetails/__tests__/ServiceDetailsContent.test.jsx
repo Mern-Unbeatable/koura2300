@@ -246,11 +246,18 @@ describe('Service details page', () => {
 
     expect(screen.getByRole('alert')).toHaveTextContent('Enter a valid US zip code.');
     expect(toast.success).not.toHaveBeenCalled();
+    expect(
+      screen.queryByRole('region', { name: 'Preferred Contact Method' }),
+    ).not.toBeInTheDocument();
   });
 
-  it('adds the selected package to the cart after a valid zip is submitted', async () => {
+  it('shows preferred contact method below the booking row after a valid zip is applied', async () => {
     const user = userEvent.setup();
     const store = renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    expect(
+      screen.queryByRole('region', { name: 'Preferred Contact Method' }),
+    ).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
     await user.type(screen.getByLabelText('US zip code'), '94107');
@@ -262,7 +269,32 @@ describe('Service details page', () => {
       price: 145,
     });
     expect(toast.success).toHaveBeenCalled();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(screen.queryByRole('region', { name: 'Choose your location' })).not.toBeInTheDocument();
+
+    const contactRegion = screen.getByRole('region', { name: 'Preferred Contact Method' });
+    const includedHeading = screen.getByRole('heading', { name: "What's Included" });
+    const chatOption = screen.getByRole('radio', { name: 'Chat' });
+
+    expect(contactRegion).toHaveTextContent(
+      'How should your pro reach you for updates and confirmation?',
+    );
+    expect(contactRegion).not.toHaveClass('lg:col-start-2');
+    expect(
+      contactRegion.compareDocumentPosition(includedHeading) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveClass('cursor-pointer');
+    expect(screen.getByRole('radio', { name: 'Email' })).toHaveClass('cursor-pointer');
+    expect(chatOption).toHaveClass('cursor-pointer');
+    expect(chatOption).toHaveAttribute('aria-checked', 'true');
+
+    await user.click(screen.getByRole('radio', { name: 'Phone / SMS' }));
+
+    expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+    expect(chatOption).toHaveAttribute('aria-checked', 'false');
   });
 
   it('shows related services from the same catalog and lets them be added', async () => {

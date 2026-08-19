@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import useAddService from './useAddService';
 import { SERVICE_DETAILS_CONTENT } from '../components/serviceDetails/serviceDetailsCopy';
 import {
+  DEFAULT_CONTACT_METHOD,
   SERVICE_PACKAGES,
   createConfirmedCartItem,
   isValidUsZip,
@@ -16,6 +17,7 @@ const BOOKING_ACTION = {
   CLOSE_ZIP_PANEL: 'CLOSE_ZIP_PANEL',
   CHANGE_ZIP_CODE: 'CHANGE_ZIP_CODE',
   SET_ZIP_ERROR: 'SET_ZIP_ERROR',
+  SELECT_CONTACT_METHOD: 'SELECT_CONTACT_METHOD',
   COMPLETE_CONFIRMATION: 'COMPLETE_CONFIRMATION',
 };
 
@@ -26,6 +28,8 @@ const createBookingState = () => ({
   isZipPanelOpen: false,
   zipCode: '',
   zipError: '',
+  isContactMethodVisible: false,
+  selectedContactMethod: DEFAULT_CONTACT_METHOD,
 });
 
 const bookingReducer = (state, action) => {
@@ -44,10 +48,13 @@ const bookingReducer = (state, action) => {
       return { ...state, zipCode: action.zipCode, zipError: '' };
     case BOOKING_ACTION.SET_ZIP_ERROR:
       return { ...state, zipError: action.zipError };
+    case BOOKING_ACTION.SELECT_CONTACT_METHOD:
+      return { ...state, selectedContactMethod: action.contactMethod };
     case BOOKING_ACTION.COMPLETE_CONFIRMATION:
       return {
         ...state,
         isZipPanelOpen: false,
+        isContactMethodVisible: true,
         zipCode: '',
         zipError: '',
       };
@@ -91,6 +98,10 @@ const useServiceBooking = (service, packages) => {
     dispatch({ type: BOOKING_ACTION.CHANGE_ZIP_CODE, zipCode: event.target.value });
   }, []);
 
+  const handleSelectContactMethod = useCallback((contactMethod) => {
+    dispatch({ type: BOOKING_ACTION.SELECT_CONTACT_METHOD, contactMethod });
+  }, []);
+
   const handleSubmitZip = useCallback(
     (event) => {
       event.preventDefault();
@@ -132,6 +143,8 @@ const useServiceBooking = (service, packages) => {
     isZipPanelOpen: state.isZipPanelOpen,
     zipCode: state.zipCode,
     zipError: state.zipError,
+    isContactMethodVisible: state.isContactMethodVisible,
+    selectedContactMethod: state.selectedContactMethod,
     handleSelectPackage,
     handleNeedMaterials,
     handleHaveMaterials,
@@ -140,6 +153,7 @@ const useServiceBooking = (service, packages) => {
     handleCloseZipPanel,
     handleZipCodeChange,
     handleSubmitZip,
+    handleSelectContactMethod,
   };
 };
 

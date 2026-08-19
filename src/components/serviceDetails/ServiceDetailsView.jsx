@@ -3,6 +3,7 @@ import useAddService from '../../hooks/useAddService';
 import useServiceBooking from '../../hooks/useServiceBooking';
 import ServiceDetailsBooking from './ServiceDetailsBooking';
 import ServiceDetailsBreadcrumb from './ServiceDetailsBreadcrumb';
+import ServiceDetailsContactMethod from './ServiceDetailsContactMethod';
 import ServiceDetailsGallery from './ServiceDetailsGallery';
 import ServiceDetailsInclusions from './ServiceDetailsInclusions';
 import ServiceDetailsPackages from './ServiceDetailsPackages';
@@ -71,6 +72,13 @@ const ServiceDetailsView = memo(
               </div>
             ) : null}
           </div>
+
+          {booking.isContactMethodVisible ? (
+            <ServiceDetailsContactMethod
+              selectedContactMethod={booking.selectedContactMethod}
+              onSelectContactMethod={booking.handleSelectContactMethod}
+            />
+          ) : null}
 
           <ServiceDetailsInclusions includedItems={includedItems} excludedItems={excludedItems} />
           <ServiceDetailsRelated
