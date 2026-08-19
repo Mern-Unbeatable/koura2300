@@ -18,6 +18,7 @@ const BOOKING_ACTION = {
   CHANGE_ZIP_CODE: 'CHANGE_ZIP_CODE',
   SELECT_CONTACT_METHOD: 'SELECT_CONTACT_METHOD',
   CLOSE_CHAT: 'CLOSE_CHAT',
+  CLOSE_ACCOUNT: 'CLOSE_ACCOUNT',
   COMPLETE_CONFIRMATION: 'COMPLETE_CONFIRMATION',
 };
 
@@ -29,6 +30,7 @@ const createBookingState = () => ({
   zipCode: '',
   isContactMethodVisible: false,
   isChatOpen: false,
+  isAccountOpen: false,
   selectedContactMethod: UNSELECTED_CONTACT_METHOD,
 });
 
@@ -51,11 +53,20 @@ const bookingReducer = (state, action) => {
         ...state,
         selectedContactMethod: action.contactMethod,
         isChatOpen: action.contactMethod === CONTACT_METHODS.CHAT,
+        isAccountOpen:
+          action.contactMethod === CONTACT_METHODS.PHONE ||
+          action.contactMethod === CONTACT_METHODS.EMAIL,
       };
     case BOOKING_ACTION.CLOSE_CHAT:
       return {
         ...state,
         isChatOpen: false,
+        selectedContactMethod: UNSELECTED_CONTACT_METHOD,
+      };
+    case BOOKING_ACTION.CLOSE_ACCOUNT:
+      return {
+        ...state,
+        isAccountOpen: false,
         selectedContactMethod: UNSELECTED_CONTACT_METHOD,
       };
     case BOOKING_ACTION.COMPLETE_CONFIRMATION:
@@ -113,6 +124,10 @@ const useServiceBooking = (service, packages) => {
     dispatch({ type: BOOKING_ACTION.CLOSE_CHAT });
   }, []);
 
+  const handleCloseAccount = useCallback(() => {
+    dispatch({ type: BOOKING_ACTION.CLOSE_ACCOUNT });
+  }, []);
+
   const handleSubmitZip = useCallback(
     (event) => {
       event.preventDefault();
@@ -140,6 +155,7 @@ const useServiceBooking = (service, packages) => {
     zipCode: state.zipCode,
     isContactMethodVisible: state.isContactMethodVisible,
     isChatOpen: state.isChatOpen,
+    isAccountOpen: state.isAccountOpen,
     selectedContactMethod: state.selectedContactMethod,
     handleSelectPackage,
     handleNeedMaterials,
@@ -151,6 +167,7 @@ const useServiceBooking = (service, packages) => {
     handleSubmitZip,
     handleSelectContactMethod,
     handleCloseChat,
+    handleCloseAccount,
   };
 };
 

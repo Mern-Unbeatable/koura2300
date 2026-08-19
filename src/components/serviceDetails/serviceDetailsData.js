@@ -74,6 +74,23 @@ export const CONTACT_METHOD_IDS = {
   TITLE: 'service-contact-method-title',
 };
 
+export const CREATE_ACCOUNT_IDS = {
+  TITLE: 'service-create-account-title',
+};
+
+export const CREATE_ACCOUNT_SECTION_SHADOW_CLASS =
+  'shadow-[-7px_0px_11.4px_0px_rgba(0,0,0,0.25)]';
+export const CREATE_ACCOUNT_FIELD_BG_CLASS = 'bg-[#e6effe]';
+export const CREATE_ACCOUNT_FIELD_HEIGHT_CLASS = 'h-[60px]';
+export const CREATE_ACCOUNT_SIGN_UP_BTN_CLASS =
+  'flex h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-[#0160f2] px-4 py-3 text-base font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0160f2] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60';
+export const CREATE_ACCOUNT_SOCIAL_BTN_CLASS =
+  'flex w-full cursor-pointer items-center justify-center gap-3 rounded-full border border-gray-300 bg-white px-6 py-[17px] text-lg font-bold text-black shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400';
+export const CREATE_ACCOUNT_FORM_FIELD_FORM_GAP_CLASS = 'gap-4';
+export const CREATE_ACCOUNT_SOCIAL_ICON_SIZE = 24;
+export const CREATE_ACCOUNT_CLOSE_ICON_SIZE = 24;
+export const CREATE_ACCOUNT_EYE_ICON_SIZE = 18;
+
 export const SERVICE_CHAT_IDS = {
   TITLE: 'service-chat-title',
 };

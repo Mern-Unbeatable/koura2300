@@ -5,6 +5,7 @@ import ServiceDetailsBooking from './ServiceDetailsBooking';
 import ServiceDetailsBreadcrumb from './ServiceDetailsBreadcrumb';
 import ServiceDetailsChat from './ServiceDetailsChat';
 import ServiceDetailsContactMethod from './ServiceDetailsContactMethod';
+import ServiceDetailsCreateAccount from './ServiceDetailsCreateAccount';
 import ServiceDetailsGallery from './ServiceDetailsGallery';
 import ServiceDetailsInclusions from './ServiceDetailsInclusions';
 import ServiceDetailsPackages from './ServiceDetailsPackages';
@@ -86,6 +87,10 @@ const ServiceDetailsView = memo(
               selectedPackage={booking.selectedPackage}
               onClose={booking.handleCloseChat}
             />
+          ) : null}
+
+          {booking.isAccountOpen ? (
+            <ServiceDetailsCreateAccount onClose={booking.handleCloseAccount} />
           ) : null}
 
           <ServiceDetailsInclusions includedItems={includedItems} excludedItems={excludedItems} />

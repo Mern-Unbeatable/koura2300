@@ -76,7 +76,11 @@ const ServiceDetailsContactMethod = memo(({ selectedContactMethod, onSelectConta
 
   return (
     <div ref={enterRef} className="min-w-0 pt-6">
-      <section className={SECTION_CLASS} aria-labelledby={CONTACT_METHOD_IDS.TITLE}>
+      <section
+        className={SECTION_CLASS}
+        role="region"
+        aria-labelledby={CONTACT_METHOD_IDS.TITLE}
+      >
         <div
           className={`mx-auto flex flex-col items-center gap-2 text-center ${CONTACT_METHOD_HEADER_MAX_WIDTH_CLASS}`}
         >
