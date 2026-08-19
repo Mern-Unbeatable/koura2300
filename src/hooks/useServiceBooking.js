@@ -1,5 +1,9 @@
 import { useCallback, useReducer } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { ROUTES } from '../config';
+import { loginSuccess, selectIsAuthenticated } from '../store/slices/authSlice';
 import useAddService from './useAddService';
 import { SERVICE_DETAILS_CONTENT } from '../components/serviceDetails/serviceDetailsCopy';
 import {
@@ -18,6 +22,7 @@ const BOOKING_ACTION = {
   CHANGE_ZIP_CODE: 'CHANGE_ZIP_CODE',
   SELECT_CONTACT_METHOD: 'SELECT_CONTACT_METHOD',
   CLOSE_CHAT: 'CLOSE_CHAT',
+  OPEN_ACCOUNT: 'OPEN_ACCOUNT',
   CLOSE_ACCOUNT: 'CLOSE_ACCOUNT',
   COMPLETE_CONFIRMATION: 'COMPLETE_CONFIRMATION',
 };
@@ -39,11 +44,15 @@ const bookingReducer = (state, action) => {
     case BOOKING_ACTION.SELECT_PACKAGE:
       return { ...state, selectedPackageId: action.packageId };
     case BOOKING_ACTION.SET_NEEDS_MATERIALS:
-      return { ...state, needsMaterials: action.needsMaterials };
+      return {
+        ...state,
+        needsMaterials: action.needsMaterials,
+        isAccountOpen: action.needsMaterials ? false : state.isAccountOpen,
+      };
     case BOOKING_ACTION.TOGGLE_RECYCLE:
       return { ...state, recycleOldMaterials: !state.recycleOldMaterials };
     case BOOKING_ACTION.OPEN_ZIP_PANEL:
-      return { ...state, isZipPanelOpen: true };
+      return { ...state, isZipPanelOpen: true, isAccountOpen: false };
     case BOOKING_ACTION.CLOSE_ZIP_PANEL:
       return { ...state, isZipPanelOpen: false };
     case BOOKING_ACTION.CHANGE_ZIP_CODE:
@@ -62,6 +71,13 @@ const bookingReducer = (state, action) => {
         ...state,
         isChatOpen: false,
         selectedContactMethod: UNSELECTED_CONTACT_METHOD,
+      };
+    case BOOKING_ACTION.OPEN_ACCOUNT:
+      return {
+        ...state,
+        isAccountOpen: true,
+        isZipPanelOpen: false,
+        isChatOpen: false,
       };
     case BOOKING_ACTION.CLOSE_ACCOUNT:
       return {
@@ -83,10 +99,24 @@ const bookingReducer = (state, action) => {
 
 const useServiceBooking = (service, packages) => {
   const addService = useAddService();
+  const dispatchAuth = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const [state, dispatch] = useReducer(bookingReducer, undefined, createBookingState);
 
   const selectedPackage =
     packages.find((servicePackage) => servicePackage.id === state.selectedPackageId) ?? packages[0];
+
+  const addConfirmedItem = useCallback(() => {
+    addService(
+      createConfirmedCartItem({
+        service,
+        selectedPackage,
+        needsMaterials: state.needsMaterials,
+        recycleOldMaterials: state.recycleOldMaterials,
+      }),
+    );
+  }, [addService, selectedPackage, service, state.needsMaterials, state.recycleOldMaterials]);
 
   const handleSelectPackage = useCallback((packageId) => {
     dispatch({ type: BOOKING_ACTION.SELECT_PACKAGE, packageId });
@@ -105,8 +135,18 @@ const useServiceBooking = (service, packages) => {
   }, []);
 
   const handleConfirmJob = useCallback(() => {
+    if (!state.needsMaterials) {
+      addConfirmedItem();
+      if (isAuthenticated) {
+        navigate(ROUTES.CHECKOUT);
+        return;
+      }
+      dispatch({ type: BOOKING_ACTION.OPEN_ACCOUNT });
+      return;
+    }
+
     dispatch({ type: BOOKING_ACTION.OPEN_ZIP_PANEL });
-  }, []);
+  }, [addConfirmedItem, isAuthenticated, navigate, state.needsMaterials]);
 
   const handleCloseZipPanel = useCallback(() => {
     dispatch({ type: BOOKING_ACTION.CLOSE_ZIP_PANEL });
@@ -128,22 +168,32 @@ const useServiceBooking = (service, packages) => {
     dispatch({ type: BOOKING_ACTION.CLOSE_ACCOUNT });
   }, []);
 
+  const handleAccountComplete = useCallback(
+    (fields) => {
+      dispatchAuth(
+        loginSuccess({
+          user: {
+            name: fields.fullName,
+            email: fields.email,
+            phone: fields.phone,
+            address: fields.address,
+          },
+          token: null,
+        }),
+      );
+      navigate(ROUTES.CHECKOUT);
+    },
+    [dispatchAuth, navigate],
+  );
+
   const handleSubmitZip = useCallback(
     (event) => {
       event.preventDefault();
-
-      addService(
-        createConfirmedCartItem({
-          service,
-          selectedPackage,
-          needsMaterials: state.needsMaterials,
-          recycleOldMaterials: state.recycleOldMaterials,
-        }),
-      );
+      addConfirmedItem();
       toast.success(SERVICE_DETAILS_CONTENT.booking.success);
       dispatch({ type: BOOKING_ACTION.COMPLETE_CONFIRMATION });
     },
-    [addService, selectedPackage, service, state.needsMaterials, state.recycleOldMaterials],
+    [addConfirmedItem],
   );
 
   return {
@@ -168,6 +218,7 @@ const useServiceBooking = (service, packages) => {
     handleSelectContactMethod,
     handleCloseChat,
     handleCloseAccount,
+    handleAccountComplete,
   };
 };
 

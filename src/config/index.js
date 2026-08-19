@@ -28,6 +28,7 @@ export const ROUTES = {
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',
   LOGIN: '/login',
+  CHECKOUT: '/checkout',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
   ADMIN_EMAILS: '/admin/emails',

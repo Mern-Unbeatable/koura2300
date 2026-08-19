@@ -90,7 +90,10 @@ const ServiceDetailsView = memo(
           ) : null}
 
           {booking.isAccountOpen ? (
-            <ServiceDetailsCreateAccount onClose={booking.handleCloseAccount} />
+            <ServiceDetailsCreateAccount
+              onClose={booking.handleCloseAccount}
+              onComplete={booking.handleAccountComplete}
+            />
           ) : null}
 
           <ServiceDetailsInclusions includedItems={includedItems} excludedItems={excludedItems} />

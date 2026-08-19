@@ -6,7 +6,9 @@ import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { ROUTES, buildServiceDetailsRoute } from '../../../config';
+import authReducer from '../../../store/slices/authSlice';
 import cartReducer from '../../../store/slices/cartSlice';
+import CheckoutView from '../../checkout/CheckoutView';
 import { CATALOG_COLLECTIONS, getCatalogServiceById } from '../../catalog/catalogRegistry';
 import ServiceDetailsContent from '../ServiceDetailsContent';
 
@@ -42,10 +44,22 @@ const openServiceChat = async (user) => {
   });
 };
 
-const createTestStore = () =>
+const UNAUTHENTICATED_AUTH = {
+  user: null,
+  isAuthenticated: false,
+  token: null,
+  loading: false,
+};
+
+const createTestStore = (preloadedState = {}) =>
   configureStore({
     reducer: {
       cart: cartReducer,
+      auth: authReducer,
+    },
+    preloadedState: {
+      auth: UNAUTHENTICATED_AUTH,
+      ...preloadedState,
     },
   });
 
@@ -55,6 +69,7 @@ const renderServiceDetails = (serviceId, store = createTestStore(), category) =>
       <MemoryRouter initialEntries={[buildServiceDetailsRoute(serviceId, category)]}>
         <Routes>
           <Route path={ROUTES.SERVICE_DETAILS} element={<ServiceDetailsContent />} />
+          <Route path={ROUTES.CHECKOUT} element={<CheckoutView />} />
         </Routes>
       </MemoryRouter>
     </Provider>,
@@ -238,6 +253,41 @@ describe('Service details page', () => {
     expect(screen.getByRole('checkbox', { name: 'Recycle old materials' })).toBeChecked();
   });
 
+  it('opens Create Account when a guest confirms with I Have Materials', async () => {
+    const user = userEvent.setup();
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    await user.click(screen.getByRole('button', { name: 'I Have Materials' }));
+    await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
+
+    expect(screen.queryByRole('region', { name: 'Choose your location' })).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole('region', { name: 'Create your account' })).toBeInTheDocument();
+    });
+  });
+
+  it('redirects a logged-in user to checkout when they confirm with I Have Materials', async () => {
+    const user = userEvent.setup();
+    const store = createTestStore({
+      auth: {
+        user: { email: 'jane@example.com', name: 'Jane' },
+        isAuthenticated: true,
+        token: 'test-token',
+        loading: false,
+      },
+    });
+    renderServiceDetails(LIGHTING_SERVICE_ID, store);
+
+    await user.click(screen.getByRole('button', { name: 'I Have Materials' }));
+    await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Personal Information' })).toBeInTheDocument();
+    });
+    expect(screen.getByRole('heading', { name: 'Review Your Order' })).toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Create your account' })).not.toBeInTheDocument();
+  });
+
   it('opens the zip form below Confirmed Job and applies without a zip condition', async () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
@@ -249,7 +299,7 @@ describe('Service details page', () => {
       'aria-expanded',
       'true',
     );
-    const zipPanel = screen.getByRole('region', { name: 'Choose your location' });
+    const zipPanel = await screen.findByRole('region', { name: 'Choose your location' });
     const heroImage = screen.getAllByRole('img', {
       name: 'Chrome lighting fixture above a white sink',
     })[0];

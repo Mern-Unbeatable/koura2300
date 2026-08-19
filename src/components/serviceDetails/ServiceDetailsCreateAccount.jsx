@@ -136,7 +136,7 @@ const ModeLink = memo(({ label, actionLabel, onClick }) => (
 
 ModeLink.displayName = 'ModeLink';
 
-const ServiceDetailsCreateAccount = memo(({ onClose }) => {
+const ServiceDetailsCreateAccount = memo(({ onClose, onComplete }) => {
   const {
     fields,
     showPassword,
@@ -147,7 +147,8 @@ const ServiceDetailsCreateAccount = memo(({ onClose }) => {
     handleTogglePassword,
     handleSwitchToLogin,
     handleSwitchToSignUp,
-  } = useServiceCreateAccount();
+    handleSubmit,
+  } = useServiceCreateAccount({ onComplete });
 
   const enterRef = useGsapMountEnter({ y: MOUNT_ENTER_OFFSET, duration: MOUNT_ENTER_DURATION });
   const signUpFieldsRef = useRef(null);
@@ -180,7 +181,7 @@ const ServiceDetailsCreateAccount = memo(({ onClose }) => {
           <form
             className={`mt-9 ${FORM_CLASS}`}
             aria-label={title}
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={handleSubmit}
             noValidate
           >
             {/* Sign-up-only fields — animated collapse on login mode */}

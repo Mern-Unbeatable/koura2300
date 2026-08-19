@@ -27,7 +27,12 @@ const ServiceZipPanel = memo(({ zipCode, onZipCodeChange, onClose, onSubmit }) =
   });
 
   return (
-    <section ref={enterRef} className={PANEL_CLASS} aria-labelledby={ZIP_PANEL_IDS.TITLE}>
+    <section
+      ref={enterRef}
+      className={PANEL_CLASS}
+      role="region"
+      aria-labelledby={ZIP_PANEL_IDS.TITLE}
+    >
       <div className={HEADER_CLASS}>
         <h2 id={ZIP_PANEL_IDS.TITLE} className="text-sm font-bold text-brand-ink">
           {zipPanel.title}

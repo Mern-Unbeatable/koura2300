@@ -20,7 +20,7 @@ const isSignUpFilled = (fields) =>
 const isLoginFilled = (fields) =>
   fields.email.trim().length > 0 && fields.password.trim().length > 0;
 
-const useServiceCreateAccount = () => {
+const useServiceCreateAccount = ({ onComplete } = {}) => {
   const [fields, setFields] = useState(createEmptyFields);
   const [showPassword, setShowPassword] = useState(false);
   const [mode, setMode] = useState(ACCOUNT_MODE.SIGN_UP);
@@ -49,6 +49,17 @@ const useServiceCreateAccount = () => {
     ? isLoginFilled(fields)
     : isSignUpFilled(fields);
 
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (!isSubmitEnabled) {
+        return;
+      }
+      onComplete?.(fields);
+    },
+    [fields, isSubmitEnabled, onComplete],
+  );
+
   return {
     fields,
     showPassword,
@@ -59,6 +70,7 @@ const useServiceCreateAccount = () => {
     handleTogglePassword,
     handleSwitchToLogin,
     handleSwitchToSignUp,
+    handleSubmit,
   };
 };
 
