@@ -64,7 +64,6 @@ const ServiceDetailsView = memo(
               <div className={ZIP_PANEL_GRID_CELL_CLASS}>
                 <ServiceZipPanel
                   zipCode={booking.zipCode}
-                  zipError={booking.zipError}
                   onZipCodeChange={booking.handleZipCodeChange}
                   onClose={booking.handleCloseZipPanel}
                   onSubmit={booking.handleSubmitZip}

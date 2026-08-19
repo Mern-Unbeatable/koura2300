@@ -66,7 +66,6 @@ export const BREADCRUMB_SEPARATOR = '>';
 export const ZIP_PANEL_IDS = {
   TITLE: 'service-zip-title',
   FIELD: 'service-zip-code',
-  ERROR: 'service-zip-error',
 };
 
 export const CONTACT_METHOD_IDS = {
@@ -75,8 +74,6 @@ export const CONTACT_METHOD_IDS = {
 
 const STANDARD_PRICE_OFFSET = 70;
 const PREMIUM_PRICE_OFFSET = 125;
-
-export const US_ZIP_PATTERN = /^\d{5}(?:-\d{4})?$/;
 
 export const EMPTY_CATALOG_SERVICE_DETAILS = {
   service: undefined,
@@ -195,5 +192,3 @@ export const createConfirmedCartItem = ({
   needsMaterials,
   recycleOldMaterials,
 });
-
-export const isValidUsZip = (zipCode) => US_ZIP_PATTERN.test(zipCode.trim());

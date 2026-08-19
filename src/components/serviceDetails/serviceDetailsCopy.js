@@ -25,7 +25,6 @@ export const SERVICE_DETAILS_CONTENT = {
     inputLabel: 'US zip code',
     inputPlaceholder: 'Enter US zip code',
     apply: 'Apply',
-    error: 'Enter a valid US zip code.',
   },
   contactMethod: {
     title: 'Preferred Contact Method',

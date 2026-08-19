@@ -14,7 +14,7 @@ const CLOSE_BUTTON_CLASS =
 const INPUT_CLASS =
   'h-10 min-w-0 flex-1 rounded-md border border-gray-300 px-3 text-sm text-brand-ink focus:border-brand-orange focus:outline-none focus:ring-2 focus:ring-brand-orange';
 
-const ServiceZipPanel = memo(({ zipCode, zipError, onZipCodeChange, onClose, onSubmit }) => (
+const ServiceZipPanel = memo(({ zipCode, onZipCodeChange, onClose, onSubmit }) => (
   <section className={PANEL_CLASS} aria-labelledby={ZIP_PANEL_IDS.TITLE}>
     <div className={HEADER_CLASS}>
       <h2 id={ZIP_PANEL_IDS.TITLE} className="text-sm font-bold text-brand-ink">
@@ -46,19 +46,12 @@ const ServiceZipPanel = memo(({ zipCode, zipError, onZipCodeChange, onClose, onS
           value={zipCode}
           onChange={onZipCodeChange}
           placeholder={zipPanel.inputPlaceholder}
-          aria-invalid={Boolean(zipError)}
-          aria-describedby={zipError ? ZIP_PANEL_IDS.ERROR : undefined}
           className={INPUT_CLASS}
         />
         <button type="submit" className={APPLY_BUTTON_CLASS}>
           {zipPanel.apply}
         </button>
       </div>
-      {zipError ? (
-        <p id={ZIP_PANEL_IDS.ERROR} role="alert" className="mt-3 text-sm text-red-600">
-          {zipError}
-        </p>
-      ) : null}
     </form>
   </section>
 ));

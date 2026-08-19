@@ -6,7 +6,6 @@ import {
   DEFAULT_CONTACT_METHOD,
   SERVICE_PACKAGES,
   createConfirmedCartItem,
-  isValidUsZip,
 } from '../components/serviceDetails/serviceDetailsData';
 
 const BOOKING_ACTION = {
@@ -16,7 +15,6 @@ const BOOKING_ACTION = {
   OPEN_ZIP_PANEL: 'OPEN_ZIP_PANEL',
   CLOSE_ZIP_PANEL: 'CLOSE_ZIP_PANEL',
   CHANGE_ZIP_CODE: 'CHANGE_ZIP_CODE',
-  SET_ZIP_ERROR: 'SET_ZIP_ERROR',
   SELECT_CONTACT_METHOD: 'SELECT_CONTACT_METHOD',
   COMPLETE_CONFIRMATION: 'COMPLETE_CONFIRMATION',
 };
@@ -27,7 +25,6 @@ const createBookingState = () => ({
   recycleOldMaterials: false,
   isZipPanelOpen: false,
   zipCode: '',
-  zipError: '',
   isContactMethodVisible: false,
   selectedContactMethod: DEFAULT_CONTACT_METHOD,
 });
@@ -41,13 +38,11 @@ const bookingReducer = (state, action) => {
     case BOOKING_ACTION.TOGGLE_RECYCLE:
       return { ...state, recycleOldMaterials: !state.recycleOldMaterials };
     case BOOKING_ACTION.OPEN_ZIP_PANEL:
-      return { ...state, isZipPanelOpen: true, zipError: '' };
+      return { ...state, isZipPanelOpen: true };
     case BOOKING_ACTION.CLOSE_ZIP_PANEL:
-      return { ...state, isZipPanelOpen: false, zipError: '' };
+      return { ...state, isZipPanelOpen: false };
     case BOOKING_ACTION.CHANGE_ZIP_CODE:
-      return { ...state, zipCode: action.zipCode, zipError: '' };
-    case BOOKING_ACTION.SET_ZIP_ERROR:
-      return { ...state, zipError: action.zipError };
+      return { ...state, zipCode: action.zipCode };
     case BOOKING_ACTION.SELECT_CONTACT_METHOD:
       return { ...state, selectedContactMethod: action.contactMethod };
     case BOOKING_ACTION.COMPLETE_CONFIRMATION:
@@ -56,7 +51,6 @@ const bookingReducer = (state, action) => {
         isZipPanelOpen: false,
         isContactMethodVisible: true,
         zipCode: '',
-        zipError: '',
       };
     default:
       return state;
@@ -106,14 +100,6 @@ const useServiceBooking = (service, packages) => {
     (event) => {
       event.preventDefault();
 
-      if (!isValidUsZip(state.zipCode)) {
-        dispatch({
-          type: BOOKING_ACTION.SET_ZIP_ERROR,
-          zipError: SERVICE_DETAILS_CONTENT.zipPanel.error,
-        });
-        return;
-      }
-
       addService(
         createConfirmedCartItem({
           service,
@@ -125,14 +111,7 @@ const useServiceBooking = (service, packages) => {
       toast.success(SERVICE_DETAILS_CONTENT.booking.success);
       dispatch({ type: BOOKING_ACTION.COMPLETE_CONFIRMATION });
     },
-    [
-      addService,
-      selectedPackage,
-      service,
-      state.needsMaterials,
-      state.recycleOldMaterials,
-      state.zipCode,
-    ],
+    [addService, selectedPackage, service, state.needsMaterials, state.recycleOldMaterials],
   );
 
   return {
@@ -142,7 +121,6 @@ const useServiceBooking = (service, packages) => {
     recycleOldMaterials: state.recycleOldMaterials,
     isZipPanelOpen: state.isZipPanelOpen,
     zipCode: state.zipCode,
-    zipError: state.zipError,
     isContactMethodVisible: state.isContactMethodVisible,
     selectedContactMethod: state.selectedContactMethod,
     handleSelectPackage,

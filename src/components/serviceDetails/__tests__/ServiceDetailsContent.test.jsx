@@ -219,7 +219,7 @@ describe('Service details page', () => {
     expect(screen.getByRole('checkbox', { name: 'Recycle old materials' })).toBeChecked();
   });
 
-  it('opens the zip form below Confirmed Job and shows an inline zip error', async () => {
+  it('opens the zip form below Confirmed Job and applies without a zip condition', async () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
@@ -244,14 +244,12 @@ describe('Service details page', () => {
 
     await user.click(screen.getByRole('button', { name: 'Apply' }));
 
-    expect(screen.getByRole('alert')).toHaveTextContent('Enter a valid US zip code.');
-    expect(toast.success).not.toHaveBeenCalled();
-    expect(
-      screen.queryByRole('region', { name: 'Preferred Contact Method' }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Choose your location' })).not.toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Preferred Contact Method' })).toBeInTheDocument();
   });
 
-  it('shows preferred contact method below the booking row after a valid zip is applied', async () => {
+  it('shows preferred contact method below the booking row after Apply', async () => {
     const user = userEvent.setup();
     const store = renderServiceDetails(LIGHTING_SERVICE_ID);
 
