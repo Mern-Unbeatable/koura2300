@@ -3,8 +3,8 @@ import toast from 'react-hot-toast';
 import useAddService from './useAddService';
 import { SERVICE_DETAILS_CONTENT } from '../components/serviceDetails/serviceDetailsCopy';
 import {
-  DEFAULT_CONTACT_METHOD,
   SERVICE_PACKAGES,
+  UNSELECTED_CONTACT_METHOD,
   createConfirmedCartItem,
 } from '../components/serviceDetails/serviceDetailsData';
 
@@ -26,7 +26,7 @@ const createBookingState = () => ({
   isZipPanelOpen: false,
   zipCode: '',
   isContactMethodVisible: false,
-  selectedContactMethod: DEFAULT_CONTACT_METHOD,
+  selectedContactMethod: UNSELECTED_CONTACT_METHOD,
 });
 
 const bookingReducer = (state, action) => {

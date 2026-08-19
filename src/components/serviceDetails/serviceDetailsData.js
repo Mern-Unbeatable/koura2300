@@ -27,7 +27,7 @@ export const CONTACT_METHODS = {
   CHAT: 'chat',
 };
 
-export const DEFAULT_CONTACT_METHOD = CONTACT_METHODS.CHAT;
+export const UNSELECTED_CONTACT_METHOD = '';
 export const CONTACT_METHOD_ICON_SIZE = 22;
 export const CONTACT_METHOD_ICON_WRAP_CLASS = 'flex size-12 items-center justify-center rounded-2xl';
 export const CONTACT_METHOD_OPTION_PADDING_CLASS = 'p-[26px]';

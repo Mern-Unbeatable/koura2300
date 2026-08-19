@@ -284,6 +284,15 @@ describe('Service details page', () => {
     expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveClass('cursor-pointer');
     expect(screen.getByRole('radio', { name: 'Email' })).toHaveClass('cursor-pointer');
     expect(chatOption).toHaveClass('cursor-pointer');
+    expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
+    expect(screen.getByRole('radio', { name: 'Email' })).toHaveAttribute('aria-checked', 'false');
+    expect(chatOption).toHaveAttribute('aria-checked', 'false');
+
+    await user.click(chatOption);
+
     expect(chatOption).toHaveAttribute('aria-checked', 'true');
 
     await user.click(screen.getByRole('radio', { name: 'Phone / SMS' }));
