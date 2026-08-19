@@ -35,7 +35,7 @@ const PANEL_CLASS = `mt-6 min-w-0 overflow-hidden rounded-xl bg-white ${SERVICE_
 const HEADER_CLASS = `flex items-center justify-between bg-gray-200 px-4 sm:px-9 ${SERVICE_CHAT_HEADER_HEIGHT_CLASS}`;
 const BODY_CLASS = `relative flex flex-col bg-[#f8f8f8] ${SERVICE_CHAT_PANEL_MIN_HEIGHT_CLASS}`;
 const TIMESTAMP_CLASS =
-  'flex items-center gap-3 text-base font-medium tracking-[0.5px] text-gray-400 sm:text-lg';
+  'flex flex-wrap items-center justify-center gap-2 text-xs font-medium tracking-[0.5px] text-gray-400 max-[320px]:text-[10px] sm:gap-3 sm:text-base lg:text-lg';
 const MESSAGES_CLASS = `flex flex-1 flex-col gap-4 overflow-y-auto py-6 ${SERVICE_CHAT_CONTENT_PADDING_CLASS}`;
 const COMPOSER_CLASS = 'mt-auto px-4 py-5 sm:px-9 sm:py-5';
 const INPUT_CLASS =
@@ -122,7 +122,7 @@ const ServiceDetailsOfferCard = memo(({ offer, copy }) => (
           <Package size={SERVICE_CHAT_OFFER_ICON_SIZE} />
         </span>
         <div>
-          <h3 className="text-lg font-bold leading-[27px] text-[#101828]">{copy.title}</h3>
+          <h3 className="text-lg font-bold leading-6.75 text-[#101828]">{copy.title}</h3>
           <p className="text-xs leading-4 text-[#4a5565]">{copy.status}</p>
         </div>
       </div>
@@ -134,24 +134,26 @@ const ServiceDetailsOfferCard = memo(({ offer, copy }) => (
 
     <div className={SERVICE_CHAT_OFFER_TABLE_WRAP_CLASS}>
       <div className={`${SERVICE_CHAT_OFFER_TABLE_GRID_CLASS} ${SERVICE_CHAT_OFFER_TABLE_HEADER_CLASS}`}>
-        <span>{copy.itemColumn}</span>
-        <span>{copy.qtyColumn}</span>
-        <span className="text-right">{copy.costColumn}</span>
+        <span className="min-w-0">{copy.itemColumn}</span>
+        <span className="shrink-0 whitespace-nowrap">{copy.qtyColumn}</span>
+        <span className="shrink-0 whitespace-nowrap text-right">{copy.costColumn}</span>
       </div>
       {offer.lineItems.map((lineItem) => (
         <div
           key={lineItem.id}
           className={`${SERVICE_CHAT_OFFER_TABLE_GRID_CLASS} ${SERVICE_CHAT_OFFER_TABLE_ROW_CLASS} bg-white`}
         >
-          <span className="font-medium text-[#314158]">{lineItem.item}</span>
-          <span className="text-[#383838]">{lineItem.quantity}</span>
-          <span className="text-right font-semibold text-[#0f172b]">{lineItem.costLabel}</span>
+          <span className="min-w-0 break-words font-medium text-[#314158]">{lineItem.item}</span>
+          <span className="shrink-0 whitespace-nowrap text-[#383838]">{lineItem.quantity}</span>
+          <span className="shrink-0 whitespace-nowrap text-right font-semibold text-[#0f172b]">
+            {lineItem.costLabel}
+          </span>
         </div>
       ))}
       <div className={`${SERVICE_CHAT_OFFER_TABLE_GRID_CLASS} ${SERVICE_CHAT_OFFER_TABLE_TOTAL_CLASS}`}>
-        <span>{copy.totalLabel}</span>
+        <span className="min-w-0">{copy.totalLabel}</span>
         <span aria-hidden="true" />
-        <span className="text-right text-base">{offer.totalLabel}</span>
+        <span className="shrink-0 whitespace-nowrap text-right text-sm sm:text-base">{offer.totalLabel}</span>
       </div>
     </div>
 
@@ -218,11 +220,11 @@ const ServiceDetailsChat = memo(({ service, selectedPackage, onClose }) => {
         </div>
 
         <div className={BODY_CLASS}>
-          <div className={`flex w-full justify-center pt-5 ${SERVICE_CHAT_CONTENT_PADDING_CLASS}`}>
+          <div className="flex w-full justify-center pt-5 px-4 sm:px-10 max-[320px]:px-3">
             <div className={TIMESTAMP_CLASS}>
-              <span>{timestamp.dateLabel}</span>
-              <span className="size-1.5 rounded-full bg-gray-400" aria-hidden="true" />
-              <span>{timestamp.timeLabel}</span>
+              <span className="whitespace-nowrap">{timestamp.dateLabel}</span>
+              <span className="size-1.5 shrink-0 rounded-full bg-gray-400" aria-hidden="true" />
+              <span className="whitespace-nowrap">{timestamp.timeLabel}</span>
             </div>
           </div>
 

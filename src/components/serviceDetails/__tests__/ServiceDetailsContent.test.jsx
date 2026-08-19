@@ -289,7 +289,7 @@ describe('Service details page', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(screen.queryByRole('region', { name: 'Choose your location' })).not.toBeInTheDocument();
 
-    const contactRegion = screen.getByRole('region', { name: 'Preferred Contact Method' });
+    const contactRegion = await screen.findByRole('region', { name: 'Preferred Contact Method' });
     const includedHeading = screen.getByRole('heading', { name: "What's Included" });
     const chatOption = screen.getByRole('radio', { name: 'Chat' });
 
@@ -495,7 +495,9 @@ describe('Service details chat', () => {
     );
 
     await user.click(screen.getByRole('radio', { name: 'Chat' }));
-    expect(screen.getByRole('region', { name: 'Service pro chat' })).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByRole('region', { name: 'Service pro chat' })).toBeInTheDocument();
+    });
 
     await user.click(screen.getByRole('radio', { name: 'Email' }));
 

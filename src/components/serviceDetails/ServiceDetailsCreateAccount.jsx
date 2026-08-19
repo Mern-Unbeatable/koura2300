@@ -15,8 +15,9 @@ import {
 } from './serviceDetailsData';
 
 const SECTION_CLASS = `w-full min-w-0 overflow-hidden rounded-[20px] bg-white ${CREATE_ACCOUNT_SECTION_SHADOW_CLASS}`;
-const INNER_CLASS = 'px-6 py-10 sm:px-14 sm:py-11';
-const TITLE_CLASS = 'text-[40px] font-semibold leading-none text-[#0c0c0c]';
+const INNER_CLASS = 'px-4 py-10 sm:px-14 sm:py-11';
+const TITLE_CLASS =
+  'min-w-0 pr-2 text-xl font-semibold leading-tight text-[#0c0c0c] max-[320px]:text-lg sm:text-[40px] sm:leading-none';
 const FORM_CLASS = 'flex flex-col gap-4';
 const LABEL_CLASS = 'block text-base font-medium text-[#373737]';
 const INPUT_CLASS = `block w-full rounded-lg ${CREATE_ACCOUNT_FIELD_BG_CLASS} ${CREATE_ACCOUNT_FIELD_HEIGHT_CLASS} px-[14px] text-sm text-[#0c0c0c] placeholder:text-[#8c8c8c] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0160f2]`;
@@ -114,7 +115,7 @@ PasswordToggle.displayName = 'PasswordToggle';
 const SocialButton = memo(({ label, icon: Icon }) => (
   <button type="button" className={CREATE_ACCOUNT_SOCIAL_BTN_CLASS}>
     <Icon />
-    <span className="text-lg font-bold tracking-[-0.45px] text-black">{label}</span>
+    <span className="font-bold tracking-[-0.45px] text-black">{label}</span>
   </button>
 ));
 
@@ -126,7 +127,7 @@ const ModeLink = memo(({ label, actionLabel, onClick }) => (
     <button
       type="button"
       onClick={onClick}
-      className="font-semibold text-[#0160f2] underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0160f2] rounded cursor-pointer"
+      className="font-semibold text-[#0160f2] underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0160f2] rounded cursor-pointer whitespace-nowrap"
     >
       {actionLabel}
     </button>

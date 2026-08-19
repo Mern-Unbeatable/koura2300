@@ -85,7 +85,7 @@ export const CREATE_ACCOUNT_FIELD_HEIGHT_CLASS = 'h-[60px]';
 export const CREATE_ACCOUNT_SIGN_UP_BTN_CLASS =
   'flex h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-[#0160f2] px-4 py-3 text-base font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0160f2] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60';
 export const CREATE_ACCOUNT_SOCIAL_BTN_CLASS =
-  'flex w-full cursor-pointer items-center justify-center gap-3 rounded-full border border-gray-300 bg-white px-6 py-[17px] text-lg font-bold text-black shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400';
+  'flex w-full cursor-pointer items-center justify-center gap-3 rounded-full border border-gray-300 bg-white px-4 py-[17px] text-base font-bold text-black shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 sm:px-6 sm:text-lg';
 export const CREATE_ACCOUNT_FORM_FIELD_FORM_GAP_CLASS = 'gap-4';
 export const CREATE_ACCOUNT_SOCIAL_ICON_SIZE = 24;
 export const CREATE_ACCOUNT_CLOSE_ICON_SIZE = 24;
@@ -115,17 +115,17 @@ export const SERVICE_CHAT_OFFER_CARD_WIDTH_CLASS = `w-full min-w-0 max-w-[${SERV
 export const SERVICE_CHAT_OFFER_BOOKING_ID = 'BK-001';
 export const SERVICE_CHAT_OFFER_TOTAL = 185;
 export const SERVICE_CHAT_OFFER_CARD_CLASS =
-  'rounded-[14px] border-2 border-[#f59e0b] bg-[#fff8ee] p-[26px]';
+  'min-w-0 rounded-[14px] border-2 border-[#f59e0b] bg-[#fff8ee] p-3 sm:p-[26px]';
 export const SERVICE_CHAT_OFFER_TABLE_GRID_CLASS =
-  'grid grid-cols-[minmax(0,1fr)_minmax(72px,auto)_minmax(64px,auto)] items-center gap-x-4';
+  'grid min-w-0 grid-cols-[minmax(0,1fr)_auto_auto] items-start gap-x-2 sm:items-center sm:gap-x-4';
 export const SERVICE_CHAT_OFFER_TABLE_WRAP_CLASS =
-  'mt-4 overflow-hidden rounded-xl border border-[#585858]';
+  'mt-4 min-w-0 overflow-hidden rounded-xl border border-[#585858]';
 export const SERVICE_CHAT_OFFER_TABLE_HEADER_CLASS =
-  'border-b border-[#f1f5f9] bg-white px-4 py-3 text-xs font-semibold text-[#383838]';
+  'border-b border-[#f1f5f9] bg-white px-2 py-3 text-[10px] font-semibold text-[#383838] sm:px-4 sm:text-xs';
 export const SERVICE_CHAT_OFFER_TABLE_ROW_CLASS =
-  'border-b border-[#c4c4c4] px-4 py-3 text-sm last:border-b-0';
+  'border-b border-[#c4c4c4] px-2 py-3 text-xs last:border-b-0 sm:px-4 sm:text-sm';
 export const SERVICE_CHAT_OFFER_TABLE_TOTAL_CLASS =
-  'bg-white px-4 py-3.5 text-sm font-bold text-[#0f172b]';
+  'bg-white px-2 py-3.5 text-xs font-bold text-[#0f172b] sm:px-4 sm:text-sm';
 export const SERVICE_CHAT_OFFER_PAY_BUTTON_CLASS =
   'mt-4 inline-flex w-[213px] cursor-pointer items-center justify-center gap-1 rounded-[10px] bg-[#f59e0b] px-4 py-3 text-base font-semibold text-white transition-colors hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500';
 export const SERVICE_CHAT_OFFER_ICON_WRAP_CLASS =
