@@ -3,6 +3,7 @@ import useAddService from '../../hooks/useAddService';
 import useServiceBooking from '../../hooks/useServiceBooking';
 import ServiceDetailsBooking from './ServiceDetailsBooking';
 import ServiceDetailsBreadcrumb from './ServiceDetailsBreadcrumb';
+import ServiceDetailsChat from './ServiceDetailsChat';
 import ServiceDetailsContactMethod from './ServiceDetailsContactMethod';
 import ServiceDetailsGallery from './ServiceDetailsGallery';
 import ServiceDetailsInclusions from './ServiceDetailsInclusions';
@@ -76,6 +77,14 @@ const ServiceDetailsView = memo(
             <ServiceDetailsContactMethod
               selectedContactMethod={booking.selectedContactMethod}
               onSelectContactMethod={booking.handleSelectContactMethod}
+            />
+          ) : null}
+
+          {booking.isChatOpen ? (
+            <ServiceDetailsChat
+              service={service}
+              selectedPackage={booking.selectedPackage}
+              onClose={booking.handleCloseChat}
             />
           ) : null}
 

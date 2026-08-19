@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import useAddService from './useAddService';
 import { SERVICE_DETAILS_CONTENT } from '../components/serviceDetails/serviceDetailsCopy';
 import {
+  CONTACT_METHODS,
   SERVICE_PACKAGES,
   UNSELECTED_CONTACT_METHOD,
   createConfirmedCartItem,
@@ -16,6 +17,7 @@ const BOOKING_ACTION = {
   CLOSE_ZIP_PANEL: 'CLOSE_ZIP_PANEL',
   CHANGE_ZIP_CODE: 'CHANGE_ZIP_CODE',
   SELECT_CONTACT_METHOD: 'SELECT_CONTACT_METHOD',
+  CLOSE_CHAT: 'CLOSE_CHAT',
   COMPLETE_CONFIRMATION: 'COMPLETE_CONFIRMATION',
 };
 
@@ -26,6 +28,7 @@ const createBookingState = () => ({
   isZipPanelOpen: false,
   zipCode: '',
   isContactMethodVisible: false,
+  isChatOpen: false,
   selectedContactMethod: UNSELECTED_CONTACT_METHOD,
 });
 
@@ -44,7 +47,17 @@ const bookingReducer = (state, action) => {
     case BOOKING_ACTION.CHANGE_ZIP_CODE:
       return { ...state, zipCode: action.zipCode };
     case BOOKING_ACTION.SELECT_CONTACT_METHOD:
-      return { ...state, selectedContactMethod: action.contactMethod };
+      return {
+        ...state,
+        selectedContactMethod: action.contactMethod,
+        isChatOpen: action.contactMethod === CONTACT_METHODS.CHAT,
+      };
+    case BOOKING_ACTION.CLOSE_CHAT:
+      return {
+        ...state,
+        isChatOpen: false,
+        selectedContactMethod: UNSELECTED_CONTACT_METHOD,
+      };
     case BOOKING_ACTION.COMPLETE_CONFIRMATION:
       return {
         ...state,
@@ -96,6 +109,10 @@ const useServiceBooking = (service, packages) => {
     dispatch({ type: BOOKING_ACTION.SELECT_CONTACT_METHOD, contactMethod });
   }, []);
 
+  const handleCloseChat = useCallback(() => {
+    dispatch({ type: BOOKING_ACTION.CLOSE_CHAT });
+  }, []);
+
   const handleSubmitZip = useCallback(
     (event) => {
       event.preventDefault();
@@ -122,6 +139,7 @@ const useServiceBooking = (service, packages) => {
     isZipPanelOpen: state.isZipPanelOpen,
     zipCode: state.zipCode,
     isContactMethodVisible: state.isContactMethodVisible,
+    isChatOpen: state.isChatOpen,
     selectedContactMethod: state.selectedContactMethod,
     handleSelectPackage,
     handleNeedMaterials,
@@ -132,6 +150,7 @@ const useServiceBooking = (service, packages) => {
     handleZipCodeChange,
     handleSubmitZip,
     handleSelectContactMethod,
+    handleCloseChat,
   };
 };
 

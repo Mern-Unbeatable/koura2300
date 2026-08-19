@@ -74,6 +74,79 @@ export const CONTACT_METHOD_IDS = {
   TITLE: 'service-contact-method-title',
 };
 
+export const SERVICE_CHAT_IDS = {
+  TITLE: 'service-chat-title',
+};
+
+export const SERVICE_CHAT_HEADER_HEIGHT_CLASS = 'h-20';
+export const SERVICE_CHAT_PRO_AVATAR_SIZE = 38;
+export const SERVICE_CHAT_PRO_ONLINE_DOT_SIZE = 8;
+export const SERVICE_CHAT_MESSAGE_AVATAR_SIZE = 56;
+export const SERVICE_CHAT_CLOSE_ICON_SIZE = 24;
+export const SERVICE_CHAT_SEND_ICON_SIZE = 18;
+export const SERVICE_CHAT_OFFER_ICON_SIZE = 20;
+export const SERVICE_CHAT_PAY_ICON_SIZE = 18;
+export const SERVICE_CHAT_PANEL_MIN_HEIGHT_CLASS = 'min-h-[600px] lg:min-h-[854px]';
+export const SERVICE_CHAT_PANEL_SHADOW_CLASS =
+  'shadow-[0px_40px_42.4px_0px_rgba(255,255,255,0.25)]';
+
+export const SERVICE_CHAT_PRO = {
+  name: 'Ope',
+  avatarAlt: 'Service professional Ope',
+};
+
+export const SERVICE_CHAT_SEED_MESSAGES = [
+  { id: 'seed-1', type: 'received', text: 'Yo mandem', position: 'first' },
+  { id: 'seed-2', type: 'received', text: 'Cho dey house?', position: 'last' },
+  { id: 'seed-3', type: 'sent', text: 'Kwasia 😂😂', position: 'first' },
+  {
+    id: 'seed-4',
+    type: 'sent',
+    text: 'You dey hung dier you kai say house dey',
+    position: 'last',
+  },
+];
+
+export const SERVICE_CHAT_OFFER_LINE_ITEMS = [
+  { id: 'panel', item: '200A Main Breaker Panel', quantity: '1 unit', cost: 85 },
+  { id: 'breakers', item: 'Circuit Breakers 15A', quantity: '6 pcs', cost: 30 },
+  { id: 'wire', item: 'AWG Wire 10/2', quantity: '50 ft', cost: 40 },
+];
+
+export const buildServiceChatOffer = ({ service, selectedPackage }) => {
+  const lineItems = SERVICE_CHAT_OFFER_LINE_ITEMS.map((lineItem) => ({
+    ...lineItem,
+    costLabel: `$${lineItem.cost}`,
+  }));
+  const materialsTotal = SERVICE_CHAT_OFFER_LINE_ITEMS.reduce(
+    (total, lineItem) => total + lineItem.cost,
+    0,
+  );
+
+  return {
+    bookingId: `BK-${service.id.slice(0, 3).toUpperCase()}`,
+    lineItems,
+    totalLabel: `$${materialsTotal}`,
+    serviceTitle: service.title,
+    packagePrice: selectedPackage.price,
+  };
+};
+
+export const formatServiceChatTimestamp = () => {
+  const now = new Date();
+  const dateLabel = now.toLocaleDateString([], {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+  });
+  const timeLabel = now.toLocaleTimeString([], {
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+
+  return { dateLabel, timeLabel };
+};
+
 const STANDARD_PRICE_OFFSET = 70;
 const PREMIUM_PRICE_OFFSET = 125;
 

@@ -23,6 +23,16 @@ const FENCE_SERVICE_ID = 'fence-installation-wood-fence';
 const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
+const reachContactMethodStep = async (user) => {
+  await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
+  await user.click(screen.getByRole('button', { name: 'Apply' }));
+};
+
+const openServiceChat = async (user) => {
+  await reachContactMethodStep(user);
+  await user.click(screen.getByRole('radio', { name: 'Chat' }));
+};
+
 const createTestStore = () =>
   configureStore({
     reducer: {
@@ -403,6 +413,105 @@ describe('Service details page', () => {
 
     expect(screen.getByRole('heading', { name: 'Service not found' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Back to home' })).toHaveAttribute('href', ROUTES.HOME);
+  });
+});
+
+describe('Service details chat', () => {
+  it('keeps chat hidden until the user selects Chat after Apply', async () => {
+    const user = userEvent.setup();
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    expect(screen.queryByRole('region', { name: 'Service pro chat' })).not.toBeInTheDocument();
+
+    await reachContactMethodStep(user);
+
+    expect(screen.queryByRole('region', { name: 'Service pro chat' })).not.toBeInTheDocument();
+  });
+
+  it('opens the chat panel below Preferred Contact Method when Chat is selected', async () => {
+    const user = userEvent.setup();
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    await openServiceChat(user);
+
+    const contactRegion = screen.getByRole('region', { name: 'Preferred Contact Method' });
+    const chatRegion = screen.getByRole('region', { name: 'Service pro chat' });
+    const includedHeading = screen.getByRole('heading', { name: "What's Included" });
+
+    expect(screen.getByRole('heading', { level: 2, name: 'Ope' })).toBeInTheDocument();
+    expect(chatRegion).toHaveTextContent('Active');
+    expect(chatRegion).toHaveTextContent('Yo mandem');
+    expect(chatRegion).toHaveTextContent('Kwasia 😂😂');
+    expect(screen.getByRole('heading', { level: 3, name: 'Offer Card' })).toBeInTheDocument();
+    expect(screen.getByText('Pending Response')).toBeInTheDocument();
+    expect(screen.getByText('Booking ID')).toBeInTheDocument();
+    expect(screen.getByText('BK-IND')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Pay Now' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Type a message')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Send message' })).toBeDisabled();
+    expect(
+      contactRegion.compareDocumentPosition(chatRegion) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(
+      chatRegion.compareDocumentPosition(includedHeading) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(screen.getByRole('radio', { name: 'Chat' })).toHaveAttribute('aria-checked', 'true');
+  });
+
+  it('closes chat and clears Chat selection when the close button is clicked', async () => {
+    const user = userEvent.setup();
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    await openServiceChat(user);
+    await user.click(screen.getByRole('button', { name: 'Close chat' }));
+
+    expect(screen.queryByRole('region', { name: 'Service pro chat' })).not.toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Chat' })).toHaveAttribute('aria-checked', 'false');
+  });
+
+  it('closes chat when Phone or Email is selected instead of Chat', async () => {
+    const user = userEvent.setup();
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    await openServiceChat(user);
+    expect(screen.getByRole('region', { name: 'Service pro chat' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('radio', { name: 'Phone / SMS' }));
+
+    expect(screen.queryByRole('region', { name: 'Service pro chat' })).not.toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+
+    await user.click(screen.getByRole('radio', { name: 'Chat' }));
+    expect(screen.getByRole('region', { name: 'Service pro chat' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('radio', { name: 'Email' }));
+
+    expect(screen.queryByRole('region', { name: 'Service pro chat' })).not.toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Email' })).toHaveAttribute('aria-checked', 'true');
+  });
+
+  it('appends a sent message when the user types and sends from the composer', async () => {
+    const user = userEvent.setup();
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    await openServiceChat(user);
+
+    const messageInput = screen.getByLabelText('Type a message');
+    const sendButton = screen.getByRole('button', { name: 'Send message' });
+
+    expect(sendButton).toBeDisabled();
+
+    await user.type(messageInput, 'Ready when you are');
+    expect(sendButton).toBeEnabled();
+
+    await user.click(sendButton);
+
+    expect(screen.getByText('Ready when you are')).toBeInTheDocument();
+    expect(messageInput).toHaveValue('');
+    expect(sendButton).toBeDisabled();
   });
 });
 
