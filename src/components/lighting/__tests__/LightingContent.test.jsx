@@ -212,7 +212,7 @@ describe('Lighting page', () => {
       .getByRole('heading', { level: 3, name: 'Ceiling Light Installation' })
       .closest('article');
 
-    expect(within(card).getByRole('link', { name: 'Ceiling Light Installation' })).toHaveAttribute(
+    expect(within(card).getByRole('link', { name: 'View Ceiling Light Installation' })).toHaveAttribute(
       'href',
       buildServiceDetailsRoute('indoor-lighting-ceiling-light-installation', LIGHTING_ALL_CATEGORY),
     );
@@ -228,7 +228,7 @@ describe('Lighting page', () => {
       .getByRole('heading', { level: 3, name: 'Fixture Installation' })
       .closest('article');
 
-    expect(within(card).getByRole('link', { name: 'Fixture Installation' })).toHaveAttribute(
+    expect(within(card).getByRole('link', { name: 'View Fixture Installation' })).toHaveAttribute(
       'href',
       buildServiceDetailsRoute(
         'light-fixture-services-fixture-installation',

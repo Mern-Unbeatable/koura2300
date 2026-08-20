@@ -429,15 +429,15 @@ describe('Service details page', () => {
     const relatedRegion = screen.getByRole('region', { name: 'Promotional Feature' });
 
     expect(
-      within(relatedRegion).queryByRole('link', { name: 'Ceiling Light Installation' }),
+      within(relatedRegion).queryByRole('link', { name: 'View Ceiling Light Installation' }),
     ).not.toBeInTheDocument();
     expect(
-      within(relatedRegion).getByRole('link', { name: 'Chandelier Installation' }),
+      within(relatedRegion).getByRole('link', { name: 'View Chandelier Installation' }),
     ).toHaveAttribute(
       'href',
       buildServiceDetailsRoute('indoor-lighting-chandelier-installation'),
     );
-    expect(within(relatedRegion).getByRole('link', { name: 'Porch Lights' })).toBeInTheDocument();
+    expect(within(relatedRegion).getByRole('link', { name: 'View Porch Lights' })).toBeInTheDocument();
     expect(within(relatedRegion).getAllByRole('article')).toHaveLength(20);
     expect(
       within(relatedRegion).getByRole('navigation', { name: 'Promotional services pages' }),
@@ -463,23 +463,23 @@ describe('Service details page', () => {
     );
     const relatedRegion = screen.getByRole('region', { name: 'Promotional Feature' });
 
-    expect(within(relatedRegion).getByRole('link', { name: 'Fixture Replacement' })).toHaveAttribute(
+    expect(within(relatedRegion).getByRole('link', { name: 'View Fixture Replacement' })).toHaveAttribute(
       'href',
       buildServiceDetailsRoute(
         'light-fixture-services-fixture-replacement',
         'Light Fixture Services',
       ),
     );
-    expect(within(relatedRegion).getByRole('link', { name: 'Fixture Relocation' })).toBeInTheDocument();
-    expect(within(relatedRegion).getByRole('link', { name: 'Fixture Repair' })).toBeInTheDocument();
+    expect(within(relatedRegion).getByRole('link', { name: 'View Fixture Relocation' })).toBeInTheDocument();
+    expect(within(relatedRegion).getByRole('link', { name: 'View Fixture Repair' })).toBeInTheDocument();
     expect(
-      within(relatedRegion).getByRole('link', { name: 'Ceiling Fan with Light Installation' }),
+      within(relatedRegion).getByRole('link', { name: 'View Ceiling Fan with Light Installation' }),
     ).toBeInTheDocument();
     expect(
-      within(relatedRegion).queryByRole('link', { name: 'Fixture Installation' }),
+      within(relatedRegion).queryByRole('link', { name: 'View Fixture Installation' }),
     ).not.toBeInTheDocument();
     expect(
-      within(relatedRegion).queryByRole('link', { name: 'Ceiling Light Installation' }),
+      within(relatedRegion).queryByRole('link', { name: 'View Ceiling Light Installation' }),
     ).not.toBeInTheDocument();
     expect(within(relatedRegion).getAllByRole('article')).toHaveLength(4);
     expect(
