@@ -29,6 +29,7 @@ export const ROUTES = {
   TERMS: '/terms-and-conditions',
   LOGIN: '/login',
   CHECKOUT: '/checkout',
+  ORDERS: '/orders',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
   ADMIN_EMAILS: '/admin/emails',

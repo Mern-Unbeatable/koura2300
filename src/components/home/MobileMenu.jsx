@@ -57,7 +57,7 @@ const MobileMenu = memo(({ isOpen, onClose }) => {
               {header.account}
             </Link>
 
-            <Link to={ROUTES.ADMIN_ORDERS} onClick={onClose} className={ACTION_TILE_CLASS}>
+            <Link to={ROUTES.ORDERS} onClick={onClose} className={ACTION_TILE_CLASS}>
               <Package size={ACTION_ICON_SIZE} aria-hidden="true" />
               {header.order}
             </Link>

@@ -1,0 +1,40 @@
+export const ORDERS_CONTENT = {
+  seo: {
+    title: 'My Orders | Procleaning',
+    description: 'Track your bookings, material payments and project progress.',
+    keywords: ['orders', 'bookings', 'home services'],
+  },
+  title: 'My Orders',
+  subtitle: 'Track your bookings, material payments and project progress.',
+  emptyState: 'No orders match this filter.',
+  orderCountSingular: 'order',
+  orderCountPlural: 'orders',
+  summary: {
+    active: 'Active Orders',
+    completed: 'Completed',
+    pendingPayment: 'Pending Payment',
+    upcoming: 'Upcoming Appt.',
+  },
+  filtersLabel: 'Order status filters',
+  labels: {
+    orderId: 'Order ID',
+    bookedOn: 'Booked On',
+    appointment: 'Appointment',
+    duration: 'Duration',
+    materialPayment: 'Material Payment',
+    estServiceCost: 'Est. Service Cost',
+    serviceCost: 'Service Cost',
+  },
+  actions: {
+    viewDetails: 'View Details',
+    payNow: 'Pay Now',
+    cancelBooking: 'Cancel Booking',
+    download: 'Download order receipt',
+  },
+  toasts: {
+    viewDetails: 'Opening order details.',
+    payNow: 'Redirecting to payment.',
+    cancelBooking: 'Booking cancellation requested.',
+    download: 'Downloading receipt.',
+  },
+};
