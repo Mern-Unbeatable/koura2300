@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import useClickOutside from './useClickOutside';
 import useEscapeKey from './useEscapeKey';
 import {
   buildCalendarMonthCells,
@@ -7,6 +8,7 @@ import {
 } from '../components/checkout/checkoutData';
 
 const useCheckoutCalendar = ({ selectedDateId, onSelect, onScrollToDate, bookingFromDate }) => {
+  const containerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [viewDate, setViewDate] = useState(() =>
     selectedDateId ? parseCheckoutIsoDate(selectedDateId) : bookingFromDate,
@@ -39,6 +41,7 @@ const useCheckoutCalendar = ({ selectedDateId, onSelect, onScrollToDate, booking
   }, []);
 
   useEscapeKey(isOpen, closeCalendar);
+  useClickOutside(isOpen, containerRef, closeCalendar);
 
   const handlePreviousMonth = useCallback(() => {
     setViewDate((previous) => new Date(previous.getFullYear(), previous.getMonth() - 1, 1));
@@ -62,6 +65,7 @@ const useCheckoutCalendar = ({ selectedDateId, onSelect, onScrollToDate, booking
   );
 
   return {
+    containerRef,
     isOpen,
     cells,
     viewMonthYear,

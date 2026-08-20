@@ -25,6 +25,7 @@ export const CHECKOUT_DATE_NAV_ICON_SIZE = 18;
 export const CHECKOUT_DATE_NAV_BUTTON_CLASS =
   'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md p-1 text-brand-orange transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-40';
 export const CHECKOUT_DATE_NAV_GROUP_CLASS = 'relative flex items-center gap-1';
+export const CHECKOUT_CALENDAR_WRAPPER_CLASS = 'relative';
 export const CHECKOUT_CALENDAR_TRIGGER_CLASS =
   'inline-flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-lg font-bold leading-[27px] text-[#0b1e3d] transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_CALENDAR_ICON_SIZE = 18;

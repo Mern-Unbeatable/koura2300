@@ -9,6 +9,7 @@ import {
   CHECKOUT_DATE_DAY_CLASS,
   CHECKOUT_DATE_HEADING_CLASS,
   CHECKOUT_DATE_NAV_BUTTON_CLASS,
+  CHECKOUT_CALENDAR_WRAPPER_CLASS,
   CHECKOUT_DATE_NAV_GROUP_CLASS,
   CHECKOUT_DATE_NAV_ICON_SIZE,
   CHECKOUT_DATE_STRIP_CLASS,
@@ -60,21 +61,23 @@ const CheckoutDatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, 
           >
             <ChevronRight size={CHECKOUT_DATE_NAV_ICON_SIZE} aria-hidden="true" />
           </button>
-          <CheckoutCalendarTrigger
-            copy={copy}
-            viewMonthYear={displayMonthYear}
-            isOpen={calendar.isOpen}
-            onToggle={calendar.toggleCalendar}
-          />
-          <CheckoutCalendarPanel
-            copy={copy}
-            isOpen={calendar.isOpen}
-            viewMonthYear={calendar.viewMonthYear}
-            cells={calendar.cells}
-            onPreviousMonth={calendar.handlePreviousMonth}
-            onNextMonth={calendar.handleNextMonth}
-            onSelectDay={calendar.handleSelectDay}
-          />
+          <div ref={calendar.containerRef} className={CHECKOUT_CALENDAR_WRAPPER_CLASS}>
+            <CheckoutCalendarTrigger
+              copy={copy}
+              viewMonthYear={displayMonthYear}
+              isOpen={calendar.isOpen}
+              onToggle={calendar.toggleCalendar}
+            />
+            <CheckoutCalendarPanel
+              copy={copy}
+              isOpen={calendar.isOpen}
+              viewMonthYear={calendar.viewMonthYear}
+              cells={calendar.cells}
+              onPreviousMonth={calendar.handlePreviousMonth}
+              onNextMonth={calendar.handleNextMonth}
+              onSelectDay={calendar.handleSelectDay}
+            />
+          </div>
         </div>
       </div>
       <div

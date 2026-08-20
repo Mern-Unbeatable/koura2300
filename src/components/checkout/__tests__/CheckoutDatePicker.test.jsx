@@ -50,6 +50,25 @@ describe('CheckoutDatePicker', () => {
     expect(screen.getByRole('button', { name: 'Next month' })).toBeInTheDocument();
   });
 
+  it('closes the calendar when clicking outside', () => {
+    renderDatePicker();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open calendar' }));
+    expect(screen.getByRole('dialog', { name: 'Open calendar' })).toBeInTheDocument();
+
+    fireEvent.mouseDown(document.body);
+    expect(screen.queryByRole('dialog', { name: 'Open calendar' })).not.toBeInTheDocument();
+  });
+
+  it('keeps the calendar open when clicking inside the panel', () => {
+    renderDatePicker();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open calendar' }));
+    fireEvent.mouseDown(screen.getByRole('button', { name: 'Previous month' }));
+
+    expect(screen.getByRole('dialog', { name: 'Open calendar' })).toBeInTheDocument();
+  });
+
   it('selects a date from the calendar and closes the picker', () => {
     const { dates, onSelect } = renderDatePicker();
 
