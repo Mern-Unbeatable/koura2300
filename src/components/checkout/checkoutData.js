@@ -8,6 +8,7 @@ export const CHECKOUT_CARD_CLASS =
   'w-full min-w-0 rounded-[20px] bg-white p-6 shadow-[0px_0px_3.95px_0px_rgba(0,0,0,0.16)] sm:p-9';
 export const CHECKOUT_NESTED_CARD_CLASS =
   'w-full min-w-0 rounded-2xl border border-[#e5e7eb] bg-white p-[33px]';
+export const CHECKOUT_ORDER_SUMMARY_STICKY_CLASS = 'lg:sticky lg:top-32';
 export const CHECKOUT_SUBHEADING_CLASS = 'text-xl font-bold leading-7 text-[#0b1e3d]';
 export const CHECKOUT_PARAGRAPH_CLASS = 'pt-2 text-sm leading-5 text-[#6a7282]';
 export const CHECKOUT_THUMBNAIL_SIZE_CLASS = 'size-12';

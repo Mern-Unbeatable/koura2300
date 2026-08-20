@@ -22,6 +22,7 @@ import {
   CHECKOUT_INPUT_CLASS,
   CHECKOUT_LAYOUT_CLASS,
   CHECKOUT_NESTED_CARD_CLASS,
+  CHECKOUT_ORDER_SUMMARY_STICKY_CLASS,
   CHECKOUT_PARAGRAPH_CLASS,
   CHECKOUT_PAYMENT_NOTE_BODY_CLASS,
   CHECKOUT_PAYMENT_NOTE_BOX_CLASS,
@@ -144,7 +145,7 @@ const PaymentNote = memo(({ label, body }) => (
 PaymentNote.displayName = 'PaymentNote';
 
 const OrderSummary = memo(({ copy, fields, checkout }) => (
-  <aside className={`${CHECKOUT_NESTED_CARD_CLASS} lg:sticky lg:top-28`}>
+  <aside className={`${CHECKOUT_NESTED_CARD_CLASS} ${CHECKOUT_ORDER_SUMMARY_STICKY_CLASS}`}>
     <h2 className={CHECKOUT_SUBHEADING_CLASS}>{copy.reviewTitle}</h2>
     {checkout.primaryItem ? (
       <OrderItemRow
