@@ -106,6 +106,18 @@ describe('Landing page', () => {
     expect(store.getState().cart.items[0].title).toBe('Drain Cleaning');
   });
 
+  it('sends a Top-rated service card click to the services page', async () => {
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    const servicesRegion = screen.getByRole('region', { name: 'Top-rated services' });
+    await user.click(
+      within(servicesRegion).getByRole('link', { name: 'View Faucet Repair & Replacement' }),
+    );
+
+    expect(screen.getByTestId('current-path')).toHaveTextContent('/services');
+  });
+
   it('sends View all from Top-rated services to the services page', async () => {
     const user = userEvent.setup();
     renderLandingPage();

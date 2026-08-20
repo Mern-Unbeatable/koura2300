@@ -11,6 +11,8 @@ const CATALOG_IMAGE_HEIGHT = 208;
 const CLOCK_ICON_SIZE = 14;
 const STAR_ICON_SIZE = 12;
 const ADD_ICON_SIZE = 14;
+const CARD_STRETCHED_LINK_CLASS = 'absolute inset-0 z-[1]';
+const CARD_ACTION_LAYER_CLASS = 'relative z-[2]';
 
 export const SERVICE_CARD_VARIANTS = {
   DEFAULT: 'default',
@@ -38,52 +40,23 @@ const VARIANT_STYLES = {
   },
 };
 
-const ServiceCardMedia = memo(({ service, variantStyles, detailsPath }) => {
-  const media = (
-    <>
-      <img
-        src={service.image}
-        alt={service.imageAlt}
-        width={variantStyles.imageWidth}
-        height={variantStyles.imageHeight}
-        loading="lazy"
-        className={`w-full object-cover ${variantStyles.image}`}
-      />
-      <span className="absolute left-3 top-3 rounded-full bg-brand-blue px-3 py-1 text-xs font-semibold text-white">
-        {service.category}
-      </span>
-    </>
-  );
-
-  if (!detailsPath) {
-    return <div className="relative">{media}</div>;
-  }
-
-  return (
-    <Link to={detailsPath} tabIndex={-1} className="relative block">
-      {media}
-    </Link>
-  );
-});
+const ServiceCardMedia = memo(({ service, variantStyles }) => (
+  <div className="relative">
+    <img
+      src={service.image}
+      alt={service.imageAlt}
+      width={variantStyles.imageWidth}
+      height={variantStyles.imageHeight}
+      loading="lazy"
+      className={`w-full object-cover ${variantStyles.image}`}
+    />
+    <span className="absolute left-3 top-3 rounded-full bg-brand-blue px-3 py-1 text-xs font-semibold text-white">
+      {service.category}
+    </span>
+  </div>
+));
 
 ServiceCardMedia.displayName = 'ServiceCardMedia';
-
-const ServiceCardTitle = memo(({ title, detailsPath }) => {
-  if (!detailsPath) {
-    return title;
-  }
-
-  return (
-    <Link
-      to={detailsPath}
-      className="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
-    >
-      {title}
-    </Link>
-  );
-});
-
-ServiceCardTitle.displayName = 'ServiceCardTitle';
 
 /**
  * Shared presentational card for a single top-rated service.
@@ -104,18 +77,20 @@ const ServiceCard = memo(
 
     return (
       <article
-        className={`flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ${variantStyles.article}`}
+        className={`relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ${variantStyles.article}`}
       >
-        <ServiceCardMedia
-          service={service}
-          variantStyles={variantStyles}
-          detailsPath={detailsPath}
-        />
+        {detailsPath ? (
+          <Link
+            to={detailsPath}
+            aria-label={`View ${service.title}`}
+            className={CARD_STRETCHED_LINK_CLASS}
+          />
+        ) : null}
+
+        <ServiceCardMedia service={service} variantStyles={variantStyles} />
 
         <div className="flex flex-1 flex-col gap-2 p-4">
-          <h3 className="font-semibold text-brand-blue">
-            <ServiceCardTitle title={service.title} detailsPath={detailsPath} />
-          </h3>
+          <h3 className="font-semibold text-brand-blue">{service.title}</h3>
           <p className={`${variantStyles.description} text-sm leading-5 text-gray-500`}>
             {service.description}
           </p>
@@ -143,7 +118,7 @@ const ServiceCard = memo(
               type="button"
               onClick={handleAdd}
               aria-label={`Add ${service.title} to cart`}
-              className={`flex items-center gap-1 rounded-lg bg-brand-orange py-2 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 ${variantStyles.button}`}
+              className={`${CARD_ACTION_LAYER_CLASS} flex items-center gap-1 rounded-lg bg-brand-orange py-2 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 ${variantStyles.button}`}
             >
               <Plus size={ADD_ICON_SIZE} aria-hidden="true" />
               {LANDING_CONTENT.services.add}
