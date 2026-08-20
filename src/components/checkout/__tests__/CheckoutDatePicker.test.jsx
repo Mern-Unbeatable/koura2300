@@ -2,16 +2,19 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import CheckoutDatePicker from '../CheckoutDatePicker';
 import { CHECKOUT_CONTENT } from '../checkoutCopy';
-import { CHECKOUT_DATE_SCROLL_STEP, buildCheckoutDates } from '../checkoutData';
+import { CHECKOUT_DATE_SCROLL_STEP, buildCheckoutDates, buildCalendarMonthCells } from '../checkoutData';
+
+const BOOKING_FROM_DATE = new Date(2026, 7, 20);
 
 const renderDatePicker = (props = {}) => {
-  const dates = buildCheckoutDates(30, new Date(2026, 7, 20));
+  const dates = buildCheckoutDates(BOOKING_FROM_DATE);
   const onSelect = jest.fn();
 
   render(
     <CheckoutDatePicker
       copy={CHECKOUT_CONTENT}
       dates={dates}
+      bookingFromDate={BOOKING_FROM_DATE}
       selectedDateId={dates[0].id}
       monthYearLabel="August,2026"
       onSelect={onSelect}
@@ -57,6 +60,14 @@ describe('CheckoutDatePicker', () => {
     expect(screen.queryByRole('dialog', { name: 'Open calendar' })).not.toBeInTheDocument();
   });
 
+  it('marks every day in a future month as selectable through the booking window', () => {
+    const cells = buildCalendarMonthCells(2026, 10, null, BOOKING_FROM_DATE);
+    const novemberDays = cells.filter((cell) => cell.isCurrentMonth);
+
+    expect(novemberDays).toHaveLength(30);
+    expect(novemberDays.every((cell) => cell.isSelectable)).toBe(true);
+  });
+
   it('scrolls one full row when the next dates button is clicked', () => {
     const { dates } = renderDatePicker();
 
@@ -65,9 +76,7 @@ describe('CheckoutDatePicker', () => {
     Object.defineProperty(strip, 'scrollWidth', { configurable: true, value: 2400 });
     Object.defineProperty(strip, 'scrollLeft', { configurable: true, writable: true, value: 0 });
 
-    const firstButton = screen.getByRole('option', {
-      name: new RegExp(`${dates[0].weekday}\\s+${dates[0].day}`),
-    });
+    const firstButton = strip.querySelector(`[data-date-id="${dates[0].id}"]`);
     Object.defineProperty(firstButton, 'offsetWidth', { configurable: true, value: 60 });
 
     strip.scrollBy = jest.fn(({ left }) => {
@@ -101,12 +110,8 @@ describe('CheckoutDatePicker', () => {
     });
 
     const lastVisibleIndex = 3;
-    const lastVisibleButton = screen.getByRole('option', {
-      name: new RegExp(`${dates[lastVisibleIndex].weekday}\\s+${dates[lastVisibleIndex].day}`),
-    });
-    const nextButton = screen.getByRole('option', {
-      name: new RegExp(`${dates[lastVisibleIndex + 1].weekday}\\s+${dates[lastVisibleIndex + 1].day}`),
-    });
+    const lastVisibleButton = strip.querySelector(`[data-date-id="${dates[lastVisibleIndex].id}"]`);
+    const nextButton = strip.querySelector(`[data-date-id="${dates[lastVisibleIndex + 1].id}"]`);
 
     lastVisibleButton.getBoundingClientRect = () => ({
       left: 228,

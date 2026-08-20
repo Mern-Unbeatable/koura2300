@@ -38,6 +38,10 @@ const useCheckout = () => {
   const user = useSelector(selectUser);
   const cartItems = useSelector(selectCartItems);
   const dates = useMemo(() => buildCheckoutDates(), []);
+  const bookingFromDate = useMemo(() => {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  }, []);
   const [fields, setFields] = useState(() => createCheckoutFields(user));
   const [selectedDateId, setSelectedDateId] = useState(dates[0]?.id ?? '');
   const [selectedTime, setSelectedTime] = useState(CHECKOUT_TIME_SLOTS[0]);
@@ -65,6 +69,7 @@ const useCheckout = () => {
     copy: CHECKOUT_CONTENT,
     fields,
     dates,
+    bookingFromDate,
     timeSlots: CHECKOUT_TIME_SLOTS,
     selectedDateId,
     selectedTime,

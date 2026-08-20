@@ -10,22 +10,21 @@ const parseIsoDate = (isoDate) => {
   return new Date(year, month - 1, day);
 };
 
-const useCheckoutCalendar = ({ dates, selectedDateId, onSelect, onScrollToDate }) => {
+const useCheckoutCalendar = ({ selectedDateId, onSelect, onScrollToDate, bookingFromDate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [viewDate, setViewDate] = useState(() =>
-    selectedDateId ? parseIsoDate(selectedDateId) : new Date(),
+    selectedDateId ? parseIsoDate(selectedDateId) : bookingFromDate,
   );
 
-  const availableDateIds = useMemo(() => new Set(dates.map((date) => date.id)), [dates]);
   const cells = useMemo(
     () =>
       buildCalendarMonthCells(
         viewDate.getFullYear(),
         viewDate.getMonth(),
-        availableDateIds,
         selectedDateId,
+        bookingFromDate,
       ),
-    [availableDateIds, selectedDateId, viewDate],
+    [bookingFromDate, selectedDateId, viewDate],
   );
   const viewMonthYear = formatCheckoutMonthYear(viewDate);
 

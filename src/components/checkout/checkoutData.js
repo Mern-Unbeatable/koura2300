@@ -1,4 +1,4 @@
-export const CHECKOUT_DATE_COUNT = 90;
+export const CHECKOUT_BOOKING_MONTHS_AHEAD = 12;
 export const CHECKOUT_ISO_PAD_LENGTH = 2;
 export const CHECKOUT_INPUT_CLASS =
   'h-11 w-full rounded-[2px] border border-[#e4e7e9] bg-[#e9eaea] px-[15px] text-sm text-[#191c1f] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
@@ -118,7 +118,23 @@ export const toLocalIsoDate = (date) =>
 export const formatCheckoutMonthYear = (date) =>
   `${CHECKOUT_MONTH_NAMES[date.getMonth()]},${date.getFullYear()}`;
 
-export const buildCalendarMonthCells = (year, month, availableDateIds, selectedDateId) => {
+const startOfDay = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+export const getCheckoutBookingEndDate = (fromDate = new Date()) =>
+  new Date(
+    fromDate.getFullYear(),
+    fromDate.getMonth() + CHECKOUT_BOOKING_MONTHS_AHEAD,
+    fromDate.getDate(),
+  );
+
+export const isCheckoutDateSelectable = (date, fromDate = new Date()) => {
+  const target = startOfDay(date);
+  const bookingStart = startOfDay(fromDate);
+  const bookingEnd = startOfDay(getCheckoutBookingEndDate(fromDate));
+  return target >= bookingStart && target <= bookingEnd;
+};
+
+export const buildCalendarMonthCells = (year, month, selectedDateId, fromDate = new Date()) => {
   const firstOfMonth = new Date(year, month, 1);
   const leadingBlankCount = firstOfMonth.getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -127,12 +143,13 @@ export const buildCalendarMonthCells = (year, month, availableDateIds, selectedD
 
   for (let index = 0; index < leadingBlankCount; index += 1) {
     const date = new Date(year, month, index - leadingBlankCount + 1);
+    const iso = toLocalIsoDate(date);
     cells.push({
-      iso: toLocalIsoDate(date),
+      iso,
       day: String(date.getDate()),
       isCurrentMonth: false,
-      isSelectable: availableDateIds.has(toLocalIsoDate(date)),
-      isSelected: false,
+      isSelectable: isCheckoutDateSelectable(date, fromDate),
+      isSelected: iso === selectedDateId,
     });
   }
 
@@ -143,7 +160,7 @@ export const buildCalendarMonthCells = (year, month, availableDateIds, selectedD
       iso,
       day: String(day),
       isCurrentMonth: true,
-      isSelectable: availableDateIds.has(iso),
+      isSelectable: isCheckoutDateSelectable(date, fromDate),
       isSelected: iso === selectedDateId,
     });
   }
@@ -155,7 +172,7 @@ export const buildCalendarMonthCells = (year, month, availableDateIds, selectedD
       iso,
       day: String(index),
       isCurrentMonth: false,
-      isSelectable: availableDateIds.has(iso),
+      isSelectable: isCheckoutDateSelectable(date, fromDate),
       isSelected: iso === selectedDateId,
     });
   }
@@ -163,18 +180,26 @@ export const buildCalendarMonthCells = (year, month, availableDateIds, selectedD
   return cells;
 };
 
-export const buildCheckoutDates = (count = CHECKOUT_DATE_COUNT, fromDate = new Date()) =>
-  Array.from({ length: count }, (_, index) => {
-    const date = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate() + index);
-    const iso = toLocalIsoDate(date);
-    return {
+export const buildCheckoutDates = (fromDate = new Date()) => {
+  const bookingStart = startOfDay(fromDate);
+  const bookingEnd = startOfDay(getCheckoutBookingEndDate(fromDate));
+  const dates = [];
+  const cursor = new Date(bookingStart);
+
+  while (cursor <= bookingEnd) {
+    const iso = toLocalIsoDate(cursor);
+    dates.push({
       id: iso,
-      weekday: WEEKDAY_SHORT[date.getDay()],
-      day: String(date.getDate()),
+      weekday: WEEKDAY_SHORT[cursor.getDay()],
+      day: String(cursor.getDate()),
       iso,
-      monthYear: formatCheckoutMonthYear(date),
-    };
-  });
+      monthYear: formatCheckoutMonthYear(cursor),
+    });
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  return dates;
+};
 
 export const getServiceIdFromCartItemId = (cartItemId = '') =>
   cartItemId.replace(CHECKOUT_PACKAGE_ID_SUFFIX, '');

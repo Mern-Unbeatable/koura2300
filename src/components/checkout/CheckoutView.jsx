@@ -272,6 +272,7 @@ const CheckoutView = memo(() => {
             <CheckoutDatePicker
               copy={copy}
               dates={checkout.dates}
+              bookingFromDate={checkout.bookingFromDate}
               selectedDateId={checkout.selectedDateId}
               monthYearLabel={checkout.monthYearLabel}
               onSelect={checkout.setSelectedDateId}

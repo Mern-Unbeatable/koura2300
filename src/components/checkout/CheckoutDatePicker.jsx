@@ -15,7 +15,7 @@ import {
   CHECKOUT_DATE_WEEKDAY_CLASS,
 } from './checkoutData';
 
-const CheckoutDatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, onSelect }) => {
+const CheckoutDatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, onSelect, bookingFromDate }) => {
   const {
     stripRef,
     displayMonthYear,
@@ -31,10 +31,10 @@ const CheckoutDatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, 
   } = useCheckoutDateStrip({ dates, monthYearLabel, onSelect });
 
   const calendar = useCheckoutCalendar({
-    dates,
     selectedDateId,
     onSelect,
     onScrollToDate: scrollToDateId,
+    bookingFromDate,
   });
 
   return (
