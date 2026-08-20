@@ -44,10 +44,22 @@ const bookingReducer = (state, action) => {
     case BOOKING_ACTION.SELECT_PACKAGE:
       return { ...state, selectedPackageId: action.packageId };
     case BOOKING_ACTION.SET_NEEDS_MATERIALS:
+      if (action.needsMaterials) {
+        return {
+          ...state,
+          needsMaterials: true,
+          isAccountOpen: false,
+        };
+      }
+
       return {
         ...state,
-        needsMaterials: action.needsMaterials,
-        isAccountOpen: action.needsMaterials ? false : state.isAccountOpen,
+        needsMaterials: false,
+        isZipPanelOpen: false,
+        isContactMethodVisible: false,
+        isChatOpen: false,
+        isAccountOpen: false,
+        selectedContactMethod: UNSELECTED_CONTACT_METHOD,
       };
     case BOOKING_ACTION.TOGGLE_RECYCLE:
       return { ...state, recycleOldMaterials: !state.recycleOldMaterials };

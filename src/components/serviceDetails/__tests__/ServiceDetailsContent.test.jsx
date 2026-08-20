@@ -529,6 +529,43 @@ describe('Service details chat', () => {
     expect(screen.getByRole('radio', { name: 'Chat' })).toHaveAttribute('aria-checked', 'false');
   });
 
+  it('closes Preferred Contact Method and chat when switching to I Have Materials', async () => {
+    const user = userEvent.setup();
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    await openServiceChat(user);
+
+    expect(screen.getByRole('region', { name: 'Preferred Contact Method' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Service pro chat' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'I Have Materials' }));
+
+    expect(
+      screen.queryByRole('region', { name: 'Preferred Contact Method' }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Service pro chat' })).not.toBeInTheDocument();
+  });
+
+  it('closes Preferred Contact Method and Create Account when switching to I Have Materials after Phone / SMS', async () => {
+    const user = userEvent.setup();
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    await reachContactMethodStep(user);
+    await user.click(screen.getByRole('radio', { name: 'Phone / SMS' }));
+    await waitFor(() => {
+      expect(screen.getByRole('region', { name: 'Create your account' })).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole('button', { name: 'I Have Materials' }));
+
+    expect(
+      screen.queryByRole('region', { name: 'Preferred Contact Method' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('region', { name: 'Create your account' }),
+    ).not.toBeInTheDocument();
+  });
+
   it('closes chat when Phone or Email is selected instead of Chat', async () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
