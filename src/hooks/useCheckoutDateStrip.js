@@ -7,6 +7,10 @@ import {
 } from '../components/checkout/checkoutData';
 
 const scrollSiblingIntoView = (element, inline) => {
+  if (typeof element?.scrollIntoView !== 'function') {
+    return;
+  }
+
   element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline });
 };
 
@@ -153,16 +157,22 @@ const useCheckoutDateStrip = ({ dates, monthYearLabel, onSelect }) => {
 
   const handleDateSelect = useCallback(
     (dateId, event) => {
-      if (dragMovedRef.current) {
+      if (event && dragMovedRef.current) {
         dragMovedRef.current = false;
         return;
       }
 
       onSelect(dateId);
 
-      const button = event.currentTarget;
       const strip = stripRef.current;
-      if (!strip || !button) {
+      if (!strip) {
+        return;
+      }
+
+      const button = event
+        ? event.currentTarget
+        : strip.querySelector(`[data-date-id="${dateId}"]`);
+      if (!button) {
         return;
       }
 
@@ -185,6 +195,24 @@ const useCheckoutDateStrip = ({ dates, monthYearLabel, onSelect }) => {
     [onSelect, syncScrollState],
   );
 
+  const scrollToDateId = useCallback(
+    (dateId) => {
+      const strip = stripRef.current;
+      if (!strip) {
+        return;
+      }
+
+      const button = strip.querySelector(`[data-date-id="${dateId}"]`);
+      if (!button) {
+        return;
+      }
+
+      scrollSiblingIntoView(button, 'center');
+      window.setTimeout(syncScrollState, 300);
+    },
+    [syncScrollState],
+  );
+
   return {
     stripRef,
     displayMonthYear,
@@ -196,6 +224,7 @@ const useCheckoutDateStrip = ({ dates, monthYearLabel, onSelect }) => {
     handleScrollNext,
     handleMouseDown,
     handleStripScroll: syncScrollState,
+    scrollToDateId,
   };
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { configureStore } from '@reduxjs/toolkit';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import authReducer from '../../../store/slices/authSlice';
@@ -81,11 +81,22 @@ describe('CheckoutView Figma layout', () => {
     renderCheckout();
 
     expect(screen.getByText('Choose a Date *')).toBeInTheDocument();
-    expect(screen.getByText(formatCheckoutMonthYear(new Date()))).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Open calendar' })).toHaveTextContent(
+      formatCheckoutMonthYear(new Date()),
+    );
 
     const strip = screen.getByRole('listbox', { name: 'Choose a Date *' });
     expect(strip).toHaveClass('overflow-x-auto');
     expect(strip.className).toContain('[scrollbar-width:none]');
+  });
+
+  it('uses orange active styling for the selected time slot', () => {
+    renderCheckout();
+
+    fireEvent.click(screen.getByRole('button', { name: '9:00 AM' }));
+
+    expect(screen.getByRole('button', { name: '9:00 AM' })).toHaveClass('border-[#ff6b1a]');
+    expect(screen.getByRole('button', { name: '9:00 AM' })).toHaveClass('text-[#ff6b1a]');
   });
 
   it('renders the order thumbnail, title, and two-tone payment note without an assembly line', () => {

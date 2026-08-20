@@ -22,6 +22,9 @@ export const CHECKOUT_CONTENT = {
   chooseDate: 'Choose a Date *',
   previousDates: 'Show previous dates',
   nextDates: 'Show next dates',
+  openCalendar: 'Open calendar',
+  previousMonth: 'Previous month',
+  nextMonth: 'Next month',
   chooseTime: 'Choose a Time *',
   uploadTitle: 'Upload Photos / Videos',
   uploadDescription:

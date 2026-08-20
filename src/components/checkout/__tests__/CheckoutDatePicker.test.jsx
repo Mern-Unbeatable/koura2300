@@ -33,12 +33,28 @@ describe('CheckoutDatePicker', () => {
     expect(strip).toHaveClass('cursor-grab');
   });
 
-  it('renders lucide navigation controls beside the month label', () => {
+  it('renders calendar navigation and opens a month grid picker', () => {
     renderDatePicker();
 
     expect(screen.getByRole('button', { name: 'Show previous dates' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Show next dates' })).toBeInTheDocument();
-    expect(screen.getByText('August,2026')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Open calendar' })).toHaveTextContent('August,2026');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open calendar' }));
+
+    expect(screen.getByRole('dialog', { name: 'Open calendar' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Previous month' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Next month' })).toBeInTheDocument();
+  });
+
+  it('selects a date from the calendar and closes the picker', () => {
+    const { dates, onSelect } = renderDatePicker();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open calendar' }));
+    fireEvent.click(screen.getByRole('button', { name: dates[10].iso }));
+
+    expect(onSelect).toHaveBeenCalledWith(dates[10].iso);
+    expect(screen.queryByRole('dialog', { name: 'Open calendar' })).not.toBeInTheDocument();
   });
 
   it('scrolls one full row when the next dates button is clicked', () => {

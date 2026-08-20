@@ -1,4 +1,4 @@
-export const CHECKOUT_DATE_COUNT = 30;
+export const CHECKOUT_DATE_COUNT = 90;
 export const CHECKOUT_ISO_PAD_LENGTH = 2;
 export const CHECKOUT_INPUT_CLASS =
   'h-11 w-full rounded-[2px] border border-[#e4e7e9] bg-[#e9eaea] px-[15px] text-sm text-[#191c1f] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
@@ -24,7 +24,26 @@ export const CHECKOUT_DATE_GAP_PX = 8;
 export const CHECKOUT_DATE_NAV_ICON_SIZE = 18;
 export const CHECKOUT_DATE_NAV_BUTTON_CLASS =
   'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md p-1 text-brand-orange transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-40';
-export const CHECKOUT_DATE_NAV_GROUP_CLASS = 'flex items-center gap-1';
+export const CHECKOUT_DATE_NAV_GROUP_CLASS = 'relative flex items-center gap-1';
+export const CHECKOUT_CALENDAR_TRIGGER_CLASS =
+  'inline-flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-lg font-bold leading-[27px] text-[#0b1e3d] transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const CHECKOUT_CALENDAR_ICON_SIZE = 18;
+export const CHECKOUT_CALENDAR_PANEL_CLASS =
+  'absolute right-0 top-full z-20 mt-2 w-[320px] rounded-2xl border border-[#e5e7eb] bg-white p-4 shadow-lg';
+export const CHECKOUT_CALENDAR_HEADER_CLASS = 'mb-3 flex items-center justify-between gap-2';
+export const CHECKOUT_CALENDAR_MONTH_CLASS = 'text-sm font-bold text-[#0b1e3d]';
+export const CHECKOUT_CALENDAR_WEEKDAY_ROW_CLASS = 'mb-2 grid grid-cols-7 gap-1';
+export const CHECKOUT_CALENDAR_WEEKDAY_CLASS = 'text-center text-xs font-medium text-[#6a7282]';
+export const CHECKOUT_CALENDAR_GRID_CLASS = 'grid grid-cols-7 gap-1';
+export const CHECKOUT_CALENDAR_DAY_IDLE =
+  'flex size-9 cursor-pointer items-center justify-center rounded-full text-sm font-medium text-[#0b1e3d] transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const CHECKOUT_CALENDAR_DAY_OUTSIDE =
+  'flex size-9 items-center justify-center rounded-full text-sm font-medium text-[#99a1af]';
+export const CHECKOUT_CALENDAR_DAY_DISABLED =
+  'flex size-9 cursor-not-allowed items-center justify-center rounded-full text-sm font-medium text-[#d1d5db]';
+export const CHECKOUT_CALENDAR_DAY_ACTIVE =
+  'flex size-9 cursor-pointer items-center justify-center rounded-full bg-brand-orange text-sm font-semibold text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const CHECKOUT_CALENDAR_WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 export const CHECKOUT_DATE_STRIP_CLASS =
   'flex h-[76px] cursor-grab gap-2 overflow-x-auto overflow-y-hidden active:cursor-grabbing [-ms-overflow-style:none] [scrollbar-width:none] [touch-action:pan-x] [&::-webkit-scrollbar]:hidden';
 export const CHECKOUT_DATE_BUTTON_IDLE =
@@ -34,9 +53,9 @@ export const CHECKOUT_DATE_BUTTON_ACTIVE =
 export const CHECKOUT_DATE_WEEKDAY_CLASS = 'text-xs font-medium leading-4 text-[#4a5565]';
 export const CHECKOUT_DATE_DAY_CLASS = 'text-lg font-bold leading-7 text-[#0b1e3d]';
 export const CHECKOUT_TIME_BUTTON_IDLE =
-  'h-11 cursor-pointer rounded-2xl border-2 border-gray-200 px-[22px] text-sm font-medium text-[#4a5565] transition-colors hover:border-brand-orange/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'h-11 cursor-pointer rounded-2xl border-2 border-gray-200 px-[22px] text-sm font-medium text-[#4a5565] transition-colors hover:border-brand-orange/40 hover:bg-[rgba(255,107,26,0.05)] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_TIME_BUTTON_ACTIVE =
-  'h-11 cursor-pointer rounded-2xl border-2 border-[#0160f2] bg-blue-50 px-[22px] text-sm font-medium text-[#0160f2] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0160f2]';
+  'h-11 cursor-pointer rounded-2xl border-2 border-[#ff6b1a] bg-[rgba(255,107,26,0.05)] px-[22px] text-sm font-semibold text-[#ff6b1a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6b1a]';
 export const CHECKOUT_CONTACT_IDLE =
   'flex w-full min-w-0 cursor-pointer flex-col items-center gap-3 rounded-2xl border-2 border-[#e5e7eb] p-[26px] text-center transition-colors hover:border-[#ff6b1a]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6b1a]';
 export const CHECKOUT_CONTACT_ACTIVE =
@@ -98,6 +117,51 @@ export const toLocalIsoDate = (date) =>
 
 export const formatCheckoutMonthYear = (date) =>
   `${CHECKOUT_MONTH_NAMES[date.getMonth()]},${date.getFullYear()}`;
+
+export const buildCalendarMonthCells = (year, month, availableDateIds, selectedDateId) => {
+  const firstOfMonth = new Date(year, month, 1);
+  const leadingBlankCount = firstOfMonth.getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const trailingCount = (7 - ((leadingBlankCount + daysInMonth) % 7)) % 7;
+  const cells = [];
+
+  for (let index = 0; index < leadingBlankCount; index += 1) {
+    const date = new Date(year, month, index - leadingBlankCount + 1);
+    cells.push({
+      iso: toLocalIsoDate(date),
+      day: String(date.getDate()),
+      isCurrentMonth: false,
+      isSelectable: availableDateIds.has(toLocalIsoDate(date)),
+      isSelected: false,
+    });
+  }
+
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const date = new Date(year, month, day);
+    const iso = toLocalIsoDate(date);
+    cells.push({
+      iso,
+      day: String(day),
+      isCurrentMonth: true,
+      isSelectable: availableDateIds.has(iso),
+      isSelected: iso === selectedDateId,
+    });
+  }
+
+  for (let index = 1; index <= trailingCount; index += 1) {
+    const date = new Date(year, month + 1, index);
+    const iso = toLocalIsoDate(date);
+    cells.push({
+      iso,
+      day: String(index),
+      isCurrentMonth: false,
+      isSelectable: availableDateIds.has(iso),
+      isSelected: iso === selectedDateId,
+    });
+  }
+
+  return cells;
+};
 
 export const buildCheckoutDates = (count = CHECKOUT_DATE_COUNT, fromDate = new Date()) =>
   Array.from({ length: count }, (_, index) => {

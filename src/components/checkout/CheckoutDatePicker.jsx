@@ -1,6 +1,8 @@
 import React, { memo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import useCheckoutCalendar from '../../hooks/useCheckoutCalendar';
 import useCheckoutDateStrip from '../../hooks/useCheckoutDateStrip';
+import CheckoutCalendarPanel, { CheckoutCalendarTrigger } from './CheckoutCalendarPanel';
 import {
   CHECKOUT_DATE_BUTTON_ACTIVE,
   CHECKOUT_DATE_BUTTON_IDLE,
@@ -25,7 +27,15 @@ const CheckoutDatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, 
     handleScrollNext,
     handleMouseDown,
     handleStripScroll,
+    scrollToDateId,
   } = useCheckoutDateStrip({ dates, monthYearLabel, onSelect });
+
+  const calendar = useCheckoutCalendar({
+    dates,
+    selectedDateId,
+    onSelect,
+    onScrollToDate: scrollToDateId,
+  });
 
   return (
     <div>
@@ -50,7 +60,21 @@ const CheckoutDatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, 
           >
             <ChevronRight size={CHECKOUT_DATE_NAV_ICON_SIZE} aria-hidden="true" />
           </button>
-          <p className={CHECKOUT_DATE_HEADING_CLASS}>{displayMonthYear}</p>
+          <CheckoutCalendarTrigger
+            copy={copy}
+            viewMonthYear={displayMonthYear}
+            isOpen={calendar.isOpen}
+            onToggle={calendar.toggleCalendar}
+          />
+          <CheckoutCalendarPanel
+            copy={copy}
+            isOpen={calendar.isOpen}
+            viewMonthYear={calendar.viewMonthYear}
+            cells={calendar.cells}
+            onPreviousMonth={calendar.handlePreviousMonth}
+            onNextMonth={calendar.handleNextMonth}
+            onSelectDay={calendar.handleSelectDay}
+          />
         </div>
       </div>
       <div
@@ -66,6 +90,7 @@ const CheckoutDatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, 
             key={date.id}
             type="button"
             role="option"
+            data-date-id={date.id}
             aria-selected={date.id === selectedDateId}
             onClick={(event) => handleDateSelect(date.id, event)}
             className={
