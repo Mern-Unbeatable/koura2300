@@ -7,7 +7,6 @@ export const TOP_RATED_SERVICES_CONTENT = {
   },
   title: 'Top-rated services',
   subtitle: 'Most-booked this month, all with verified reviews',
-  viewAll: 'View all',
   noResults: 'No services match your search.',
   pagination: {
     label: 'Top-rated services pages',

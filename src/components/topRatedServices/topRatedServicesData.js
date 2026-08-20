@@ -3,7 +3,6 @@ import { SERVICE_ITEMS } from '../home/landingData';
 export const TOP_RATED_PAGE_SIZE = 12;
 export const TOP_RATED_PAGE_COUNT = 3;
 export const TOP_RATED_PAGE_NUMBER_OFFSET = 1;
-export const TOP_RATED_VIEW_ALL_ICON_SIZE = 16;
 export const TOP_RATED_PAGINATION_ICON_SIZE = 18;
 
 export const TOP_RATED_PAGE_CLASS =
@@ -14,8 +13,6 @@ export const TOP_RATED_HEADER_CLASS = 'flex items-end justify-between gap-5';
 export const TOP_RATED_TITLE_CLASS =
   'text-3xl font-extrabold text-brand-blue sm:text-4xl';
 export const TOP_RATED_SUBTITLE_CLASS = 'mt-2 text-base text-gray-500';
-export const TOP_RATED_VIEW_ALL_CLASS =
-  'inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-brand-orange transition-colors hover:text-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const TOP_RATED_GRID_CLASS = 'mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4';
 export const TOP_RATED_EMPTY_CLASS =
   'mt-10 rounded-xl border border-gray-200 bg-gray-50 p-8 text-center text-gray-500';
