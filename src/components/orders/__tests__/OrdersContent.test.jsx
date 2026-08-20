@@ -125,7 +125,9 @@ describe('OrdersContent', () => {
 
     expect(within(pendingCard).getByRole('button', { name: 'Cancel Booking' })).toBeInTheDocument();
     expect(within(pendingCard).queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
-    expect(within(progressCard).getByRole('button', { name: 'Cancel Booking' })).toBeInTheDocument();
+    expect(
+      within(progressCard).getByRole('button', { name: 'Cancel Booking' }),
+    ).toBeInTheDocument();
     expect(within(progressCard).queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
   });
 
@@ -143,7 +145,9 @@ describe('OrdersContent', () => {
     expect(
       within(completedCard).queryByRole('button', { name: 'Cancel Booking' }),
     ).not.toBeInTheDocument();
-    expect(within(completedCard).queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
+    expect(
+      within(completedCard).queryByRole('button', { name: 'Pay Now' }),
+    ).not.toBeInTheDocument();
   });
 
   it('shows only View Details for cancelled orders', () => {
@@ -157,7 +161,9 @@ describe('OrdersContent', () => {
     expect(
       within(cancelledCard).queryByRole('button', { name: 'Cancel Booking' }),
     ).not.toBeInTheDocument();
-    expect(within(cancelledCard).queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
+    expect(
+      within(cancelledCard).queryByRole('button', { name: 'Pay Now' }),
+    ).not.toBeInTheDocument();
     expect(
       within(cancelledCard).queryByRole('button', { name: 'Download order receipt' }),
     ).not.toBeInTheDocument();
@@ -166,11 +172,40 @@ describe('OrdersContent', () => {
   it('renders a responsive two-column order grid', () => {
     renderOrdersPage();
 
-    const grid = screen.getByRole('heading', { name: 'Electrical Panel Upgrade' }).closest(
-      'article',
-    )?.parentElement;
+    const grid = screen
+      .getByRole('heading', { name: 'Electrical Panel Upgrade' })
+      .closest('article')?.parentElement;
 
     expect(grid).toHaveClass('lg:grid-cols-2');
+  });
+
+  it('stacks three payment actions on mobile widths and keeps dual actions in a row', () => {
+    renderOrdersPage();
+
+    const paymentCard = screen
+      .getByRole('heading', { name: 'Electrical Panel Upgrade' })
+      .closest('article');
+    const dualCard = screen
+      .getByRole('heading', { name: 'Bathroom Tile Installation' })
+      .closest('article');
+
+    const paymentActions = within(paymentCard).getByRole('button', {
+      name: 'View Details',
+    }).parentElement;
+    const dualActions = within(dualCard).getByRole('button', {
+      name: 'View Details',
+    }).parentElement;
+
+    expect(paymentActions).toHaveClass('flex-col');
+    expect(paymentActions).toHaveClass('min-[426px]:flex-row');
+    expect(dualActions).toHaveClass('flex-row');
+    expect(dualActions).not.toHaveClass('flex-col');
+  });
+
+  it('wraps status filter tabs instead of clipping them', () => {
+    renderOrdersPage();
+
+    expect(screen.getByRole('tablist')).toHaveClass('flex-wrap');
   });
 
   it('exposes every status filter from the design', () => {

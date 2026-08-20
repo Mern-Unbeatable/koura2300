@@ -7,7 +7,6 @@ import {
   ORDER_ACTION_ICON_SIZE,
   ORDER_ACTION_PAY_CLASS,
   ORDER_ACTION_PRIMARY_CLASS,
-  ORDER_ACTIONS_ROW_CLASS,
   ORDER_APPOINTMENT_DEFAULT_CLASS,
   ORDER_APPOINTMENT_HIGHLIGHT_CLASS,
   ORDER_CARD_CLASS,
@@ -30,6 +29,8 @@ import {
   ORDER_TIER_LABELS,
   ORDER_TIER_STYLES,
   getOrderActionsForStatus,
+  getOrderActionsRowClass,
+  getOrderTextActionClass,
 } from './ordersData';
 
 const getPaymentTextClass = (kind) =>
@@ -114,7 +115,9 @@ const OrderCardPayment = memo(({ order, labels }) => (
   <div className={ORDER_PAYMENT_ROW_CLASS}>
     <div className="min-w-0 shrink-0">
       <p className={ORDER_META_LABEL_CLASS}>{labels.materialPayment}</p>
-      <p className={getPaymentTextClass(order.materialPayment.kind)}>{order.materialPayment.label}</p>
+      <p className={getPaymentTextClass(order.materialPayment.kind)}>
+        {order.materialPayment.label}
+      </p>
     </div>
     <div className={ORDER_PAYMENT_COST_CLASS}>
       <p className={ORDER_META_LABEL_CLASS}>{order.serviceCostLabel}</p>
@@ -128,24 +131,29 @@ OrderCardPayment.displayName = 'OrderCardPayment';
 const OrderCardActions = memo(
   ({ status, actions, onViewDetails, onPayNow, onCancelBooking, onDownload }) => {
     const actionKeys = getOrderActionsForStatus(status);
+    const actionCount = actionKeys.length;
+    const rowClass = getOrderActionsRowClass(actionCount);
+    const primaryClass = getOrderTextActionClass(ORDER_ACTION_PRIMARY_CLASS, actionCount);
+    const payClass = getOrderTextActionClass(ORDER_ACTION_PAY_CLASS, actionCount);
+    const cancelClass = getOrderTextActionClass(ORDER_ACTION_CANCEL_CLASS, actionCount);
 
     return (
-      <div className={ORDER_ACTIONS_ROW_CLASS}>
+      <div className={rowClass}>
         {actionKeys.includes(ORDER_ACTION.VIEW_DETAILS) ? (
-          <button type="button" onClick={onViewDetails} className={ORDER_ACTION_PRIMARY_CLASS}>
+          <button type="button" onClick={onViewDetails} className={primaryClass}>
             {actions.viewDetails}
           </button>
         ) : null}
 
         {actionKeys.includes(ORDER_ACTION.PAY_NOW) ? (
-          <button type="button" onClick={onPayNow} className={ORDER_ACTION_PAY_CLASS}>
+          <button type="button" onClick={onPayNow} className={payClass}>
             <CreditCard size={ORDER_ACTION_ICON_SIZE} aria-hidden="true" />
             {actions.payNow}
           </button>
         ) : null}
 
         {actionKeys.includes(ORDER_ACTION.CANCEL_BOOKING) ? (
-          <button type="button" onClick={onCancelBooking} className={ORDER_ACTION_CANCEL_CLASS}>
+          <button type="button" onClick={onCancelBooking} className={cancelClass}>
             {actions.cancelBooking}
           </button>
         ) : null}
@@ -171,15 +179,7 @@ OrderCardActions.displayName = 'OrderCardActions';
  * Shared OrderCard — status badge, tier, and footer buttons come from ORDER_STATUS_ACTIONS.
  */
 const OrderCard = memo(
-  ({
-    order,
-    labels,
-    actions,
-    onViewDetails,
-    onPayNow,
-    onCancelBooking,
-    onDownload,
-  }) => (
+  ({ order, labels, actions, onViewDetails, onPayNow, onCancelBooking, onDownload }) => (
     <article className={ORDER_CARD_CLASS}>
       <OrderCardHero order={order} />
       <div className="flex flex-1 flex-col p-5">

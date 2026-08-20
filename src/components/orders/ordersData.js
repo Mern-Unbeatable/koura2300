@@ -42,16 +42,15 @@ export const ORDER_MAIN_CLASS =
   'animate-page-enter mx-auto max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28';
 export const ORDER_TITLE_CLASS = 'text-3xl font-bold text-[#0f172b] sm:text-4xl';
 export const ORDER_SUBTITLE_CLASS = 'mt-2 text-sm text-[#62748e] sm:text-base';
-export const ORDER_SUMMARY_GRID_CLASS =
-  'mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4';
+export const ORDER_SUMMARY_GRID_CLASS = 'mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4';
 export const ORDER_SUMMARY_CARD_CLASS =
   'flex items-center gap-4 rounded-2xl border border-[#f1f5f9] bg-white p-5 shadow-sm';
 export const ORDER_FILTERS_CLASS =
-  'mt-6 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
+  'mt-6 flex flex-wrap items-center gap-2';
 export const ORDER_FILTER_IDLE =
-  'shrink-0 cursor-pointer rounded-xl border border-[#e2e8f0] bg-white px-4 py-2 text-sm font-medium text-[#45556c] transition-colors hover:border-brand-orange hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'shrink-0 cursor-pointer whitespace-nowrap rounded-xl border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-medium text-[#45556c] transition-colors hover:border-brand-orange hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:px-4 min-[426px]:py-2 min-[426px]:text-sm';
 export const ORDER_FILTER_ACTIVE =
-  'shrink-0 cursor-pointer rounded-xl bg-[#0f172b] px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'shrink-0 cursor-pointer whitespace-nowrap rounded-xl bg-[#0f172b] px-3 py-1.5 text-xs font-medium text-white shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:px-4 min-[426px]:py-2 min-[426px]:text-sm';
 export const ORDER_COUNT_CLASS = 'mt-6 text-sm text-[#62748e]';
 export const ORDER_GRID_CLASS = 'mt-5 grid gap-5 lg:grid-cols-2';
 export const ORDER_CARD_CLASS =
@@ -74,8 +73,10 @@ export const ORDER_SUMMARY_VALUE_CLASS = {
 };
 
 export const ORDER_PAYMENT_TEXT_CLASS = {
-  [ORDER_PAYMENT_KIND.DUE]: 'mt-0.5 whitespace-nowrap text-xs font-semibold leading-4 text-[#f54900]',
-  [ORDER_PAYMENT_KIND.PAID]: 'mt-0.5 whitespace-nowrap text-xs font-semibold leading-4 text-[#00a63e]',
+  [ORDER_PAYMENT_KIND.DUE]:
+    'mt-0.5 whitespace-nowrap text-xs font-semibold leading-4 text-[#f54900]',
+  [ORDER_PAYMENT_KIND.PAID]:
+    'mt-0.5 whitespace-nowrap text-xs font-semibold leading-4 text-[#00a63e]',
   [ORDER_PAYMENT_KIND.PENDING_REVIEW]:
     'mt-0.5 whitespace-nowrap text-xs font-medium italic leading-4 text-[#90a1b9]',
 };
@@ -84,14 +85,42 @@ export const ORDER_APPOINTMENT_HIGHLIGHT_CLASS = 'text-[#f54900]';
 export const ORDER_APPOINTMENT_DEFAULT_CLASS = 'text-[#0f172b]';
 
 export const ORDER_ACTION_PRIMARY_CLASS =
-  'min-h-10 min-w-0 flex-1 cursor-pointer rounded-xl bg-[#0f172b] px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1e293b] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'min-h-10 min-w-0 cursor-pointer whitespace-nowrap rounded-xl bg-[#0f172b] px-3 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1e293b] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ORDER_ACTION_PAY_CLASS =
-  'inline-flex min-h-10 min-w-0 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-[#ffd6a8] bg-[#fff7ed] px-3 py-2.5 text-sm font-semibold text-[#f54900] transition-colors hover:bg-[#ffedd4] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'inline-flex min-h-10 min-w-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-[#ffd6a8] bg-[#fff7ed] px-3 py-2.5 text-sm font-semibold text-[#f54900] transition-colors hover:bg-[#ffedd4] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ORDER_ACTION_CANCEL_CLASS =
-  'min-h-10 min-w-0 flex-1 cursor-pointer rounded-xl border border-[#f00606] bg-white px-3 py-2.5 text-sm font-semibold text-[#f50000] transition-colors hover:bg-[#fff5f5] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400';
+  'min-h-10 min-w-0 cursor-pointer whitespace-nowrap rounded-xl border border-[#f00606] bg-white px-3 py-2.5 text-sm font-semibold text-[#f50000] transition-colors hover:bg-[#fff5f5] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400';
 export const ORDER_ACTION_DOWNLOAD_CLASS =
   'inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-[#e2e8f0] bg-white text-[#45556c] transition-colors hover:border-brand-orange hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
-export const ORDER_ACTIONS_ROW_CLASS = 'mt-auto flex flex-wrap gap-2 pt-4';
+
+/** ≤425px: 3 actions stack in 3 rows; ≥426px: horizontal row */
+export const ORDER_ACTIONS_ROW_TRIPLE_CLASS =
+  'mt-auto flex flex-col gap-2 pt-4 min-[426px]:flex-row min-[426px]:flex-wrap';
+/** 2 actions stay side-by-side on Mobile L/M/S */
+export const ORDER_ACTIONS_ROW_DUAL_CLASS = 'mt-auto flex flex-row flex-wrap gap-2 pt-4';
+export const ORDER_ACTIONS_ROW_SINGLE_CLASS = 'mt-auto flex flex-row gap-2 pt-4';
+export const ORDER_ACTION_FLEX_CLASS = 'flex-1';
+export const ORDER_ACTION_STACK_MOBILE_CLASS = 'w-full min-[426px]:w-auto min-[426px]:flex-1';
+
+export const getOrderActionsRowClass = (actionCount) => {
+  if (actionCount >= 3) {
+    return ORDER_ACTIONS_ROW_TRIPLE_CLASS;
+  }
+
+  if (actionCount === 2) {
+    return ORDER_ACTIONS_ROW_DUAL_CLASS;
+  }
+
+  return ORDER_ACTIONS_ROW_SINGLE_CLASS;
+};
+
+export const getOrderTextActionClass = (baseClass, actionCount) => {
+  if (actionCount >= 3) {
+    return `${baseClass} ${ORDER_ACTION_STACK_MOBILE_CLASS}`;
+  }
+
+  return `${baseClass} ${ORDER_ACTION_FLEX_CLASS}`;
+};
 
 export const ORDER_ACTION = {
   VIEW_DETAILS: 'viewDetails',
@@ -161,8 +190,7 @@ export const ORDER_STATUS_STYLES = {
 };
 
 export const ORDER_TIER_STYLES = {
-  [ORDER_TIER.PREMIUM]:
-    'border-[#ffd230] bg-[rgba(255,185,0,0.9)] text-[#7b3306]',
+  [ORDER_TIER.PREMIUM]: 'border-[#ffd230] bg-[rgba(255,185,0,0.9)] text-[#7b3306]',
   [ORDER_TIER.STANDARD]: 'border-[#e2e8f0] bg-white/90 text-[#45556c]',
 };
 
@@ -338,8 +366,7 @@ export const buildOrderSummary = (orders, today = new Date()) => {
   return {
     active: activeOrders.length,
     completed: orders.filter((order) => order.status === ORDER_STATUS.COMPLETED).length,
-    pendingPayment: orders.filter((order) => order.status === ORDER_STATUS.PAYMENT_REQUIRED)
-      .length,
+    pendingPayment: orders.filter((order) => order.status === ORDER_STATUS.PAYMENT_REQUIRED).length,
     upcoming: activeOrders.filter((order) => isUpcomingAppointment(order.appointment, today))
       .length,
     cancelled: orders.filter((order) => order.status === ORDER_STATUS.CANCELLED).length,
