@@ -77,12 +77,15 @@ describe('CheckoutView Figma layout', () => {
     expect(screen.getByRole('button', { name: 'Email' })).toBeInTheDocument();
   });
 
-  it('shows the current month and year beside Choose a Date with a scrolling strip', () => {
+  it('shows the current month and year beside Choose a Date with a hidden-scrollbar strip', () => {
     renderCheckout();
 
     expect(screen.getByText('Choose a Date *')).toBeInTheDocument();
     expect(screen.getByText(formatCheckoutMonthYear(new Date()))).toBeInTheDocument();
-    expect(screen.getByRole('listbox', { name: 'Choose a Date *' })).toHaveClass('overflow-x-auto');
+
+    const strip = screen.getByRole('listbox', { name: 'Choose a Date *' });
+    expect(strip).toHaveClass('overflow-x-auto');
+    expect(strip.className).toContain('[scrollbar-width:none]');
   });
 
   it('renders the order thumbnail, title, and two-tone payment note without an assembly line', () => {

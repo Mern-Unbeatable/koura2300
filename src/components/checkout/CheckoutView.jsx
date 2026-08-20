@@ -3,6 +3,7 @@ import { Check, Mail, Phone, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../config';
 import useCheckout from '../../hooks/useCheckout';
+import CheckoutDatePicker from './CheckoutDatePicker';
 import {
   CHECKOUT_CARD_CLASS,
   CHECKOUT_CONFIRM_BUTTON_CLASS,
@@ -16,12 +17,7 @@ import {
   CHECKOUT_CONTACT_LABEL_ACTIVE,
   CHECKOUT_CONTACT_LABEL_IDLE,
   CHECKOUT_CONTACT_METHODS,
-  CHECKOUT_DATE_BUTTON_ACTIVE,
-  CHECKOUT_DATE_BUTTON_IDLE,
-  CHECKOUT_DATE_DAY_CLASS,
   CHECKOUT_DATE_HEADING_CLASS,
-  CHECKOUT_DATE_STRIP_CLASS,
-  CHECKOUT_DATE_WEEKDAY_CLASS,
   CHECKOUT_EMPTY_PLACEHOLDER,
   CHECKOUT_INPUT_CLASS,
   CHECKOUT_LAYOUT_CLASS,
@@ -119,38 +115,6 @@ const ContactMethodSection = memo(({ copy, contactMethod, onSelect }) => (
 ));
 
 ContactMethodSection.displayName = 'ContactMethodSection';
-
-const DatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, onSelect }) => (
-  <div>
-    <div className="mb-3 flex items-center justify-between gap-4">
-      <p className={CHECKOUT_DATE_HEADING_CLASS}>{copy.chooseDate}</p>
-      <p className={CHECKOUT_DATE_HEADING_CLASS}>{monthYearLabel}</p>
-    </div>
-    <div
-      role="listbox"
-      aria-label={copy.chooseDate}
-      className={CHECKOUT_DATE_STRIP_CLASS}
-    >
-      {dates.map((date) => (
-        <button
-          key={date.id}
-          type="button"
-          role="option"
-          aria-selected={date.id === selectedDateId}
-          onClick={() => onSelect(date.id)}
-          className={
-            date.id === selectedDateId ? CHECKOUT_DATE_BUTTON_ACTIVE : CHECKOUT_DATE_BUTTON_IDLE
-          }
-        >
-          <span className={CHECKOUT_DATE_WEEKDAY_CLASS}>{date.weekday}</span>
-          <span className={CHECKOUT_DATE_DAY_CLASS}>{date.day}</span>
-        </button>
-      ))}
-    </div>
-  </div>
-));
-
-DatePicker.displayName = 'DatePicker';
 
 const OrderItemRow = memo(({ item, image }) => (
   <div className={`mt-6 flex items-center gap-3 p-3 ${CHECKOUT_REVIEW_SURFACE_CLASS}`}>
@@ -305,7 +269,7 @@ const CheckoutView = memo(() => {
               />
             </div>
 
-            <DatePicker
+            <CheckoutDatePicker
               copy={copy}
               dates={checkout.dates}
               selectedDateId={checkout.selectedDateId}

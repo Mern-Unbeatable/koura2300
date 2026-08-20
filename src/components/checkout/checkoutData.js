@@ -17,8 +17,9 @@ export const CHECKOUT_UPLOAD_ICON_SIZE = 36;
 export const CHECKOUT_PACKAGE_ID_SUFFIX = /-(standard|premium)$/;
 export const CHECKOUT_SECTION_TITLE_CLASS = 'text-2xl font-medium text-[#191c1f]';
 export const CHECKOUT_DATE_HEADING_CLASS = 'text-lg font-bold leading-[27px] text-[#0b1e3d]';
+export const CHECKOUT_DATE_SCROLL_EDGE_OFFSET = 4;
 export const CHECKOUT_DATE_STRIP_CLASS =
-  'flex h-[76px] gap-2 overflow-x-auto overflow-y-hidden pb-2 [scrollbar-width:thin]';
+  'flex h-[76px] gap-2 overflow-x-auto overflow-y-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
 export const CHECKOUT_DATE_BUTTON_IDLE =
   'flex h-[68px] min-w-[60px] shrink-0 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-[#e5e7eb] px-[14px] py-3 text-center transition-colors hover:border-brand-orange/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_DATE_BUTTON_ACTIVE =
