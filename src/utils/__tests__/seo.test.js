@@ -3,7 +3,7 @@ import { generateMetadata, generateStructuredData, updateMetaTags } from '../seo
 describe('generateMetadata', () => {
   it('formats the title as "Page | SiteName" when title is provided', () => {
     const meta = generateMetadata({ title: 'About Us', description: 'Learn about us' });
-    // Default site name from SEO_CONFIG (Gairewele)
+    // Default site name from SEO_CONFIG (Logoipsum)
     expect(meta.title).toMatch(/About Us \|/);
   });
 

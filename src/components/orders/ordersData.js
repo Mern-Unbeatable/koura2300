@@ -87,9 +87,34 @@ export const ORDER_ACTION_PRIMARY_CLASS =
 export const ORDER_ACTION_PAY_CLASS =
   'inline-flex min-h-10 min-w-0 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-[#ffd6a8] bg-[#fff7ed] px-3 py-2.5 text-sm font-semibold text-[#f54900] transition-colors hover:bg-[#ffedd4] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ORDER_ACTION_CANCEL_CLASS =
-  'min-h-10 min-w-0 flex-1 cursor-pointer rounded-xl border border-[#f00606] bg-[#ffeded] px-3 py-2.5 text-sm font-semibold text-[#f50000] transition-colors hover:bg-[#ffe0e0] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400';
+  'min-h-10 min-w-0 flex-1 cursor-pointer rounded-xl border border-[#f00606] bg-white px-3 py-2.5 text-sm font-semibold text-[#f50000] transition-colors hover:bg-[#fff5f5] focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400';
 export const ORDER_ACTION_DOWNLOAD_CLASS =
   'inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-[#e2e8f0] bg-white text-[#45556c] transition-colors hover:border-brand-orange hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const ORDER_ACTIONS_ROW_CLASS = 'mt-auto flex flex-wrap gap-2 pt-4';
+
+export const ORDER_ACTION = {
+  VIEW_DETAILS: 'viewDetails',
+  PAY_NOW: 'payNow',
+  CANCEL_BOOKING: 'cancelBooking',
+  DOWNLOAD: 'download',
+};
+
+/** Status-category → footer buttons (Figma OrderCard variants). */
+export const ORDER_STATUS_ACTIONS = {
+  [ORDER_STATUS.PENDING_REVIEW]: [ORDER_ACTION.VIEW_DETAILS, ORDER_ACTION.CANCEL_BOOKING],
+  [ORDER_STATUS.PAYMENT_REQUIRED]: [
+    ORDER_ACTION.VIEW_DETAILS,
+    ORDER_ACTION.PAY_NOW,
+    ORDER_ACTION.CANCEL_BOOKING,
+  ],
+  [ORDER_STATUS.TECHNICIAN_ASSIGNED]: [ORDER_ACTION.VIEW_DETAILS, ORDER_ACTION.CANCEL_BOOKING],
+  [ORDER_STATUS.IN_PROGRESS]: [ORDER_ACTION.VIEW_DETAILS, ORDER_ACTION.CANCEL_BOOKING],
+  [ORDER_STATUS.COMPLETED]: [ORDER_ACTION.VIEW_DETAILS, ORDER_ACTION.DOWNLOAD],
+  [ORDER_STATUS.CANCELLED]: [ORDER_ACTION.VIEW_DETAILS],
+};
+
+export const getOrderActionsForStatus = (status) =>
+  ORDER_STATUS_ACTIONS[status] ?? [ORDER_ACTION.VIEW_DETAILS];
 
 export const ORDER_META_LABEL_CLASS = 'text-xs font-medium text-[#90a1b9]';
 export const ORDER_META_VALUE_DEFAULT_CLASS = 'mt-0.5 text-sm font-medium text-[#0f172b]';
@@ -102,7 +127,7 @@ export const ORDER_STATUS_STYLES = {
     dot: 'bg-[#ff6900]',
   },
   [ORDER_STATUS.TECHNICIAN_ASSIGNED]: {
-    badge: 'border-[#e9d4ff] bg-[#faf5ff] text-[#6e11b0]',
+    badge: 'border-[#e9d4ff] bg-[#faf5ff] text-[#8200db]',
     dot: 'bg-[#ad46ff]',
   },
   [ORDER_STATUS.PENDING_REVIEW]: {
@@ -170,9 +195,6 @@ export const ORDER_ITEMS = [
     materialPayment: { kind: ORDER_PAYMENT_KIND.DUE, label: 'Due: $185' },
     serviceCostLabel: 'Est. Service Cost',
     serviceCost: 'From $320',
-    showPayNow: true,
-    showCancel: true,
-    showDownload: false,
     isActive: true,
     isUpcoming: true,
   },
@@ -180,21 +202,18 @@ export const ORDER_ITEMS = [
     id: 'ord-2024-002',
     orderId: 'ORD-2024-002',
     title: 'Bathroom Tile Installation',
-    category: 'Bathroom · Tiling',
+    category: 'Flooring · Tile & Stone',
     image: `${LANDING_ASSET_PATH}/article-repairs.png`,
     imageAlt: 'Technician installing bathroom tiles',
     status: ORDER_STATUS.TECHNICIAN_ASSIGNED,
     tier: ORDER_TIER.STANDARD,
-    bookedOn: 'Jan 12, 2024',
-    appointment: 'Jan 20, 2024',
+    bookedOn: 'Jan 15, 2024',
+    appointment: 'Jan 22, 2024',
     isAppointmentHighlighted: true,
-    duration: '4–6 hours',
+    duration: '3–4 hours',
     materialPayment: { kind: ORDER_PAYMENT_KIND.PAID, label: '✓ Paid $420' },
-    serviceCostLabel: 'Est. Service Cost',
-    serviceCost: 'From $280',
-    showPayNow: false,
-    showCancel: true,
-    showDownload: false,
+    serviceCostLabel: 'Service Cost',
+    serviceCost: '$280',
     isActive: true,
     isUpcoming: true,
   },
@@ -214,9 +233,6 @@ export const ORDER_ITEMS = [
     materialPayment: { kind: ORDER_PAYMENT_KIND.PENDING_REVIEW, label: 'Pending review' },
     serviceCostLabel: 'Est. Service Cost',
     serviceCost: 'From $145',
-    showPayNow: false,
-    showCancel: true,
-    showDownload: false,
     isActive: false,
     isUpcoming: true,
   },
@@ -224,21 +240,18 @@ export const ORDER_ITEMS = [
     id: 'ord-2024-004',
     orderId: 'ORD-2024-004',
     title: 'Kitchen Cabinet Assembly',
-    category: 'Kitchen · Cabinetry',
+    category: 'Carpentry · Cabinet & Shelving',
     image: `${LANDING_ASSET_PATH}/article-maintenance.png`,
     imageAlt: 'Kitchen cabinet assembly in progress',
     status: ORDER_STATUS.COMPLETED,
     tier: ORDER_TIER.PREMIUM,
-    bookedOn: 'Dec 28, 2023',
-    appointment: 'Jan 05, 2024',
-    isAppointmentHighlighted: false,
-    duration: '5–6 hours',
+    bookedOn: 'Jan 15, 2024',
+    appointment: 'Jan 22, 2024',
+    isAppointmentHighlighted: true,
+    duration: '3–4 hours',
     materialPayment: { kind: ORDER_PAYMENT_KIND.PAID, label: '✓ Paid $260' },
-    serviceCostLabel: 'Service Cost',
-    serviceCost: '$480',
-    showPayNow: false,
-    showCancel: false,
-    showDownload: true,
+    serviceCostLabel: 'Est. Service Cost',
+    serviceCost: 'From $450',
     isActive: false,
     isUpcoming: false,
   },
@@ -258,10 +271,26 @@ export const ORDER_ITEMS = [
     materialPayment: { kind: ORDER_PAYMENT_KIND.PAID, label: '✓ Paid $340' },
     serviceCostLabel: 'Est. Service Cost',
     serviceCost: 'From $520',
-    showPayNow: false,
-    showCancel: true,
-    showDownload: false,
     isActive: true,
+    isUpcoming: false,
+  },
+  {
+    id: 'ord-2024-006',
+    orderId: 'ORD-2024-006',
+    title: 'Garden Fence Repair',
+    category: 'Outdoor · Fence & Gate',
+    image: `${LANDING_ASSET_PATH}/article-winter.png`,
+    imageAlt: 'Fence repair along a residential garden',
+    status: ORDER_STATUS.CANCELLED,
+    tier: ORDER_TIER.STANDARD,
+    bookedOn: 'Jan 05, 2024',
+    appointment: 'Jan 12, 2024',
+    isAppointmentHighlighted: false,
+    duration: '2–3 hours',
+    materialPayment: { kind: ORDER_PAYMENT_KIND.PENDING_REVIEW, label: 'Cancelled' },
+    serviceCostLabel: 'Est. Service Cost',
+    serviceCost: 'From $210',
+    isActive: false,
     isUpcoming: false,
   },
 ];

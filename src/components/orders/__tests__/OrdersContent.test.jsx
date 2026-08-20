@@ -85,9 +85,43 @@ describe('OrdersContent', () => {
       .getByRole('heading', { name: 'Electrical Panel Upgrade' })
       .closest('article');
 
+    expect(within(paymentCard).getByRole('button', { name: 'View Details' })).toBeInTheDocument();
     expect(within(paymentCard).getByRole('button', { name: 'Pay Now' })).toBeInTheDocument();
     expect(within(paymentCard).getByRole('button', { name: 'Cancel Booking' })).toBeInTheDocument();
-    expect(within(paymentCard).getByRole('button', { name: 'View Details' })).toBeInTheDocument();
+    expect(
+      within(paymentCard).queryByRole('button', { name: 'Download order receipt' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows View Details and Cancel Booking for technician-assigned orders', () => {
+    renderOrdersPage();
+
+    const card = screen
+      .getByRole('heading', { name: 'Bathroom Tile Installation' })
+      .closest('article');
+
+    expect(within(card).getByRole('button', { name: 'View Details' })).toBeInTheDocument();
+    expect(within(card).getByRole('button', { name: 'Cancel Booking' })).toBeInTheDocument();
+    expect(within(card).queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
+    expect(
+      within(card).queryByRole('button', { name: 'Download order receipt' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows View Details and Cancel Booking for pending-review and in-progress orders', () => {
+    renderOrdersPage();
+
+    const pendingCard = screen
+      .getByRole('heading', { name: 'Ceiling Fan Installation' })
+      .closest('article');
+    const progressCard = screen
+      .getByRole('heading', { name: 'AC Unit Installation' })
+      .closest('article');
+
+    expect(within(pendingCard).getByRole('button', { name: 'Cancel Booking' })).toBeInTheDocument();
+    expect(within(pendingCard).queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
+    expect(within(progressCard).getByRole('button', { name: 'Cancel Booking' })).toBeInTheDocument();
+    expect(within(progressCard).queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
   });
 
   it('shows download on completed orders instead of cancel', () => {
@@ -97,11 +131,30 @@ describe('OrdersContent', () => {
       .getByRole('heading', { name: 'Kitchen Cabinet Assembly' })
       .closest('article');
 
+    expect(within(completedCard).getByRole('button', { name: 'View Details' })).toBeInTheDocument();
     expect(
       within(completedCard).getByRole('button', { name: 'Download order receipt' }),
     ).toBeInTheDocument();
     expect(
       within(completedCard).queryByRole('button', { name: 'Cancel Booking' }),
+    ).not.toBeInTheDocument();
+    expect(within(completedCard).queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
+  });
+
+  it('shows only View Details for cancelled orders', () => {
+    renderOrdersPage();
+
+    const cancelledCard = screen
+      .getByRole('heading', { name: 'Garden Fence Repair' })
+      .closest('article');
+
+    expect(within(cancelledCard).getByRole('button', { name: 'View Details' })).toBeInTheDocument();
+    expect(
+      within(cancelledCard).queryByRole('button', { name: 'Cancel Booking' }),
+    ).not.toBeInTheDocument();
+    expect(within(cancelledCard).queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
+    expect(
+      within(cancelledCard).queryByRole('button', { name: 'Download order receipt' }),
     ).not.toBeInTheDocument();
   });
 

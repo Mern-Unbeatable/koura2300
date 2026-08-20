@@ -15,12 +15,13 @@ export const generateMetadata = ({
   const siteName = SEO_CONFIG.DEFAULT_TITLE;
 
   return {
-    title: title ? `${title} | ${siteName}` : siteName,
+    // Browser tab always shows the brand name only.
+    title: siteName,
     description,
     keywords: keywords.join(', '),
     canonical: fullUrl,
     openGraph: {
-      title,
+      title: title || siteName,
       description,
       url: fullUrl,
       siteName,
@@ -30,7 +31,7 @@ export const generateMetadata = ({
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: title || siteName,
       description,
       images: image ? [image] : [],
     },

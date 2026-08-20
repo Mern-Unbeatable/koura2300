@@ -1,11 +1,13 @@
 import React, { memo } from 'react';
-import { Download, Wallet } from 'lucide-react';
+import { CreditCard, Download } from 'lucide-react';
 import {
+  ORDER_ACTION,
   ORDER_ACTION_CANCEL_CLASS,
   ORDER_ACTION_DOWNLOAD_CLASS,
   ORDER_ACTION_ICON_SIZE,
   ORDER_ACTION_PAY_CLASS,
   ORDER_ACTION_PRIMARY_CLASS,
+  ORDER_ACTIONS_ROW_CLASS,
   ORDER_APPOINTMENT_DEFAULT_CLASS,
   ORDER_APPOINTMENT_HIGHLIGHT_CLASS,
   ORDER_CARD_CLASS,
@@ -22,6 +24,7 @@ import {
   ORDER_STATUS_STYLES,
   ORDER_TIER_LABELS,
   ORDER_TIER_STYLES,
+  getOrderActionsForStatus,
 } from './ordersData';
 
 const getPaymentTextClass = (kind) =>
@@ -105,13 +108,13 @@ OrderCardMeta.displayName = 'OrderCardMeta';
 const OrderCardPayment = memo(({ order, labels }) => (
   <div className="mt-4 flex items-center justify-between border-y border-[#f8fafc] py-3">
     <div>
-      <p className="text-xs font-medium text-[#90a1b9]">{labels.materialPayment}</p>
+      <p className={ORDER_META_LABEL_CLASS}>{labels.materialPayment}</p>
       <p className={`mt-1 text-xs ${getPaymentTextClass(order.materialPayment.kind)}`}>
         {order.materialPayment.label}
       </p>
     </div>
     <div className="text-right">
-      <p className="text-xs font-medium text-[#90a1b9]">{order.serviceCostLabel}</p>
+      <p className={ORDER_META_LABEL_CLASS}>{order.serviceCostLabel}</p>
       <p className="mt-0.5 text-sm font-bold text-[#0f172b]">{order.serviceCost}</p>
     </div>
   </div>
@@ -120,41 +123,50 @@ const OrderCardPayment = memo(({ order, labels }) => (
 OrderCardPayment.displayName = 'OrderCardPayment';
 
 const OrderCardActions = memo(
-  ({ order, actions, onViewDetails, onPayNow, onCancelBooking, onDownload }) => (
-    <div className="mt-auto flex flex-wrap gap-2 pt-4">
-      <button type="button" onClick={onViewDetails} className={ORDER_ACTION_PRIMARY_CLASS}>
-        {actions.viewDetails}
-      </button>
+  ({ status, actions, onViewDetails, onPayNow, onCancelBooking, onDownload }) => {
+    const actionKeys = getOrderActionsForStatus(status);
 
-      {order.showPayNow ? (
-        <button type="button" onClick={onPayNow} className={ORDER_ACTION_PAY_CLASS}>
-          <Wallet size={ORDER_ACTION_ICON_SIZE} aria-hidden="true" />
-          {actions.payNow}
-        </button>
-      ) : null}
+    return (
+      <div className={ORDER_ACTIONS_ROW_CLASS}>
+        {actionKeys.includes(ORDER_ACTION.VIEW_DETAILS) ? (
+          <button type="button" onClick={onViewDetails} className={ORDER_ACTION_PRIMARY_CLASS}>
+            {actions.viewDetails}
+          </button>
+        ) : null}
 
-      {order.showCancel ? (
-        <button type="button" onClick={onCancelBooking} className={ORDER_ACTION_CANCEL_CLASS}>
-          {actions.cancelBooking}
-        </button>
-      ) : null}
+        {actionKeys.includes(ORDER_ACTION.PAY_NOW) ? (
+          <button type="button" onClick={onPayNow} className={ORDER_ACTION_PAY_CLASS}>
+            <CreditCard size={ORDER_ACTION_ICON_SIZE} aria-hidden="true" />
+            {actions.payNow}
+          </button>
+        ) : null}
 
-      {order.showDownload ? (
-        <button
-          type="button"
-          onClick={onDownload}
-          aria-label={actions.download}
-          className={ORDER_ACTION_DOWNLOAD_CLASS}
-        >
-          <Download size={ORDER_DOWNLOAD_ICON_SIZE} aria-hidden="true" />
-        </button>
-      ) : null}
-    </div>
-  ),
+        {actionKeys.includes(ORDER_ACTION.CANCEL_BOOKING) ? (
+          <button type="button" onClick={onCancelBooking} className={ORDER_ACTION_CANCEL_CLASS}>
+            {actions.cancelBooking}
+          </button>
+        ) : null}
+
+        {actionKeys.includes(ORDER_ACTION.DOWNLOAD) ? (
+          <button
+            type="button"
+            onClick={onDownload}
+            aria-label={actions.download}
+            className={ORDER_ACTION_DOWNLOAD_CLASS}
+          >
+            <Download size={ORDER_DOWNLOAD_ICON_SIZE} aria-hidden="true" />
+          </button>
+        ) : null}
+      </div>
+    );
+  },
 );
 
 OrderCardActions.displayName = 'OrderCardActions';
 
+/**
+ * Shared OrderCard — status badge, tier, and footer buttons come from ORDER_STATUS_ACTIONS.
+ */
 const OrderCard = memo(
   ({
     order,
@@ -171,7 +183,7 @@ const OrderCard = memo(
         <OrderCardMeta order={order} labels={labels} />
         <OrderCardPayment order={order} labels={labels} />
         <OrderCardActions
-          order={order}
+          status={order.status}
           actions={actions}
           onViewDetails={onViewDetails}
           onPayNow={onPayNow}

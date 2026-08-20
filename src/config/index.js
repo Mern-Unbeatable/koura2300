@@ -69,7 +69,7 @@ export const API_CONFIG = {
 };
 
 export const SEO_CONFIG = {
-  DEFAULT_TITLE: process.env.REACT_APP_SEO_TITLE || 'Gairewele',
+  DEFAULT_TITLE: 'Logoipsum',
   DEFAULT_DESCRIPTION: process.env.REACT_APP_SEO_DESCRIPTION || 'A professional React application',
   DEFAULT_KEYWORDS: (process.env.REACT_APP_SEO_KEYWORDS || 'react,webpack,tailwind').split(','),
   SITE_URL: typeof window !== 'undefined' ? window.location.origin : '',

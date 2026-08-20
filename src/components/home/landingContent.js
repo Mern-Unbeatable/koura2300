@@ -1,6 +1,6 @@
 export const LANDING_CONTENT = {
   seo: {
-    title: 'Procleaning | Trusted Home Services',
+    title: 'Logoipsum',
     description:
       'Book trusted professionals for plumbing, electrical, carpentry, furniture assembly, and complete home services.',
     keywords: ['home services', 'plumbing', 'electrical services', 'carpentry'],
