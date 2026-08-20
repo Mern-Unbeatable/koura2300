@@ -190,6 +190,13 @@ export const ORDER_TIER_LABELS = {
   [ORDER_TIER.PREMIUM]: '★ Premium',
 };
 
+export const ORDER_ACTIVE_STATUSES = [
+  ORDER_STATUS.PENDING_REVIEW,
+  ORDER_STATUS.PAYMENT_REQUIRED,
+  ORDER_STATUS.TECHNICIAN_ASSIGNED,
+  ORDER_STATUS.IN_PROGRESS,
+];
+
 export const ORDER_ITEMS = [
   {
     id: 'ord-2024-001',
@@ -200,15 +207,13 @@ export const ORDER_ITEMS = [
     imageAlt: 'Electrician working on a residential electrical panel',
     status: ORDER_STATUS.PAYMENT_REQUIRED,
     tier: ORDER_TIER.PREMIUM,
-    bookedOn: 'Jan 15, 2024',
-    appointment: 'Jan 22, 2024',
+    bookedOn: 'Aug 15, 2026',
+    appointment: 'Aug 22, 2026',
     isAppointmentHighlighted: true,
     duration: '3–4 hours',
     materialPayment: { kind: ORDER_PAYMENT_KIND.DUE, label: 'Due: $185' },
     serviceCostLabel: 'Service Cost',
     serviceCost: 'From $320',
-    isActive: true,
-    isUpcoming: true,
   },
   {
     id: 'ord-2024-002',
@@ -219,15 +224,13 @@ export const ORDER_ITEMS = [
     imageAlt: 'Technician installing bathroom tiles',
     status: ORDER_STATUS.TECHNICIAN_ASSIGNED,
     tier: ORDER_TIER.STANDARD,
-    bookedOn: 'Jan 15, 2024',
-    appointment: 'Jan 22, 2024',
+    bookedOn: 'Aug 15, 2026',
+    appointment: 'Aug 22, 2026',
     isAppointmentHighlighted: true,
     duration: '3–4 hours',
     materialPayment: { kind: ORDER_PAYMENT_KIND.PAID, label: '✓ Paid $420' },
     serviceCostLabel: 'Service Cost',
     serviceCost: '$280',
-    isActive: true,
-    isUpcoming: true,
   },
   {
     id: 'ord-2024-003',
@@ -238,15 +241,13 @@ export const ORDER_ITEMS = [
     imageAlt: 'Ceiling fan installation in a living room',
     status: ORDER_STATUS.PENDING_REVIEW,
     tier: ORDER_TIER.STANDARD,
-    bookedOn: 'Jan 10, 2024',
-    appointment: 'Jan 25, 2024',
-    isAppointmentHighlighted: false,
+    bookedOn: 'Aug 10, 2026',
+    appointment: 'Aug 25, 2026',
+    isAppointmentHighlighted: true,
     duration: '1.5–2 hours',
     materialPayment: { kind: ORDER_PAYMENT_KIND.PENDING_REVIEW, label: 'Pending review' },
     serviceCostLabel: 'Service Cost',
     serviceCost: 'From $145',
-    isActive: false,
-    isUpcoming: true,
   },
   {
     id: 'ord-2024-004',
@@ -257,15 +258,13 @@ export const ORDER_ITEMS = [
     imageAlt: 'Kitchen cabinet assembly in progress',
     status: ORDER_STATUS.COMPLETED,
     tier: ORDER_TIER.PREMIUM,
-    bookedOn: 'Jan 15, 2024',
-    appointment: 'Jan 22, 2024',
-    isAppointmentHighlighted: true,
+    bookedOn: 'Aug 05, 2026',
+    appointment: 'Aug 12, 2026',
+    isAppointmentHighlighted: false,
     duration: '3–4 hours',
     materialPayment: { kind: ORDER_PAYMENT_KIND.PAID, label: '✓ Paid $260' },
     serviceCostLabel: 'Service Cost',
     serviceCost: 'From $450',
-    isActive: false,
-    isUpcoming: false,
   },
   {
     id: 'ord-2024-005',
@@ -276,15 +275,13 @@ export const ORDER_ITEMS = [
     imageAlt: 'Technician installing an air conditioning unit',
     status: ORDER_STATUS.IN_PROGRESS,
     tier: ORDER_TIER.PREMIUM,
-    bookedOn: 'Jan 08, 2024',
-    appointment: 'Jan 18, 2024',
-    isAppointmentHighlighted: true,
+    bookedOn: 'Aug 08, 2026',
+    appointment: 'Aug 18, 2026',
+    isAppointmentHighlighted: false,
     duration: '3–5 hours',
     materialPayment: { kind: ORDER_PAYMENT_KIND.PAID, label: '✓ Paid $340' },
     serviceCostLabel: 'Service Cost',
     serviceCost: 'From $520',
-    isActive: true,
-    isUpcoming: false,
   },
   {
     id: 'ord-2024-006',
@@ -295,15 +292,13 @@ export const ORDER_ITEMS = [
     imageAlt: 'Fence repair along a residential garden',
     status: ORDER_STATUS.CANCELLED,
     tier: ORDER_TIER.STANDARD,
-    bookedOn: 'Jan 05, 2024',
-    appointment: 'Jan 12, 2024',
+    bookedOn: 'Aug 05, 2026',
+    appointment: 'Aug 12, 2026',
     isAppointmentHighlighted: false,
     duration: '2–3 hours',
     materialPayment: { kind: ORDER_PAYMENT_KIND.PENDING_REVIEW, label: 'Cancelled' },
     serviceCostLabel: 'Service Cost',
     serviceCost: 'From $210',
-    isActive: false,
-    isUpcoming: false,
   },
 ];
 
@@ -315,13 +310,41 @@ export const filterOrders = (orders, selectedFilter) => {
   return orders.filter((order) => order.status === selectedFilter);
 };
 
-export const buildOrderSummary = (orders) => ({
-  active: orders.filter((order) => order.isActive).length,
-  completed: orders.filter((order) => order.status === ORDER_STATUS.COMPLETED).length,
-  pendingPayment: orders.filter((order) => order.status === ORDER_STATUS.PAYMENT_REQUIRED)
-    .length,
-  upcoming: orders.filter((order) => order.isUpcoming).length,
-});
+const startOfDay = (date) => {
+  const normalized = new Date(date);
+  normalized.setHours(0, 0, 0, 0);
+  return normalized;
+};
+
+export const parseOrderAppointmentDate = (appointment) => {
+  const parsed = new Date(appointment);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
+export const isActiveOrderStatus = (status) => ORDER_ACTIVE_STATUSES.includes(status);
+
+export const isUpcomingAppointment = (appointment, today = new Date()) => {
+  const appointmentDate = parseOrderAppointmentDate(appointment);
+  if (!appointmentDate) {
+    return false;
+  }
+
+  return startOfDay(appointmentDate) > startOfDay(today);
+};
+
+export const buildOrderSummary = (orders, today = new Date()) => {
+  const activeOrders = orders.filter((order) => isActiveOrderStatus(order.status));
+
+  return {
+    active: activeOrders.length,
+    completed: orders.filter((order) => order.status === ORDER_STATUS.COMPLETED).length,
+    pendingPayment: orders.filter((order) => order.status === ORDER_STATUS.PAYMENT_REQUIRED)
+      .length,
+    upcoming: activeOrders.filter((order) => isUpcomingAppointment(order.appointment, today))
+      .length,
+    cancelled: orders.filter((order) => order.status === ORDER_STATUS.CANCELLED).length,
+  };
+};
 
 export const formatOrderCount = (count, singular, plural) =>
   `${count} ${count === 1 ? singular : plural}`;
