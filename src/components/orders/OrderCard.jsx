@@ -13,11 +13,16 @@ import {
   ORDER_CARD_CLASS,
   ORDER_DOWNLOAD_ICON_SIZE,
   ORDER_HERO_HEIGHT_CLASS,
+  ORDER_META_ITEM_CLASS,
   ORDER_META_LABEL_CLASS,
+  ORDER_META_ROW_CLASS,
   ORDER_META_VALUE_BASE_CLASS,
   ORDER_META_VALUE_DEFAULT_CLASS,
   ORDER_META_VALUE_ORDER_ID_CLASS,
+  ORDER_PAYMENT_COST_CLASS,
+  ORDER_PAYMENT_COST_VALUE_CLASS,
   ORDER_PAYMENT_KIND,
+  ORDER_PAYMENT_ROW_CLASS,
   ORDER_PAYMENT_TEXT_CLASS,
   ORDER_STATUS_DOT_CLASS,
   ORDER_STATUS_LABELS,
@@ -70,7 +75,7 @@ const OrderCardHero = memo(({ order }) => {
 OrderCardHero.displayName = 'OrderCardHero';
 
 const OrderMetaField = memo(({ label, value, valueClassName }) => (
-  <div>
+  <div className={ORDER_META_ITEM_CLASS}>
     <p className={ORDER_META_LABEL_CLASS}>{label}</p>
     <p className={valueClassName}>{value}</p>
   </div>
@@ -79,7 +84,7 @@ const OrderMetaField = memo(({ label, value, valueClassName }) => (
 OrderMetaField.displayName = 'OrderMetaField';
 
 const OrderCardMeta = memo(({ order, labels }) => (
-  <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+  <div className={ORDER_META_ROW_CLASS}>
     <OrderMetaField
       label={labels.orderId}
       value={order.orderId}
@@ -106,16 +111,14 @@ const OrderCardMeta = memo(({ order, labels }) => (
 OrderCardMeta.displayName = 'OrderCardMeta';
 
 const OrderCardPayment = memo(({ order, labels }) => (
-  <div className="mt-4 flex items-center justify-between border-y border-[#f8fafc] py-3">
-    <div>
+  <div className={ORDER_PAYMENT_ROW_CLASS}>
+    <div className="min-w-0 shrink-0">
       <p className={ORDER_META_LABEL_CLASS}>{labels.materialPayment}</p>
-      <p className={`mt-1 text-xs ${getPaymentTextClass(order.materialPayment.kind)}`}>
-        {order.materialPayment.label}
-      </p>
+      <p className={getPaymentTextClass(order.materialPayment.kind)}>{order.materialPayment.label}</p>
     </div>
-    <div className="text-right">
+    <div className={ORDER_PAYMENT_COST_CLASS}>
       <p className={ORDER_META_LABEL_CLASS}>{order.serviceCostLabel}</p>
-      <p className="mt-0.5 text-sm font-bold text-[#0f172b]">{order.serviceCost}</p>
+      <p className={ORDER_PAYMENT_COST_VALUE_CLASS}>{order.serviceCost}</p>
     </div>
   </div>
 ));

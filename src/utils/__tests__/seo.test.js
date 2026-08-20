@@ -1,15 +1,14 @@
 import { generateMetadata, generateStructuredData, updateMetaTags } from '../seo';
 
 describe('generateMetadata', () => {
-  it('formats the title as "Page | SiteName" when title is provided', () => {
+  it('always uses Logoipsum as the browser document title', () => {
     const meta = generateMetadata({ title: 'About Us', description: 'Learn about us' });
-    // Default site name from SEO_CONFIG (Logoipsum)
-    expect(meta.title).toMatch(/About Us \|/);
+    expect(meta.title).toBe('Logoipsum');
   });
 
-  it('returns only the site name when no title is provided', () => {
+  it('returns Logoipsum when no page title is provided', () => {
     const meta = generateMetadata({ description: 'No title' });
-    expect(meta.title).not.toContain('|');
+    expect(meta.title).toBe('Logoipsum');
   });
 
   it('joins keywords array into a comma-separated string', () => {
@@ -76,9 +75,9 @@ describe('generateStructuredData', () => {
 });
 
 describe('updateMetaTags', () => {
-  it('sets document.title', () => {
+  it('sets document.title to Logoipsum', () => {
     const meta = generateMetadata({ title: 'SEO Test', description: 'Test desc' });
     updateMetaTags(meta);
-    expect(document.title).toMatch(/SEO Test/);
+    expect(document.title).toBe('Logoipsum');
   });
 });

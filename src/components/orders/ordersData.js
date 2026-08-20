@@ -74,9 +74,10 @@ export const ORDER_SUMMARY_VALUE_CLASS = {
 };
 
 export const ORDER_PAYMENT_TEXT_CLASS = {
-  [ORDER_PAYMENT_KIND.DUE]: 'font-semibold text-[#f54900]',
-  [ORDER_PAYMENT_KIND.PAID]: 'font-semibold text-[#00a63e]',
-  [ORDER_PAYMENT_KIND.PENDING_REVIEW]: 'font-medium italic text-[#90a1b9]',
+  [ORDER_PAYMENT_KIND.DUE]: 'mt-0.5 whitespace-nowrap text-xs font-semibold leading-4 text-[#f54900]',
+  [ORDER_PAYMENT_KIND.PAID]: 'mt-0.5 whitespace-nowrap text-xs font-semibold leading-4 text-[#00a63e]',
+  [ORDER_PAYMENT_KIND.PENDING_REVIEW]:
+    'mt-0.5 whitespace-nowrap text-xs font-medium italic leading-4 text-[#90a1b9]',
 };
 
 export const ORDER_APPOINTMENT_HIGHLIGHT_CLASS = 'text-[#f54900]';
@@ -116,10 +117,21 @@ export const ORDER_STATUS_ACTIONS = {
 export const getOrderActionsForStatus = (status) =>
   ORDER_STATUS_ACTIONS[status] ?? [ORDER_ACTION.VIEW_DETAILS];
 
-export const ORDER_META_LABEL_CLASS = 'text-xs font-medium text-[#90a1b9]';
-export const ORDER_META_VALUE_DEFAULT_CLASS = 'mt-0.5 text-sm font-medium text-[#0f172b]';
-export const ORDER_META_VALUE_ORDER_ID_CLASS = 'mt-0.5 text-xs font-medium text-[#45556c]';
-export const ORDER_META_VALUE_BASE_CLASS = 'mt-0.5 text-sm font-medium';
+export const ORDER_META_ROW_CLASS =
+  'flex w-full flex-wrap items-start justify-between gap-x-2 gap-y-3';
+export const ORDER_META_ITEM_CLASS = 'min-w-0 shrink-0';
+export const ORDER_META_LABEL_CLASS =
+  'whitespace-nowrap text-xs font-medium leading-4 text-[#90a1b9]';
+export const ORDER_META_VALUE_DEFAULT_CLASS =
+  'mt-0.5 whitespace-nowrap text-sm font-medium leading-5 text-[#0f172b]';
+export const ORDER_META_VALUE_ORDER_ID_CLASS =
+  'mt-0.5 whitespace-nowrap text-xs font-medium leading-4 text-[#45556c]';
+export const ORDER_META_VALUE_BASE_CLASS = 'mt-0.5 whitespace-nowrap text-sm font-medium leading-5';
+export const ORDER_PAYMENT_ROW_CLASS =
+  'mt-4 flex w-full items-center justify-between border-y border-[#f8fafc] py-3';
+export const ORDER_PAYMENT_COST_CLASS = 'shrink-0 text-right';
+export const ORDER_PAYMENT_COST_VALUE_CLASS =
+  'mt-0.5 whitespace-nowrap text-sm font-bold leading-5 text-[#0f172b]';
 
 export const ORDER_STATUS_STYLES = {
   [ORDER_STATUS.PAYMENT_REQUIRED]: {
