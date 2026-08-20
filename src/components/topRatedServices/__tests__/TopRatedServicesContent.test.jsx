@@ -36,14 +36,14 @@ const renderTopRatedPage = (initialPath = ROUTES.SERVICES) => {
 };
 
 describe('TopRatedServicesContent', () => {
-  it('renders the Figma page heading, subtitle, and View all action', () => {
+  it('renders the Figma page heading and subtitle without a View all link', () => {
     renderTopRatedPage();
 
     expect(screen.getByRole('heading', { name: 'Top-rated services' })).toBeInTheDocument();
     expect(
       screen.getByText('Most-booked this month, all with verified reviews'),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'View all' })).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'View all' })).not.toBeInTheDocument();
   });
 
   it('uses the shared landing header and footer chrome', () => {

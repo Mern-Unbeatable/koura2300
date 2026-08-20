@@ -1,7 +1,4 @@
 import React, { memo } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { ROUTES } from '../../config';
 import ServiceCard from '../home/ServiceCard';
 import TopRatedServicesPagination from './TopRatedServicesPagination';
 import { TOP_RATED_SERVICES_CONTENT } from './topRatedServicesCopy';
@@ -12,8 +9,6 @@ import {
   TOP_RATED_PAGINATION_WRAP_CLASS,
   TOP_RATED_SUBTITLE_CLASS,
   TOP_RATED_TITLE_CLASS,
-  TOP_RATED_VIEW_ALL_CLASS,
-  TOP_RATED_VIEW_ALL_ICON_SIZE,
 } from './topRatedServicesData';
 
 const TopRatedServicesHeader = memo(({ copy }) => (
@@ -22,10 +17,6 @@ const TopRatedServicesHeader = memo(({ copy }) => (
       <h1 className={TOP_RATED_TITLE_CLASS}>{copy.title}</h1>
       <p className={TOP_RATED_SUBTITLE_CLASS}>{copy.subtitle}</p>
     </div>
-    <Link to={ROUTES.SERVICES} className={TOP_RATED_VIEW_ALL_CLASS} aria-current="page">
-      {copy.viewAll}
-      <ArrowRight size={TOP_RATED_VIEW_ALL_ICON_SIZE} aria-hidden="true" />
-    </Link>
   </div>
 ));
 
