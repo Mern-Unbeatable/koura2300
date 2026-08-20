@@ -106,6 +106,16 @@ describe('Landing page', () => {
     expect(store.getState().cart.items[0].title).toBe('Drain Cleaning');
   });
 
+  it('sends View all from Top-rated services to the services page', async () => {
+    const user = userEvent.setup();
+    renderLandingPage();
+
+    const servicesRegion = screen.getByRole('region', { name: 'Top-rated services' });
+    await user.click(within(servicesRegion).getByRole('link', { name: 'View all' }));
+
+    expect(screen.getByTestId('current-path')).toHaveTextContent('/services');
+  });
+
   it('does not render a language switcher', () => {
     renderLandingPage();
 

@@ -90,6 +90,15 @@ const router = createBrowserRouter(
       />
 
       <Route
+        path={ROUTES.SERVICES}
+        element={
+          <Suspense fallback={<PageLoader />}>
+            <Services />
+          </Suspense>
+        }
+      />
+
+      <Route
         path={ROUTES.LIGHTING}
         element={
           <Suspense fallback={<PageLoader />}>
@@ -250,7 +259,6 @@ const router = createBrowserRouter(
         }
       >
         <Route path={ROUTES.ABOUT} element={<About />} />
-        <Route path={ROUTES.SERVICES} element={<Services />} />
         <Route path={ROUTES.CONTACT} element={<Contact />} />
       </Route>
 
