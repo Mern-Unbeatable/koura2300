@@ -22,7 +22,6 @@ import {
   CHECKOUT_DATE_HEADING_CLASS,
   CHECKOUT_DATE_STRIP_CLASS,
   CHECKOUT_DATE_WEEKDAY_CLASS,
-  CHECKOUT_DEFAULT_QUANTITY,
   CHECKOUT_EMPTY_PLACEHOLDER,
   CHECKOUT_INPUT_CLASS,
   CHECKOUT_LAYOUT_CLASS,
@@ -153,7 +152,7 @@ const DatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, onSelect
 
 DatePicker.displayName = 'DatePicker';
 
-const OrderItemRow = memo(({ item, image, assemblyLabel }) => (
+const OrderItemRow = memo(({ item, image }) => (
   <div className={`mt-6 flex items-center gap-3 p-3 ${CHECKOUT_REVIEW_SURFACE_CLASS}`}>
     {image.src ? (
       <img
@@ -164,7 +163,6 @@ const OrderItemRow = memo(({ item, image, assemblyLabel }) => (
     ) : null}
     <div className="min-w-0 flex-1">
       <p className="truncate text-sm font-semibold leading-5 text-[#0b1e3d]">{item.title}</p>
-      <p className="text-xs leading-4 text-[#99a1af]">{assemblyLabel}</p>
     </div>
     <p className="shrink-0 text-base font-bold text-[#0b1e3d]">${item.price}</p>
   </div>
@@ -188,9 +186,6 @@ const OrderSummary = memo(({ copy, fields, checkout }) => (
       <OrderItemRow
         item={checkout.primaryItem}
         image={checkout.primaryItemImage}
-        assemblyLabel={copy.assemblySuffix(
-          checkout.primaryItem.quantity ?? CHECKOUT_DEFAULT_QUANTITY,
-        )}
       />
     ) : (
       <p className="mt-6 text-sm text-gray-500">{copy.emptyCart}</p>

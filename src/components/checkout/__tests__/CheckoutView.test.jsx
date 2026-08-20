@@ -85,18 +85,20 @@ describe('CheckoutView Figma layout', () => {
     expect(screen.getByRole('listbox', { name: 'Choose a Date *' })).toHaveClass('overflow-x-auto');
   });
 
-  it('renders the order thumbnail, title, and two-tone payment note', () => {
+  it('renders the order thumbnail, title, and two-tone payment note without an assembly line', () => {
     renderCheckout([
       {
-        id: 'indoor-lighting-ceiling-light-installation-standard',
-        title: 'Ceiling Light Installation',
+        id: 'wall-repairs-hole-standard',
+        title: 'Hole',
         price: 145,
-        quantity: 1,
+        quantity: 4,
       },
     ]);
 
     expect(screen.getByRole('heading', { name: 'Review Your Order' })).toBeInTheDocument();
-    expect(screen.getByAltText('Ceiling Light Installation')).toBeInTheDocument();
+    expect(screen.getByAltText('Hole')).toBeInTheDocument();
+    expect(screen.getByText('Hole')).toBeInTheDocument();
+    expect(screen.queryByText(/Assembly/)).not.toBeInTheDocument();
     expect(screen.getByText('Payment note:')).toBeInTheDocument();
     expect(screen.getByText(/Your order has been received/)).toBeInTheDocument();
     expect(screen.getByText('Payment note:')).toHaveClass('text-[#1447e6]');

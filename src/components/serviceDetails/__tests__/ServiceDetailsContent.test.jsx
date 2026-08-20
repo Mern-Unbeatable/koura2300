@@ -286,6 +286,44 @@ describe('Service details page', () => {
     });
     expect(screen.getByRole('heading', { name: 'Review Your Order' })).toBeInTheDocument();
     expect(screen.queryByRole('region', { name: 'Create your account' })).not.toBeInTheDocument();
+    expect(screen.queryByText(/Assembly/)).not.toBeInTheDocument();
+  });
+
+  it('checks out the confirmed job instead of leftover cart quantity', async () => {
+    const user = userEvent.setup();
+    const store = createTestStore({
+      auth: {
+        user: { email: 'jane@example.com', name: 'Jane' },
+        isAuthenticated: true,
+        token: 'test-token',
+        loading: false,
+      },
+      cart: {
+        items: [
+          {
+            id: 'indoor-lighting-ceiling-light-installation-standard',
+            title: 'Ceiling Light Installation',
+            price: 145,
+            quantity: 4,
+          },
+        ],
+        totalItems: 4,
+        totalPrice: 580,
+      },
+    });
+    renderServiceDetails(LIGHTING_SERVICE_ID, store);
+
+    await user.click(screen.getByRole('button', { name: 'I Have Materials' }));
+    await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Personal Information' })).toBeInTheDocument();
+    });
+
+    expect(store.getState().cart.totalItems).toBe(1);
+    expect(store.getState().cart.items[0].quantity).toBe(1);
+    expect(screen.getByText('Ceiling Light Installation')).toBeInTheDocument();
+    expect(screen.queryByText(/Assembly/)).not.toBeInTheDocument();
   });
 
   it('opens the zip form below Confirmed Job and applies without a zip condition', async () => {

@@ -1,6 +1,5 @@
 export const CHECKOUT_DATE_COUNT = 30;
 export const CHECKOUT_ISO_PAD_LENGTH = 2;
-export const CHECKOUT_DEFAULT_QUANTITY = 1;
 export const CHECKOUT_INPUT_CLASS =
   'h-11 w-full rounded-[2px] border border-[#e4e7e9] bg-[#e9eaea] px-[15px] text-sm text-[#191c1f] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_LAYOUT_CLASS =

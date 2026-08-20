@@ -31,7 +31,6 @@ export const CHECKOUT_CONTENT = {
   phoneSms: 'Phone / SMS',
   emailContact: 'Email',
   reviewTitle: 'Review Your Order',
-  assemblySuffix: (quantity) => `Assembly · ×${quantity}`,
   nameLabel: 'Name',
   addressLabel: 'Address',
   dateTimeLabel: 'Date & Time',

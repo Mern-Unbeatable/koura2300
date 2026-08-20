@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { ROUTES } from '../config';
 import { loginSuccess, selectIsAuthenticated } from '../store/slices/authSlice';
+import { clearCart } from '../store/slices/cartSlice';
 import useAddService from './useAddService';
 import { SERVICE_DETAILS_CONTENT } from '../components/serviceDetails/serviceDetailsCopy';
 import {
@@ -120,6 +121,7 @@ const useServiceBooking = (service, packages) => {
     packages.find((servicePackage) => servicePackage.id === state.selectedPackageId) ?? packages[0];
 
   const addConfirmedItem = useCallback(() => {
+    dispatchAuth(clearCart());
     addService(
       createConfirmedCartItem({
         service,
@@ -128,7 +130,7 @@ const useServiceBooking = (service, packages) => {
         recycleOldMaterials: state.recycleOldMaterials,
       }),
     );
-  }, [addService, selectedPackage, service, state.needsMaterials, state.recycleOldMaterials]);
+  }, [addService, dispatchAuth, selectedPackage, service, state.needsMaterials, state.recycleOldMaterials]);
 
   const handleSelectPackage = useCallback((packageId) => {
     dispatch({ type: BOOKING_ACTION.SELECT_PACKAGE, packageId });
