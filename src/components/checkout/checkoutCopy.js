@@ -20,6 +20,8 @@ export const CHECKOUT_CONTENT = {
   zip: 'Zip Code',
   zipPlaceholder: 'Zip code',
   chooseDate: 'Choose a Date *',
+  previousDates: 'Show previous dates',
+  nextDates: 'Show next dates',
   chooseTime: 'Choose a Time *',
   uploadTitle: 'Upload Photos / Videos',
   uploadDescription:

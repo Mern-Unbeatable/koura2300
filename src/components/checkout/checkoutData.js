@@ -18,8 +18,15 @@ export const CHECKOUT_PACKAGE_ID_SUFFIX = /-(standard|premium)$/;
 export const CHECKOUT_SECTION_TITLE_CLASS = 'text-2xl font-medium text-[#191c1f]';
 export const CHECKOUT_DATE_HEADING_CLASS = 'text-lg font-bold leading-[27px] text-[#0b1e3d]';
 export const CHECKOUT_DATE_SCROLL_EDGE_OFFSET = 4;
+export const CHECKOUT_DATE_SCROLL_STEP = 14;
+export const CHECKOUT_DATE_DRAG_THRESHOLD = 5;
+export const CHECKOUT_DATE_GAP_PX = 8;
+export const CHECKOUT_DATE_NAV_ICON_SIZE = 18;
+export const CHECKOUT_DATE_NAV_BUTTON_CLASS =
+  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md p-1 text-brand-orange transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-40';
+export const CHECKOUT_DATE_NAV_GROUP_CLASS = 'flex items-center gap-1';
 export const CHECKOUT_DATE_STRIP_CLASS =
-  'flex h-[76px] gap-2 overflow-x-auto overflow-y-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
+  'flex h-[76px] cursor-grab gap-2 overflow-x-auto overflow-y-hidden active:cursor-grabbing [-ms-overflow-style:none] [scrollbar-width:none] [touch-action:pan-x] [&::-webkit-scrollbar]:hidden';
 export const CHECKOUT_DATE_BUTTON_IDLE =
   'flex h-[68px] min-w-[60px] shrink-0 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-[#e5e7eb] px-[14px] py-3 text-center transition-colors hover:border-brand-orange/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_DATE_BUTTON_ACTIVE =

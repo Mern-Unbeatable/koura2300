@@ -1,28 +1,65 @@
 import React, { memo } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import useCheckoutDateStrip from '../../hooks/useCheckoutDateStrip';
 import {
   CHECKOUT_DATE_BUTTON_ACTIVE,
   CHECKOUT_DATE_BUTTON_IDLE,
   CHECKOUT_DATE_DAY_CLASS,
   CHECKOUT_DATE_HEADING_CLASS,
+  CHECKOUT_DATE_NAV_BUTTON_CLASS,
+  CHECKOUT_DATE_NAV_GROUP_CLASS,
+  CHECKOUT_DATE_NAV_ICON_SIZE,
   CHECKOUT_DATE_STRIP_CLASS,
   CHECKOUT_DATE_WEEKDAY_CLASS,
 } from './checkoutData';
 
 const CheckoutDatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, onSelect }) => {
-  const { stripRef, handleDateSelect } = useCheckoutDateStrip(onSelect);
+  const {
+    stripRef,
+    displayMonthYear,
+    canScrollPrevious,
+    canScrollNext,
+    isDragging,
+    handleDateSelect,
+    handleScrollPrevious,
+    handleScrollNext,
+    handleMouseDown,
+    handleStripScroll,
+  } = useCheckoutDateStrip({ dates, monthYearLabel, onSelect });
 
   return (
     <div>
       <div className="mb-3 flex items-center justify-between gap-4">
         <p className={CHECKOUT_DATE_HEADING_CLASS}>{copy.chooseDate}</p>
-        <p className={CHECKOUT_DATE_HEADING_CLASS}>{monthYearLabel}</p>
+        <div className={CHECKOUT_DATE_NAV_GROUP_CLASS}>
+          <button
+            type="button"
+            aria-label={copy.previousDates}
+            className={CHECKOUT_DATE_NAV_BUTTON_CLASS}
+            disabled={!canScrollPrevious}
+            onClick={handleScrollPrevious}
+          >
+            <ChevronLeft size={CHECKOUT_DATE_NAV_ICON_SIZE} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            aria-label={copy.nextDates}
+            className={CHECKOUT_DATE_NAV_BUTTON_CLASS}
+            disabled={!canScrollNext}
+            onClick={handleScrollNext}
+          >
+            <ChevronRight size={CHECKOUT_DATE_NAV_ICON_SIZE} aria-hidden="true" />
+          </button>
+          <p className={CHECKOUT_DATE_HEADING_CLASS}>{displayMonthYear}</p>
+        </div>
       </div>
       <div
         ref={stripRef}
         role="listbox"
         aria-label={copy.chooseDate}
-        className={CHECKOUT_DATE_STRIP_CLASS}
+        className={`${CHECKOUT_DATE_STRIP_CLASS}${isDragging ? ' cursor-grabbing' : ''}`}
+        onMouseDown={handleMouseDown}
+        onScroll={handleStripScroll}
       >
         {dates.map((date) => (
           <button
