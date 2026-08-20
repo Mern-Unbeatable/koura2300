@@ -3,17 +3,13 @@ import useEscapeKey from './useEscapeKey';
 import {
   buildCalendarMonthCells,
   formatCheckoutMonthYear,
+  parseCheckoutIsoDate,
 } from '../components/checkout/checkoutData';
-
-const parseIsoDate = (isoDate) => {
-  const [year, month, day] = isoDate.split('-').map(Number);
-  return new Date(year, month - 1, day);
-};
 
 const useCheckoutCalendar = ({ selectedDateId, onSelect, onScrollToDate, bookingFromDate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [viewDate, setViewDate] = useState(() =>
-    selectedDateId ? parseIsoDate(selectedDateId) : bookingFromDate,
+    selectedDateId ? parseCheckoutIsoDate(selectedDateId) : bookingFromDate,
   );
 
   const cells = useMemo(
@@ -30,7 +26,7 @@ const useCheckoutCalendar = ({ selectedDateId, onSelect, onScrollToDate, booking
 
   useEffect(() => {
     if (selectedDateId) {
-      setViewDate(parseIsoDate(selectedDateId));
+      setViewDate(parseCheckoutIsoDate(selectedDateId));
     }
   }, [selectedDateId]);
 

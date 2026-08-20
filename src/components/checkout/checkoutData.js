@@ -1,4 +1,4 @@
-export const CHECKOUT_BOOKING_MONTHS_AHEAD = 12;
+export const CHECKOUT_STRIP_MONTHS_AHEAD = 3;
 export const CHECKOUT_ISO_PAD_LENGTH = 2;
 export const CHECKOUT_INPUT_CLASS =
   'h-11 w-full rounded-[2px] border border-[#e4e7e9] bg-[#e9eaea] px-[15px] text-sm text-[#191c1f] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
@@ -120,19 +120,29 @@ export const formatCheckoutMonthYear = (date) =>
 
 const startOfDay = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-export const getCheckoutBookingEndDate = (fromDate = new Date()) =>
-  new Date(
-    fromDate.getFullYear(),
-    fromDate.getMonth() + CHECKOUT_BOOKING_MONTHS_AHEAD,
-    fromDate.getDate(),
-  );
-
-export const isCheckoutDateSelectable = (date, fromDate = new Date()) => {
-  const target = startOfDay(date);
-  const bookingStart = startOfDay(fromDate);
-  const bookingEnd = startOfDay(getCheckoutBookingEndDate(fromDate));
-  return target >= bookingStart && target <= bookingEnd;
+export const parseCheckoutIsoDate = (isoDate) => {
+  const [year, month, day] = isoDate.split('-').map(Number);
+  return new Date(year, month - 1, day);
 };
+
+export const getDefaultCheckoutStripEndDate = (fromDate = new Date()) =>
+  new Date(fromDate.getFullYear(), fromDate.getMonth() + CHECKOUT_STRIP_MONTHS_AHEAD + 1, 0);
+
+export const getCheckoutStripEndDate = (fromDate = new Date(), throughDate) => {
+  const defaultEnd = startOfDay(getDefaultCheckoutStripEndDate(fromDate));
+  if (!throughDate) {
+    return defaultEnd;
+  }
+
+  const extendedEnd = startOfDay(throughDate);
+  return extendedEnd > defaultEnd ? extendedEnd : defaultEnd;
+};
+
+export const isCheckoutDateInPast = (date, fromDate = new Date()) =>
+  startOfDay(date) < startOfDay(fromDate);
+
+export const isCheckoutDateSelectable = (date, fromDate = new Date()) =>
+  !isCheckoutDateInPast(date, fromDate);
 
 export const buildCalendarMonthCells = (year, month, selectedDateId, fromDate = new Date()) => {
   const firstOfMonth = new Date(year, month, 1);
@@ -180,9 +190,9 @@ export const buildCalendarMonthCells = (year, month, selectedDateId, fromDate = 
   return cells;
 };
 
-export const buildCheckoutDates = (fromDate = new Date()) => {
+export const buildCheckoutDates = (fromDate = new Date(), throughDate) => {
   const bookingStart = startOfDay(fromDate);
-  const bookingEnd = startOfDay(getCheckoutBookingEndDate(fromDate));
+  const bookingEnd = getCheckoutStripEndDate(fromDate, throughDate);
   const dates = [];
   const cursor = new Date(bookingStart);
 
@@ -200,6 +210,9 @@ export const buildCheckoutDates = (fromDate = new Date()) => {
 
   return dates;
 };
+
+export const getEndOfMonth = (date) =>
+  new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
 export const getServiceIdFromCartItemId = (cartItemId = '') =>
   cartItemId.replace(CHECKOUT_PACKAGE_ID_SUFFIX, '');

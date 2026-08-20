@@ -60,12 +60,21 @@ describe('CheckoutDatePicker', () => {
     expect(screen.queryByRole('dialog', { name: 'Open calendar' })).not.toBeInTheDocument();
   });
 
-  it('marks every day in a future month as selectable through the booking window', () => {
-    const cells = buildCalendarMonthCells(2026, 10, null, BOOKING_FROM_DATE);
-    const novemberDays = cells.filter((cell) => cell.isCurrentMonth);
+  it('marks every day in a future month as selectable', () => {
+    const cells = buildCalendarMonthCells(2027, 7, null, BOOKING_FROM_DATE);
+    const augustDays = cells.filter((cell) => cell.isCurrentMonth);
 
-    expect(novemberDays).toHaveLength(30);
-    expect(novemberDays.every((cell) => cell.isSelectable)).toBe(true);
+    expect(augustDays).toHaveLength(31);
+    expect(augustDays.every((cell) => cell.isSelectable)).toBe(true);
+  });
+
+  it('disables only past days in the current month', () => {
+    const cells = buildCalendarMonthCells(2026, 7, null, BOOKING_FROM_DATE);
+    const augustTwelfth = cells.find((cell) => cell.isCurrentMonth && cell.day === '12');
+    const augustTwentieth = cells.find((cell) => cell.isCurrentMonth && cell.day === '20');
+
+    expect(augustTwelfth?.isSelectable).toBe(false);
+    expect(augustTwentieth?.isSelectable).toBe(true);
   });
 
   it('scrolls one full row when the next dates button is clicked', () => {

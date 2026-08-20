@@ -275,7 +275,7 @@ const CheckoutView = memo(() => {
               bookingFromDate={checkout.bookingFromDate}
               selectedDateId={checkout.selectedDateId}
               monthYearLabel={checkout.monthYearLabel}
-              onSelect={checkout.setSelectedDateId}
+              onSelect={checkout.handleSelectDate}
             />
 
             <div>
