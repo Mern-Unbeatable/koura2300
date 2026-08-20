@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import useCheckout from '../../hooks/useCheckout';
 import CheckoutDatePicker from './CheckoutDatePicker';
 import {
+  CHECKOUT_ACTIONS_CLASS,
+  CHECKOUT_BACK_LINK_CLASS,
   CHECKOUT_CARD_CLASS,
   CHECKOUT_CONFIRM_BUTTON_CLASS,
   CHECKOUT_CONFIRM_ICON_SIZE,
@@ -18,6 +20,7 @@ import {
   CHECKOUT_CONTACT_METHODS,
   CHECKOUT_DATE_HEADING_CLASS,
   CHECKOUT_EMPTY_PLACEHOLDER,
+  CHECKOUT_FORM_COLUMN_CLASS,
   CHECKOUT_INPUT_CLASS,
   CHECKOUT_LAYOUT_CLASS,
   CHECKOUT_NESTED_CARD_CLASS,
@@ -29,6 +32,7 @@ import {
   CHECKOUT_REVIEW_SURFACE_CLASS,
   CHECKOUT_SECTION_TITLE_CLASS,
   CHECKOUT_SUBHEADING_CLASS,
+  CHECKOUT_SUMMARY_COLUMN_CLASS,
   CHECKOUT_THUMBNAIL_SIZE_CLASS,
   CHECKOUT_TIME_BUTTON_ACTIVE,
   CHECKOUT_TIME_BUTTON_IDLE,
@@ -144,7 +148,9 @@ const PaymentNote = memo(({ label, body }) => (
 PaymentNote.displayName = 'PaymentNote';
 
 const OrderSummary = memo(({ copy, fields, checkout }) => (
-  <aside className={`${CHECKOUT_NESTED_CARD_CLASS} ${CHECKOUT_ORDER_SUMMARY_STICKY_CLASS}`}>
+  <aside
+    className={`${CHECKOUT_NESTED_CARD_CLASS} ${CHECKOUT_ORDER_SUMMARY_STICKY_CLASS} ${CHECKOUT_SUMMARY_COLUMN_CLASS}`}
+  >
     <h2 className={CHECKOUT_SUBHEADING_CLASS}>{copy.reviewTitle}</h2>
     {checkout.primaryItem ? (
       <OrderItemRow
@@ -162,14 +168,14 @@ const OrderSummary = memo(({ copy, fields, checkout }) => (
       </div>
       <div className="flex justify-between gap-3">
         <dt>{copy.addressLabel}</dt>
-        <dd className="text-right font-medium">
+        <dd className="min-w-0 text-right font-medium break-words">
           {[fields.street, fields.city, fields.zip].filter(Boolean).join(', ') ||
             CHECKOUT_EMPTY_PLACEHOLDER}
         </dd>
       </div>
       <div className="flex justify-between gap-3">
-        <dt>{copy.dateTimeLabel}</dt>
-        <dd className="text-right font-medium">
+        <dt className="shrink-0">{copy.dateTimeLabel}</dt>
+        <dd className="min-w-0 text-right font-medium break-words">
           {checkout.selectedDate?.iso} at {checkout.selectedTime}
         </dd>
       </div>
@@ -181,8 +187,8 @@ const OrderSummary = memo(({ copy, fields, checkout }) => (
 
     <PaymentNote label={copy.paymentNoteLabel} body={copy.paymentNoteBody} />
 
-    <div className="mt-6 flex items-center justify-between gap-4">
-      <Link to={checkout.backPath} className="text-sm font-medium hover:text-brand-orange">
+    <div className={CHECKOUT_ACTIONS_CLASS}>
+      <Link to={checkout.backPath} className={CHECKOUT_BACK_LINK_CLASS}>
         ← {copy.back}
       </Link>
       <button type="submit" className={CHECKOUT_CONFIRM_BUTTON_CLASS}>
@@ -213,7 +219,7 @@ const CheckoutView = memo(() => {
         className={CHECKOUT_LAYOUT_CLASS}
         onSubmit={checkout.handleConfirm}
       >
-        <div className={`${CHECKOUT_CARD_CLASS} flex flex-col gap-6`}>
+        <div className={`${CHECKOUT_CARD_CLASS} ${CHECKOUT_FORM_COLUMN_CLASS} flex flex-col gap-6`}>
           <section className="flex flex-col gap-6">
             <h1 className={CHECKOUT_SECTION_TITLE_CLASS}>{copy.personalTitle}</h1>
             <Field

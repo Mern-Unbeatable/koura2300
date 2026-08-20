@@ -7,11 +7,20 @@ export const CHECKOUT_INPUT_CLASS =
   'h-11 w-full rounded-[2px] border border-[#e4e7e9] bg-[#e9eaea] px-[15px] text-sm text-[#191c1f] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_LAYOUT_CLASS =
   'grid min-w-0 items-start gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]';
+export const CHECKOUT_FORM_COLUMN_CLASS = 'order-2 min-w-0 lg:order-1';
+export const CHECKOUT_SUMMARY_COLUMN_CLASS = 'order-1 min-w-0 lg:order-2';
 export const CHECKOUT_CARD_CLASS =
   'w-full min-w-0 rounded-[20px] bg-white p-6 shadow-[0px_0px_3.95px_0px_rgba(0,0,0,0.16)] sm:p-9';
 export const CHECKOUT_NESTED_CARD_CLASS =
-  'w-full min-w-0 rounded-2xl border border-[#e5e7eb] bg-white p-[33px]';
+  'w-full min-w-0 rounded-2xl border border-[#e5e7eb] bg-white p-5 sm:p-6 lg:p-5 xl:p-[33px]';
 export const CHECKOUT_ORDER_SUMMARY_STICKY_CLASS = 'lg:sticky lg:top-32';
+export const CHECKOUT_ACTIONS_CLASS =
+  'mt-6 flex flex-col-reverse gap-3 min-[400px]:flex-row min-[400px]:items-center min-[400px]:justify-between lg:flex-col-reverse xl:flex-row xl:items-center';
+export const CHECKOUT_BACK_LINK_CLASS =
+  'inline-flex shrink-0 items-center justify-center text-sm font-medium text-brand-ink hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const CHECKOUT_CONFIRM_BUTTON_CLASS =
+  'inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-brand-orange px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[400px]:w-auto min-[400px]:px-5 lg:w-full xl:w-auto xl:px-6 xl:text-base';
+export const CHECKOUT_CONFIRM_ICON_SIZE = 18;
 export const CHECKOUT_SUBHEADING_CLASS = 'text-xl font-bold leading-7 text-[#0b1e3d]';
 export const CHECKOUT_PARAGRAPH_CLASS = 'pt-2 text-sm leading-5 text-[#6a7282]';
 export const CHECKOUT_THUMBNAIL_SIZE_CLASS = 'size-12';
@@ -34,7 +43,7 @@ export const CHECKOUT_CALENDAR_TRIGGER_CLASS =
   'inline-flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-lg font-bold leading-[27px] text-[#0b1e3d] transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_CALENDAR_ICON_SIZE = 18;
 export const CHECKOUT_CALENDAR_PANEL_CLASS =
-  'absolute right-0 top-full z-20 mt-2 w-[320px] rounded-2xl border border-[#e5e7eb] bg-white p-4 shadow-lg';
+  'absolute right-0 top-full z-20 mt-2 w-[min(320px,calc(100vw-2rem))] rounded-2xl border border-[#e5e7eb] bg-white p-4 shadow-lg';
 export const CHECKOUT_CALENDAR_HEADER_CLASS = 'mb-3 flex items-center justify-between gap-2';
 export const CHECKOUT_CALENDAR_MONTH_CLASS = 'text-sm font-bold text-[#0b1e3d]';
 export const CHECKOUT_CALENDAR_WEEKDAY_ROW_CLASS = 'mb-2 grid grid-cols-7 gap-1';
@@ -66,10 +75,7 @@ export const CHECKOUT_CONTACT_IDLE =
 export const CHECKOUT_CONTACT_ACTIVE =
   'flex w-full min-w-0 cursor-pointer flex-col items-center gap-3 rounded-2xl border-2 border-[#ff6b1a] bg-[rgba(255,107,26,0.05)] p-[26px] text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ff6b1a]';
 export const CHECKOUT_UPLOAD_CLASS =
-  'flex w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#e5e7eb] p-[42px] text-center';
-export const CHECKOUT_CONFIRM_BUTTON_CLASS =
-  'inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-xl bg-brand-orange px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
-export const CHECKOUT_CONFIRM_ICON_SIZE = 18;
+  'flex w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#e5e7eb] p-6 text-center sm:p-[42px]';
 export const CHECKOUT_CONTACT_ICON_WRAP_IDLE =
   'flex size-12 items-center justify-center rounded-2xl bg-[#f3f4f6] text-[#4a5565]';
 export const CHECKOUT_CONTACT_ICON_WRAP_ACTIVE =

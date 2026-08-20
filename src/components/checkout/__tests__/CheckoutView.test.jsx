@@ -60,6 +60,29 @@ describe('CheckoutView Figma layout', () => {
     );
   });
 
+  it('places Review Your Order above Personal Information on mobile and tablet', () => {
+    renderCheckout();
+
+    const review = screen.getByRole('heading', { name: 'Review Your Order' }).closest('aside');
+    const personal = screen.getByRole('heading', { name: 'Personal Information' }).closest('div');
+
+    expect(review).toHaveClass('order-1', 'lg:order-2');
+    expect(personal).toHaveClass('order-2', 'lg:order-1');
+  });
+
+  it('keeps Confirm Pay actions inside the review card with compact mobile stacking', () => {
+    renderCheckout();
+
+    const review = screen.getByRole('heading', { name: 'Review Your Order' }).closest('aside');
+    const confirm = screen.getByRole('button', { name: /Confirm Pay/i });
+    const actions = confirm.parentElement;
+
+    expect(review).toContainElement(confirm);
+    expect(actions).toHaveClass('flex-col-reverse');
+    expect(confirm).toHaveClass('w-full');
+    expect(confirm).toHaveClass('whitespace-nowrap');
+  });
+
   it('shows the Figma upload paragraph and drop-zone copy', () => {
     renderCheckout();
 
