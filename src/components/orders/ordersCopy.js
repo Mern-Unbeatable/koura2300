@@ -22,7 +22,7 @@ export const ORDERS_CONTENT = {
     appointment: 'Appointment',
     duration: 'Duration',
     materialPayment: 'Material Payment',
-    estServiceCost: 'Est. Service Cost',
+    estServiceCost: 'Service Cost',
     serviceCost: 'Service Cost',
   },
   actions: {
