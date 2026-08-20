@@ -45,8 +45,7 @@ export const ORDER_SUBTITLE_CLASS = 'mt-2 text-sm text-[#62748e] sm:text-base';
 export const ORDER_SUMMARY_GRID_CLASS = 'mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4';
 export const ORDER_SUMMARY_CARD_CLASS =
   'flex items-center gap-4 rounded-2xl border border-[#f1f5f9] bg-white p-5 shadow-sm';
-export const ORDER_FILTERS_CLASS =
-  'mt-6 flex flex-wrap items-center gap-2';
+export const ORDER_FILTERS_CLASS = 'mt-6 flex flex-wrap items-center gap-2';
 export const ORDER_FILTER_IDLE =
   'shrink-0 cursor-pointer whitespace-nowrap rounded-xl border border-[#e2e8f0] bg-white px-3 py-1.5 text-xs font-medium text-[#45556c] transition-colors hover:border-brand-orange hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:px-4 min-[426px]:py-2 min-[426px]:text-sm';
 export const ORDER_FILTER_ACTIVE =
@@ -96,11 +95,13 @@ export const ORDER_ACTION_DOWNLOAD_CLASS =
 /** ≤425px: 3 actions stack in 3 rows; ≥426px: horizontal row */
 export const ORDER_ACTIONS_ROW_TRIPLE_CLASS =
   'mt-auto flex flex-col gap-2 pt-4 min-[426px]:flex-row min-[426px]:flex-wrap';
-/** 2 actions stay side-by-side on Mobile L/M/S */
-export const ORDER_ACTIONS_ROW_DUAL_CLASS = 'mt-auto flex flex-row flex-wrap gap-2 pt-4';
+/** ≤320px: 2 actions stack like triple; ≥321px: side-by-side */
+export const ORDER_ACTIONS_ROW_DUAL_CLASS =
+  'mt-auto flex flex-col gap-2 pt-4 min-[321px]:flex-row min-[321px]:flex-wrap';
 export const ORDER_ACTIONS_ROW_SINGLE_CLASS = 'mt-auto flex flex-row gap-2 pt-4';
 export const ORDER_ACTION_FLEX_CLASS = 'flex-1';
 export const ORDER_ACTION_STACK_MOBILE_CLASS = 'w-full min-[426px]:w-auto min-[426px]:flex-1';
+export const ORDER_ACTION_STACK_NARROW_CLASS = 'w-full min-[321px]:w-auto min-[321px]:flex-1';
 
 export const getOrderActionsRowClass = (actionCount) => {
   if (actionCount >= 3) {
@@ -117,6 +118,10 @@ export const getOrderActionsRowClass = (actionCount) => {
 export const getOrderTextActionClass = (baseClass, actionCount) => {
   if (actionCount >= 3) {
     return `${baseClass} ${ORDER_ACTION_STACK_MOBILE_CLASS}`;
+  }
+
+  if (actionCount === 2) {
+    return `${baseClass} ${ORDER_ACTION_STACK_NARROW_CLASS}`;
   }
 
   return `${baseClass} ${ORDER_ACTION_FLEX_CLASS}`;

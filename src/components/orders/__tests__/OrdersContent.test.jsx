@@ -179,7 +179,7 @@ describe('OrdersContent', () => {
     expect(grid).toHaveClass('lg:grid-cols-2');
   });
 
-  it('stacks three payment actions on mobile widths and keeps dual actions in a row', () => {
+  it('stacks three payment actions on mobile widths and stacks dual actions under 321px', () => {
     renderOrdersPage();
 
     const paymentCard = screen
@@ -198,8 +198,8 @@ describe('OrdersContent', () => {
 
     expect(paymentActions).toHaveClass('flex-col');
     expect(paymentActions).toHaveClass('min-[426px]:flex-row');
-    expect(dualActions).toHaveClass('flex-row');
-    expect(dualActions).not.toHaveClass('flex-col');
+    expect(dualActions).toHaveClass('flex-col');
+    expect(dualActions).toHaveClass('min-[321px]:flex-row');
   });
 
   it('wraps status filter tabs instead of clipping them', () => {
