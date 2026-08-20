@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { getCatalogServiceById } from '../components/catalog/catalogRegistry';
 import { CHECKOUT_CONTENT } from '../components/checkout/checkoutCopy';
 import {
@@ -8,6 +9,7 @@ import {
   CHECKOUT_TIME_SLOTS,
   buildCheckoutDates,
   formatCheckoutMonthYear,
+  getCheckoutBackPath,
   getCheckoutStripEndDate,
   getDefaultCheckoutStripEndDate,
   getEndOfMonth,
@@ -41,6 +43,7 @@ const getPrimaryItemImage = (primaryItem) => {
 const useCheckout = () => {
   const user = useSelector(selectUser);
   const cartItems = useSelector(selectCartItems);
+  const location = useLocation();
   const bookingFromDate = useMemo(() => {
     const today = new Date();
     return new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -56,6 +59,15 @@ const useCheckout = () => {
   const [contactMethod, setContactMethod] = useState(CHECKOUT_CONTACT_METHODS.PHONE);
 
   const resolvedSelectedDateId = selectedDateId || dates[0]?.id || '';
+  const primaryItem = cartItems[0];
+  const backPath = useMemo(
+    () =>
+      getCheckoutBackPath({
+        fromPath: location.state?.from,
+        cartItemId: primaryItem?.id,
+      }),
+    [location.state?.from, primaryItem?.id],
+  );
 
   const handleSelectDate = useCallback(
     (dateId) => {
@@ -83,7 +95,6 @@ const useCheckout = () => {
   const selectedDate =
     dates.find((date) => date.id === resolvedSelectedDateId) ?? dates[0];
   const monthYearLabel = selectedDate?.monthYear ?? formatCheckoutMonthYear(new Date());
-  const primaryItem = cartItems[0];
   const primaryItemImage = getPrimaryItemImage(primaryItem);
   const contactLabel =
     contactMethod === CHECKOUT_CONTACT_METHODS.PHONE
@@ -107,6 +118,7 @@ const useCheckout = () => {
     selectedDate,
     monthYearLabel,
     contactLabel,
+    backPath,
     handleFieldChange,
     handleConfirm,
     handleSelectDate,

@@ -1,3 +1,6 @@
+import { ROUTES, SERVICE_DETAILS_PREFIX, buildServiceDetailsRoute } from '../../config';
+import { getCatalogServiceById } from '../catalog/catalogRegistry';
+
 export const CHECKOUT_STRIP_MONTHS_AHEAD = 3;
 export const CHECKOUT_ISO_PAD_LENGTH = 2;
 export const CHECKOUT_INPUT_CLASS =
@@ -218,3 +221,17 @@ export const getEndOfMonth = (date) =>
 
 export const getServiceIdFromCartItemId = (cartItemId = '') =>
   cartItemId.replace(CHECKOUT_PACKAGE_ID_SUFFIX, '');
+
+export const getCheckoutBackPath = ({ fromPath, cartItemId } = {}) => {
+  if (fromPath?.startsWith(SERVICE_DETAILS_PREFIX)) {
+    return fromPath;
+  }
+
+  const serviceId = getServiceIdFromCartItemId(cartItemId);
+  if (!serviceId) {
+    return ROUTES.HOME;
+  }
+
+  const catalogService = getCatalogServiceById(serviceId);
+  return buildServiceDetailsRoute(serviceId, catalogService?.catalogTitle);
+};

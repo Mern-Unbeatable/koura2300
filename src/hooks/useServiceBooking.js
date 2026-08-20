@@ -1,6 +1,6 @@
 import { useCallback, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { ROUTES } from '../config';
 import { loginSuccess, selectIsAuthenticated } from '../store/slices/authSlice';
@@ -110,10 +110,15 @@ const bookingReducer = (state, action) => {
   }
 };
 
+const getCheckoutNavigationState = (location) => ({
+  from: `${location.pathname}${location.search}`,
+});
+
 const useServiceBooking = (service, packages) => {
   const addService = useAddService();
   const dispatchAuth = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [state, dispatch] = useReducer(bookingReducer, undefined, createBookingState);
 
@@ -152,7 +157,7 @@ const useServiceBooking = (service, packages) => {
     if (!state.needsMaterials) {
       addConfirmedItem();
       if (isAuthenticated) {
-        navigate(ROUTES.CHECKOUT);
+        navigate(ROUTES.CHECKOUT, { state: getCheckoutNavigationState(location) });
         return;
       }
       dispatch({ type: BOOKING_ACTION.OPEN_ACCOUNT });
@@ -160,7 +165,7 @@ const useServiceBooking = (service, packages) => {
     }
 
     dispatch({ type: BOOKING_ACTION.OPEN_ZIP_PANEL });
-  }, [addConfirmedItem, isAuthenticated, navigate, state.needsMaterials]);
+  }, [addConfirmedItem, isAuthenticated, location, navigate, state.needsMaterials]);
 
   const handleCloseZipPanel = useCallback(() => {
     dispatch({ type: BOOKING_ACTION.CLOSE_ZIP_PANEL });
@@ -195,9 +200,9 @@ const useServiceBooking = (service, packages) => {
           token: null,
         }),
       );
-      navigate(ROUTES.CHECKOUT);
+      navigate(ROUTES.CHECKOUT, { state: getCheckoutNavigationState(location) });
     },
-    [dispatchAuth, navigate],
+    [dispatchAuth, location, navigate],
   );
 
   const handleSubmitZip = useCallback(

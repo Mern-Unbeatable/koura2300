@@ -8,7 +8,7 @@ import cartReducer from '../../../store/slices/cartSlice';
 import CheckoutView from '../CheckoutView';
 import { formatCheckoutMonthYear } from '../checkoutData';
 
-const renderCheckout = (cartItems = []) => {
+const renderCheckout = (cartItems = [], { fromPath } = {}) => {
   const store = configureStore({
     reducer: {
       auth: authReducer,
@@ -31,7 +31,14 @@ const renderCheckout = (cartItems = []) => {
 
   render(
     <Provider store={store}>
-      <MemoryRouter>
+      <MemoryRouter
+        initialEntries={[
+          {
+            pathname: '/checkout',
+            state: fromPath ? { from: fromPath } : undefined,
+          },
+        ]}
+      >
         <CheckoutView />
       </MemoryRouter>
     </Provider>,
@@ -116,5 +123,26 @@ describe('CheckoutView Figma layout', () => {
     expect(screen.getByText('Payment note:')).toBeInTheDocument();
     expect(screen.getByText(/Your order has been received/)).toBeInTheDocument();
     expect(screen.getByText('Payment note:')).toHaveClass('text-[#1447e6]');
+  });
+
+  it('sends both Back links to the service details page the user came from', () => {
+    const fromPath = '/service/wall-repairs-hole?category=Walls%20%26%20Ceilings';
+    renderCheckout(
+      [
+        {
+          id: 'wall-repairs-hole-standard',
+          title: 'Hole',
+          price: 145,
+          quantity: 1,
+        },
+      ],
+      { fromPath },
+    );
+
+    const backLinks = screen.getAllByRole('link', { name: /Back/i });
+    expect(backLinks).toHaveLength(2);
+    backLinks.forEach((link) => {
+      expect(link).toHaveAttribute('href', fromPath);
+    });
   });
 });

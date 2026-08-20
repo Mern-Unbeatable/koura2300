@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { Check, Mail, Phone, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { ROUTES } from '../../config';
 import useCheckout from '../../hooks/useCheckout';
 import CheckoutDatePicker from './CheckoutDatePicker';
 import {
@@ -183,7 +182,7 @@ const OrderSummary = memo(({ copy, fields, checkout }) => (
     <PaymentNote label={copy.paymentNoteLabel} body={copy.paymentNoteBody} />
 
     <div className="mt-6 flex items-center justify-between gap-4">
-      <Link to={ROUTES.HOME} className="text-sm font-medium hover:text-brand-orange">
+      <Link to={checkout.backPath} className="text-sm font-medium hover:text-brand-orange">
         ← {copy.back}
       </Link>
       <button type="submit" className={CHECKOUT_CONFIRM_BUTTON_CLASS}>
@@ -203,7 +202,7 @@ const CheckoutView = memo(() => {
   return (
     <main className="mx-auto min-w-0 max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 lg:px-8">
       <Link
-        to={ROUTES.HOME}
+        to={checkout.backPath}
         className="mb-6 inline-flex items-center text-sm font-medium text-brand-ink hover:text-brand-orange"
       >
         ← {copy.back}
