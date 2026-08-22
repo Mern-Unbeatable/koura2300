@@ -1,12 +1,20 @@
 import {
   adjustZoomLevel,
   getDefaultFocusIndex,
+  getInitialChartScrollLeft,
   getMonthLabelAnchor,
   getVisibleMonthCount,
   getVisibleMonthSlice,
   getZoomDirection,
+  isMobileChartScrollViewport,
 } from '../overviewChartUtils';
-import { OVERVIEW_CHART_ZOOM, OVERVIEW_REVENUE_MONTHS } from '../overviewData';
+import {
+  OVERVIEW_CHART_LAYOUT,
+  OVERVIEW_CHART_MOBILE_MAX_WIDTH_PX,
+  OVERVIEW_CHART_WIDTH,
+  OVERVIEW_CHART_ZOOM,
+  OVERVIEW_REVENUE_MONTHS,
+} from '../overviewData';
 
 describe('overviewChartUtils zoom', () => {
   it('returns zoom in direction for negative wheel delta', () => {
@@ -49,5 +57,21 @@ describe('overviewChartUtils zoom', () => {
     expect(getMonthLabelAnchor(0, 12)).toBe('start');
     expect(getMonthLabelAnchor(11, 12)).toBe('end');
     expect(getMonthLabelAnchor(5, 12)).toBe('middle');
+  });
+
+  it('scrolls the chart so the highlighted month starts in view on mobile', () => {
+    const scrollLeft = getInitialChartScrollLeft(
+      OVERVIEW_REVENUE_MONTHS,
+      OVERVIEW_CHART_WIDTH,
+      OVERVIEW_CHART_LAYOUT.padding,
+    );
+
+    expect(scrollLeft).toBeGreaterThan(0);
+  });
+
+  it('detects mobile chart scroll viewports up to 767px', () => {
+    expect(isMobileChartScrollViewport(320, OVERVIEW_CHART_MOBILE_MAX_WIDTH_PX)).toBe(true);
+    expect(isMobileChartScrollViewport(425, OVERVIEW_CHART_MOBILE_MAX_WIDTH_PX)).toBe(true);
+    expect(isMobileChartScrollViewport(768, OVERVIEW_CHART_MOBILE_MAX_WIDTH_PX)).toBe(false);
   });
 });

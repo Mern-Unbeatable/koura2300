@@ -116,6 +116,23 @@ export const getDefaultFocusIndex = (months) => {
   return Math.floor(months.length / 2);
 };
 
+export const getInitialChartScrollLeft = (months, chartWidth, padding) => {
+  const focusIndex = getDefaultFocusIndex(months);
+
+  if (focusIndex <= 0 || months.length <= 1) {
+    return 0;
+  }
+
+  const chartInnerWidth = chartWidth - padding.left - padding.right;
+  const step = chartInnerWidth / (months.length - 1);
+  const focusX = padding.left + step * focusIndex;
+
+  return Math.max(0, focusX - padding.left);
+};
+
+export const isMobileChartScrollViewport = (viewportWidth, maxWidth = 767) =>
+  viewportWidth <= maxWidth;
+
 export const getVisibleMonthSlice = (months, zoomLevel, focusIndex, zoomConfig) => {
   if (zoomLevel <= zoomConfig.min || months.length === 0) {
     return {

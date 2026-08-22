@@ -22,6 +22,7 @@ export const OVERVIEW_COPY = {
     yAxisLabel: 'Revenue axis',
     chartImageLabel: 'Revenue overview chart',
     highlightLabel: 'Highlighted revenue',
+    mobileScrollHint: 'Swipe horizontally to explore monthly revenue',
     zoomHint: 'Scroll over the chart to zoom in or out',
     zoomLevelLabel: 'Chart zoom level',
   },

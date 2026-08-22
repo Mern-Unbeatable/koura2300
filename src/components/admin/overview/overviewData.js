@@ -41,7 +41,7 @@ export const OVERVIEW_CHART_LAYOUT = {
   heightPx: 300,
   monthLabelOffsetY: 18,
   axisLabelClass: 'fill-[#9ca3af] text-xs sm:text-[13px]',
-  svgClass: 'block h-[300px] w-full',
+  svgClass: 'block h-[260px] w-[600px] shrink-0 md:h-[300px] md:w-full',
   padding: {
     top: 20,
     right: 14,
@@ -49,6 +49,9 @@ export const OVERVIEW_CHART_LAYOUT = {
     left: 44,
   },
 };
+
+export const OVERVIEW_CHART_MOBILE_WIDTH = 600;
+export const OVERVIEW_CHART_MOBILE_MAX_WIDTH_PX = 767;
 
 export const OVERVIEW_CHART_HEIGHT_PX = OVERVIEW_CHART_LAYOUT.heightPx;
 export const OVERVIEW_CHART_WIDTH = 1019;
@@ -58,7 +61,7 @@ export const OVERVIEW_CHART_HIGHLIGHT_RADIUS = 6;
 export const OVERVIEW_CHART_HIGHLIGHT_BORDER = 4;
 export const OVERVIEW_CHART_GRID_OFFSET_Y = 16;
 export const OVERVIEW_CHART_CONTAINER_CLASS =
-  'relative min-w-0 w-full overflow-hidden overscroll-contain';
+  'relative min-w-0 w-full touch-pan-x overflow-x-auto overscroll-x-contain scrollbar-chart md:overflow-hidden';
 export const OVERVIEW_CHART_ZOOM_BADGE_CLASS =
   'pointer-events-none absolute bottom-2 right-2 rounded bg-white/90 px-2 py-0.5 text-xs font-medium text-[#6b7280] shadow-sm';
 export const OVERVIEW_CHART_ZOOM = {
@@ -68,7 +71,8 @@ export const OVERVIEW_CHART_ZOOM = {
   minVisibleMonths: 3,
 };
 export const OVERVIEW_CHART_SVG_CLASS = OVERVIEW_CHART_LAYOUT.svgClass;
-export const OVERVIEW_CHART_PRESERVE_ASPECT = 'none';
+export const OVERVIEW_CHART_PRESERVE_ASPECT = 'xMinYMid meet';
+export const OVERVIEW_CHART_DESKTOP_PRESERVE_ASPECT = 'none';
 export const OVERVIEW_CHART_AXIS_LABEL_CLASS = OVERVIEW_CHART_LAYOUT.axisLabelClass;
 export const OVERVIEW_CHART_COLORS = {
   line: '#fc6f32',

@@ -7,6 +7,7 @@ import {
   OVERVIEW_CHART_LAYOUT,
   OVERVIEW_CHART_MAX_VALUE,
   OVERVIEW_CHART_PRESERVE_ASPECT,
+  OVERVIEW_CHART_DESKTOP_PRESERVE_ASPECT,
   OVERVIEW_CHART_WIDTH,
   OVERVIEW_CHART_Y_LABELS,
   OVERVIEW_CHART_ZOOM_BADGE_CLASS,
@@ -72,7 +73,7 @@ const RevenueChartMonthLabels = ({ coordinates, monthLabelOffsetY, axisLabelClas
 const RevenueChart = ({ months, chartCopy }) => {
   const gradientId = useId();
   const chartLayout = OVERVIEW_CHART_LAYOUT;
-  const { containerRef, visibleMonths, zoomLevel, resetZoom, isZoomed } =
+  const { containerRef, visibleMonths, zoomLevel, resetZoom, isZoomed, isMobileScroll } =
     useRevenueChartZoom(months);
 
   const coordinates = useMemo(
@@ -96,7 +97,7 @@ const RevenueChart = ({ months, chartCopy }) => {
     <div
       ref={containerRef}
       className={OVERVIEW_CHART_CONTAINER_CLASS}
-      aria-label={chartCopy.zoomHint}
+      aria-label={isMobileScroll ? chartCopy.mobileScrollHint : chartCopy.zoomHint}
       onDoubleClick={resetZoom}
     >
       <svg
@@ -104,7 +105,9 @@ const RevenueChart = ({ months, chartCopy }) => {
         aria-label={chartCopy.chartImageLabel}
         viewBox={`0 0 ${OVERVIEW_CHART_WIDTH} ${chartLayout.heightPx}`}
         className={chartLayout.svgClass}
-        preserveAspectRatio={OVERVIEW_CHART_PRESERVE_ASPECT}
+        preserveAspectRatio={
+          isMobileScroll ? OVERVIEW_CHART_PRESERVE_ASPECT : OVERVIEW_CHART_DESKTOP_PRESERVE_ASPECT
+        }
       >
         <title>{chartCopy.chartImageLabel}</title>
         <defs>
