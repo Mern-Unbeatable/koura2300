@@ -11,7 +11,7 @@ const CLOSE_ICON_SIZE = 24;
 const ACTION_TILE_CLASS =
   'flex flex-col items-center justify-center gap-2 rounded-lg bg-white/5 py-4 text-xs font-medium transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
-const MobileMenu = memo(({ isOpen, onClose }) => {
+const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
   if (!isOpen) {
     return null;
   }
@@ -62,10 +62,10 @@ const MobileMenu = memo(({ isOpen, onClose }) => {
               {header.order}
             </Link>
 
-            <a href="#footer" onClick={onClose} className={ACTION_TILE_CLASS}>
+            <button type="button" onClick={onChatClick} className={ACTION_TILE_CLASS}>
               <MessageCircle size={ACTION_ICON_SIZE} aria-hidden="true" />
               {header.chat}
-            </a>
+            </button>
           </div>
 
           <h2 className="mt-7 text-xs font-semibold uppercase tracking-wider text-white/50">

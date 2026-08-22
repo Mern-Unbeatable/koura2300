@@ -5,11 +5,10 @@ import { ROUTES } from '../../config';
 import { LANDING_CONTENT } from './landingContent';
 
 const ACTION_ICON_SIZE = 20;
-// Fixed width keeps the icons on an even pitch regardless of label length.
 const ACTION_CLASS = 'flex w-14 flex-col items-center gap-1 text-xs leading-none';
 const ACTION_ACTIVE_CLASS = `${ACTION_CLASS} text-brand-orange`;
 
-const LandingHeaderActions = memo(() => {
+const LandingHeaderActions = memo(({ isChatActive = false, onChatClick }) => {
   const { pathname } = useLocation();
   const isOrdersActive = pathname === ROUTES.ORDERS;
 
@@ -29,10 +28,15 @@ const LandingHeaderActions = memo(() => {
         {LANDING_CONTENT.header.order}
       </Link>
 
-      <a href="#footer" className={ACTION_CLASS}>
+      <button
+        type="button"
+        onClick={onChatClick}
+        aria-pressed={isChatActive}
+        className={isChatActive ? ACTION_ACTIVE_CLASS : ACTION_CLASS}
+      >
         <MessageCircle size={ACTION_ICON_SIZE} aria-hidden="true" />
         {LANDING_CONTENT.header.chat}
-      </a>
+      </button>
     </div>
   );
 });
