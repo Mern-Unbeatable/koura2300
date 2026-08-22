@@ -1,7 +1,8 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { ROUTES } from '../../config';
+import useElementHeight from '../../hooks/useElementHeight';
 import useLandingChat from '../../hooks/useLandingChat';
 import useMobileMenu from '../../hooks/useMobileMenu';
 import LandingChatWidget from './landingChat/LandingChatWidget';
@@ -15,6 +16,8 @@ import { LANDING_ASSET_PATH } from './landingData';
 const MENU_ICON_SIZE = 24;
 
 const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => {
+  const headerRef = useRef(null);
+  const headerOffset = useElementHeight(headerRef);
   const { isMenuOpen, toggleMenu, closeMenu } = useMobileMenu();
   const chat = useLandingChat();
 
@@ -25,7 +28,11 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
 
   return (
     <>
-      <header className="sticky top-0 z-50 overflow-x-clip bg-brand-navy text-white" role="banner">
+      <header
+        ref={headerRef}
+        className="fixed top-0 right-0 left-0 z-50 overflow-x-clip bg-brand-navy text-white"
+        role="banner"
+      >
         <div className="mx-auto min-w-0 max-w-screen-2xl px-4 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center justify-between gap-3 py-3.5 sm:gap-6">
             <Link
@@ -83,6 +90,8 @@ const LandingHeader = memo(({ searchValue, onSearchChange, onSearchSubmit }) => 
           onChatClick={handleChatClick}
         />
       </header>
+
+      <div aria-hidden="true" className="shrink-0" style={{ height: headerOffset }} />
 
       {chat.isOpen ? (
         <LandingChatWidget

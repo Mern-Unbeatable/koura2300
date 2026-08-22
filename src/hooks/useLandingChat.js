@@ -5,7 +5,6 @@ import {
   LANDING_CHAT_MESSAGE_TYPES,
   LANDING_CHAT_SEED_MESSAGES,
 } from '../components/home/landingChat/landingChatData';
-import useBodyScrollLock from './useBodyScrollLock';
 import useEscapeKey from './useEscapeKey';
 
 const createUserMessage = (text) => ({
@@ -41,7 +40,6 @@ const useLandingChat = () => {
     setIsOpen((current) => !current);
   }, []);
 
-  useBodyScrollLock(isOpen);
   useEscapeKey(isOpen, closeChat);
 
   const resolvedMessages = useMemo(

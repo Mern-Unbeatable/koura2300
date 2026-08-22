@@ -9,12 +9,12 @@ export const LANDING_CHAT_CLOSE_ICON_SIZE = 24;
 export const LANDING_CHAT_SEND_ICON_SIZE = 18;
 
 export const LANDING_CHAT_PANEL_CLASS =
-  'fixed z-[60] flex flex-col overflow-hidden bg-[#fef5e7] shadow-[0px_36px_100.2px_0px_rgba(0,0,0,0.25)] max-[767px]:bottom-0 max-[767px]:left-0 max-[767px]:right-0 max-[767px]:top-28 max-[767px]:rounded-none min-[768px]:bottom-4 min-[768px]:right-4 min-[768px]:top-36 min-[768px]:left-auto min-[768px]:h-auto min-[768px]:w-[570px] min-[768px]:max-w-[calc(100vw-2rem)] min-[768px]:rounded-2xl min-[1020px]:right-8';
+  'fixed z-[60] flex flex-col overflow-hidden overscroll-y-contain bg-[#fef5e7] shadow-[0px_36px_100.2px_0px_rgba(0,0,0,0.25)] max-[767px]:bottom-0 max-[767px]:left-0 max-[767px]:right-0 max-[767px]:top-28 max-[767px]:rounded-none min-[768px]:bottom-4 min-[768px]:right-4 min-[768px]:top-36 min-[768px]:left-auto min-[768px]:h-auto min-[768px]:w-[570px] min-[768px]:max-w-[calc(100vw-2rem)] min-[768px]:rounded-2xl min-[1020px]:right-8';
 export const LANDING_CHAT_HEADER_CLASS =
   'sticky top-0 z-10 flex h-[65px] shrink-0 items-center justify-between bg-[#df900a] px-6';
 export const LANDING_CHAT_TITLE_CLASS = 'text-xl font-medium text-white';
 export const LANDING_CHAT_MESSAGES_CLASS =
-  'scrollbar-landing-chat flex min-h-0 flex-1 flex-col gap-[22px] overflow-y-auto px-4 py-6 sm:px-6';
+  'scrollbar-landing-chat flex min-h-0 flex-1 flex-col gap-[22px] overflow-y-auto overscroll-y-contain px-4 py-6 sm:px-6';
 export const LANDING_CHAT_COMPOSER_WRAP_CLASS =
   'shrink-0 border-t border-[#e8eaed] px-4 py-5 sm:px-6';
 export const LANDING_CHAT_COMPOSER_ROW_CLASS = 'flex items-center gap-2';

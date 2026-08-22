@@ -1,5 +1,6 @@
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 import { Bot, Send, X } from 'lucide-react';
+import usePreventScrollChaining from '../../../hooks/usePreventScrollChaining';
 import { LANDING_CHAT_COPY } from './landingChatCopy';
 import {
   LANDING_CHAT_ASSISTANT_BUBBLE_CLASS,
@@ -94,7 +95,11 @@ const LandingChatWidget = memo(
     onInputChange,
     onSend,
     onKeyDown,
-  }) => (
+  }) => {
+    const messagesRef = useRef(null);
+    usePreventScrollChaining(messagesRef);
+
+    return (
     <section
       role="region"
       aria-label={LANDING_CHAT_COPY.regionLabel}
@@ -115,7 +120,7 @@ const LandingChatWidget = memo(
         </button>
       </header>
 
-      <div className={LANDING_CHAT_MESSAGES_CLASS}>
+      <div ref={messagesRef} className={LANDING_CHAT_MESSAGES_CLASS}>
         {messages.map((message) => (
           <LandingChatMessage key={message.id} message={message} />
         ))}
@@ -129,7 +134,8 @@ const LandingChatWidget = memo(
         onSend={onSend}
       />
     </section>
-  ),
+    );
+  },
 );
 
 LandingChatWidget.displayName = 'LandingChatWidget';
