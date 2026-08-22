@@ -1,5 +1,11 @@
 import { ChevronDown } from 'lucide-react';
-import { OVERVIEW_CARD_CLASS, OVERVIEW_PERIOD_SELECT_CLASS } from './overviewData';
+import {
+  OVERVIEW_CARD_SUBTITLE_CLASS,
+  OVERVIEW_CARD_TITLE_CLASS,
+  OVERVIEW_PERIOD_SELECT_CLASS,
+  OVERVIEW_REVENUE_CARD_CLASS,
+  OVERVIEW_REVENUE_HEADER_CLASS,
+} from './overviewData';
 import RevenueChart from './RevenueChart';
 
 const RevenueOverviewCard = ({
@@ -11,16 +17,16 @@ const RevenueOverviewCard = ({
   onPeriodChange,
 }) => (
   <section
-    className={`${OVERVIEW_CARD_CLASS} min-w-0`}
+    className={OVERVIEW_REVENUE_CARD_CLASS}
     aria-label={copy.title}
     role="region"
   >
-    <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-lg font-semibold leading-7 text-[#1a1a2e]">{copy.title}</h2>
-        <p className="text-sm leading-5 text-[#6b7280]">{copy.subtitle}</p>
+    <div className={OVERVIEW_REVENUE_HEADER_CLASS}>
+      <div className="flex flex-col gap-0.5">
+        <h2 className={OVERVIEW_CARD_TITLE_CLASS}>{copy.title}</h2>
+        <p className={OVERVIEW_CARD_SUBTITLE_CLASS}>{copy.subtitle}</p>
       </div>
-      <div className="relative">
+      <div className="relative shrink-0">
         <select
           id="overview-revenue-period"
           value={selectedPeriodId}
@@ -35,7 +41,7 @@ const RevenueOverviewCard = ({
           ))}
         </select>
         <ChevronDown
-          size={14}
+          size={16}
           className="pointer-events-none absolute top-1/2 right-2.5 -translate-y-1/2 text-[#4a5154]"
           aria-hidden="true"
         />

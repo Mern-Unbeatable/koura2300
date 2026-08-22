@@ -1,26 +1,74 @@
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import {
-  OVERVIEW_CHART_DEFAULT_RADIUS,
+  OVERVIEW_CHART_AXIS_LABEL_CLASS,
+  OVERVIEW_CHART_COLORS,
   OVERVIEW_CHART_GRID_OFFSET_Y,
   OVERVIEW_CHART_HEIGHT_PX,
-  OVERVIEW_CHART_HIGHLIGHT_RADIUS,
   OVERVIEW_CHART_MAX_VALUE,
   OVERVIEW_CHART_MIN_WIDTH_CLASS,
-  OVERVIEW_CHART_TOOLTIP,
   OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y,
   OVERVIEW_CHART_WIDTH,
   OVERVIEW_CHART_Y_LABELS,
 } from './overviewData';
 import {
+  buildAreaPath,
   buildChartCoordinates,
-  buildLinePath,
-  formatRevenueTooltip,
+  buildSmoothLinePath,
+  getChartPlotHeight,
   OVERVIEW_CHART_PADDING,
 } from './overviewChartUtils';
+import RevenueChartHighlight from './RevenueChartHighlight';
 
 const GRID_LINE_COUNT = OVERVIEW_CHART_Y_LABELS.length;
 
+const RevenueChartGrid = ({ plotHeight }) => (
+  <>
+    {OVERVIEW_CHART_Y_LABELS.map((label, index) => {
+      const invertedIndex = GRID_LINE_COUNT - 1 - index;
+      const y = OVERVIEW_CHART_PADDING.top + (plotHeight / (GRID_LINE_COUNT - 1)) * invertedIndex;
+
+      return (
+        <g key={label}>
+          <line
+            x1={OVERVIEW_CHART_PADDING.left}
+            y1={y}
+            x2={OVERVIEW_CHART_WIDTH - OVERVIEW_CHART_PADDING.right}
+            y2={y}
+            stroke={OVERVIEW_CHART_COLORS.grid}
+            strokeWidth={1}
+          />
+          <text
+            x={OVERVIEW_CHART_PADDING.left - 8}
+            y={y + OVERVIEW_CHART_GRID_OFFSET_Y - 12}
+            textAnchor="end"
+            className={OVERVIEW_CHART_AXIS_LABEL_CLASS}
+          >
+            {label}
+          </text>
+        </g>
+      );
+    })}
+  </>
+);
+
+const RevenueChartMonthLabels = ({ coordinates }) => (
+  <>
+    {coordinates.map((point) => (
+      <text
+        key={point.month}
+        x={point.x}
+        y={OVERVIEW_CHART_HEIGHT_PX - OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y}
+        textAnchor="middle"
+        className={OVERVIEW_CHART_AXIS_LABEL_CLASS}
+      >
+        {point.month}
+      </text>
+    ))}
+  </>
+);
+
 const RevenueChart = ({ months, chartCopy }) => {
+  const gradientId = useId();
   const coordinates = useMemo(
     () =>
       buildChartCoordinates(
@@ -32,8 +80,10 @@ const RevenueChart = ({ months, chartCopy }) => {
     [months],
   );
 
-  const linePath = useMemo(() => buildLinePath(coordinates), [coordinates]);
+  const linePath = useMemo(() => buildSmoothLinePath(coordinates), [coordinates]);
+  const areaPath = useMemo(() => buildAreaPath(coordinates), [coordinates]);
   const highlightedPoint = coordinates.find((point) => point.highlighted);
+  const plotHeight = getChartPlotHeight(OVERVIEW_CHART_HEIGHT_PX);
 
   return (
     <div className="w-full overflow-x-auto">
@@ -45,81 +95,29 @@ const RevenueChart = ({ months, chartCopy }) => {
         preserveAspectRatio="xMidYMid meet"
       >
         <title>{chartCopy.xAxisLabel}</title>
-        {OVERVIEW_CHART_Y_LABELS.map((label, index) => {
-          const y =
-            (OVERVIEW_CHART_HEIGHT_PX / (GRID_LINE_COUNT - 1)) * index;
+        <defs>
+          <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={OVERVIEW_CHART_COLORS.areaGradientStart} />
+            <stop offset="100%" stopColor={OVERVIEW_CHART_COLORS.areaGradientEnd} />
+          </linearGradient>
+        </defs>
 
-          return (
-            <g key={label}>
-              <line
-                x1={OVERVIEW_CHART_PADDING.left}
-                y1={y + OVERVIEW_CHART_GRID_OFFSET_Y}
-                x2={OVERVIEW_CHART_WIDTH - OVERVIEW_CHART_PADDING.right}
-                y2={y + OVERVIEW_CHART_GRID_OFFSET_Y}
-                stroke="#f3f4f6"
-                strokeWidth={1}
-              />
-              <text
-                x={OVERVIEW_CHART_PADDING.left - 8}
-                y={y + OVERVIEW_CHART_GRID_OFFSET_Y + 4}
-                textAnchor="end"
-                className="fill-[#9ca3af] text-[11px]"
-              >
-                {label}
-              </text>
-            </g>
-          );
-        })}
+        <RevenueChartGrid plotHeight={plotHeight} />
 
+        <path d={areaPath} fill={`url(#${gradientId})`} />
         <path
           d={linePath}
           fill="none"
-          stroke="#fc6f32"
+          stroke={OVERVIEW_CHART_COLORS.line}
           strokeWidth={2.5}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
 
-        {coordinates.map((point) => (
-          <g key={point.month}>
-            <circle
-              cx={point.x}
-              cy={point.y}
-              r={point.highlighted ? OVERVIEW_CHART_HIGHLIGHT_RADIUS : OVERVIEW_CHART_DEFAULT_RADIUS}
-              fill={point.highlighted ? '#fc6f32' : '#ffffff'}
-              stroke="#fc6f32"
-              strokeWidth={2}
-            />
-            <text
-              x={point.x}
-              y={OVERVIEW_CHART_HEIGHT_PX - OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y}
-              textAnchor="middle"
-              className="fill-[#6b7280] text-[11px]"
-            >
-              {point.month}
-            </text>
-          </g>
-        ))}
+        <RevenueChartMonthLabels coordinates={coordinates} />
 
         {highlightedPoint ? (
-          <g aria-label={chartCopy.highlightLabel}>
-            <rect
-              x={highlightedPoint.x - OVERVIEW_CHART_TOOLTIP.offsetX}
-              y={highlightedPoint.y - OVERVIEW_CHART_TOOLTIP.offsetY}
-              width={OVERVIEW_CHART_TOOLTIP.width}
-              height={OVERVIEW_CHART_TOOLTIP.height}
-              rx={OVERVIEW_CHART_TOOLTIP.borderRadius}
-              fill="#1a1a2e"
-            />
-            <text
-              x={highlightedPoint.x}
-              y={highlightedPoint.y - OVERVIEW_CHART_TOOLTIP.textOffsetY}
-              textAnchor="middle"
-              className="fill-white text-[11px] font-medium"
-            >
-              {formatRevenueTooltip(highlightedPoint)}
-            </text>
-          </g>
+          <RevenueChartHighlight point={highlightedPoint} chartCopy={chartCopy} />
         ) : null}
       </svg>
     </div>

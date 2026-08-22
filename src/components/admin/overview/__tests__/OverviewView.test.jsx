@@ -167,6 +167,7 @@ describe('OverviewView', () => {
     render(<OverviewView {...createOverviewViewProps()} />);
 
     expect(screen.getByLabelText(OVERVIEW_COPY.chart.highlightLabel)).toBeInTheDocument();
+    expect(screen.getByText('July')).toBeInTheDocument();
     expect(screen.getByText('$5600.00')).toBeInTheDocument();
   });
 });
