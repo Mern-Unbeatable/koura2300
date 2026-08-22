@@ -100,40 +100,40 @@ const LandingChatWidget = memo(
     usePreventScrollChaining(messagesRef);
 
     return (
-    <section
-      role="region"
-      aria-label={LANDING_CHAT_COPY.regionLabel}
-      className={LANDING_CHAT_PANEL_CLASS}
-    >
-      <header className={LANDING_CHAT_HEADER_CLASS}>
-        <div className="flex min-w-0 items-center gap-2">
-          <Bot size={LANDING_CHAT_HEADER_ICON_SIZE} className="shrink-0 text-white" aria-hidden="true" />
-          <h2 className={LANDING_CHAT_TITLE_CLASS}>{LANDING_CHAT_COPY.title}</h2>
+      <section
+        role="region"
+        aria-label={LANDING_CHAT_COPY.regionLabel}
+        className={LANDING_CHAT_PANEL_CLASS}
+      >
+        <header className={LANDING_CHAT_HEADER_CLASS}>
+          <div className="flex min-w-0 items-center gap-2">
+            <Bot size={LANDING_CHAT_HEADER_ICON_SIZE} className="shrink-0 text-white" aria-hidden="true" />
+            <h2 className={LANDING_CHAT_TITLE_CLASS}>{LANDING_CHAT_COPY.title}</h2>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={LANDING_CHAT_COPY.closeLabel}
+            className="cursor-pointer rounded-md p-1 text-white transition-colors hover:text-[#fef5e7] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            <X size={LANDING_CHAT_CLOSE_ICON_SIZE} aria-hidden="true" />
+          </button>
+        </header>
+
+        <div ref={messagesRef} className={LANDING_CHAT_MESSAGES_CLASS}>
+          {messages.map((message) => (
+            <LandingChatMessage key={message.id} message={message} />
+          ))}
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label={LANDING_CHAT_COPY.closeLabel}
-          className="cursor-pointer rounded-md p-1 text-white transition-colors hover:text-[#fef5e7] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-        >
-          <X size={LANDING_CHAT_CLOSE_ICON_SIZE} aria-hidden="true" />
-        </button>
-      </header>
 
-      <div ref={messagesRef} className={LANDING_CHAT_MESSAGES_CLASS}>
-        {messages.map((message) => (
-          <LandingChatMessage key={message.id} message={message} />
-        ))}
-      </div>
-
-      <LandingChatComposer
-        inputRef={inputRef}
-        inputValue={inputValue}
-        onChange={onInputChange}
-        onKeyDown={onKeyDown}
-        onSend={onSend}
-      />
-    </section>
+        <LandingChatComposer
+          inputRef={inputRef}
+          inputValue={inputValue}
+          onChange={onInputChange}
+          onKeyDown={onKeyDown}
+          onSend={onSend}
+        />
+      </section>
     );
   },
 );
