@@ -1,4 +1,5 @@
 import { useId, useMemo } from 'react';
+import useRevenueChartZoom from '../../../hooks/useRevenueChartZoom';
 import {
   OVERVIEW_CHART_AXIS_LABEL_CLASS,
   OVERVIEW_CHART_COLORS,
@@ -11,11 +12,13 @@ import {
   OVERVIEW_CHART_WRAP_CLASS,
   OVERVIEW_CHART_WIDTH,
   OVERVIEW_CHART_Y_LABELS,
+  OVERVIEW_CHART_ZOOM_BADGE_CLASS,
 } from './overviewData';
 import {
   buildAreaPath,
   buildChartCoordinates,
   buildSmoothLinePath,
+  formatZoomPercentage,
   getChartPlotHeight,
   OVERVIEW_CHART_PADDING,
 } from './overviewChartUtils';
@@ -71,15 +74,18 @@ const RevenueChartMonthLabels = ({ coordinates }) => (
 
 const RevenueChart = ({ months, chartCopy }) => {
   const gradientId = useId();
+  const { containerRef, visibleMonths, zoomLevel, resetZoom, isZoomed } =
+    useRevenueChartZoom(months);
+
   const coordinates = useMemo(
     () =>
       buildChartCoordinates(
-        months,
+        visibleMonths,
         OVERVIEW_CHART_WIDTH,
         OVERVIEW_CHART_HEIGHT_PX,
         OVERVIEW_CHART_MAX_VALUE,
       ),
-    [months],
+    [visibleMonths],
   );
 
   const linePath = useMemo(() => buildSmoothLinePath(coordinates), [coordinates]);
@@ -88,7 +94,12 @@ const RevenueChart = ({ months, chartCopy }) => {
   const plotHeight = getChartPlotHeight(OVERVIEW_CHART_HEIGHT_PX);
 
   return (
-    <div className={OVERVIEW_CHART_WRAP_CLASS}>
+    <div
+      ref={containerRef}
+      className={OVERVIEW_CHART_WRAP_CLASS}
+      aria-label={chartCopy.zoomHint}
+      onDoubleClick={resetZoom}
+    >
       <svg
         role="img"
         aria-label={chartCopy.xAxisLabel}
@@ -122,6 +133,12 @@ const RevenueChart = ({ months, chartCopy }) => {
           <RevenueChartHighlight point={highlightedPoint} chartCopy={chartCopy} />
         ) : null}
       </svg>
+
+      {isZoomed ? (
+        <span className={OVERVIEW_CHART_ZOOM_BADGE_CLASS} aria-label={chartCopy.zoomLevelLabel}>
+          {formatZoomPercentage(zoomLevel)}
+        </span>
+      ) : null}
     </div>
   );
 };

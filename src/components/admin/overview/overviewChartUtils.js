@@ -94,3 +94,45 @@ export const clampTooltipX = (pointX, tooltipWidth, chartWidth, offsetX) => {
 
   return Math.max(minX, Math.min(maxX, idealX));
 };
+
+export const getZoomDirection = (deltaY) => (deltaY < 0 ? 1 : -1);
+
+export const adjustZoomLevel = (currentLevel, direction, zoomConfig) => {
+  const nextLevel = currentLevel + direction * zoomConfig.step;
+
+  return Math.min(zoomConfig.max, Math.max(zoomConfig.min, nextLevel));
+};
+
+export const getVisibleMonthCount = (totalMonths, zoomLevel, zoomConfig) =>
+  Math.max(zoomConfig.minVisibleMonths, Math.ceil(totalMonths / zoomLevel));
+
+export const getDefaultFocusIndex = (months) => {
+  const highlightedIndex = months.findIndex((month) => month.highlighted);
+
+  if (highlightedIndex >= 0) {
+    return highlightedIndex;
+  }
+
+  return Math.floor(months.length / 2);
+};
+
+export const getVisibleMonthSlice = (months, zoomLevel, focusIndex, zoomConfig) => {
+  if (zoomLevel <= zoomConfig.min || months.length === 0) {
+    return {
+      visibleMonths: months,
+      windowStart: 0,
+    };
+  }
+
+  const visibleCount = getVisibleMonthCount(months.length, zoomLevel, zoomConfig);
+  const maxStart = Math.max(0, months.length - visibleCount);
+  const centeredStart = focusIndex - Math.floor(visibleCount / 2);
+  const windowStart = Math.max(0, Math.min(maxStart, centeredStart));
+
+  return {
+    visibleMonths: months.slice(windowStart, windowStart + visibleCount),
+    windowStart,
+  };
+};
+
+export const formatZoomPercentage = (zoomLevel) => `${Math.round(zoomLevel * 100)}%`;

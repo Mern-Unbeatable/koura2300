@@ -44,7 +44,16 @@ export const OVERVIEW_CHART_Y_LABELS = ['$0k', '$15k', '$30k', '$45k', '$60k'];
 export const OVERVIEW_CHART_HIGHLIGHT_RADIUS = 6;
 export const OVERVIEW_CHART_HIGHLIGHT_BORDER = 4;
 export const OVERVIEW_CHART_GRID_OFFSET_Y = 16;
-export const OVERVIEW_CHART_WRAP_CLASS = 'min-w-0 w-full overflow-hidden';
+export const OVERVIEW_CHART_WRAP_CLASS =
+  'relative min-w-0 w-full overflow-hidden overscroll-contain';
+export const OVERVIEW_CHART_ZOOM_BADGE_CLASS =
+  'pointer-events-none absolute bottom-2 right-2 rounded bg-white/90 px-2 py-0.5 text-xs font-medium text-[#6b7280] shadow-sm';
+export const OVERVIEW_CHART_ZOOM = {
+  min: 1,
+  max: 4,
+  step: 0.15,
+  minVisibleMonths: 3,
+};
 export const OVERVIEW_CHART_SVG_CLASS = 'block h-auto w-full max-h-[300px]';
 export const OVERVIEW_CHART_PRESERVE_ASPECT = 'xMidYMin meet';
 export const OVERVIEW_CHART_AXIS_LABEL_CLASS = 'fill-[#9ca3af] text-xs';

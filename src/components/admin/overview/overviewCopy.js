@@ -22,6 +22,8 @@ export const OVERVIEW_COPY = {
     yAxisLabel: 'Revenue axis',
     xAxisLabel: 'Months',
     highlightLabel: 'Highlighted revenue',
+    zoomHint: 'Scroll over the chart to zoom in or out',
+    zoomLevelLabel: 'Chart zoom level',
   },
   error: 'Failed to load dashboard overview. Please try again later.',
 };
