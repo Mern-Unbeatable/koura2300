@@ -106,6 +106,12 @@ describe('OrderDetailsContent', () => {
     expect(screen.getByText('200A Main Breaker Panel')).toBeInTheDocument();
     expect(screen.getByText('Total')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Pay Materials — $185' })).toBeInTheDocument();
+
+    const materialsHeader = screen.getByRole('button', { name: /Material Information/i });
+    const paymentBadges = within(materialsHeader).getAllByText('Payment Required');
+    expect(paymentBadges).toHaveLength(2);
+    expect(paymentBadges[0]).toHaveClass('min-[426px]:inline-flex');
+    expect(paymentBadges[1]).toHaveClass('min-[426px]:hidden');
   });
 
   it('renders booking payment and sidebar status cards', () => {

@@ -34,8 +34,27 @@ export const ORDER_DETAILS_SIDEBAR_CLASS =
 export const ORDER_DETAILS_SECTION_CLASS =
   'overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
 export const ORDER_DETAILS_SECTION_HEADER_CLASS =
-  'flex w-full cursor-pointer items-center justify-between px-5 py-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-orange';
-export const ORDER_DETAILS_SECTION_BODY_CLASS = 'border-t border-[#f8fafc] px-5 pb-5 pt-px';
+  'flex w-full cursor-pointer items-start justify-between gap-3 px-4 py-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-orange sm:px-5';
+export const ORDER_DETAILS_SECTION_HEADER_MAIN_CLASS = 'flex min-w-0 flex-1 items-start gap-3';
+export const ORDER_DETAILS_SECTION_TITLE_CLASS = 'text-sm font-bold leading-5 text-[#0f172b]';
+export const ORDER_DETAILS_SECTION_BADGE_CLASS =
+  'shrink-0 whitespace-nowrap rounded-full bg-[#ffedd4] px-2 py-0.5 text-xs font-semibold text-[#f54900]';
+export const ORDER_DETAILS_SECTION_BADGE_MOBILE_CLASS =
+  'mt-1.5 inline-flex min-[426px]:hidden';
+export const ORDER_DETAILS_SECTION_BADGE_DESKTOP_CLASS =
+  'hidden shrink-0 min-[426px]:inline-flex';
+export const ORDER_DETAILS_SECTION_CHEVRON_CLASS = 'mt-0.5 shrink-0 transition-transform';
+export const ORDER_DETAILS_SECTION_BODY_CLASS =
+  'border-t border-[#f8fafc] px-4 pb-5 pt-px sm:px-5';
+export const ORDER_DETAILS_MATERIALS_TABLE_WRAP_CLASS =
+  'overflow-x-auto rounded-xl border border-[#f1f5f9]';
+export const ORDER_DETAILS_MATERIALS_TABLE_CLASS = 'w-full text-left text-sm max-[425px]:text-xs';
+export const ORDER_DETAILS_MATERIALS_HEAD_CELL_CLASS =
+  'px-3 py-3 font-semibold max-[425px]:px-2.5 max-[425px]:py-2.5';
+export const ORDER_DETAILS_MATERIALS_BODY_CELL_CLASS =
+  'px-3 py-3 max-[425px]:px-2.5 max-[425px]:py-2.5';
+export const ORDER_DETAILS_MATERIALS_ITEM_CELL_CLASS =
+  'px-3 py-3 font-medium text-[#314158] max-[425px]:px-2.5 max-[425px]:py-2.5 max-[425px]:text-xs';
 export const ORDER_DETAILS_META_STACK_CLASS = 'flex flex-col gap-[14px] pt-4';
 export const ORDER_DETAILS_META_ROW_CLASS = 'flex items-start justify-between gap-4';
 export const ORDER_DETAILS_META_ITEM_LEFT_CLASS = 'min-w-0';

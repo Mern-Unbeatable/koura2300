@@ -4,6 +4,11 @@ import OrderDetailsSection from './OrderDetailsSection';
 import { ORDER_DETAILS_CONTENT } from './orderDetailsCopy';
 import {
   ORDER_DETAILS_CTA_ICON_SIZE,
+  ORDER_DETAILS_MATERIALS_BODY_CELL_CLASS,
+  ORDER_DETAILS_MATERIALS_HEAD_CELL_CLASS,
+  ORDER_DETAILS_MATERIALS_ITEM_CELL_CLASS,
+  ORDER_DETAILS_MATERIALS_TABLE_CLASS,
+  ORDER_DETAILS_MATERIALS_TABLE_WRAP_CLASS,
   ORDER_DETAILS_PAY_ICON_SIZE,
   getOrderStatusLabel,
 } from './orderDetailsData';
@@ -27,30 +32,41 @@ const OrderDetailsMaterials = memo(({ order, isOpen, sectionId, onToggle, onPayM
         </span>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-[#f1f5f9]">
-        <table className="w-full min-w-[320px] text-left text-sm">
+      <div className={ORDER_DETAILS_MATERIALS_TABLE_WRAP_CLASS}>
+        <table className={ORDER_DETAILS_MATERIALS_TABLE_CLASS}>
           <thead className="bg-[#f8fafc] text-xs font-semibold text-[#90a1b9]">
             <tr className="border-b border-[#f1f5f9]">
-              <th className="px-4 py-3 font-semibold">{labels.item}</th>
-              <th className="px-4 py-3 font-semibold">{labels.qty}</th>
-              <th className="px-4 py-3 text-right font-semibold">{labels.cost}</th>
+              <th className={ORDER_DETAILS_MATERIALS_HEAD_CELL_CLASS}>{labels.item}</th>
+              <th className={ORDER_DETAILS_MATERIALS_HEAD_CELL_CLASS}>{labels.qty}</th>
+              <th className={`${ORDER_DETAILS_MATERIALS_HEAD_CELL_CLASS} text-right`}>{labels.cost}</th>
             </tr>
           </thead>
           <tbody>
             {order.materialItems.map((item) => (
               <tr key={item.id} className="border-b border-[#f8fafc]">
-                <td className="px-4 py-3 font-medium text-[#314158]">{item.name}</td>
-                <td className="px-4 py-3 text-[#90a1b9]">{item.qty}</td>
-                <td className="px-4 py-3 text-right font-semibold text-[#0f172b]">{item.cost}</td>
+                <td className={ORDER_DETAILS_MATERIALS_ITEM_CELL_CLASS}>{item.name}</td>
+                <td className={`${ORDER_DETAILS_MATERIALS_BODY_CELL_CLASS} text-[#90a1b9]`}>
+                  {item.qty}
+                </td>
+                <td
+                  className={`${ORDER_DETAILS_MATERIALS_BODY_CELL_CLASS} text-right font-semibold text-[#0f172b]`}
+                >
+                  {item.cost}
+                </td>
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr className="bg-[#f8fafc]">
-              <td className="px-4 py-3.5 font-bold text-[#0f172b]" colSpan={2}>
+              <td
+                className={`${ORDER_DETAILS_MATERIALS_BODY_CELL_CLASS} font-bold text-[#0f172b]`}
+                colSpan={2}
+              >
                 {labels.total}
               </td>
-              <td className="px-4 py-3.5 text-right text-base font-bold text-[#0f172b]">
+              <td
+                className={`${ORDER_DETAILS_MATERIALS_BODY_CELL_CLASS} text-right text-base font-bold text-[#0f172b] max-[425px]:text-sm`}
+              >
                 {order.materialTotal}
               </td>
             </tr>
@@ -58,13 +74,15 @@ const OrderDetailsMaterials = memo(({ order, isOpen, sectionId, onToggle, onPayM
         </table>
       </div>
 
-      <div className="rounded-2xl bg-gradient-to-br from-[#ff6900] to-[#f54900] p-6 text-white">
+      <div className="rounded-2xl bg-gradient-to-br from-[#ff6900] to-[#f54900] p-5 text-white max-[425px]:p-4 sm:p-6">
         <div className="flex items-start justify-between gap-4">
-          <div>
+          <div className="min-w-0">
             <p className="text-xs font-medium text-[#ffedd4]">{labels.materialCostDue}</p>
-            <p className="mt-1 text-4xl font-bold leading-10">{order.materialTotal}</p>
+            <p className="mt-1 text-3xl font-bold leading-9 max-[425px]:text-2xl max-[425px]:leading-8 sm:text-4xl sm:leading-10">
+              {order.materialTotal}
+            </p>
           </div>
-          <span className="flex size-11 items-center justify-center rounded-xl bg-white/20">
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
             <Wallet size={ORDER_DETAILS_PAY_ICON_SIZE} aria-hidden="true" />
           </span>
         </div>

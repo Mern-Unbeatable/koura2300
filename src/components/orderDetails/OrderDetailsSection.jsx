@@ -1,13 +1,19 @@
 import React, { memo, useCallback } from 'react';
 import {
+  ORDER_DETAILS_SECTION_BADGE_CLASS,
+  ORDER_DETAILS_SECTION_BADGE_DESKTOP_CLASS,
+  ORDER_DETAILS_SECTION_BADGE_MOBILE_CLASS,
   ORDER_DETAILS_SECTION_BODY_CLASS,
+  ORDER_DETAILS_SECTION_CHEVRON_CLASS,
   ORDER_DETAILS_SECTION_CHEVRON_ICON,
   ORDER_DETAILS_SECTION_CLASS,
   ORDER_DETAILS_SECTION_HEADER_CLASS,
+  ORDER_DETAILS_SECTION_HEADER_MAIN_CLASS,
   ORDER_DETAILS_SECTION_ICON_SIZE,
+  ORDER_DETAILS_SECTION_TITLE_CLASS,
 } from './orderDetailsData';
 
-const OrderDetailsSectionIcon = memo(({ icon: Icon, iconSrc, title }) => {
+const OrderDetailsSectionIcon = memo(({ icon: Icon, iconSrc }) => {
   if (iconSrc) {
     return (
       <img
@@ -15,7 +21,7 @@ const OrderDetailsSectionIcon = memo(({ icon: Icon, iconSrc, title }) => {
         alt=""
         width={ORDER_DETAILS_SECTION_ICON_SIZE}
         height={ORDER_DETAILS_SECTION_ICON_SIZE}
-        className="shrink-0"
+        className="mt-0.5 shrink-0"
         aria-hidden="true"
       />
     );
@@ -25,7 +31,7 @@ const OrderDetailsSectionIcon = memo(({ icon: Icon, iconSrc, title }) => {
     return (
       <Icon
         size={ORDER_DETAILS_SECTION_ICON_SIZE}
-        className="shrink-0 text-[#90a1b9]"
+        className="mt-0.5 shrink-0 text-[#90a1b9]"
         aria-hidden="true"
       />
     );
@@ -35,6 +41,20 @@ const OrderDetailsSectionIcon = memo(({ icon: Icon, iconSrc, title }) => {
 });
 
 OrderDetailsSectionIcon.displayName = 'OrderDetailsSectionIcon';
+
+const SectionBadge = memo(({ badge, variant }) => (
+  <span
+    className={`${ORDER_DETAILS_SECTION_BADGE_CLASS} ${
+      variant === 'mobile'
+        ? ORDER_DETAILS_SECTION_BADGE_MOBILE_CLASS
+        : ORDER_DETAILS_SECTION_BADGE_DESKTOP_CLASS
+    }`}
+  >
+    {badge}
+  </span>
+));
+
+SectionBadge.displayName = 'SectionBadge';
 
 const OrderDetailsSection = memo(({ id, title, icon, iconSrc, badge, isOpen, onToggle, children }) => {
   const handleToggle = useCallback(() => {
@@ -49,21 +69,22 @@ const OrderDetailsSection = memo(({ id, title, icon, iconSrc, badge, isOpen, onT
         aria-expanded={isOpen}
         onClick={handleToggle}
       >
-        <span className="flex min-w-0 items-center gap-3">
-          <OrderDetailsSectionIcon icon={icon} iconSrc={iconSrc} title={title} />
-          <h2 className="text-sm font-bold leading-5 text-[#0f172b]">{title}</h2>
-          {badge ? (
-            <span className="rounded-full bg-[#ffedd4] px-2 py-0.5 text-xs font-semibold text-[#f54900]">
-              {badge}
+        <span className={ORDER_DETAILS_SECTION_HEADER_MAIN_CLASS}>
+          <OrderDetailsSectionIcon icon={icon} iconSrc={iconSrc} />
+          <span className="min-w-0 flex-1">
+            <span className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5">
+              <h2 className={ORDER_DETAILS_SECTION_TITLE_CLASS}>{title}</h2>
+              {badge ? <SectionBadge badge={badge} variant="desktop" /> : null}
             </span>
-          ) : null}
+            {badge ? <SectionBadge badge={badge} variant="mobile" /> : null}
+          </span>
         </span>
         <img
           src={ORDER_DETAILS_SECTION_CHEVRON_ICON}
           alt=""
           width={ORDER_DETAILS_SECTION_ICON_SIZE}
           height={ORDER_DETAILS_SECTION_ICON_SIZE}
-          className={`shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`${ORDER_DETAILS_SECTION_CHEVRON_CLASS} ${isOpen ? 'rotate-180' : ''}`}
           aria-hidden="true"
         />
       </button>
