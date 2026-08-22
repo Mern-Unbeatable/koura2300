@@ -53,6 +53,7 @@ export const ORDER_DETAILS_CONTENT = {
     onlineHint: 'UPI / Net Banking',
   },
   actions: {
+    back: 'Back',
     payMaterials: (amount) => `Pay Materials — ${amount}`,
     payNow: 'Pay Now',
   },

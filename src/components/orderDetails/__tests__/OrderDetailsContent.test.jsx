@@ -41,6 +41,14 @@ describe('OrderDetailsContent', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
+  it('renders a Back link to My Orders with icon spacing', () => {
+    renderOrderDetails();
+
+    const backLink = screen.getByRole('link', { name: 'Back' });
+    expect(backLink).toHaveAttribute('href', '/orders');
+    expect(backLink).toHaveClass('gap-1');
+  });
+
   it('renders booking summary fields from the design', () => {
     renderOrderDetails();
 
@@ -114,6 +122,7 @@ describe('OrderDetailsContent', () => {
 
     const layout = screen.getByTestId('order-details-layout');
     expect(layout).toHaveClass('lg:grid-cols-[minmax(0,1fr)_384px]');
+    expect(layout).toHaveClass('lg:gap-[77px]');
   });
 
   it('collapses and expands accordion sections', async () => {

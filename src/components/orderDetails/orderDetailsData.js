@@ -12,13 +12,18 @@ export const ORDER_DETAILS_TIMELINE_ICON_SIZE = 14;
 export const ORDER_DETAILS_LIST_ICON_SIZE = 16;
 export const ORDER_DETAILS_CTA_ICON_SIZE = 16;
 export const ORDER_DETAILS_PAY_ICON_SIZE = 20;
+export const ORDER_DETAILS_BACK_ICON_SIZE = 16;
+/** Figma: main column 1075px + sidebar 384px with 77px gutter */
+export const ORDER_DETAILS_COLUMN_GAP_CLASS = 'gap-6 lg:gap-[77px]';
 
 export const ORDER_DETAILS_PAGE_CLASS =
   'min-h-screen overflow-x-clip bg-[#f8fafc] font-inter text-brand-ink';
 export const ORDER_DETAILS_MAIN_CLASS =
   'animate-page-enter mx-auto max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28';
+export const ORDER_DETAILS_BACK_LINK_CLASS =
+  'mb-5 inline-flex items-center gap-1 text-sm font-normal text-[#191c1f] transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ORDER_DETAILS_LAYOUT_CLASS =
-  'mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_384px] lg:items-start';
+  `grid ${ORDER_DETAILS_COLUMN_GAP_CLASS} lg:grid-cols-[minmax(0,1fr)_384px] lg:items-start`;
 export const ORDER_DETAILS_STACK_CLASS = 'flex min-w-0 flex-col gap-4';
 export const ORDER_DETAILS_SIDEBAR_CLASS =
   'flex min-w-0 flex-col gap-4 lg:sticky lg:top-28';

@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../config';
 import OrderDetailsBookingPayment from './OrderDetailsBookingPayment';
@@ -9,10 +10,21 @@ import OrderDetailsSidebar from './OrderDetailsSidebar';
 import OrderDetailsTimeline from './OrderDetailsTimeline';
 import { ORDER_DETAILS_CONTENT } from './orderDetailsCopy';
 import {
+  ORDER_DETAILS_BACK_ICON_SIZE,
+  ORDER_DETAILS_BACK_LINK_CLASS,
   ORDER_DETAILS_LAYOUT_CLASS,
   ORDER_DETAILS_NOT_FOUND_CLASS,
   ORDER_DETAILS_STACK_CLASS,
 } from './orderDetailsData';
+
+const OrderDetailsBackLink = memo(() => (
+  <Link to={ROUTES.ORDERS} className={ORDER_DETAILS_BACK_LINK_CLASS}>
+    <ArrowLeft size={ORDER_DETAILS_BACK_ICON_SIZE} aria-hidden="true" />
+    {ORDER_DETAILS_CONTENT.actions.back}
+  </Link>
+));
+
+OrderDetailsBackLink.displayName = 'OrderDetailsBackLink';
 
 const OrderDetailsNotFound = memo(() => (
   <div className={ORDER_DETAILS_NOT_FOUND_CLASS}>
@@ -43,41 +55,44 @@ const OrderDetailsView = memo(
     }
 
     return (
-      <div data-testid="order-details-layout" className={ORDER_DETAILS_LAYOUT_CLASS}>
-        <div className={ORDER_DETAILS_STACK_CLASS}>
-          <OrderDetailsBookingSummary
-            order={order}
-            sectionId={sectionIds.bookingSummary}
-            isOpen={openSections[sectionIds.bookingSummary]}
-            onToggle={onToggleSection}
-          />
-          <OrderDetailsTimeline
-            timeline={order.timeline}
-            sectionId={sectionIds.timeline}
-            isOpen={openSections[sectionIds.timeline]}
-            onToggle={onToggleSection}
-          />
-          <OrderDetailsServiceInfo
-            order={order}
-            sectionId={sectionIds.serviceInfo}
-            isOpen={openSections[sectionIds.serviceInfo]}
-            onToggle={onToggleSection}
-          />
-          <OrderDetailsMaterials
-            order={order}
-            sectionId={sectionIds.materials}
-            isOpen={openSections[sectionIds.materials]}
-            onToggle={onToggleSection}
-            onPayMaterials={onPayMaterials}
-          />
-          <OrderDetailsBookingPayment
-            order={order}
-            sectionId={sectionIds.bookingPayment}
-            isOpen={openSections[sectionIds.bookingPayment]}
-            onToggle={onToggleSection}
-          />
+      <div>
+        <OrderDetailsBackLink />
+        <div data-testid="order-details-layout" className={ORDER_DETAILS_LAYOUT_CLASS}>
+          <div className={ORDER_DETAILS_STACK_CLASS}>
+            <OrderDetailsBookingSummary
+              order={order}
+              sectionId={sectionIds.bookingSummary}
+              isOpen={openSections[sectionIds.bookingSummary]}
+              onToggle={onToggleSection}
+            />
+            <OrderDetailsTimeline
+              timeline={order.timeline}
+              sectionId={sectionIds.timeline}
+              isOpen={openSections[sectionIds.timeline]}
+              onToggle={onToggleSection}
+            />
+            <OrderDetailsServiceInfo
+              order={order}
+              sectionId={sectionIds.serviceInfo}
+              isOpen={openSections[sectionIds.serviceInfo]}
+              onToggle={onToggleSection}
+            />
+            <OrderDetailsMaterials
+              order={order}
+              sectionId={sectionIds.materials}
+              isOpen={openSections[sectionIds.materials]}
+              onToggle={onToggleSection}
+              onPayMaterials={onPayMaterials}
+            />
+            <OrderDetailsBookingPayment
+              order={order}
+              sectionId={sectionIds.bookingPayment}
+              isOpen={openSections[sectionIds.bookingPayment]}
+              onToggle={onToggleSection}
+            />
+          </div>
+          <OrderDetailsSidebar order={order} onPayNow={onPayNow} />
         </div>
-        <OrderDetailsSidebar order={order} onPayNow={onPayNow} />
       </div>
     );
   },
