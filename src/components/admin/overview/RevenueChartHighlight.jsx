@@ -4,40 +4,51 @@ import {
   OVERVIEW_CHART_HIGHLIGHT_RADIUS,
   OVERVIEW_CHART_HIGHLIGHT_SHADOW,
   OVERVIEW_CHART_TOOLTIP,
+  OVERVIEW_CHART_WIDTH,
 } from './overviewData';
 import {
+  clampTooltipX,
   formatRevenueTooltipMonth,
   formatRevenueTooltipValue,
 } from './overviewChartUtils';
 
-const RevenueChartTooltip = ({ point }) => (
-  <g aria-label={`${formatRevenueTooltipMonth(point)} revenue`}>
-    <foreignObject
-      x={point.x - OVERVIEW_CHART_TOOLTIP.offsetX}
-      y={point.y - OVERVIEW_CHART_TOOLTIP.offsetY}
-      width={OVERVIEW_CHART_TOOLTIP.width}
-      height={OVERVIEW_CHART_TOOLTIP.height}
-    >
-      <div
-        xmlns="http://www.w3.org/1999/xhtml"
-        className="flex h-full flex-col items-center justify-center rounded-lg bg-white px-3 py-2 text-center shadow-[0px_4px_16px_rgba(50,50,71,0.12)]"
+const RevenueChartTooltip = ({ point }) => {
+  const tooltipX = clampTooltipX(
+    point.x,
+    OVERVIEW_CHART_TOOLTIP.width,
+    OVERVIEW_CHART_WIDTH,
+    OVERVIEW_CHART_TOOLTIP.offsetX,
+  );
+
+  return (
+    <g aria-label={`${formatRevenueTooltipMonth(point)} revenue`}>
+      <foreignObject
+        x={tooltipX}
+        y={point.y - OVERVIEW_CHART_TOOLTIP.offsetY}
+        width={OVERVIEW_CHART_TOOLTIP.width}
+        height={OVERVIEW_CHART_TOOLTIP.height}
       >
-        <p
-          className="text-xs leading-3"
-          style={{ color: OVERVIEW_CHART_COLORS.tooltipMonth }}
+        <div
+          xmlns="http://www.w3.org/1999/xhtml"
+          className="flex h-full flex-col items-center justify-center rounded-lg bg-white px-2 py-1.5 text-center shadow-[0px_4px_16px_rgba(50,50,71,0.12)] sm:px-3 sm:py-2"
         >
-          {formatRevenueTooltipMonth(point)}
-        </p>
-        <p
-          className="text-[22px] font-bold leading-7"
-          style={{ color: OVERVIEW_CHART_COLORS.tooltipValue }}
-        >
-          {formatRevenueTooltipValue(point)}
-        </p>
-      </div>
-    </foreignObject>
-  </g>
-);
+          <p
+            className="text-[10px] leading-3 sm:text-xs"
+            style={{ color: OVERVIEW_CHART_COLORS.tooltipMonth }}
+          >
+            {formatRevenueTooltipMonth(point)}
+          </p>
+          <p
+            className="text-base font-bold leading-6 sm:text-[22px] sm:leading-7"
+            style={{ color: OVERVIEW_CHART_COLORS.tooltipValue }}
+          >
+            {formatRevenueTooltipValue(point)}
+          </p>
+        </div>
+      </foreignObject>
+    </g>
+  );
+};
 
 const RevenueChartHighlight = ({ point, chartCopy }) => (
   <g aria-label={chartCopy.highlightLabel}>

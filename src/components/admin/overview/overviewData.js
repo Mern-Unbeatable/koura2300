@@ -29,21 +29,24 @@ export const OVERVIEW_STAT_ICON_WRAP = {
 };
 
 export const OVERVIEW_PERIOD_SELECT_CLASS =
-  'h-8 min-w-[123px] cursor-pointer appearance-none rounded-[4px] border-0 bg-[#f5f6f7] py-1 pr-8 pl-2.5 text-sm text-[#4a5154] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'h-8 w-full cursor-pointer appearance-none rounded-[4px] border-0 bg-[#f5f6f7] py-1 pr-8 pl-2.5 text-sm text-[#4a5154] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange sm:w-auto sm:min-w-[123px]';
 
-export const OVERVIEW_REVENUE_CARD_CLASS = `${OVERVIEW_CARD_CLASS} flex min-w-0 flex-col gap-6`;
-export const OVERVIEW_REVENUE_HEADER_CLASS = 'flex items-center justify-between gap-3';
+export const OVERVIEW_REVENUE_CARD_CLASS =
+  'flex min-w-0 flex-col gap-4 overflow-hidden rounded-2xl border border-[#ececec] bg-white p-4 shadow-sm sm:gap-6 sm:p-6';
+export const OVERVIEW_REVENUE_HEADER_CLASS =
+  'flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between';
+export const OVERVIEW_REVENUE_PERIOD_WRAP_CLASS = 'relative w-full sm:w-auto sm:shrink-0';
 
-export const OVERVIEW_CHART_HEIGHT_PX = 268;
+export const OVERVIEW_CHART_HEIGHT_PX = 276;
 export const OVERVIEW_CHART_WIDTH = 1019;
 export const OVERVIEW_CHART_MAX_VALUE = 60000;
 export const OVERVIEW_CHART_Y_LABELS = ['$0k', '$15k', '$30k', '$45k', '$60k'];
 export const OVERVIEW_CHART_HIGHLIGHT_RADIUS = 6;
 export const OVERVIEW_CHART_HIGHLIGHT_BORDER = 4;
 export const OVERVIEW_CHART_GRID_OFFSET_Y = 16;
-export const OVERVIEW_CHART_MIN_WIDTH_CLASS = 'min-w-[280px]';
+export const OVERVIEW_CHART_WRAP_CLASS = 'min-w-0 w-full overflow-hidden';
 export const OVERVIEW_CHART_SVG_CLASS = 'block h-auto w-full max-h-[300px]';
-export const OVERVIEW_CHART_PRESERVE_ASPECT = 'xMinYMin meet';
+export const OVERVIEW_CHART_PRESERVE_ASPECT = 'xMidYMin meet';
 export const OVERVIEW_CHART_AXIS_LABEL_CLASS = 'fill-[#9ca3af] text-xs';
 export const OVERVIEW_CHART_COLORS = {
   line: '#fc6f32',
@@ -64,7 +67,7 @@ export const OVERVIEW_CHART_TOOLTIP = {
   borderRadius: 8,
   shadow: '0px 4px 16px rgba(50, 50, 71, 0.12)',
 };
-export const OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y = 16;
+export const OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y = 18;
 
 export const OVERVIEW_AVATAR_WRAP_CLASS =
   'relative inline-flex size-9 shrink-0 overflow-visible';

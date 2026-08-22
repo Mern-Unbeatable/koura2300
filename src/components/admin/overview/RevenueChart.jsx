@@ -5,10 +5,10 @@ import {
   OVERVIEW_CHART_GRID_OFFSET_Y,
   OVERVIEW_CHART_HEIGHT_PX,
   OVERVIEW_CHART_MAX_VALUE,
-  OVERVIEW_CHART_MIN_WIDTH_CLASS,
   OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y,
   OVERVIEW_CHART_PRESERVE_ASPECT,
   OVERVIEW_CHART_SVG_CLASS,
+  OVERVIEW_CHART_WRAP_CLASS,
   OVERVIEW_CHART_WIDTH,
   OVERVIEW_CHART_Y_LABELS,
 } from './overviewData';
@@ -88,7 +88,7 @@ const RevenueChart = ({ months, chartCopy }) => {
   const plotHeight = getChartPlotHeight(OVERVIEW_CHART_HEIGHT_PX);
 
   return (
-    <div className={`w-full ${OVERVIEW_CHART_MIN_WIDTH_CLASS}`}>
+    <div className={OVERVIEW_CHART_WRAP_CLASS}>
       <svg
         role="img"
         aria-label={chartCopy.xAxisLabel}

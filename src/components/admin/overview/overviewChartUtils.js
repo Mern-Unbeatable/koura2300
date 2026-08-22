@@ -1,8 +1,8 @@
 export const OVERVIEW_CHART_PADDING = {
-  top: 16,
-  right: 16,
-  bottom: 24,
-  left: 48,
+  top: 20,
+  right: 28,
+  bottom: 32,
+  left: 44,
 };
 
 export const buildChartCoordinates = (
@@ -85,3 +85,12 @@ export const formatRevenueTooltipMonth = (entry) => entry.tooltipMonth ?? entry.
 
 export const getChartPlotHeight = (height, padding = OVERVIEW_CHART_PADDING) =>
   height - padding.top - padding.bottom;
+
+export const clampTooltipX = (pointX, tooltipWidth, chartWidth, offsetX) => {
+  const edgePadding = 4;
+  const minX = edgePadding;
+  const maxX = chartWidth - tooltipWidth - edgePadding;
+  const idealX = pointX - offsetX;
+
+  return Math.max(minX, Math.min(maxX, idealX));
+};
