@@ -18,20 +18,25 @@ export const ORDER_DETAILS_LIST_ICON_SIZE = 16;
 export const ORDER_DETAILS_CTA_ICON_SIZE = 16;
 export const ORDER_DETAILS_PAY_ICON_SIZE = 20;
 export const ORDER_DETAILS_BACK_ICON_SIZE = 16;
+/** Sticky landing header (logo row + category nav) from Figma */
+export const ORDER_DETAILS_HEADER_HEIGHT_PX = 136;
+export const ORDER_DETAILS_SIDEBAR_STICKY_GAP_PX = 16;
+export const ORDER_DETAILS_SIDEBAR_STICKY_TOP_PX =
+  ORDER_DETAILS_HEADER_HEIGHT_PX + ORDER_DETAILS_SIDEBAR_STICKY_GAP_PX;
+export const ORDER_DETAILS_SIDEBAR_STICKY_TOP_CLASS = 'lg:top-[152px]';
 /** Figma: main column 1075px + sidebar 384px with 77px gutter */
 export const ORDER_DETAILS_COLUMN_GAP_CLASS = 'gap-6 lg:gap-[77px]';
 
 export const ORDER_DETAILS_PAGE_CLASS =
   'min-h-screen overflow-x-clip bg-[#f8fafc] font-inter text-brand-ink';
 export const ORDER_DETAILS_MAIN_CLASS =
-  'animate-page-enter mx-auto max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28';
+  'animate-page-enter mx-auto max-w-screen-2xl px-4 pb-24 pt-4 sm:px-6 sm:pt-5 lg:px-8 lg:pb-28 lg:pt-6';
 export const ORDER_DETAILS_BACK_LINK_CLASS =
-  'mb-5 inline-flex items-center gap-1 text-sm font-normal text-[#191c1f] transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
-export const ORDER_DETAILS_LAYOUT_CLASS =
-  `grid ${ORDER_DETAILS_COLUMN_GAP_CLASS} lg:grid-cols-[minmax(0,1fr)_384px] lg:items-start`;
+  'mb-4 inline-flex items-center gap-1 text-sm font-normal text-[#191c1f] transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const ORDER_DETAILS_LAYOUT_CLASS = `grid ${ORDER_DETAILS_COLUMN_GAP_CLASS} lg:grid-cols-[minmax(0,1fr)_384px] lg:items-start`;
 export const ORDER_DETAILS_STACK_CLASS = 'flex min-w-0 flex-col gap-4';
 export const ORDER_DETAILS_SIDEBAR_CLASS =
-  'flex min-w-0 flex-col gap-4 lg:sticky lg:top-28';
+  'flex min-w-0 flex-col gap-4 lg:sticky lg:top-[152px] lg:self-start';
 export const ORDER_DETAILS_SECTION_CLASS =
   'overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
 export const ORDER_DETAILS_SECTION_HEADER_CLASS =
@@ -42,8 +47,10 @@ export const ORDER_DETAILS_META_ROW_CLASS = 'flex items-start justify-between ga
 export const ORDER_DETAILS_META_ITEM_LEFT_CLASS = 'min-w-0';
 export const ORDER_DETAILS_META_ITEM_RIGHT_CLASS = 'shrink-0 text-right';
 export const ORDER_DETAILS_META_LABEL_CLASS = 'text-xs font-medium leading-4 text-[#90a1b9]';
-export const ORDER_DETAILS_META_VALUE_CLASS = 'pt-0.5 text-sm font-semibold leading-5 text-[#0f172b]';
-export const ORDER_DETAILS_META_HIGHLIGHT_CLASS = 'pt-0.5 text-sm font-semibold leading-5 text-[#f54900]';
+export const ORDER_DETAILS_META_VALUE_CLASS =
+  'pt-0.5 text-sm font-semibold leading-5 text-[#0f172b]';
+export const ORDER_DETAILS_META_HIGHLIGHT_CLASS =
+  'pt-0.5 text-sm font-semibold leading-5 text-[#f54900]';
 export const ORDER_DETAILS_TIMELINE_LIST_CLASS = 'pl-1 pt-4';
 export const ORDER_DETAILS_TIMELINE_STEP_CLASS = 'relative flex gap-4 pb-6 last:pb-0';
 export const ORDER_DETAILS_TIMELINE_COMPLETE_LINE_CLASS =
@@ -55,10 +62,14 @@ export const ORDER_DETAILS_TIMELINE_COMPLETE_DOT_CLASS =
 export const ORDER_DETAILS_TIMELINE_PENDING_DOT_CLASS =
   'relative z-[1] flex size-7 shrink-0 items-center justify-center rounded-full border-2 border-[#e2e8f0] bg-white';
 export const ORDER_DETAILS_TIMELINE_PENDING_INNER_DOT_CLASS = 'size-2 rounded-full bg-[#e2e8f0]';
-export const ORDER_DETAILS_TIMELINE_COMPLETE_TITLE_CLASS = 'text-sm font-semibold leading-5 text-[#0f172b]';
-export const ORDER_DETAILS_TIMELINE_COMPLETE_TIMESTAMP_CLASS = 'pt-0.5 text-xs leading-4 text-[#90a1b9]';
-export const ORDER_DETAILS_TIMELINE_COMPLETE_DESCRIPTION_CLASS = 'pt-1 text-xs leading-[19.5px] text-[#62748e]';
-export const ORDER_DETAILS_TIMELINE_PENDING_TEXT_CLASS = 'text-sm font-semibold leading-5 text-[#cad5e2]';
+export const ORDER_DETAILS_TIMELINE_COMPLETE_TITLE_CLASS =
+  'text-sm font-semibold leading-5 text-[#0f172b]';
+export const ORDER_DETAILS_TIMELINE_COMPLETE_TIMESTAMP_CLASS =
+  'pt-0.5 text-xs leading-4 text-[#90a1b9]';
+export const ORDER_DETAILS_TIMELINE_COMPLETE_DESCRIPTION_CLASS =
+  'pt-1 text-xs leading-[19.5px] text-[#62748e]';
+export const ORDER_DETAILS_TIMELINE_PENDING_TEXT_CLASS =
+  'text-sm font-semibold leading-5 text-[#cad5e2]';
 export const ORDER_DETAILS_TIMELINE_PENDING_DESCRIPTION_CLASS =
   'pt-1 text-xs leading-[19.5px] text-[#cad5e2]';
 export const ORDER_DETAILS_NOT_FOUND_CLASS =
@@ -72,7 +83,12 @@ export const ORDER_DETAILS_TIMELINE_STEPS = [
     description: 'Your booking request was received successfully.',
     state: 'complete',
   },
-  { id: 'material-paid', title: 'Material Paid', description: 'Payment confirmation and receipt generation.', state: 'pending' },
+  {
+    id: 'material-paid',
+    title: 'Material Paid',
+    description: 'Payment confirmation and receipt generation.',
+    state: 'pending',
+  },
   {
     id: 'technician',
     title: 'Technician Assigned',
@@ -85,7 +101,12 @@ export const ORDER_DETAILS_TIMELINE_STEPS = [
     description: 'Technician is on-site performing the service.',
     state: 'pending',
   },
-  { id: 'completed', title: 'Completed', description: 'Service completed and signed off.', state: 'pending' },
+  {
+    id: 'completed',
+    title: 'Completed',
+    description: 'Service completed and signed off.',
+    state: 'pending',
+  },
 ];
 
 export const ORDER_DETAILS_BY_ID = {

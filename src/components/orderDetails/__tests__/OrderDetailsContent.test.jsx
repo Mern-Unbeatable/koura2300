@@ -63,7 +63,9 @@ describe('OrderDetailsContent', () => {
     expect(screen.getByText('Package')).toBeInTheDocument();
     expect(screen.getByText('Premium')).toBeInTheDocument();
     expect(screen.getByText('Est. Duration')).toBeInTheDocument();
-    const bookingSummary = screen.getByRole('button', { name: /Booking Summary/i }).closest('section');
+    const bookingSummary = screen
+      .getByRole('button', { name: /Booking Summary/i })
+      .closest('section');
     expect(within(bookingSummary).getByText('Jan 22, 2024')).toHaveClass('text-[#f54900]');
   });
 
@@ -76,12 +78,8 @@ describe('OrderDetailsContent', () => {
     expect(screen.getByText('Technician Assigned')).toBeInTheDocument();
     expect(screen.getByText('Work In Progress')).toBeInTheDocument();
     expect(screen.getByText('Completed')).toBeInTheDocument();
-    expect(
-      screen.getByText('Your booking request was received successfully.'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('Payment confirmation and receipt generation.'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Your booking request was received successfully.')).toBeInTheDocument();
+    expect(screen.getByText('Payment confirmation and receipt generation.')).toBeInTheDocument();
     expect(screen.getByText('Best-matched technician will be assigned.')).toBeInTheDocument();
     expect(screen.getByText('Technician is on-site performing the service.')).toBeInTheDocument();
     expect(screen.getByText('Service completed and signed off.')).toBeInTheDocument();
@@ -132,6 +130,10 @@ describe('OrderDetailsContent', () => {
     const layout = screen.getByTestId('order-details-layout');
     expect(layout).toHaveClass('lg:grid-cols-[minmax(0,1fr)_384px]');
     expect(layout).toHaveClass('lg:gap-[77px]');
+
+    const sidebar = screen.getByLabelText('Order summary');
+    expect(sidebar).toHaveClass('lg:sticky');
+    expect(sidebar).toHaveClass('lg:top-[152px]');
   });
 
   it('collapses and expands accordion sections', async () => {

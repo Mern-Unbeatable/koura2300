@@ -42,14 +42,7 @@ const OrderDetailsNotFound = memo(() => (
 OrderDetailsNotFound.displayName = 'OrderDetailsNotFound';
 
 const OrderDetailsView = memo(
-  ({
-    order,
-    openSections,
-    sectionIds,
-    onToggleSection,
-    onPayMaterials,
-    onPayNow,
-  }) => {
+  ({ order, openSections, sectionIds, onToggleSection, onPayMaterials, onPayNow }) => {
     if (!order) {
       return <OrderDetailsNotFound />;
     }
