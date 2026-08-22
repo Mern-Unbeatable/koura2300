@@ -1,6 +1,6 @@
 export const CLOSETS_CONTENT = {
   seo: {
-    title: 'Professional Closet Services | Procleaning',
+    title: 'Professional Closet Services | Logoipsum',
     description:
       'Book reliable closet door, shelving, organization, lighting, and repair services.',
     keywords: [

@@ -127,8 +127,8 @@ const Sidebar = ({
       <div className="flex items-start justify-between px-5 pt-5 pb-4 border-b border-gray-100 shrink-0">
         <div>
           <img
-            src="/maktech_logo.png"
-            alt="Maktech"
+            src="/Logoipsum_logo.png"
+            alt="Logoipsum"
             width={120}
             height={32}
             fetchPriority="high"

@@ -1,6 +1,6 @@
 export const ORDERS_CONTENT = {
   seo: {
-    title: 'My Orders | Procleaning',
+    title: 'My Orders | Logoipsum',
     description: 'Track your bookings, material payments and project progress.',
     keywords: ['orders', 'bookings', 'home services'],
   },

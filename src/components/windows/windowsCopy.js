@@ -1,6 +1,6 @@
 export const WINDOWS_CONTENT = {
   seo: {
-    title: 'Professional Window Services | Procleaning',
+    title: 'Professional Window Services | Logoipsum',
     description:
       'Book reliable window installation, repair, screens, trim, caulking, sealing, and weatherproofing services.',
     keywords: [

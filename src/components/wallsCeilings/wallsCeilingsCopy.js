@@ -1,6 +1,6 @@
 export const WALLS_CEILINGS_CONTENT = {
   seo: {
-    title: 'Professional Walls & Ceilings Services | Procleaning',
+    title: 'Professional Walls & Ceilings Services | Logoipsum',
     description:
       'Book reliable painting, drywall, insulation, framing, trim, and wall and ceiling repair services.',
     keywords: [

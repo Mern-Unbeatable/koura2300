@@ -1,6 +1,6 @@
 export const GARAGE_CONTENT = {
   seo: {
-    title: 'Professional Garage Services | Procleaning',
+    title: 'Professional Garage Services | Logoipsum',
     description:
       'Book reliable garage door, storage, electrical, organization, and repair services.',
     keywords: [

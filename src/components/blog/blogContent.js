@@ -14,7 +14,7 @@ export const BLOG_CONTENT = {
     backLabel: 'Back to home',
   },
   seo: {
-    titleSuffix: 'Procleaning',
+    titleSuffix: 'Logoipsum',
     keywords: ['home services blog', 'home maintenance', 'plumbing tips', 'electrical safety'],
   },
 };

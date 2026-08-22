@@ -1,6 +1,6 @@
 export const ACCOUNT_CONTENT = {
   seo: {
-    title: 'Account Settings | Procleaning',
+    title: 'Account Settings | Logoipsum',
     description: 'Manage your profile details and update your account password.',
     keywords: ['account', 'profile', 'password', 'settings'],
   },

@@ -1,6 +1,6 @@
 export const FENCE_CONTENT = {
   seo: {
-    title: 'Professional Fence Services | Procleaning',
+    title: 'Professional Fence Services | Logoipsum',
     description:
       'Book reliable fence installation, repair, gate, staining, painting, and maintenance services.',
     keywords: [

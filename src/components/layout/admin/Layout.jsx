@@ -74,8 +74,8 @@ const Layout = () => {
             <Menu size={20} aria-hidden="true" />
           </button>
           <img
-            src="/maktech_logo.png"
-            alt="Maktech"
+            src="/Logoipsum_logo.png"
+            alt="Logoipsum"
             width={120}
             height={28}
             fetchPriority="high"

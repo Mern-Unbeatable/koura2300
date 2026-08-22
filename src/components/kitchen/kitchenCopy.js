@@ -1,6 +1,6 @@
 export const KITCHEN_CONTENT = {
   seo: {
-    title: 'Professional Kitchen Services | Procleaning',
+    title: 'Professional Kitchen Services | Logoipsum',
     description:
       'Book reliable kitchen sink, faucet, cabinet, countertop, tile, appliance, plumbing, electrical, and repair services.',
     keywords: [

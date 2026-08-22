@@ -1,6 +1,6 @@
 export const SECURITY_CONTENT = {
   seo: {
-    title: 'Professional Security Services | Procleaning',
+    title: 'Professional Security Services | Logoipsum',
     description:
       'Book reliable security camera, alarm, smart-home security, detector, and video doorbell services.',
     keywords: [

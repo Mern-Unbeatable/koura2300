@@ -1,6 +1,6 @@
 export const FLOORING_CONTENT = {
   seo: {
-    title: 'Professional Flooring Services | Procleaning',
+    title: 'Professional Flooring Services | Logoipsum',
     description:
       'Book reliable hardwood, laminate, vinyl, tile, carpet, floor repair, and trim services.',
     keywords: [

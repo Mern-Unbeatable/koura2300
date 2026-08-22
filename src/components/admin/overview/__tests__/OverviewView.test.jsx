@@ -55,7 +55,7 @@ describe('OverviewView', () => {
     ).toBeInTheDocument();
     expect(screen.getByText(OVERVIEW_COPY.revenueOverview.subtitle)).toBeInTheDocument();
     expect(screen.getByLabelText(OVERVIEW_COPY.revenueOverview.periodLabel)).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: OVERVIEW_COPY.chart.xAxisLabel })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: OVERVIEW_COPY.chart.chartImageLabel })).toBeInTheDocument();
   });
 
   it('renders popular categories with progress bars', () => {
@@ -159,7 +159,7 @@ describe('OverviewView', () => {
 
     expect(container.firstChild).toHaveClass('flex', 'flex-col');
     expect(screen.getByTestId('overview-stats-grid')).toHaveClass('xl:grid-cols-4');
-    expect(screen.getByTestId('overview-middle-grid')).toHaveClass('xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]');
+    expect(screen.getByTestId('overview-middle-grid')).toHaveClass('xl:grid-cols-[minmax(0,2.75fr)_minmax(0,0.85fr)]');
     expect(screen.getByTestId('overview-bottom-grid')).toHaveClass('lg:grid-cols-2');
   });
 

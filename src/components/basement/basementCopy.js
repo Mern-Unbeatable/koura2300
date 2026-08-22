@@ -1,6 +1,6 @@
 export const BASEMENT_CONTENT = {
   seo: {
-    title: 'Professional Basement Services | Procleaning',
+    title: 'Professional Basement Services | Logoipsum',
     description:
       'Book reliable sump pump, basement plumbing, waterproofing, weatherproofing, pest proofing, and repair services.',
     keywords: [

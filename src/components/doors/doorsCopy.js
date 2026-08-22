@@ -1,6 +1,6 @@
 export const DOORS_CONTENT = {
   seo: {
-    title: 'Professional Door Services | Procleaning',
+    title: 'Professional Door Services | Logoipsum',
     description:
       'Book reliable interior and exterior door, hardware, trim, screen door, and weatherproofing services.',
     keywords: [

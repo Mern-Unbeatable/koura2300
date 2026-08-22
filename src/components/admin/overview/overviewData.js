@@ -6,7 +6,7 @@ export const OVERVIEW_HEADER_SUBTITLE_CLASS =
 export const OVERVIEW_STATS_GRID_CLASS =
   'grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4';
 export const OVERVIEW_MIDDLE_GRID_CLASS =
-  'grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]';
+  'grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,2.75fr)_minmax(0,0.85fr)]';
 export const OVERVIEW_BOTTOM_GRID_CLASS = 'grid grid-cols-1 gap-6 lg:grid-cols-2';
 export const OVERVIEW_CARD_CLASS =
   'rounded-2xl border border-[#ececec] bg-white p-6 shadow-sm';
@@ -37,14 +37,27 @@ export const OVERVIEW_REVENUE_HEADER_CLASS =
   'flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between';
 export const OVERVIEW_REVENUE_PERIOD_WRAP_CLASS = 'relative w-full sm:w-auto sm:shrink-0';
 
-export const OVERVIEW_CHART_HEIGHT_PX = 276;
+export const OVERVIEW_CHART_LAYOUT = {
+  heightPx: 300,
+  monthLabelOffsetY: 18,
+  axisLabelClass: 'fill-[#9ca3af] text-xs sm:text-[13px]',
+  svgClass: 'block h-[300px] w-full',
+  padding: {
+    top: 20,
+    right: 14,
+    bottom: 32,
+    left: 44,
+  },
+};
+
+export const OVERVIEW_CHART_HEIGHT_PX = OVERVIEW_CHART_LAYOUT.heightPx;
 export const OVERVIEW_CHART_WIDTH = 1019;
 export const OVERVIEW_CHART_MAX_VALUE = 60000;
 export const OVERVIEW_CHART_Y_LABELS = ['$0k', '$15k', '$30k', '$45k', '$60k'];
 export const OVERVIEW_CHART_HIGHLIGHT_RADIUS = 6;
 export const OVERVIEW_CHART_HIGHLIGHT_BORDER = 4;
 export const OVERVIEW_CHART_GRID_OFFSET_Y = 16;
-export const OVERVIEW_CHART_WRAP_CLASS =
+export const OVERVIEW_CHART_CONTAINER_CLASS =
   'relative min-w-0 w-full overflow-hidden overscroll-contain';
 export const OVERVIEW_CHART_ZOOM_BADGE_CLASS =
   'pointer-events-none absolute bottom-2 right-2 rounded bg-white/90 px-2 py-0.5 text-xs font-medium text-[#6b7280] shadow-sm';
@@ -54,9 +67,9 @@ export const OVERVIEW_CHART_ZOOM = {
   step: 0.15,
   minVisibleMonths: 3,
 };
-export const OVERVIEW_CHART_SVG_CLASS = 'block h-[240px] w-full sm:h-[260px]';
+export const OVERVIEW_CHART_SVG_CLASS = OVERVIEW_CHART_LAYOUT.svgClass;
 export const OVERVIEW_CHART_PRESERVE_ASPECT = 'none';
-export const OVERVIEW_CHART_AXIS_LABEL_CLASS = 'fill-[#9ca3af] text-xs';
+export const OVERVIEW_CHART_AXIS_LABEL_CLASS = OVERVIEW_CHART_LAYOUT.axisLabelClass;
 export const OVERVIEW_CHART_COLORS = {
   line: '#fc6f32',
   grid: '#f3f4f6',
@@ -76,7 +89,7 @@ export const OVERVIEW_CHART_TOOLTIP = {
   borderRadius: 8,
   shadow: '0px 4px 16px rgba(50, 50, 71, 0.12)',
 };
-export const OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y = 18;
+export const OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y = OVERVIEW_CHART_LAYOUT.monthLabelOffsetY;
 
 export const OVERVIEW_AVATAR_WRAP_CLASS =
   'relative inline-flex size-9 shrink-0 overflow-visible';

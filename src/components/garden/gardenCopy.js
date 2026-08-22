@@ -1,6 +1,6 @@
 export const GARDEN_CONTENT = {
   seo: {
-    title: 'Professional Garden Services | Procleaning',
+    title: 'Professional Garden Services | Logoipsum',
     description:
       'Book reliable tree planting, garden maintenance, mulching, landscape, paver, and playground assembly services.',
     keywords: [

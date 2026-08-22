@@ -30,7 +30,7 @@ const RevenueChartTooltip = ({ point }) => {
       >
         <div
           xmlns="http://www.w3.org/1999/xhtml"
-          className="flex h-full flex-col items-center justify-center rounded-lg bg-white px-2 py-1.5 text-center shadow-[0px_4px_16px_rgba(50,50,71,0.12)] sm:px-3 sm:py-2"
+          className="flex h-full flex-col items-start justify-center rounded-lg bg-white px-[13px] py-[7px] text-left shadow-[0px_4px_16px_rgba(50,50,71,0.12)]"
         >
           <p
             className="text-[10px] leading-3 sm:text-xs"

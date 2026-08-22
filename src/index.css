@@ -138,6 +138,25 @@
   width: 4px;
 }
 
+.scrollbar-chart {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f3f4f6;
+}
+
+.scrollbar-chart::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollbar-chart::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 9999px;
+}
+
+.scrollbar-chart::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 9999px;
+}
+
 .scrollbar-light::-webkit-scrollbar-track {
   background: transparent;
 }

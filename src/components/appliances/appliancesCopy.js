@@ -1,6 +1,6 @@
 export const APPLIANCES_CONTENT = {
   seo: {
-    title: 'Professional Appliance Services | Procleaning',
+    title: 'Professional Appliance Services | Logoipsum',
     description:
       'Book reliable kitchen and laundry appliance, TV mounting, smart-home device, and appliance replacement services.',
     keywords: [

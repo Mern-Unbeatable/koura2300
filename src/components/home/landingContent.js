@@ -10,8 +10,8 @@ export const LANDING_CONTENT = {
     viewAll: 'View all',
   },
   header: {
-    homeLabel: 'Procleaning home',
-    logoAlt: 'Procleaning',
+    homeLabel: 'Logoipsum home',
+    logoAlt: 'Logoipsum',
     categoryLabel: 'Service category',
     allCategories: 'All Categories',
     searchLabel: 'Search services',
@@ -73,6 +73,6 @@ export const LANDING_CONTENT = {
     send: 'Send',
     emailError: 'Enter a valid email address.',
     success: 'Thank you for subscribing.',
-    copyright: '2024 “Procleaning” All Rights Reserved',
+    copyright: '2024 “Logoipsum” All Rights Reserved',
   },
 };

@@ -20,7 +20,7 @@ export const OVERVIEW_COPY = {
   },
   chart: {
     yAxisLabel: 'Revenue axis',
-    xAxisLabel: 'Months',
+    chartImageLabel: 'Revenue overview chart',
     highlightLabel: 'Highlighted revenue',
     zoomHint: 'Scroll over the chart to zoom in or out',
     zoomLevelLabel: 'Chart zoom level',

@@ -1,6 +1,6 @@
 export const DECK_CONTENT = {
   seo: {
-    title: 'Professional Deck Services | Procleaning',
+    title: 'Professional Deck Services | Logoipsum',
     description:
       'Book reliable deck repair, staining, sealing, railing, maintenance, and upgrade services.',
     keywords: ['deck services', 'deck repair', 'deck staining', 'deck railing installation'],

@@ -1,5 +1,5 @@
 export const APP_CONFIG = {
-  NAME: process.env.REACT_APP_NAME || 'Gairewele',
+  NAME: 'Logoipsum',
   VERSION: process.env.REACT_APP_VERSION || '1.0.0',
 };
 

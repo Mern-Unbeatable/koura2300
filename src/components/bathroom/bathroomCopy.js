@@ -1,6 +1,6 @@
 export const BATHROOM_CONTENT = {
   seo: {
-    title: 'Professional Bathroom Services | Procleaning',
+    title: 'Professional Bathroom Services | Logoipsum',
     description:
       'Book reliable toilet, bidet, vanity, shower, tile, plumbing, electrical, lighting, and bathroom repair services.',
     keywords: [

@@ -1,6 +1,6 @@
 export const LIGHTING_CONTENT = {
   seo: {
-    title: 'Professional Lighting Services | Procleaning',
+    title: 'Professional Lighting Services | Logoipsum',
     description:
       'Book reliable indoor and outdoor lighting installation, fixture, switch, smart-lighting, and repair services for your home.',
     keywords: ['lighting services', 'light installation', 'lighting repair', 'smart lighting'],
