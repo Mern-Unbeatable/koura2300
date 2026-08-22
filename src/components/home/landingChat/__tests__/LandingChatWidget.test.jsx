@@ -126,8 +126,6 @@ describe('LandingChatWidget', () => {
   it('renders the composer placeholder from Figma', () => {
     renderChatWidget();
 
-    expect(
-      screen.getByPlaceholderText(LANDING_CHAT_COPY.inputPlaceholder),
-    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(LANDING_CHAT_COPY.inputPlaceholder)).toBeInTheDocument();
   });
 });

@@ -5,6 +5,7 @@ import {
   LANDING_CHAT_PRODUCT_IMAGE_CLASS,
   LANDING_CHAT_PRODUCT_PRICE_CLASS,
   LANDING_CHAT_PRODUCT_TITLE_CLASS,
+  LANDING_CHAT_PRODUCTS_BUBBLE_CLASS,
   LANDING_CHAT_PRODUCTS_ROW_CLASS,
   LANDING_CHAT_TIME_CLASS,
 } from './landingChatData';
@@ -30,7 +31,7 @@ LandingChatProductCard.displayName = 'LandingChatProductCard';
 
 const LandingChatProductsMessage = memo(({ message }) => (
   <div className="flex justify-start">
-    <div className="max-w-full rounded-xl bg-white p-4 sm:max-w-[394px]">
+    <div className={LANDING_CHAT_PRODUCTS_BUBBLE_CLASS}>
       <div className={LANDING_CHAT_PRODUCTS_ROW_CLASS}>
         {message.products.map((product) => (
           <LandingChatProductCard key={product.id} product={product} />

@@ -25,16 +25,18 @@ export const LANDING_CHAT_INPUT_CLASS =
 export const LANDING_CHAT_SEND_BUTTON_CLASS =
   'flex size-[42px] shrink-0 items-center justify-center rounded border border-[#f59e0b] bg-[#f59e0b] p-0 text-white transition-colors hover:bg-[#df900a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] disabled:cursor-not-allowed disabled:opacity-40 [&_svg]:block';
 export const LANDING_CHAT_ASSISTANT_BUBBLE_CLASS =
-  'max-w-[85%] rounded-xl bg-white p-5 text-base text-[#3c3e45] sm:max-w-[359px]';
+  'w-fit max-w-[85%] rounded-xl bg-white p-5 text-base text-[#3c3e45] sm:max-w-[359px]';
 export const LANDING_CHAT_USER_BUBBLE_CLASS =
-  'max-w-[85%] rounded-xl bg-[#df900a] p-5 text-base text-white sm:max-w-[243px]';
+  'w-fit max-w-[85%] rounded-xl bg-[#df900a] p-5 text-base text-white sm:max-w-[243px]';
 export const LANDING_CHAT_TIME_CLASS = 'mt-2 text-sm text-[#898e99]';
 export const LANDING_CHAT_USER_TIME_CLASS = 'mt-2 text-sm text-white/80';
-export const LANDING_CHAT_PRODUCTS_BUBBLE_CLASS = 'max-w-full rounded-xl bg-white p-4 sm:max-w-[394px]';
-export const LANDING_CHAT_PRODUCTS_ROW_CLASS =
-  'flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
+export const LANDING_CHAT_PRODUCTS_BUBBLE_MAX_WIDTH_PX = 460;
+
+export const LANDING_CHAT_PRODUCTS_BUBBLE_CLASS =
+  'w-full max-w-[460px] rounded-xl bg-white p-4';
+export const LANDING_CHAT_PRODUCTS_ROW_CLASS = 'flex w-full gap-2';
 export const LANDING_CHAT_PRODUCT_CARD_CLASS =
-  'w-[114px] shrink-0 rounded-lg bg-white p-2.5 first:w-[122px]';
+  'min-w-0 flex-1 rounded-lg bg-white p-2.5';
 export const LANDING_CHAT_PRODUCT_IMAGE_CLASS = 'h-[74px] w-full rounded object-cover';
 export const LANDING_CHAT_PRODUCT_TITLE_CLASS = 'mt-1 text-[15px] leading-snug text-[#1f2933]';
 export const LANDING_CHAT_PRODUCT_PRICE_CLASS = 'mt-1 text-sm text-[#4c545c]';
