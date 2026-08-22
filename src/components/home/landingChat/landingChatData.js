@@ -7,6 +7,8 @@ export const LANDING_CHAT_SEND_BUTTON_SIZE_PX = 42;
 export const LANDING_CHAT_HEADER_ICON_SIZE = 24;
 export const LANDING_CHAT_CLOSE_ICON_SIZE = 24;
 export const LANDING_CHAT_SEND_ICON_SIZE = 18;
+export const LANDING_CHAT_INPUT_BORDER_COLOR = '#fad28f';
+export const LANDING_CHAT_INPUT_FOCUS_RING_COLOR = '#fbc86a';
 
 export const LANDING_CHAT_PANEL_CLASS =
   'fixed z-[60] flex flex-col overflow-hidden overscroll-y-contain bg-[#fef5e7] shadow-[0px_36px_100.2px_0px_rgba(0,0,0,0.25)] max-[767px]:bottom-0 max-[767px]:left-0 max-[767px]:right-0 max-[767px]:top-28 max-[767px]:rounded-none min-[768px]:bottom-4 min-[768px]:right-4 min-[768px]:top-36 min-[768px]:left-auto min-[768px]:h-auto min-[768px]:w-[570px] min-[768px]:max-w-[calc(100vw-2rem)] min-[768px]:rounded-2xl min-[1020px]:right-8';
@@ -19,7 +21,7 @@ export const LANDING_CHAT_COMPOSER_WRAP_CLASS =
   'shrink-0 border-t border-[#e8eaed] px-4 py-5 sm:px-6';
 export const LANDING_CHAT_COMPOSER_ROW_CLASS = 'flex items-center gap-2';
 export const LANDING_CHAT_INPUT_CLASS =
-  'h-[42px] min-w-0 flex-1 rounded border border-[#f59e0b] px-3 py-2 text-sm text-[#3c3e45] placeholder:text-[#fad28f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b]';
+  'h-[42px] min-w-0 flex-1 rounded border border-[#fad28f] px-3 py-2 text-sm text-[#3c3e45] placeholder:text-[#fad28f] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fbc86a]';
 export const LANDING_CHAT_SEND_BUTTON_CLASS =
   'flex size-[42px] shrink-0 items-center justify-center rounded border border-[#f59e0b] bg-[#f59e0b] p-0 text-white transition-colors hover:bg-[#df900a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] disabled:cursor-not-allowed disabled:opacity-40 [&_svg]:block';
 export const LANDING_CHAT_ASSISTANT_BUBBLE_CLASS =
