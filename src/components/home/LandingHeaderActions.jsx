@@ -5,7 +5,8 @@ import { ROUTES } from '../../config';
 import { LANDING_CONTENT } from './landingContent';
 
 const ACTION_ICON_SIZE = 20;
-const ACTION_CLASS = 'flex w-14 flex-col items-center gap-1 text-xs leading-none';
+const ACTION_CLASS =
+  'flex w-14 cursor-pointer flex-col items-center gap-1 text-xs leading-none';
 const ACTION_ACTIVE_CLASS = `${ACTION_CLASS} text-brand-orange`;
 
 const LandingHeaderActions = memo(({ isChatActive = false, onChatClick }) => {

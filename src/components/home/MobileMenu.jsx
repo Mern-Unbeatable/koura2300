@@ -9,7 +9,7 @@ import { LANDING_ASSET_PATH } from './landingData';
 const ACTION_ICON_SIZE = 22;
 const CLOSE_ICON_SIZE = 24;
 const ACTION_TILE_CLASS =
-  'flex flex-col items-center justify-center gap-2 rounded-lg bg-white/5 py-4 text-xs font-medium transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg bg-white/5 py-4 text-xs font-medium transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
   if (!isOpen) {
