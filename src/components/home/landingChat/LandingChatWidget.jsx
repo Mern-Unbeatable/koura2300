@@ -1,6 +1,6 @@
 import React, { memo, useRef } from 'react';
 import { Bot, Send, X } from 'lucide-react';
-import usePreventScrollChaining from '../../../hooks/usePreventScrollChaining';
+import useLandingChatScrollIsolation from '../../../hooks/useLandingChatScrollIsolation';
 import { LANDING_CHAT_COPY } from './landingChatCopy';
 import {
   LANDING_CHAT_ASSISTANT_BUBBLE_CLASS,
@@ -96,11 +96,13 @@ const LandingChatWidget = memo(
     onSend,
     onKeyDown,
   }) => {
+    const panelRef = useRef(null);
     const messagesRef = useRef(null);
-    usePreventScrollChaining(messagesRef);
+    useLandingChatScrollIsolation(panelRef, messagesRef);
 
     return (
       <section
+        ref={panelRef}
         role="region"
         aria-label={LANDING_CHAT_COPY.regionLabel}
         className={LANDING_CHAT_PANEL_CLASS}
