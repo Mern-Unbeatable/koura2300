@@ -129,7 +129,7 @@ const OrderCardPayment = memo(({ order, labels }) => (
 OrderCardPayment.displayName = 'OrderCardPayment';
 
 const OrderCardActions = memo(
-  ({ status, actions, onViewDetails, onPayNow, onCancelBooking, onDownload }) => {
+  ({ order, status, actions, onViewDetails, onPayNow, onCancelBooking, onDownload }) => {
     const actionKeys = getOrderActionsForStatus(status);
     const actionCount = actionKeys.length;
     const rowClass = getOrderActionsRowClass(actionCount);
@@ -140,7 +140,11 @@ const OrderCardActions = memo(
     return (
       <div className={rowClass}>
         {actionKeys.includes(ORDER_ACTION.VIEW_DETAILS) ? (
-          <button type="button" onClick={onViewDetails} className={primaryClass}>
+          <button
+            type="button"
+            onClick={() => onViewDetails(order)}
+            className={primaryClass}
+          >
             {actions.viewDetails}
           </button>
         ) : null}
@@ -186,6 +190,7 @@ const OrderCard = memo(
         <OrderCardMeta order={order} labels={labels} />
         <OrderCardPayment order={order} labels={labels} />
         <OrderCardActions
+          order={order}
           status={order.status}
           actions={actions}
           onViewDetails={onViewDetails}

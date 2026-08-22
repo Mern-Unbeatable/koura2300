@@ -45,7 +45,7 @@ describe('OrdersContent', () => {
     expect(screen.getByText('Upcoming Appt.')).toBeInTheDocument();
     // Active = Pending Review + Payment Required + Technician + In Progress
     expect(screen.getByText('Active Orders').previousElementSibling).toHaveTextContent('4');
-    // Upcoming = active statuses with appointment after today (Aug 20, 2026)
+    // Upcoming = active statuses with appointment after today
     expect(screen.getByText('Upcoming Appt.').previousElementSibling).toHaveTextContent('3');
     expect(screen.getByText('Pending Payment').previousElementSibling).toHaveTextContent('1');
     expect(

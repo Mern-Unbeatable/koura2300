@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { ORDERS_CONTENT } from '../components/orders/ordersCopy';
 import {
   ORDER_FILTER,
@@ -8,8 +9,10 @@ import {
   filterOrders,
   formatOrderCount,
 } from '../components/orders/ordersData';
+import { buildOrderDetailsRoute } from '../config';
 
 const useOrders = (orders = ORDER_ITEMS) => {
+  const navigate = useNavigate();
   const [selectedFilter, setSelectedFilter] = useState(ORDER_FILTER.ALL);
 
   const summary = useMemo(() => buildOrderSummary(orders), [orders]);
@@ -27,9 +30,12 @@ const useOrders = (orders = ORDER_ITEMS) => {
     setSelectedFilter(filterId);
   }, []);
 
-  const handleViewDetails = useCallback(() => {
-    toast.success(ORDERS_CONTENT.toasts.viewDetails);
-  }, []);
+  const handleViewDetails = useCallback(
+    (order) => {
+      navigate(buildOrderDetailsRoute(order.id));
+    },
+    [navigate],
+  );
 
   const handlePayNow = useCallback(() => {
     toast.success(ORDERS_CONTENT.toasts.payNow);

@@ -30,6 +30,7 @@ export const ROUTES = {
   LOGIN: '/login',
   CHECKOUT: '/checkout',
   ORDERS: '/orders',
+  ORDER_DETAILS: '/orders/:orderId',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
   ADMIN_EMAILS: '/admin/emails',
@@ -48,6 +49,8 @@ export const SERVICE_DETAILS_CATEGORY_PARAM = 'category';
 export const CATALOG_ALL_CATEGORY = 'All';
 
 export const buildBlogDetailsRoute = (slug) => `/blog/${slug}`;
+
+export const buildOrderDetailsRoute = (orderId) => `/orders/${orderId}`;
 
 export const buildServiceDetailsRoute = (
   serviceId,

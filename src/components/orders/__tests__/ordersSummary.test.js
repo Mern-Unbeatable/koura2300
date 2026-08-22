@@ -17,7 +17,7 @@ describe('buildOrderSummary', () => {
   it('counts Upcoming Appt. only for active statuses with future appointments', () => {
     const summary = buildOrderSummary(ORDER_ITEMS, today);
 
-    // Aug 22, Aug 22, Aug 25 — not Aug 18 (In Progress)
+    // Sep 05, Sep 05, Sep 10 — not Aug 18 (In Progress)
     expect(summary.upcoming).toBe(3);
   });
 
