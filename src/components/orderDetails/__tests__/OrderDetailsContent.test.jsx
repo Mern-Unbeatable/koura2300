@@ -53,6 +53,7 @@ describe('OrderDetailsContent', () => {
     renderOrderDetails();
 
     expect(screen.getByRole('heading', { name: 'Booking Summary' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Booking Summary/i })).toBeInTheDocument();
     expect(screen.getByText('Booking Date')).toBeInTheDocument();
     expect(screen.getByText('Appointment Date')).toBeInTheDocument();
     expect(screen.getByText('Appointment Time')).toBeInTheDocument();
@@ -62,6 +63,8 @@ describe('OrderDetailsContent', () => {
     expect(screen.getByText('Package')).toBeInTheDocument();
     expect(screen.getByText('Premium')).toBeInTheDocument();
     expect(screen.getByText('Est. Duration')).toBeInTheDocument();
+    const bookingSummary = screen.getByRole('button', { name: /Booking Summary/i }).closest('section');
+    expect(within(bookingSummary).getByText('Jan 22, 2024')).toHaveClass('text-[#f54900]');
   });
 
   it('renders the order timeline steps', () => {
@@ -76,6 +79,12 @@ describe('OrderDetailsContent', () => {
     expect(
       screen.getByText('Your booking request was received successfully.'),
     ).toBeInTheDocument();
+    expect(
+      screen.getByText('Payment confirmation and receipt generation.'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Best-matched technician will be assigned.')).toBeInTheDocument();
+    expect(screen.getByText('Technician is on-site performing the service.')).toBeInTheDocument();
+    expect(screen.getByText('Service completed and signed off.')).toBeInTheDocument();
   });
 
   it('renders service information with inclusions and exclusions', () => {

@@ -1,8 +1,23 @@
 import React, { memo } from 'react';
-import { Check, History } from 'lucide-react';
 import OrderDetailsSection from './OrderDetailsSection';
 import { ORDER_DETAILS_CONTENT } from './orderDetailsCopy';
-import { ORDER_DETAILS_TIMELINE_ICON_SIZE } from './orderDetailsData';
+import {
+  ORDER_DETAILS_TIMELINE_CHECK_ICON,
+  ORDER_DETAILS_TIMELINE_COMPLETE_DESCRIPTION_CLASS,
+  ORDER_DETAILS_TIMELINE_COMPLETE_DOT_CLASS,
+  ORDER_DETAILS_TIMELINE_COMPLETE_LINE_CLASS,
+  ORDER_DETAILS_TIMELINE_COMPLETE_TIMESTAMP_CLASS,
+  ORDER_DETAILS_TIMELINE_COMPLETE_TITLE_CLASS,
+  ORDER_DETAILS_TIMELINE_HEADER_ICON,
+  ORDER_DETAILS_TIMELINE_ICON_SIZE,
+  ORDER_DETAILS_TIMELINE_LIST_CLASS,
+  ORDER_DETAILS_TIMELINE_PENDING_DESCRIPTION_CLASS,
+  ORDER_DETAILS_TIMELINE_PENDING_DOT_CLASS,
+  ORDER_DETAILS_TIMELINE_PENDING_INNER_DOT_CLASS,
+  ORDER_DETAILS_TIMELINE_PENDING_LINE_CLASS,
+  ORDER_DETAILS_TIMELINE_PENDING_TEXT_CLASS,
+  ORDER_DETAILS_TIMELINE_STEP_CLASS,
+} from './orderDetailsData';
 
 const { sections } = ORDER_DETAILS_CONTENT;
 
@@ -10,33 +25,59 @@ const TimelineStep = memo(({ step, isLast }) => {
   const isComplete = step.state === 'complete';
 
   return (
-    <li className="relative flex gap-4 pb-6 last:pb-0">
+    <li className={ORDER_DETAILS_TIMELINE_STEP_CLASS}>
       {!isLast ? (
         <span
-          className={`absolute left-[13px] top-7 h-[calc(100%-1.75rem)] w-px ${
-            isComplete ? 'bg-[#ffd6a8]' : 'bg-[#e2e8f0]'
-          }`}
+          className={
+            isComplete
+              ? ORDER_DETAILS_TIMELINE_COMPLETE_LINE_CLASS
+              : ORDER_DETAILS_TIMELINE_PENDING_LINE_CLASS
+          }
           aria-hidden="true"
         />
       ) : null}
       <span
-        className={`relative z-[1] flex size-7 shrink-0 items-center justify-center rounded-full ${
-          isComplete ? 'bg-[#ff6900] text-white' : 'border-2 border-[#e2e8f0] bg-white'
-        }`}
+        className={
+          isComplete
+            ? ORDER_DETAILS_TIMELINE_COMPLETE_DOT_CLASS
+            : ORDER_DETAILS_TIMELINE_PENDING_DOT_CLASS
+        }
       >
         {isComplete ? (
-          <Check size={ORDER_DETAILS_TIMELINE_ICON_SIZE} aria-hidden="true" />
+          <img
+            src={ORDER_DETAILS_TIMELINE_CHECK_ICON}
+            alt=""
+            width={ORDER_DETAILS_TIMELINE_ICON_SIZE}
+            height={ORDER_DETAILS_TIMELINE_ICON_SIZE}
+            aria-hidden="true"
+          />
         ) : (
-          <span className="size-2 rounded-full bg-[#cbd5e1]" />
+          <span className={ORDER_DETAILS_TIMELINE_PENDING_INNER_DOT_CLASS} aria-hidden="true" />
         )}
       </span>
       <div className="min-w-0 pt-0.5">
-        <p className="text-sm font-semibold text-[#0f172b]">{step.title}</p>
+        <p
+          className={
+            isComplete
+              ? ORDER_DETAILS_TIMELINE_COMPLETE_TITLE_CLASS
+              : ORDER_DETAILS_TIMELINE_PENDING_TEXT_CLASS
+          }
+        >
+          {step.title}
+        </p>
         {step.timestamp ? (
-          <p className="mt-0.5 text-xs text-[#90a1b9]">{step.timestamp}</p>
+          <p className={ORDER_DETAILS_TIMELINE_COMPLETE_TIMESTAMP_CLASS}>{step.timestamp}</p>
         ) : null}
         {step.description ? (
-          <p className="mt-1 text-xs leading-5 text-[#62748e]">{step.description}</p>
+          <p
+            className={
+              isComplete
+                ? ORDER_DETAILS_TIMELINE_COMPLETE_DESCRIPTION_CLASS
+                : ORDER_DETAILS_TIMELINE_PENDING_DESCRIPTION_CLASS
+            }
+          >
+            {step.description}
+          </p>
         ) : null}
       </div>
     </li>
@@ -49,11 +90,11 @@ const OrderDetailsTimeline = memo(({ timeline, isOpen, sectionId, onToggle }) =>
   <OrderDetailsSection
     id={sectionId}
     title={sections.timeline}
-    icon={History}
+    iconSrc={ORDER_DETAILS_TIMELINE_HEADER_ICON}
     isOpen={isOpen}
     onToggle={onToggle}
   >
-    <ol className="pl-1">
+    <ol className={ORDER_DETAILS_TIMELINE_LIST_CLASS}>
       {timeline.map((step, index) => (
         <TimelineStep key={step.id} step={step} isLast={index === timeline.length - 1} />
       ))}

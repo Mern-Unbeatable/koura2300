@@ -7,6 +7,11 @@ import {
 } from '../orders/ordersData';
 
 export const ORDER_DETAILS_SAMPLE_ID = 'ord-2024-001';
+export const ORDER_DETAILS_ASSET_PATH = '/assets/order-details';
+export const ORDER_DETAILS_CALENDAR_ICON = `${ORDER_DETAILS_ASSET_PATH}/calendar-icon.svg`;
+export const ORDER_DETAILS_TIMELINE_HEADER_ICON = `${ORDER_DETAILS_ASSET_PATH}/timeline-icon.svg`;
+export const ORDER_DETAILS_SECTION_CHEVRON_ICON = `${ORDER_DETAILS_ASSET_PATH}/chevron-icon.svg`;
+export const ORDER_DETAILS_TIMELINE_CHECK_ICON = `${ORDER_DETAILS_ASSET_PATH}/timeline-check-icon.svg`;
 export const ORDER_DETAILS_SECTION_ICON_SIZE = 16;
 export const ORDER_DETAILS_TIMELINE_ICON_SIZE = 14;
 export const ORDER_DETAILS_LIST_ICON_SIZE = 16;
@@ -31,12 +36,31 @@ export const ORDER_DETAILS_SECTION_CLASS =
   'overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
 export const ORDER_DETAILS_SECTION_HEADER_CLASS =
   'flex w-full cursor-pointer items-center justify-between px-5 py-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-orange';
-export const ORDER_DETAILS_SECTION_BODY_CLASS = 'border-t border-[#f8fafc] px-5 pb-5 pt-4';
-export const ORDER_DETAILS_META_ROW_CLASS =
-  'flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between';
-export const ORDER_DETAILS_META_LABEL_CLASS = 'text-xs font-medium text-[#90a1b9]';
-export const ORDER_DETAILS_META_VALUE_CLASS = 'mt-0.5 text-sm font-semibold text-[#0f172b]';
-export const ORDER_DETAILS_META_HIGHLIGHT_CLASS = 'mt-0.5 text-sm font-semibold text-[#f54900]';
+export const ORDER_DETAILS_SECTION_BODY_CLASS = 'border-t border-[#f8fafc] px-5 pb-5 pt-px';
+export const ORDER_DETAILS_META_STACK_CLASS = 'flex flex-col gap-[14px] pt-4';
+export const ORDER_DETAILS_META_ROW_CLASS = 'flex items-start justify-between gap-4';
+export const ORDER_DETAILS_META_ITEM_LEFT_CLASS = 'min-w-0';
+export const ORDER_DETAILS_META_ITEM_RIGHT_CLASS = 'shrink-0 text-right';
+export const ORDER_DETAILS_META_LABEL_CLASS = 'text-xs font-medium leading-4 text-[#90a1b9]';
+export const ORDER_DETAILS_META_VALUE_CLASS = 'pt-0.5 text-sm font-semibold leading-5 text-[#0f172b]';
+export const ORDER_DETAILS_META_HIGHLIGHT_CLASS = 'pt-0.5 text-sm font-semibold leading-5 text-[#f54900]';
+export const ORDER_DETAILS_TIMELINE_LIST_CLASS = 'pl-1 pt-4';
+export const ORDER_DETAILS_TIMELINE_STEP_CLASS = 'relative flex gap-4 pb-6 last:pb-0';
+export const ORDER_DETAILS_TIMELINE_COMPLETE_LINE_CLASS =
+  'absolute left-[13px] top-7 h-[60px] w-px bg-[#ffd6a8]';
+export const ORDER_DETAILS_TIMELINE_PENDING_LINE_CLASS =
+  'absolute left-[13px] top-7 h-[42px] w-px bg-[#f1f5f9]';
+export const ORDER_DETAILS_TIMELINE_COMPLETE_DOT_CLASS =
+  'relative z-[1] flex size-7 shrink-0 items-center justify-center rounded-full bg-[#ff6900]';
+export const ORDER_DETAILS_TIMELINE_PENDING_DOT_CLASS =
+  'relative z-[1] flex size-7 shrink-0 items-center justify-center rounded-full border-2 border-[#e2e8f0] bg-white';
+export const ORDER_DETAILS_TIMELINE_PENDING_INNER_DOT_CLASS = 'size-2 rounded-full bg-[#e2e8f0]';
+export const ORDER_DETAILS_TIMELINE_COMPLETE_TITLE_CLASS = 'text-sm font-semibold leading-5 text-[#0f172b]';
+export const ORDER_DETAILS_TIMELINE_COMPLETE_TIMESTAMP_CLASS = 'pt-0.5 text-xs leading-4 text-[#90a1b9]';
+export const ORDER_DETAILS_TIMELINE_COMPLETE_DESCRIPTION_CLASS = 'pt-1 text-xs leading-[19.5px] text-[#62748e]';
+export const ORDER_DETAILS_TIMELINE_PENDING_TEXT_CLASS = 'text-sm font-semibold leading-5 text-[#cad5e2]';
+export const ORDER_DETAILS_TIMELINE_PENDING_DESCRIPTION_CLASS =
+  'pt-1 text-xs leading-[19.5px] text-[#cad5e2]';
 export const ORDER_DETAILS_NOT_FOUND_CLASS =
   'rounded-2xl border border-[#e2e8f0] bg-white p-10 text-center';
 
@@ -48,10 +72,20 @@ export const ORDER_DETAILS_TIMELINE_STEPS = [
     description: 'Your booking request was received successfully.',
     state: 'complete',
   },
-  { id: 'material-paid', title: 'Material Paid', state: 'pending' },
-  { id: 'technician', title: 'Technician Assigned', state: 'pending' },
-  { id: 'in-progress', title: 'Work In Progress', state: 'pending' },
-  { id: 'completed', title: 'Completed', state: 'pending' },
+  { id: 'material-paid', title: 'Material Paid', description: 'Payment confirmation and receipt generation.', state: 'pending' },
+  {
+    id: 'technician',
+    title: 'Technician Assigned',
+    description: 'Best-matched technician will be assigned.',
+    state: 'pending',
+  },
+  {
+    id: 'in-progress',
+    title: 'Work In Progress',
+    description: 'Technician is on-site performing the service.',
+    state: 'pending',
+  },
+  { id: 'completed', title: 'Completed', description: 'Service completed and signed off.', state: 'pending' },
 ];
 
 export const ORDER_DETAILS_BY_ID = {
