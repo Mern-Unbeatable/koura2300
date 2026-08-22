@@ -7,6 +7,8 @@ import {
   OVERVIEW_CHART_MAX_VALUE,
   OVERVIEW_CHART_MIN_WIDTH_CLASS,
   OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y,
+  OVERVIEW_CHART_PRESERVE_ASPECT,
+  OVERVIEW_CHART_SVG_CLASS,
   OVERVIEW_CHART_WIDTH,
   OVERVIEW_CHART_Y_LABELS,
 } from './overviewData';
@@ -57,7 +59,7 @@ const RevenueChartMonthLabels = ({ coordinates }) => (
       <text
         key={point.month}
         x={point.x}
-        y={OVERVIEW_CHART_HEIGHT_PX - OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y}
+        y={point.baselineY + OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y}
         textAnchor="middle"
         className={OVERVIEW_CHART_AXIS_LABEL_CLASS}
       >
@@ -86,13 +88,13 @@ const RevenueChart = ({ months, chartCopy }) => {
   const plotHeight = getChartPlotHeight(OVERVIEW_CHART_HEIGHT_PX);
 
   return (
-    <div className="w-full overflow-x-auto">
+    <div className={`w-full ${OVERVIEW_CHART_MIN_WIDTH_CLASS}`}>
       <svg
         role="img"
         aria-label={chartCopy.xAxisLabel}
         viewBox={`0 0 ${OVERVIEW_CHART_WIDTH} ${OVERVIEW_CHART_HEIGHT_PX}`}
-        className={`h-[300px] w-full ${OVERVIEW_CHART_MIN_WIDTH_CLASS}`}
-        preserveAspectRatio="xMidYMid meet"
+        className={OVERVIEW_CHART_SVG_CLASS}
+        preserveAspectRatio={OVERVIEW_CHART_PRESERVE_ASPECT}
       >
         <title>{chartCopy.xAxisLabel}</title>
         <defs>

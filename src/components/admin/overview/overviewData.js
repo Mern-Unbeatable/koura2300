@@ -34,14 +34,16 @@ export const OVERVIEW_PERIOD_SELECT_CLASS =
 export const OVERVIEW_REVENUE_CARD_CLASS = `${OVERVIEW_CARD_CLASS} flex min-w-0 flex-col gap-6`;
 export const OVERVIEW_REVENUE_HEADER_CLASS = 'flex items-center justify-between gap-3';
 
-export const OVERVIEW_CHART_HEIGHT_PX = 300;
+export const OVERVIEW_CHART_HEIGHT_PX = 268;
 export const OVERVIEW_CHART_WIDTH = 1019;
 export const OVERVIEW_CHART_MAX_VALUE = 60000;
 export const OVERVIEW_CHART_Y_LABELS = ['$0k', '$15k', '$30k', '$45k', '$60k'];
 export const OVERVIEW_CHART_HIGHLIGHT_RADIUS = 6;
 export const OVERVIEW_CHART_HIGHLIGHT_BORDER = 4;
 export const OVERVIEW_CHART_GRID_OFFSET_Y = 16;
-export const OVERVIEW_CHART_MIN_WIDTH_CLASS = 'min-w-[320px]';
+export const OVERVIEW_CHART_MIN_WIDTH_CLASS = 'min-w-[280px]';
+export const OVERVIEW_CHART_SVG_CLASS = 'block h-auto w-full max-h-[300px]';
+export const OVERVIEW_CHART_PRESERVE_ASPECT = 'xMinYMin meet';
 export const OVERVIEW_CHART_AXIS_LABEL_CLASS = 'fill-[#9ca3af] text-xs';
 export const OVERVIEW_CHART_COLORS = {
   line: '#fc6f32',
@@ -62,7 +64,12 @@ export const OVERVIEW_CHART_TOOLTIP = {
   borderRadius: 8,
   shadow: '0px 4px 16px rgba(50, 50, 71, 0.12)',
 };
-export const OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y = 12;
+export const OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y = 16;
+
+export const OVERVIEW_AVATAR_WRAP_CLASS =
+  'relative inline-flex size-9 shrink-0 overflow-visible';
+export const OVERVIEW_AVATAR_BADGE_CLASS =
+  'flex size-full items-center justify-center rounded-full bg-gradient-to-br from-[rgba(252,111,50,0.2)] to-[rgba(50,191,252,0.2)] text-sm font-bold text-brand-orange';
 export const OVERVIEW_CHART_HIGHLIGHT_SHADOW =
   '0px 2.667px 2.667px 0px rgba(50,50,71,0.06), 0px 2.667px 5.333px 0px rgba(50,50,71,0.06)';
 
@@ -74,15 +81,14 @@ export const OVERVIEW_CATEGORY_HEADER_CLASS = 'flex items-center justify-between
 export const OVERVIEW_CATEGORY_NAME_CLASS = 'text-sm font-medium leading-5 text-[#1a1a2e]';
 export const OVERVIEW_CATEGORY_VALUE_CLASS = 'text-sm leading-5 text-[#6b7280]';
 
-export const OVERVIEW_AVATAR_BADGE_CLASS =
-  'flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[rgba(252,111,50,0.2)] to-[rgba(50,191,252,0.2)] text-sm font-bold text-brand-orange';
 export const OVERVIEW_LIST_ITEM_CLASS =
   'flex gap-3 border-b border-[rgba(236,236,236,0.5)] pb-4 last:border-b-0 last:pb-0';
 export const OVERVIEW_LIST_NAME_CLASS = 'text-sm font-semibold leading-5 text-[#1a1a2e]';
 export const OVERVIEW_LIST_BODY_CLASS = 'text-sm leading-5 text-[#6b7280]';
 export const OVERVIEW_LIST_TIME_CLASS = 'text-xs leading-4 text-[#6b7280]';
 export const OVERVIEW_ONLINE_DOT_CLASS =
-  'absolute -right-0.5 -bottom-0.5 size-3 rounded-full border-2 border-white bg-[#00c950]';
+  'pointer-events-none absolute bottom-0 right-0 z-10 size-3 translate-x-1/4 translate-y-1/4 rounded-full border-2 border-white bg-[#00c950]';
+export const OVERVIEW_MESSAGE_AVATAR_WRAP_CLASS = 'shrink-0 self-start';
 
 export const OVERVIEW_PERIOD_OPTIONS = [
   { id: 'this-year', label: 'This year' },

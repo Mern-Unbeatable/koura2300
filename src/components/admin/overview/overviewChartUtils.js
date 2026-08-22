@@ -1,7 +1,7 @@
 export const OVERVIEW_CHART_PADDING = {
   top: 16,
   right: 16,
-  bottom: 40,
+  bottom: 24,
   left: 48,
 };
 
