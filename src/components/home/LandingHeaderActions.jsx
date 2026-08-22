@@ -12,10 +12,15 @@ const ACTION_ACTIVE_CLASS = `${ACTION_CLASS} text-brand-orange`;
 const LandingHeaderActions = memo(({ isChatActive = false, onChatClick }) => {
   const { pathname } = useLocation();
   const isOrdersActive = pathname === ROUTES.ORDERS;
+  const isAccountActive = pathname === ROUTES.ACCOUNT;
 
   return (
     <div className="hidden shrink-0 items-center lg:flex">
-      <Link to={ROUTES.LOGIN} className={ACTION_CLASS}>
+      <Link
+        to={ROUTES.ACCOUNT}
+        aria-current={isAccountActive ? 'page' : undefined}
+        className={isAccountActive ? ACTION_ACTIVE_CLASS : ACTION_CLASS}
+      >
         <UserRound size={ACTION_ICON_SIZE} aria-hidden="true" />
         {LANDING_CONTENT.header.account}
       </Link>

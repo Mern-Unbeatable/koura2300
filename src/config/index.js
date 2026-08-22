@@ -31,6 +31,7 @@ export const ROUTES = {
   CHECKOUT: '/checkout',
   ORDERS: '/orders',
   ORDER_DETAILS: '/orders/:orderId',
+  ACCOUNT: '/account',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
   ADMIN_EMAILS: '/admin/emails',

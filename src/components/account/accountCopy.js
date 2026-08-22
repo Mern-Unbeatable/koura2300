@@ -1,0 +1,43 @@
+export const ACCOUNT_CONTENT = {
+  seo: {
+    title: 'Account Settings | Procleaning',
+    description: 'Manage your profile details and update your account password.',
+    keywords: ['account', 'profile', 'password', 'settings'],
+  },
+  accountSetting: {
+    regionLabel: 'Account settings',
+    title: 'Account Setting',
+    firstNameLabel: 'First name',
+    lastNameLabel: 'Last name',
+    emailLabel: 'Email',
+    phoneLabel: 'Phone Number',
+    addressLabel: 'Address',
+    saveButton: 'Save Changes',
+    avatarLabel: 'Profile photo',
+    changePhotoLabel: 'Change profile photo',
+  },
+  changePassword: {
+    regionLabel: 'Change password',
+    title: 'Change Password',
+    currentPasswordLabel: 'Current Password',
+    newPasswordLabel: 'New Password',
+    confirmPasswordLabel: 'Confirm Password',
+    newPasswordPlaceholder: '8+ characters',
+    submitButton: 'Change Password',
+    toggleVisibilityLabel: 'Toggle password visibility',
+  },
+  toasts: {
+    profileSaved: 'Account settings saved successfully.',
+    passwordChanged: 'Password updated successfully.',
+    passwordMismatch: 'New password and confirmation do not match.',
+    passwordTooShort: 'Password must be at least 8 characters.',
+    currentPasswordRequired: 'Current password is required.',
+  },
+  validation: {
+    firstNameRequired: 'First name is required.',
+    lastNameRequired: 'Last name is required.',
+    emailRequired: 'Email is required.',
+    phoneRequired: 'Phone number is required.',
+    addressRequired: 'Address is required.',
+  },
+};

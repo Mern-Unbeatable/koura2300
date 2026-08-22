@@ -41,6 +41,7 @@ const Login = lazy(() => import('../pages/Login'));
 const Checkout = lazy(() => import('../pages/Checkout'));
 const OrdersPage = lazy(() => import('../pages/Orders'));
 const OrderDetailsPage = lazy(() => import('../pages/OrderDetails'));
+const AccountPage = lazy(() => import('../pages/Account'));
 
 // Admin pages — each lazy-loaded so they only download when visited
 const Dashboard = lazy(() => import('../pages/admin/Dashboard'));
@@ -114,6 +115,15 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={<PageLoader />}>
             <OrderDetailsPage />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={ROUTES.ACCOUNT}
+        element={
+          <Suspense fallback={<PageLoader />}>
+            <AccountPage />
           </Suspense>
         }
       />

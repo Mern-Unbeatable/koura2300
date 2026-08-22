@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle, Package, UserRound, X } from 'lucide-react';
 import { ROUTES } from '../../config';
 import CategoryNavigation from './CategoryNavigation';
@@ -12,11 +12,17 @@ const ACTION_TILE_CLASS =
   'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg bg-white/5 py-4 text-xs font-medium transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
+  const { pathname } = useLocation();
+
   if (!isOpen) {
     return null;
   }
 
   const { header } = LANDING_CONTENT;
+  const isAccountActive = pathname === ROUTES.ACCOUNT;
+  const accountTileClass = isAccountActive
+    ? `${ACTION_TILE_CLASS} text-brand-orange`
+    : ACTION_TILE_CLASS;
 
   return (
     <div className="lg:hidden">
@@ -52,7 +58,12 @@ const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
           <div className="grid grid-cols-3 gap-2">
-            <Link to={ROUTES.LOGIN} onClick={onClose} className={ACTION_TILE_CLASS}>
+            <Link
+              to={ROUTES.ACCOUNT}
+              onClick={onClose}
+              aria-current={isAccountActive ? 'page' : undefined}
+              className={accountTileClass}
+            >
               <UserRound size={ACTION_ICON_SIZE} aria-hidden="true" />
               {header.account}
             </Link>
