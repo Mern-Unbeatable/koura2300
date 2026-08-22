@@ -20,6 +20,7 @@ import {
   buildSmoothLinePath,
   formatZoomPercentage,
   getChartPlotHeight,
+  getMonthLabelAnchor,
   OVERVIEW_CHART_PADDING,
 } from './overviewChartUtils';
 import RevenueChartHighlight from './RevenueChartHighlight';
@@ -58,12 +59,12 @@ const RevenueChartGrid = ({ plotHeight }) => (
 
 const RevenueChartMonthLabels = ({ coordinates }) => (
   <>
-    {coordinates.map((point) => (
+    {coordinates.map((point, index) => (
       <text
         key={point.month}
         x={point.x}
         y={point.baselineY + OVERVIEW_CHART_MONTH_LABEL_OFFSET_Y}
-        textAnchor="middle"
+        textAnchor={getMonthLabelAnchor(index, coordinates.length)}
         className={OVERVIEW_CHART_AXIS_LABEL_CLASS}
       >
         {point.month}

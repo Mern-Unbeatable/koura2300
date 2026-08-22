@@ -54,8 +54,8 @@ export const OVERVIEW_CHART_ZOOM = {
   step: 0.15,
   minVisibleMonths: 3,
 };
-export const OVERVIEW_CHART_SVG_CLASS = 'block h-auto w-full max-h-[300px]';
-export const OVERVIEW_CHART_PRESERVE_ASPECT = 'xMidYMin meet';
+export const OVERVIEW_CHART_SVG_CLASS = 'block h-[240px] w-full sm:h-[260px]';
+export const OVERVIEW_CHART_PRESERVE_ASPECT = 'none';
 export const OVERVIEW_CHART_AXIS_LABEL_CLASS = 'fill-[#9ca3af] text-xs';
 export const OVERVIEW_CHART_COLORS = {
   line: '#fc6f32',

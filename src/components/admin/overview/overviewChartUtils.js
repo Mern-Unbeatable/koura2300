@@ -1,6 +1,6 @@
 export const OVERVIEW_CHART_PADDING = {
   top: 20,
-  right: 28,
+  right: 14,
   bottom: 32,
   left: 44,
 };
@@ -136,3 +136,15 @@ export const getVisibleMonthSlice = (months, zoomLevel, focusIndex, zoomConfig) 
 };
 
 export const formatZoomPercentage = (zoomLevel) => `${Math.round(zoomLevel * 100)}%`;
+
+export const getMonthLabelAnchor = (index, total) => {
+  if (index === 0) {
+    return 'start';
+  }
+
+  if (index === total - 1) {
+    return 'end';
+  }
+
+  return 'middle';
+};

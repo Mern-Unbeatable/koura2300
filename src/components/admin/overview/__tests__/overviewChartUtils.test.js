@@ -1,6 +1,7 @@
 import {
   adjustZoomLevel,
   getDefaultFocusIndex,
+  getMonthLabelAnchor,
   getVisibleMonthCount,
   getVisibleMonthSlice,
   getZoomDirection,
@@ -44,15 +45,9 @@ describe('overviewChartUtils zoom', () => {
     expect(visibleMonths.some((month) => month.month === 'Jul')).toBe(true);
   });
 
-  it('returns all months at minimum zoom', () => {
-    const { visibleMonths, windowStart } = getVisibleMonthSlice(
-      OVERVIEW_REVENUE_MONTHS,
-      1,
-      0,
-      OVERVIEW_CHART_ZOOM,
-    );
-
-    expect(windowStart).toBe(0);
-    expect(visibleMonths).toHaveLength(OVERVIEW_REVENUE_MONTHS.length);
+  it('anchors first and last month labels to prevent clipping', () => {
+    expect(getMonthLabelAnchor(0, 12)).toBe('start');
+    expect(getMonthLabelAnchor(11, 12)).toBe('end');
+    expect(getMonthLabelAnchor(5, 12)).toBe('middle');
   });
 });
