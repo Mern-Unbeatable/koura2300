@@ -18,25 +18,19 @@ export const ORDER_DETAILS_LIST_ICON_SIZE = 16;
 export const ORDER_DETAILS_CTA_ICON_SIZE = 16;
 export const ORDER_DETAILS_PAY_ICON_SIZE = 20;
 export const ORDER_DETAILS_BACK_ICON_SIZE = 16;
-/** Sticky landing header (logo row + category nav) from Figma */
-export const ORDER_DETAILS_HEADER_HEIGHT_PX = 136;
-export const ORDER_DETAILS_SIDEBAR_STICKY_GAP_PX = 16;
-export const ORDER_DETAILS_SIDEBAR_STICKY_TOP_PX =
-  ORDER_DETAILS_HEADER_HEIGHT_PX + ORDER_DETAILS_SIDEBAR_STICKY_GAP_PX;
-export const ORDER_DETAILS_SIDEBAR_STICKY_TOP_CLASS = 'lg:top-[152px]';
 /** Figma: main column 1075px + sidebar 384px with 77px gutter */
 export const ORDER_DETAILS_COLUMN_GAP_CLASS = 'gap-6 lg:gap-[77px]';
 
 export const ORDER_DETAILS_PAGE_CLASS =
   'min-h-screen overflow-x-clip bg-[#f8fafc] font-inter text-brand-ink';
 export const ORDER_DETAILS_MAIN_CLASS =
-  'animate-page-enter mx-auto max-w-screen-2xl px-4 pb-24 pt-4 sm:px-6 sm:pt-5 lg:px-8 lg:pb-28 lg:pt-6';
+  'animate-page-enter mx-auto max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 lg:px-8 lg:pb-28';
 export const ORDER_DETAILS_BACK_LINK_CLASS =
-  'mb-4 inline-flex items-center gap-1 text-sm font-normal text-[#191c1f] transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'mb-6 inline-flex items-center gap-1 text-sm font-normal text-[#191c1f] transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ORDER_DETAILS_LAYOUT_CLASS = `grid ${ORDER_DETAILS_COLUMN_GAP_CLASS} lg:grid-cols-[minmax(0,1fr)_384px] lg:items-start`;
 export const ORDER_DETAILS_STACK_CLASS = 'flex min-w-0 flex-col gap-4';
 export const ORDER_DETAILS_SIDEBAR_CLASS =
-  'flex min-w-0 flex-col gap-4 lg:sticky lg:top-[152px] lg:self-start';
+  'flex min-w-0 flex-col gap-4 lg:sticky lg:top-32 lg:self-start';
 export const ORDER_DETAILS_SECTION_CLASS =
   'overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
 export const ORDER_DETAILS_SECTION_HEADER_CLASS =

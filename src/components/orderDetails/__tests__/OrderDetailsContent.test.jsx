@@ -133,7 +133,7 @@ describe('OrderDetailsContent', () => {
 
     const sidebar = screen.getByLabelText('Order summary');
     expect(sidebar).toHaveClass('lg:sticky');
-    expect(sidebar).toHaveClass('lg:top-[152px]');
+    expect(sidebar).toHaveClass('lg:top-32');
   });
 
   it('collapses and expands accordion sections', async () => {
