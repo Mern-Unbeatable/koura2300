@@ -147,6 +147,24 @@
   border-radius: 9999px;
 }
 
+.scrollbar-landing-chat {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+.scrollbar-landing-chat::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar-landing-chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-landing-chat::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 9999px;
+}
+
 /* ── Poppins font utility ─────────────────────────────────────────────────── */
 .font-poppins {
   font-family: 'Poppins', sans-serif;

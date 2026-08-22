@@ -3,7 +3,6 @@ import { Bot, Send, X } from 'lucide-react';
 import { LANDING_CHAT_COPY } from './landingChatCopy';
 import {
   LANDING_CHAT_ASSISTANT_BUBBLE_CLASS,
-  LANDING_CHAT_BODY_CLASS,
   LANDING_CHAT_CLOSE_ICON_SIZE,
   LANDING_CHAT_COMPOSER_ROW_CLASS,
   LANDING_CHAT_COMPOSER_WRAP_CLASS,
@@ -116,20 +115,19 @@ const LandingChatWidget = memo(
         </button>
       </header>
 
-      <div className={LANDING_CHAT_BODY_CLASS}>
-        <div className={LANDING_CHAT_MESSAGES_CLASS}>
-          {messages.map((message) => (
-            <LandingChatMessage key={message.id} message={message} />
-          ))}
-        </div>
-        <LandingChatComposer
-          inputRef={inputRef}
-          inputValue={inputValue}
-          onChange={onInputChange}
-          onKeyDown={onKeyDown}
-          onSend={onSend}
-        />
+      <div className={LANDING_CHAT_MESSAGES_CLASS}>
+        {messages.map((message) => (
+          <LandingChatMessage key={message.id} message={message} />
+        ))}
       </div>
+
+      <LandingChatComposer
+        inputRef={inputRef}
+        inputValue={inputValue}
+        onChange={onInputChange}
+        onKeyDown={onKeyDown}
+        onSend={onSend}
+      />
     </section>
   ),
 );

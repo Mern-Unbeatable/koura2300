@@ -71,7 +71,7 @@ describe('LandingChatWidget', () => {
 
     const panel = screen.getByRole('region', { name: LANDING_CHAT_COPY.regionLabel });
     expect(panel).toHaveClass('min-[768px]:w-[570px]');
-    expect(panel).toHaveClass('max-[767px]:inset-0');
+    expect(panel).toHaveClass('max-[767px]:top-28');
     expect(panel).toHaveClass('min-[768px]:top-36');
   });
 
