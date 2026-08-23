@@ -2,7 +2,30 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BookingsView from '../BookingsView';
 import { BOOKINGS_COPY } from '../bookingsCopy';
-import { BOOKINGS_SEED, BOOKINGS_STATUS_OPTIONS } from '../bookingsData';
+import {
+  BOOKINGS_SEED,
+  BOOKINGS_STATUS_OPTIONS,
+  BOOKINGS_TABLE_CARD_CLASS,
+  BOOKINGS_TABLE_MIN_WIDTH_PX,
+  BOOKINGS_VIEWPORT,
+} from '../bookingsData';
+import { BOOKINGS_CARDS_MEDIA_QUERY } from '../useBookingsCompactLayout';
+
+const mockMatchMedia = (matchesCompactLayout) => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query) => ({
+      matches: matchesCompactLayout && query === BOOKINGS_CARDS_MEDIA_QUERY,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }),
+  });
+};
 
 const createBookingsViewProps = (overrides = {}) => ({
   copy: BOOKINGS_COPY,
@@ -28,6 +51,9 @@ const createBookingsViewProps = (overrides = {}) => ({
 });
 
 describe('BookingsView', () => {
+  beforeEach(() => {
+    mockMatchMedia(false);
+  });
   it('renders the order management header from Figma copy', () => {
     render(<BookingsView {...createBookingsViewProps()} />);
 
@@ -151,12 +177,59 @@ describe('BookingsView', () => {
   it('uses responsive layout classes for header and table scroll', () => {
     const { container } = render(<BookingsView {...createBookingsViewProps()} />);
 
-    expect(container.firstChild).toHaveClass('flex', 'flex-col');
+    expect(container.firstChild).toHaveClass('min-w-0', 'flex', 'flex-col');
+    expect(screen.getByTestId('bookings-table-card')).toHaveClass(
+      'min-w-0',
+      'w-full',
+      'overflow-hidden',
+    );
     expect(screen.getByTestId('bookings-table-scroll')).toHaveClass(
+      'w-full',
       'overflow-x-auto',
       'touch-pan-x',
       'scrollbar-chart',
     );
+  });
+
+  it('renders booking cards for laptop tablet and mobile viewports', () => {
+    mockMatchMedia(true);
+    render(<BookingsView {...createBookingsViewProps()} />);
+
+    expect(BOOKINGS_VIEWPORT).toEqual({
+      MOBILE_S: 320,
+      MOBILE_M: 375,
+      MOBILE_L: 425,
+      TABLET: 768,
+      LAPTOP: 1020,
+    });
+    expect(BOOKINGS_TABLE_MIN_WIDTH_PX).toBe(1040);
+    expect(screen.queryByRole('table', { name: BOOKINGS_COPY.tableLabel })).not.toBeInTheDocument();
+
+    const cards = screen.getByTestId('bookings-cards');
+    const firstCard = screen.getByTestId('bookings-card-BK-001');
+
+    expect(cards).toBeInTheDocument();
+    expect(firstCard).toHaveTextContent('BK-001');
+    expect(firstCard).toHaveTextContent('Albert Flores');
+    expect(firstCard).toHaveTextContent('Ceiling Light Installation');
+    expect(firstCard).toHaveTextContent(BOOKINGS_COPY.columns.status);
+    expect(within(firstCard).getByLabelText(BOOKINGS_COPY.actionMenu.label)).toBeInTheDocument();
+  });
+
+  it('uses Figma viewport breakpoints for the bookings table card', () => {
+    render(<BookingsView {...createBookingsViewProps()} />);
+
+    const tableCard = screen.getByTestId('bookings-table-card');
+    const table = screen.getByRole('table', { name: BOOKINGS_COPY.tableLabel });
+    const footer = screen.getByText('Showing 1 to 7 of 10 results').closest('footer');
+    const nextButton = screen.getByRole('button', { name: BOOKINGS_COPY.pagination.next });
+
+    expect(tableCard.className).toContain('min-[768px]:rounded-xl');
+    expect(table.className).toContain('min-w-[1040px]');
+    expect(footer.className).toContain('min-[768px]:flex-row');
+    expect(footer.className).toContain('min-[1020px]:px-6');
+    expect(nextButton.className).toContain('min-[426px]:text-base');
+    expect(BOOKINGS_TABLE_CARD_CLASS).toContain('min-[768px]:rounded-xl');
   });
 
   it('renders an empty state when no bookings match the filter', () => {
