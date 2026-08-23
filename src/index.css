@@ -186,7 +186,7 @@
 
 .scrollbar-bookings-chat {
   scrollbar-width: thin;
-  scrollbar-color: #ffffff transparent;
+  scrollbar-color: #d1d5db transparent;
 }
 
 .scrollbar-bookings-chat::-webkit-scrollbar {
@@ -198,7 +198,7 @@
 }
 
 .scrollbar-bookings-chat::-webkit-scrollbar-thumb {
-  background-color: #ffffff;
+  background-color: #d1d5db;
   border-radius: 9999px;
 }
 
