@@ -16,30 +16,30 @@ export const BOOKING_DETAILS_SUBTITLE_CLASS =
 export const BOOKING_DETAILS_CHAT_BUTTON_CLASS =
   'inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-brand-orange px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:w-auto';
 export const BOOKING_DETAILS_TOP_GRID_CLASS =
-  'grid grid-cols-1 items-stretch gap-4 min-[768px]:grid-cols-2 min-[768px]:gap-5 min-[1020px]:gap-7';
+  'grid grid-cols-1 items-stretch gap-4 min-[768px]:grid-cols-2 min-[768px]:gap-[29px]';
 export const BOOKING_DETAILS_STACK_CLASS = 'flex min-w-0 flex-col gap-4 min-[768px]:gap-5';
 export const BOOKING_DETAILS_CARD_CLASS =
   'flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
 export const BOOKING_DETAILS_CARD_HEADER_CLASS =
-  'flex items-center gap-3 px-4 py-4 min-[426px]:px-5';
+  'flex min-h-[52px] items-center gap-3 px-5 py-4';
 export const BOOKING_DETAILS_CARD_TITLE_CLASS =
   'text-sm font-bold leading-5 text-[#0f172b]';
 export const BOOKING_DETAILS_CARD_BODY_CLASS =
-  'flex flex-1 flex-col border-t border-[#f8fafc] px-4 pb-5 pt-4 min-[426px]:px-5';
+  'flex flex-1 flex-col border-t border-[#f8fafc] px-5 pb-5 pt-4';
 export const BOOKING_DETAILS_BADGE_CLASS =
   'shrink-0 rounded-full bg-[#ffedd4] px-2 py-0.5 text-xs font-semibold text-[#f54900]';
+/** Figma: both cards share the same 2-col start-aligned meta grid (gap 76px). */
 export const BOOKING_DETAILS_META_STACK_CLASS = 'flex flex-col gap-[14px]';
 export const BOOKING_DETAILS_META_ROW_CLASS =
-  'flex flex-col gap-3 min-[426px]:flex-row min-[426px]:items-start min-[426px]:justify-between min-[426px]:gap-4';
-export const BOOKING_DETAILS_META_ITEM_LEFT_CLASS = 'min-w-0 flex-1';
-export const BOOKING_DETAILS_META_ITEM_RIGHT_CLASS =
-  'min-w-0 min-[426px]:max-w-[48%] min-[426px]:shrink-0 min-[426px]:text-right';
+  'grid grid-cols-1 gap-3 min-[426px]:grid-cols-2 min-[426px]:gap-x-[76px] min-[426px]:gap-y-0';
+export const BOOKING_DETAILS_META_ITEM_CLASS =
+  'flex min-h-[38px] min-w-0 flex-col items-start text-left';
 export const BOOKING_DETAILS_META_LABEL_CLASS =
   'text-xs font-medium leading-4 text-[#90a1b9]';
 export const BOOKING_DETAILS_META_VALUE_CLASS =
   'pt-0.5 text-sm font-semibold leading-5 text-[#0f172b]';
 export const BOOKING_DETAILS_META_HIGHLIGHT_CLASS =
-  'pt-0.5 text-sm font-semibold leading-5 text-[#f54900]';
+  'pt-0.5 text-sm font-semibold leading-5 text-[#fc6f32]';
 export const BOOKING_DETAILS_SERVICE_BLOCK_CLASS = 'flex flex-col gap-2 pb-4';
 export const BOOKING_DETAILS_SERVICE_EYEBROW_CLASS =
   'text-xs font-medium uppercase tracking-[0.3px] text-[#90a1b9]';

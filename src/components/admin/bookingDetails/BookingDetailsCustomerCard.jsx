@@ -1,9 +1,8 @@
-import { User } from 'lucide-react';
 import BookingDetailsCard from './BookingDetailsCard';
 import BookingDetailsMetaPairs from './BookingDetailsMetaPairs';
 
 const BookingDetailsCustomerCard = ({ copy, customer }) => (
-  <BookingDetailsCard title={copy.sections.customerInformation} icon={User}>
+  <BookingDetailsCard title={copy.sections.customerInformation}>
     <BookingDetailsMetaPairs
       pairs={[
         {

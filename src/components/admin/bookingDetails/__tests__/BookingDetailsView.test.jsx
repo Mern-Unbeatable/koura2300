@@ -79,12 +79,39 @@ describe('BookingDetailsView', () => {
     expect(within(materials).getByText('$185')).toBeInTheDocument();
   });
 
+  it('uses the same start-aligned meta grid for Booking Summary and Customer Information', () => {
+    renderDetails(requiredBooking.id);
+    const details = getBookingDetailsById(requiredBooking.id);
+    const stacks = screen.getAllByTestId('booking-details-meta-stack');
+
+    expect(stacks).toHaveLength(2);
+    stacks.forEach((stack) => {
+      expect(stack.className).toContain('gap-[14px]');
+      const firstRow = stack.firstElementChild;
+      expect(firstRow.className).toContain('min-[426px]:grid-cols-2');
+      expect(firstRow.className).toContain('min-[426px]:gap-x-[76px]');
+    });
+
+    expect(screen.getByText(details.summary.appointmentDate).parentElement).toHaveClass(
+      'items-start',
+      'text-left',
+    );
+    expect(screen.getByText(details.customer.location).parentElement).toHaveClass(
+      'items-start',
+      'text-left',
+    );
+    expect(screen.getByText(details.customer.preferredContact).parentElement).toHaveClass(
+      'items-start',
+      'text-left',
+    );
+  });
+
   it('highlights appointment date and customer location like Figma', () => {
     renderDetails(requiredBooking.id);
     const details = getBookingDetailsById(requiredBooking.id);
 
-    expect(screen.getByText(details.summary.appointmentDate)).toHaveClass('text-[#f54900]');
-    expect(screen.getByText(details.customer.location)).toHaveClass('text-[#f54900]');
+    expect(screen.getByText(details.summary.appointmentDate)).toHaveClass('text-[#fc6f32]');
+    expect(screen.getByText(details.customer.location)).toHaveClass('text-[#fc6f32]');
   });
 
   it('renders the Figma service price bar and a larger booking payment amount', () => {
