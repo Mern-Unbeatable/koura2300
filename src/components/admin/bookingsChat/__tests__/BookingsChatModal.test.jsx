@@ -40,8 +40,10 @@ describe('BookingsChatModal', () => {
 
     expect(overlay.className).toBe(BOOKINGS_CHAT_OVERLAY_CLASS);
     expect(dialog.className).toBe(BOOKINGS_CHAT_DIALOG_CLASS);
-    expect(overlay.className).toContain('min-[376px]:items-center');
-    expect(dialog.className).toContain('min-[376px]:rounded-[12px]');
+    expect(overlay.className).toContain('items-center');
+    expect(overlay.className).not.toContain('items-end');
+    expect(dialog.className).toContain('rounded-[12px]');
+    expect(dialog.className).toContain('max-h-[90dvh]');
   });
 
   it('closes from the header action and backdrop click', async () => {

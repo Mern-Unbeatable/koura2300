@@ -12,9 +12,9 @@ export const BOOKINGS_CHAT_ONLINE_DOT_CLASS =
   'absolute bottom-0 right-0 size-1.5 rounded-full border-2 border-white bg-[#1e1e1e] min-[426px]:size-2';
 
 export const BOOKINGS_CHAT_OVERLAY_CLASS =
-  'fixed inset-0 z-[100] flex items-end justify-center bg-[rgba(13,18,19,0.8)] backdrop-blur-[8.5px] p-0 min-[376px]:items-center min-[376px]:p-4 min-[768px]:p-6';
+  'fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(13,18,19,0.8)] backdrop-blur-[8.5px] p-3 min-[376px]:p-4 min-[768px]:p-6';
 export const BOOKINGS_CHAT_DIALOG_CLASS =
-  'flex max-h-[100dvh] w-full flex-col overflow-hidden bg-white shadow-[0px_40px_42.4px_0px_rgba(255,255,255,0.25)] min-[376px]:max-h-[90dvh] min-[376px]:rounded-[12px] min-[426px]:max-w-[1200px]';
+  'flex max-h-[90dvh] w-full flex-col overflow-hidden rounded-[12px] bg-white shadow-[0px_40px_42.4px_0px_rgba(255,255,255,0.25)] min-[426px]:max-w-[1200px]';
 export const BOOKINGS_CHAT_HEADER_CLASS =
   'flex h-14 shrink-0 items-center justify-between bg-[#eee] px-3 min-[376px]:h-16 min-[376px]:px-5 min-[426px]:h-20 min-[426px]:px-6 min-[768px]:px-9';
 export const BOOKINGS_CHAT_HEADER_TITLE_CLASS =
