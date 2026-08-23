@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { BOOKINGS_COPY } from '../components/admin/bookings/bookingsCopy';
 import {
   BOOKINGS_PAGE_SIZE,
@@ -14,8 +15,10 @@ import {
   paginateBookings,
   updateBookingStatus,
 } from '../components/admin/bookings/bookingsUtils';
+import { buildAdminBookingDetailsRoute } from '../config';
 
 const useAdminBookings = () => {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState(BOOKINGS_SEED);
   const [selectedStatusId, setSelectedStatusId] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,10 +69,13 @@ const useAdminBookings = () => {
     setOpenActionMenuId(null);
   }, []);
 
-  const handleSeeDetails = useCallback((bookingId) => {
-    setOpenActionMenuId(null);
-    toast.success(`${BOOKINGS_COPY.toasts.seeDetails} (${bookingId})`);
-  }, []);
+  const handleSeeDetails = useCallback(
+    (bookingId) => {
+      setOpenActionMenuId(null);
+      navigate(buildAdminBookingDetailsRoute(bookingId));
+    },
+    [navigate],
+  );
 
   const handleChatWithCustomer = useCallback((bookingId) => {
     setOpenActionMenuId(null);

@@ -3,6 +3,14 @@ import toast from 'react-hot-toast';
 import useAdminBookings from '../useAdminBookings';
 import { BOOKINGS_COPY } from '../../components/admin/bookings/bookingsCopy';
 import { BOOKINGS_PAGE_SIZE, BOOKINGS_SEED } from '../../components/admin/bookings/bookingsData';
+import { buildAdminBookingDetailsRoute } from '../../config';
+
+const mockNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+}));
 
 jest.mock('react-hot-toast', () => ({
   __esModule: true,
@@ -70,7 +78,7 @@ describe('useAdminBookings', () => {
     expect(toast.success).toHaveBeenCalledWith(BOOKINGS_COPY.toasts.statusUpdated);
   });
 
-  it('shows toast feedback for see details and chat actions', () => {
+  it('navigates to booking details and shows toast for chat actions', () => {
     const { result } = renderHook(() => useAdminBookings());
 
     act(() => {
@@ -78,9 +86,7 @@ describe('useAdminBookings', () => {
       result.current.onChatWithCustomer('BK-002');
     });
 
-    expect(toast.success).toHaveBeenCalledWith(
-      `${BOOKINGS_COPY.toasts.seeDetails} (BK-002)`,
-    );
+    expect(mockNavigate).toHaveBeenCalledWith(buildAdminBookingDetailsRoute('BK-002'));
     expect(toast.success).toHaveBeenCalledWith(
       `${BOOKINGS_COPY.toasts.chatWithCustomer} (BK-002)`,
     );
