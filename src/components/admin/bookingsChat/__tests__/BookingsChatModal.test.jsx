@@ -78,7 +78,8 @@ describe('BookingsChatModal', () => {
     const table = within(offer).getByRole('table');
 
     expect(table.className).toContain('table-fixed');
-    expect(table.className).toContain('max-[425px]:text-xs');
+    expect(table.className).toContain('text-xs');
+    expect(table.className).toContain('min-[376px]:text-sm');
     expect(within(offer).getByRole('button', { name: BOOKINGS_CHAT_COPY.offerCard.payNow })).toBeInTheDocument();
   });
 
@@ -90,10 +91,23 @@ describe('BookingsChatModal', () => {
 
     expect(composerRow.className).toContain('flex-row');
     expect(composerRow.className).toContain('items-center');
-    expect(sendButton.className).toContain('size-11');
-    expect(sendButton.className).toContain('min-[426px]:size-[52px]');
+    expect(sendButton.className).toContain('size-10');
+    expect(sendButton.className).toContain('min-[768px]:size-[52px]');
     expect(screen.getAllByRole('button', { name: BOOKINGS_CHAT_COPY.createOffer })).toHaveLength(
       1,
     );
+  });
+
+  it('uses professional mobile text sizes for composer and bubbles', () => {
+    render(<BookingsChatModal bookingId="BK-001" onClose={jest.fn()} />);
+
+    expect(screen.getByPlaceholderText(BOOKINGS_CHAT_COPY.inputPlaceholder).className).toContain(
+      'text-xs',
+    );
+    expect(screen.getByRole('button', { name: BOOKINGS_CHAT_COPY.createOffer }).className).toContain(
+      'text-[11px]',
+    );
+    expect(screen.getByText('Yo mandem').className).toContain('text-[13px]');
+    expect(screen.getByText('Yo mandem').className).toContain('min-[376px]:text-sm');
   });
 });

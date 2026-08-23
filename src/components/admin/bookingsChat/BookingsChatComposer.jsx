@@ -7,6 +7,7 @@ import {
   BOOKINGS_CHAT_INPUT_SHELL_CLASS,
   BOOKINGS_CHAT_SEND_BUTTON_CLASS,
   BOOKINGS_CHAT_SEND_ICON_SIZE,
+  BOOKINGS_CHAT_SEND_LABEL_CLASS,
 } from './bookingsChatData';
 
 const BookingsChatComposer = ({
@@ -43,7 +44,7 @@ const BookingsChatComposer = ({
         className={BOOKINGS_CHAT_SEND_BUTTON_CLASS}
       >
         <Send size={BOOKINGS_CHAT_SEND_ICON_SIZE} aria-hidden="true" />
-        <span className="text-[10px] font-semibold tracking-[0.5px]">{copy.sendSmsLabel}</span>
+        <span className={BOOKINGS_CHAT_SEND_LABEL_CLASS}>{copy.sendSmsLabel}</span>
       </button>
     </div>
   </div>
