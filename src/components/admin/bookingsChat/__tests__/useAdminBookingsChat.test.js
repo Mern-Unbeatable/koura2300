@@ -58,17 +58,60 @@ describe('useAdminBookingsChat', () => {
     expect(result.current.messages.at(-1).text).toBe('Ping');
   });
 
-  it('emits toasts for create offer and pay now actions', () => {
+  it('opens and closes the Create Offer form', () => {
+    const { result } = renderHook(() =>
+      useAdminBookingsChat({ bookingId: 'BK-001', onClose: jest.fn() }),
+    );
+
+    expect(result.current.isCreateOfferOpen).toBe(false);
+
+    act(() => {
+      result.current.handleCreateOffer();
+    });
+
+    expect(result.current.isCreateOfferOpen).toBe(true);
+
+    act(() => {
+      result.current.handleCloseCreateOffer();
+    });
+
+    expect(result.current.isCreateOfferOpen).toBe(false);
+  });
+
+  it('applies a sent create-offer payload to the chat offer card', () => {
     const { result } = renderHook(() =>
       useAdminBookingsChat({ bookingId: 'BK-001', onClose: jest.fn() }),
     );
 
     act(() => {
-      result.current.handleCreateOffer();
+      result.current.handleSendCreateOffer({
+        bookingId: 'BK-001',
+        lineItems: [
+          {
+            id: 'p1',
+            item: 'Panel',
+            quantity: '1 unit',
+            cost: 85,
+            costLabel: '$85',
+          },
+        ],
+        totalLabel: '$85',
+      });
+    });
+
+    expect(result.current.offer.totalLabel).toBe('$85');
+    expect(result.current.offer.lineItems[0].item).toBe('Panel');
+  });
+
+  it('emits toast for pay now', () => {
+    const { result } = renderHook(() =>
+      useAdminBookingsChat({ bookingId: 'BK-001', onClose: jest.fn() }),
+    );
+
+    act(() => {
       result.current.handlePayNow();
     });
 
-    expect(toast.success).toHaveBeenCalledWith(BOOKINGS_CHAT_COPY.createOfferToast);
     expect(toast.success).toHaveBeenCalledWith(BOOKINGS_CHAT_COPY.payNowToast);
   });
 });

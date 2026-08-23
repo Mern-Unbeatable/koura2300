@@ -1,0 +1,22 @@
+export const BOOKINGS_CREATE_OFFER_COPY = {
+  regionLabel: 'Create offer card',
+  title: 'Offer Card',
+  subtitle: 'Create an offer card to send to the customer.',
+  closeLabel: 'Close create offer',
+  productName: 'Product Name',
+  productNamePlaceholder: 'Add Product Name',
+  quantity: 'Total Quantity',
+  quantityPlaceholder: 'Quantity',
+  price: 'Price',
+  pricePlaceholder: 'Enter Price',
+  addNewProduct: 'Add New Product',
+  cancel: 'Cancel',
+  sendOffer: 'Send Offer',
+  sendSuccessToast: 'Offer sent to customer.',
+  errors: {
+    productNameRequired: 'Product name is required.',
+    quantityRequired: 'Quantity is required.',
+    priceRequired: 'Price is required.',
+    priceInvalid: 'Enter a valid price.',
+  },
+};

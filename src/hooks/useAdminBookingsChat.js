@@ -11,11 +11,27 @@ import useEscapeKey from './useEscapeKey';
 const useAdminBookingsChat = ({ bookingId, onClose }) => {
   const session = useMemo(() => getBookingsChatSession(bookingId), [bookingId]);
   const [messages, setMessages] = useState(() => session?.messages ?? []);
+  const [offer, setOffer] = useState(() => session?.offer ?? null);
   const [inputValue, setInputValue] = useState('');
+  const [isCreateOfferOpen, setIsCreateOfferOpen] = useState(false);
   const inputRef = useRef(null);
 
   useBodyScrollLock(Boolean(bookingId));
-  useEscapeKey(Boolean(bookingId), onClose);
+
+  const handleCloseCreateOffer = useCallback(() => {
+    setIsCreateOfferOpen(false);
+  }, []);
+
+  const handleEscape = useCallback(() => {
+    if (isCreateOfferOpen) {
+      handleCloseCreateOffer();
+      return;
+    }
+
+    onClose();
+  }, [handleCloseCreateOffer, isCreateOfferOpen, onClose]);
+
+  useEscapeKey(Boolean(bookingId), handleEscape);
 
   const handleInputChange = useCallback((event) => {
     setInputValue(event.target.value);
@@ -43,7 +59,11 @@ const useAdminBookingsChat = ({ bookingId, onClose }) => {
   );
 
   const handleCreateOffer = useCallback(() => {
-    toast.success(BOOKINGS_CHAT_COPY.createOfferToast);
+    setIsCreateOfferOpen(true);
+  }, []);
+
+  const handleSendCreateOffer = useCallback((nextOffer) => {
+    setOffer(nextOffer);
   }, []);
 
   const handlePayNow = useCallback(() => {
@@ -53,13 +73,17 @@ const useAdminBookingsChat = ({ bookingId, onClose }) => {
   return {
     session,
     messages,
+    offer,
     inputValue,
     inputRef,
+    isCreateOfferOpen,
     copy: BOOKINGS_CHAT_COPY,
     handleInputChange,
     handleSend,
     handleKeyDown,
     handleCreateOffer,
+    handleCloseCreateOffer,
+    handleSendCreateOffer,
     handlePayNow,
   };
 };

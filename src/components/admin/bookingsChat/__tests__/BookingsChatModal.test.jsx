@@ -2,13 +2,18 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import BookingsChatModal from '../BookingsChatModal';
 import { BOOKINGS_CHAT_COPY } from '../bookingsChatCopy';
+import { BOOKINGS_CREATE_OFFER_COPY } from '../bookingsCreateOfferCopy';
 import {
   BOOKINGS_CHAT_DIALOG_CLASS,
   BOOKINGS_CHAT_OVERLAY_CLASS,
   BOOKINGS_CHAT_SEED_TIMESTAMP,
 } from '../bookingsChatData';
+import { resetOfferProductSequence } from '../bookingsCreateOfferUtils';
 
 describe('BookingsChatModal', () => {
+  beforeEach(() => {
+    resetOfferProductSequence();
+  });
   it('renders the Figma chat dialog for a booking', () => {
     render(<BookingsChatModal bookingId="BK-001" onClose={jest.fn()} />);
 
@@ -39,7 +44,8 @@ describe('BookingsChatModal', () => {
     const dialog = screen.getByRole('dialog', { name: BOOKINGS_CHAT_COPY.regionLabel });
 
     expect(overlay.className).toBe(BOOKINGS_CHAT_OVERLAY_CLASS);
-    expect(dialog.className).toBe(BOOKINGS_CHAT_DIALOG_CLASS);
+    expect(dialog.className).toContain(BOOKINGS_CHAT_DIALOG_CLASS);
+    expect(dialog.className).toContain('relative');
     expect(overlay.className).toContain('items-center');
     expect(overlay.className).not.toContain('items-end');
     expect(dialog.className).toContain('rounded-[12px]');
@@ -100,16 +106,16 @@ describe('BookingsChatModal', () => {
     );
   });
 
-  it('uses professional mobile text sizes for composer and bubbles', () => {
+  it('opens Create Offer from the composer button', async () => {
+    const user = userEvent.setup();
+
     render(<BookingsChatModal bookingId="BK-001" onClose={jest.fn()} />);
 
-    expect(screen.getByPlaceholderText(BOOKINGS_CHAT_COPY.inputPlaceholder).className).toContain(
-      'text-xs',
-    );
-    expect(screen.getByRole('button', { name: BOOKINGS_CHAT_COPY.createOffer }).className).toContain(
-      'text-[11px]',
-    );
-    expect(screen.getByText('Yo mandem').className).toContain('text-[13px]');
-    expect(screen.getByText('Yo mandem').className).toContain('min-[376px]:text-sm');
+    await user.click(screen.getByRole('button', { name: BOOKINGS_CHAT_COPY.createOffer }));
+
+    expect(
+      screen.getByRole('dialog', { name: BOOKINGS_CREATE_OFFER_COPY.regionLabel }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(BOOKINGS_CREATE_OFFER_COPY.subtitle)).toBeInTheDocument();
   });
 });

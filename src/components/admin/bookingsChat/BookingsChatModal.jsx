@@ -8,18 +8,23 @@ import {
 import BookingsChatComposer from './BookingsChatComposer';
 import BookingsChatHeader from './BookingsChatHeader';
 import BookingsChatMessages from './BookingsChatMessages';
+import BookingsCreateOfferModal from './BookingsCreateOfferModal';
 
 const BookingsChatModal = ({ bookingId, onClose }) => {
   const {
     session,
     messages,
+    offer,
     inputValue,
     inputRef,
+    isCreateOfferOpen,
     copy,
     handleInputChange,
     handleSend,
     handleKeyDown,
     handleCreateOffer,
+    handleCloseCreateOffer,
+    handleSendCreateOffer,
     handlePayNow,
   } = useAdminBookingsChat({ bookingId, onClose });
 
@@ -44,7 +49,7 @@ const BookingsChatModal = ({ bookingId, onClose }) => {
         role="dialog"
         aria-modal="true"
         aria-label={copy.regionLabel}
-        className={BOOKINGS_CHAT_DIALOG_CLASS}
+        className={`${BOOKINGS_CHAT_DIALOG_CLASS} relative`}
       >
         <BookingsChatHeader
           customerName={session.customerName}
@@ -57,7 +62,7 @@ const BookingsChatModal = ({ bookingId, onClose }) => {
             messages={messages}
             customerName={session.customerName}
             timestamp={session.timestamp}
-            offer={session.offer}
+            offer={offer}
             offerCopy={copy.offerCard}
             onPayNow={handlePayNow}
           />
@@ -71,6 +76,14 @@ const BookingsChatModal = ({ bookingId, onClose }) => {
             onCreateOffer={handleCreateOffer}
           />
         </div>
+
+        {isCreateOfferOpen ? (
+          <BookingsCreateOfferModal
+            bookingId={bookingId}
+            onClose={handleCloseCreateOffer}
+            onSend={handleSendCreateOffer}
+          />
+        ) : null}
       </div>
     </div>,
     document.body,

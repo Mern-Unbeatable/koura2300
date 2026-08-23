@@ -7,7 +7,6 @@ export const BOOKINGS_CHAT_COPY = {
   sendLabel: 'Send message',
   sendSmsLabel: 'SMS',
   createOffer: 'Create Offer',
-  createOfferToast: 'Create offer opened.',
   payNowToast: 'Payment link sent to customer.',
   offerCard: {
     title: 'Offer Card',
