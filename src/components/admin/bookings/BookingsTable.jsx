@@ -5,6 +5,7 @@ import {
   BOOKINGS_EMPTY_ROW_CLASS,
   BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_STATUS_HEAD_CELL_CLASS,
+  BOOKINGS_TABLE_STATUS_OFFSET_CLASS,
   BOOKINGS_TABLE_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_HEAD_CLASS,
   BOOKINGS_TABLE_SCROLL_CLASS,
@@ -40,7 +41,11 @@ const BookingsTable = ({
                       : BOOKINGS_TABLE_HEAD_CELL_CLASS
                 }
               >
-                {column}
+                {column === copy.columns.status ? (
+                  <span className={BOOKINGS_TABLE_STATUS_OFFSET_CLASS}>{column}</span>
+                ) : (
+                  column
+                )}
               </th>
             ))}
           </tr>

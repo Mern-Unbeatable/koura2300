@@ -18,14 +18,15 @@ export const BOOKINGS_TABLE_HEAD_CELL_CLASS =
 export const BOOKINGS_TABLE_ROW_CLASS = 'border-b border-[#e4e4e4]';
 export const BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS =
   'px-2.5 py-3 text-center text-base font-normal text-black whitespace-nowrap';
+export const BOOKINGS_TABLE_STATUS_OFFSET_CLASS = 'ml-12';
 export const BOOKINGS_TABLE_STATUS_HEAD_CELL_CLASS =
-  'px-2.5 py-3 text-left text-base font-normal text-black whitespace-nowrap';
+  'w-0 py-3 px-2.5 text-left text-base font-normal text-black whitespace-nowrap';
 export const BOOKINGS_TABLE_CELL_CLASS =
   'px-2.5 py-6 text-base leading-6 text-[#0c0c0c] align-middle';
 export const BOOKINGS_TABLE_ACTION_CELL_CLASS =
   'px-2.5 py-6 text-center align-middle';
 export const BOOKINGS_TABLE_STATUS_CELL_CLASS =
-  'px-2.5 py-6 text-left align-middle whitespace-nowrap';
+  'w-0 py-6 px-2.5 text-left align-middle whitespace-nowrap';
 export const BOOKINGS_EMPTY_ROW_CLASS =
   'px-4 py-10 text-center text-base text-[#6b7280]';
 export const BOOKINGS_SERVICE_NAME_CLASS = 'text-[#0b1e3d]';
@@ -45,7 +46,7 @@ export const BOOKINGS_ACTION_MENU_CLASS =
 export const BOOKINGS_ACTION_MENU_SURFACE_CLASS =
   'flex flex-col gap-1 overflow-hidden rounded-lg border border-[#ececec] bg-white py-1 shadow-[0px_4px_16px_rgba(50,50,71,0.12)]';
 export const BOOKINGS_ACTION_MENU_PRIMARY_CLASS =
-  'mx-1 w-[calc(100%-0.5rem)] cursor-pointer rounded-md bg-brand-orange px-2.5 py-1.5 text-left text-base leading-6 text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'w-full cursor-pointer px-3 py-1.5 text-left text-base font-normal leading-6 text-brand-orange transition-colors hover:bg-brand-orange-light focus:outline-none focus-visible:bg-brand-orange-light';
 export const BOOKINGS_ACTION_MENU_ITEM_CLASS =
   'w-full cursor-pointer px-3 py-1.5 text-left text-base leading-6 text-[#2d3036] transition-colors hover:bg-[#f9fafb] focus:outline-none focus-visible:bg-[#f9fafb]';
 export const BOOKINGS_ACTION_MENU_STATUS_HEADING_CLASS =
