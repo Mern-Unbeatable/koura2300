@@ -4,7 +4,6 @@ import {
   BOOKINGS_ACTION_BUTTON_CLASS,
   BOOKINGS_ACTION_MENU_CLASS,
   BOOKINGS_ACTION_MENU_ITEM_CLASS,
-  BOOKINGS_ACTION_MENU_PRIMARY_CLASS,
   BOOKINGS_ACTION_MENU_STATUS_HEADING_CLASS,
   BOOKINGS_ACTION_MENU_STATUS_ITEM_CLASS,
   BOOKINGS_ACTION_MENU_SURFACE_CLASS,
@@ -40,7 +39,7 @@ const BookingsActionMenu = ({
         <button
           type="button"
           role="menuitem"
-          className={BOOKINGS_ACTION_MENU_PRIMARY_CLASS}
+          className={BOOKINGS_ACTION_MENU_ITEM_CLASS}
           onClick={onSeeDetails}
         >
           {copy.actionMenu.seeDetails}
