@@ -201,6 +201,7 @@ describe('BookingsView', () => {
       MOBILE_L: 425,
       TABLET: 768,
       LAPTOP: 1020,
+      DESKTOP: 1440,
     });
     expect(BOOKINGS_TABLE_MIN_WIDTH_PX).toBe(1040);
     expect(screen.queryByRole('table', { name: BOOKINGS_COPY.tableLabel })).not.toBeInTheDocument();

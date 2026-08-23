@@ -4,7 +4,11 @@ export const BOOKINGS_VIEWPORT = {
   MOBILE_L: 425,
   TABLET: 768,
   LAPTOP: 1020,
+  DESKTOP: 1440,
 };
+
+/** Cards for mobile → laptop; table only from desktop width. */
+export const BOOKINGS_CARDS_MAX_WIDTH_PX = BOOKINGS_VIEWPORT.DESKTOP - 1;
 
 export const BOOKINGS_TABLE_MIN_WIDTH_PX = 1040;
 

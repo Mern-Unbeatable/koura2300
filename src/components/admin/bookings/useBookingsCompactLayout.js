@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { BOOKINGS_VIEWPORT } from './bookingsData';
+import { BOOKINGS_CARDS_MAX_WIDTH_PX } from './bookingsData';
 
-export const BOOKINGS_CARDS_MEDIA_QUERY = `(max-width: ${BOOKINGS_VIEWPORT.LAPTOP}px)`;
+export const BOOKINGS_CARDS_MEDIA_QUERY = `(max-width: ${BOOKINGS_CARDS_MAX_WIDTH_PX}px)`;
 
 const getCompactLayoutMatch = () => {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
