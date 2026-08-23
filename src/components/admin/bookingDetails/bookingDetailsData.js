@@ -21,13 +21,21 @@ export const BOOKING_DETAILS_STACK_CLASS = 'flex min-w-0 flex-col gap-4 min-[768
 export const BOOKING_DETAILS_CARD_CLASS =
   'flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
 export const BOOKING_DETAILS_CARD_HEADER_CLASS =
-  'flex min-h-[52px] items-center gap-3 px-5 py-4';
+  'flex min-h-[52px] items-start gap-2.5 px-4 py-4 max-[320px]:px-3 min-[376px]:gap-3 min-[426px]:items-center min-[426px]:px-5';
+export const BOOKING_DETAILS_CARD_HEADER_MAIN_CLASS =
+  'flex min-w-0 flex-1 items-start gap-2.5 min-[376px]:gap-3';
+export const BOOKING_DETAILS_CARD_TITLE_WRAP_CLASS = 'min-w-0 flex-1';
+export const BOOKING_DETAILS_CARD_TITLE_ROW_CLASS =
+  'flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5';
 export const BOOKING_DETAILS_CARD_TITLE_CLASS =
   'text-sm font-bold leading-5 text-[#0f172b]';
 export const BOOKING_DETAILS_CARD_BODY_CLASS =
-  'flex flex-1 flex-col border-t border-[#f8fafc] px-5 pb-5 pt-4';
+  'flex flex-1 flex-col border-t border-[#f8fafc] px-4 pb-5 pt-4 max-[320px]:px-3 min-[426px]:px-5';
 export const BOOKING_DETAILS_BADGE_CLASS =
-  'shrink-0 rounded-full bg-[#ffedd4] px-2 py-0.5 text-xs font-semibold text-[#f54900]';
+  'shrink-0 whitespace-nowrap rounded-full bg-[#ffedd4] px-2 py-0.5 text-xs font-semibold text-[#f54900]';
+/** ≤425px: badge under title so header does not overflow on Mobile L/M/S. */
+export const BOOKING_DETAILS_BADGE_MOBILE_CLASS = 'mt-1.5 inline-flex min-[426px]:hidden';
+export const BOOKING_DETAILS_BADGE_DESKTOP_CLASS = 'hidden shrink-0 min-[426px]:inline-flex';
 /** Figma: both cards share the same 2-col start-aligned meta grid (gap 76px). */
 export const BOOKING_DETAILS_META_STACK_CLASS = 'flex flex-col gap-[14px]';
 export const BOOKING_DETAILS_META_ROW_CLASS =
@@ -67,12 +75,21 @@ export const BOOKING_DETAILS_MATERIALS_YES_CLASS =
   'rounded-full border border-[#ffd6a8] bg-[#fff7ed] px-2.5 py-1 text-xs font-semibold text-[#ca3500]';
 export const BOOKING_DETAILS_MATERIALS_TABLE_WRAP_CLASS =
   'mt-4 overflow-x-auto rounded-xl border border-[#f1f5f9]';
+/** No min-width — table must fit Mobile L/M/S (425 / 375 / 320) without clipping. */
 export const BOOKING_DETAILS_MATERIALS_TABLE_CLASS =
-  'w-full min-w-[480px] text-left text-sm max-[425px]:text-xs';
+  'w-full table-fixed text-left text-sm max-[425px]:text-xs';
 export const BOOKING_DETAILS_MATERIALS_HEAD_CLASS =
   'bg-[#f8fafc] text-xs font-semibold text-[#90a1b9]';
 export const BOOKING_DETAILS_MATERIALS_CELL_CLASS =
-  'px-3 py-3 max-[425px]:px-2.5 max-[425px]:py-2.5';
+  'px-3 py-3 max-[425px]:px-2 max-[425px]:py-2.5 max-[320px]:px-1.5';
+export const BOOKING_DETAILS_MATERIALS_ITEM_CELL_CLASS =
+  'px-3 py-3 font-medium text-[#314158] max-[425px]:px-2 max-[425px]:py-2.5 max-[425px]:text-xs max-[320px]:px-1.5';
+export const BOOKING_DETAILS_MATERIALS_QTY_CELL_CLASS =
+  'w-[18%] whitespace-nowrap px-2 py-3 text-[#90a1b9] max-[425px]:px-1.5 max-[425px]:py-2.5 max-[320px]:w-[20%] max-[320px]:px-1';
+export const BOOKING_DETAILS_MATERIALS_COST_HEAD_CLASS =
+  'w-[16%] whitespace-nowrap px-3 py-3 text-right font-semibold text-[#90a1b9] max-[425px]:px-2 max-[425px]:py-2.5 max-[320px]:w-[18%] max-[320px]:px-1.5';
+export const BOOKING_DETAILS_MATERIALS_COST_CELL_CLASS =
+  'w-[16%] whitespace-nowrap px-3 py-3 text-right font-semibold text-[#0f172b] max-[425px]:px-2 max-[425px]:py-2.5 max-[320px]:w-[18%] max-[320px]:px-1.5';
 export const BOOKING_DETAILS_PAYMENT_ROW_CLASS =
   'flex flex-col gap-4 min-[426px]:flex-row min-[426px]:items-end min-[426px]:justify-between';
 export const BOOKING_DETAILS_PAYMENT_PRICE_CLASS =

@@ -72,11 +72,28 @@ describe('BookingDetailsView', () => {
     const materials = screen.getByTestId('booking-details-materials');
 
     expect(screen.getByText(BOOKING_DETAILS_COPY.sections.materialInformation)).toBeInTheDocument();
-    expect(within(materials).getByText(BOOKING_DETAILS_COPY.badges.paymentRequired)).toBeInTheDocument();
+    expect(within(materials).getAllByText(BOOKING_DETAILS_COPY.badges.paymentRequired).length).toBe(
+      2,
+    );
     expect(within(materials).getByText(BOOKING_DETAILS_COPY.labels.materialRequired)).toBeInTheDocument();
     expect(within(materials).getByText(BOOKING_DETAILS_COPY.labels.yes)).toBeInTheDocument();
     expect(within(materials).getByText('200A Main Breaker Panel')).toBeInTheDocument();
     expect(within(materials).getByText('$185')).toBeInTheDocument();
+  });
+
+  it('fits Material Information on Mobile L/M/S without a forced table min-width', () => {
+    renderDetails(requiredBooking.id);
+
+    const materials = screen.getByTestId('booking-details-materials');
+    const table = within(materials).getByRole('table');
+    const badges = within(materials).getAllByText(BOOKING_DETAILS_COPY.badges.paymentRequired);
+
+    expect(table.className).toContain('table-fixed');
+    expect(table.className).toContain('max-[425px]:text-xs');
+    expect(table.className).not.toContain('min-w-[');
+    expect(badges).toHaveLength(2);
+    expect(badges[0].className).toContain('min-[426px]:inline-flex');
+    expect(badges[1].className).toContain('min-[426px]:hidden');
   });
 
   it('uses the same start-aligned meta grid for Booking Summary and Customer Information', () => {
