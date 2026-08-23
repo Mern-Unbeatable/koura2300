@@ -1,3 +1,4 @@
+import BookingsChatModal from '../bookingsChat/BookingsChatModal';
 import { BOOKINGS_PAGE_CLASS } from './bookingsData';
 import BookingsHeader from './BookingsHeader';
 import BookingsTable from './BookingsTable';
@@ -14,7 +15,9 @@ const BookingsView = ({
   onToggleActionMenu,
   onCloseActionMenu,
   onSeeDetails,
+  chatBookingId,
   onChatWithCustomer,
+  onCloseChatWithCustomer,
   onStatusChange,
 }) => (
   <div className={BOOKINGS_PAGE_CLASS}>
@@ -37,6 +40,13 @@ const BookingsView = ({
       onChatWithCustomer={onChatWithCustomer}
       onStatusChange={onStatusChange}
     />
+    {chatBookingId ? (
+      <BookingsChatModal
+        key={chatBookingId}
+        bookingId={chatBookingId}
+        onClose={onCloseChatWithCustomer}
+      />
+    ) : null}
   </div>
 );
 

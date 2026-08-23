@@ -23,6 +23,7 @@ const useAdminBookings = () => {
   const [selectedStatusId, setSelectedStatusId] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [openActionMenuId, setOpenActionMenuId] = useState(null);
+  const [chatBookingId, setChatBookingId] = useState(null);
 
   const filteredBookings = useMemo(
     () => filterBookingsByStatus(bookings, selectedStatusId),
@@ -79,7 +80,11 @@ const useAdminBookings = () => {
 
   const handleChatWithCustomer = useCallback((bookingId) => {
     setOpenActionMenuId(null);
-    toast.success(`${BOOKINGS_COPY.toasts.chatWithCustomer} (${bookingId})`);
+    setChatBookingId(bookingId);
+  }, []);
+
+  const handleCloseChatWithCustomer = useCallback(() => {
+    setChatBookingId(null);
   }, []);
 
   const handleStatusChange = useCallback((bookingId, statusId) => {
@@ -100,7 +105,9 @@ const useAdminBookings = () => {
     onToggleActionMenu: handleToggleActionMenu,
     onCloseActionMenu: handleCloseActionMenu,
     onSeeDetails: handleSeeDetails,
+    chatBookingId,
     onChatWithCustomer: handleChatWithCustomer,
+    onCloseChatWithCustomer: handleCloseChatWithCustomer,
     onStatusChange: handleStatusChange,
   };
 };

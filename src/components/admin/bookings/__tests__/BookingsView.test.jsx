@@ -45,7 +45,9 @@ const createBookingsViewProps = (overrides = {}) => ({
   onToggleActionMenu: jest.fn(),
   onCloseActionMenu: jest.fn(),
   onSeeDetails: jest.fn(),
+  chatBookingId: null,
   onChatWithCustomer: jest.fn(),
+  onCloseChatWithCustomer: jest.fn(),
   onStatusChange: jest.fn(),
   ...overrides,
 });

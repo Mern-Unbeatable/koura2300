@@ -78,7 +78,7 @@ describe('useAdminBookings', () => {
     expect(toast.success).toHaveBeenCalledWith(BOOKINGS_COPY.toasts.statusUpdated);
   });
 
-  it('navigates to booking details and shows toast for chat actions', () => {
+  it('navigates to booking details and opens chat with customer', () => {
     const { result } = renderHook(() => useAdminBookings());
 
     act(() => {
@@ -87,8 +87,12 @@ describe('useAdminBookings', () => {
     });
 
     expect(mockNavigate).toHaveBeenCalledWith(buildAdminBookingDetailsRoute('BK-002'));
-    expect(toast.success).toHaveBeenCalledWith(
-      `${BOOKINGS_COPY.toasts.chatWithCustomer} (BK-002)`,
-    );
+    expect(result.current.chatBookingId).toBe('BK-002');
+
+    act(() => {
+      result.current.onCloseChatWithCustomer();
+    });
+
+    expect(result.current.chatBookingId).toBeNull();
   });
 });

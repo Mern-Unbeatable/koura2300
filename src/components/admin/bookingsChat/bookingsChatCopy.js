@@ -1,0 +1,22 @@
+export const BOOKINGS_CHAT_COPY = {
+  regionLabel: 'Chat with customer',
+  closeLabel: 'Close chat',
+  activeStatus: 'Active',
+  inputLabel: 'Type a message',
+  inputPlaceholder: 'Text message form MTN',
+  sendLabel: 'Send message',
+  sendSmsLabel: 'SMS',
+  createOffer: 'Create Offer',
+  createOfferToast: 'Create offer opened.',
+  payNowToast: 'Payment link sent to customer.',
+  offerCard: {
+    title: 'Offer Card',
+    status: 'Pending Response',
+    bookingIdLabel: 'Booking ID',
+    itemColumn: 'Item',
+    qtyColumn: 'Qty',
+    costColumn: 'Cost',
+    totalLabel: 'Total',
+    payNow: 'Pay Now',
+  },
+};
