@@ -184,6 +184,24 @@
   border-radius: 9999px;
 }
 
+.scrollbar-bookings-chat {
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff transparent;
+}
+
+.scrollbar-bookings-chat::-webkit-scrollbar {
+  width: 2px;
+}
+
+.scrollbar-bookings-chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-bookings-chat::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  border-radius: 9999px;
+}
+
 /* ── Poppins font utility ─────────────────────────────────────────────────── */
 .font-poppins {
   font-family: 'Poppins', sans-serif;

@@ -18,7 +18,7 @@ export const BOOKINGS_CHAT_HEADER_CLASS =
 export const BOOKINGS_CHAT_BODY_CLASS =
   'relative flex min-h-0 flex-1 flex-col bg-[#f8f8f8]';
 export const BOOKINGS_CHAT_MESSAGES_CLASS =
-  'flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-5 min-[376px]:px-6 min-[768px]:gap-5 min-[768px]:px-10';
+  'scrollbar-bookings-chat flex flex-1 flex-col gap-4 overflow-y-auto px-4 py-5 min-[376px]:px-6 min-[768px]:gap-5 min-[768px]:px-10';
 export const BOOKINGS_CHAT_TIMESTAMP_CLASS =
   'flex flex-wrap items-center justify-center gap-2 pt-1 text-xs font-medium tracking-[0.5px] text-[#98a2b3] min-[376px]:gap-3 min-[376px]:text-sm min-[768px]:text-lg';
 export const BOOKINGS_CHAT_TIMESTAMP_DOT_CLASS =
