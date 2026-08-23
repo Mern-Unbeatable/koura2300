@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../config';
+import BookingsChatModal from '../bookingsChat/BookingsChatModal';
 import BookingDetailsCustomerCard from './BookingDetailsCustomerCard';
 import BookingDetailsHeader from './BookingDetailsHeader';
 import BookingDetailsMaterialsCard from './BookingDetailsMaterialsCard';
@@ -28,7 +29,13 @@ const BookingDetailsNotFound = ({ copy }) => (
   </div>
 );
 
-const BookingDetailsView = ({ copy, booking, onChatWithCustomer }) => {
+const BookingDetailsView = ({
+  copy,
+  booking,
+  chatBookingId,
+  onChatWithCustomer,
+  onCloseChatWithCustomer,
+}) => {
   if (!booking) {
     return <BookingDetailsNotFound copy={copy} />;
   }
@@ -54,6 +61,14 @@ const BookingDetailsView = ({ copy, booking, onChatWithCustomer }) => {
         <BookingDetailsPaymentCard copy={copy} payment={booking.payment} />
         <BookingDetailsTimelineCard copy={copy} timeline={booking.timeline} />
       </div>
+
+      {chatBookingId ? (
+        <BookingsChatModal
+          key={chatBookingId}
+          bookingId={chatBookingId}
+          onClose={onCloseChatWithCustomer}
+        />
+      ) : null}
     </div>
   );
 };

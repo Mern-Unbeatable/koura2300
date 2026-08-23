@@ -173,6 +173,19 @@ describe('BookingDetailsView', () => {
     expect(onChatWithCustomer).toHaveBeenCalledWith(requiredBooking.id);
   });
 
+  it.each([
+    ['required', requiredBooking.id],
+    ['none', noneBooking.id],
+  ])('opens Chat With Customer modal from %s material details', (_label, bookingId) => {
+    renderDetails(bookingId, {
+      chatBookingId: bookingId,
+      onCloseChatWithCustomer: jest.fn(),
+    });
+
+    expect(screen.getByRole('dialog', { name: /chat with customer/i })).toBeInTheDocument();
+    expect(screen.getByTestId('bookings-chat-overlay')).toBeInTheDocument();
+  });
+
   it('renders not found state for missing bookings', () => {
     render(
       <MemoryRouter>
