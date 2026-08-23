@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { ROUTES } from "../../../../config";
 import { logout, selectUser } from "../../../../store/slices/authSlice";
 import {
+  CalendarDays,
   LayoutDashboard,
   Mail,
   Users,
@@ -23,6 +24,7 @@ import {
 
 const NAV_ITEMS = [
   { name: "Dashboard", path: ROUTES.ADMIN_DASHBOARD, icon: LayoutDashboard },
+  { name: "Bookings", path: ROUTES.ADMIN_BOOKINGS, icon: CalendarDays },
   { name: "Emails", path: ROUTES.ADMIN_EMAILS, icon: Mail },
   { name: "Leads", path: ROUTES.ADMIN_LEADS, icon: Users },
   { name: "Orders", path: ROUTES.ADMIN_ORDERS, icon: ShoppingCart },

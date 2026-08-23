@@ -34,6 +34,7 @@ export const ROUTES = {
   ACCOUNT: '/account',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
+  ADMIN_BOOKINGS: '/admin/bookings',
   ADMIN_EMAILS: '/admin/emails',
   ADMIN_LEADS: '/admin/leads',
   ADMIN_ORDERS: '/admin/orders',
@@ -53,10 +54,7 @@ export const buildBlogDetailsRoute = (slug) => `/blog/${slug}`;
 
 export const buildOrderDetailsRoute = (orderId) => `/orders/${orderId}`;
 
-export const buildServiceDetailsRoute = (
-  serviceId,
-  category = CATALOG_ALL_CATEGORY,
-) => {
+export const buildServiceDetailsRoute = (serviceId, category = CATALOG_ALL_CATEGORY) => {
   const searchParams = new URLSearchParams({
     [SERVICE_DETAILS_CATEGORY_PARAM]: category,
   });

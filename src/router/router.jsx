@@ -45,6 +45,7 @@ const AccountPage = lazy(() => import('../pages/Account'));
 
 // Admin pages — each lazy-loaded so they only download when visited
 const Dashboard = lazy(() => import('../pages/admin/Dashboard'));
+const Bookings = lazy(() => import('../pages/admin/Bookings'));
 const Emails = lazy(() => import('../pages/admin/Emails'));
 const Leads = lazy(() => import('../pages/admin/Leads'));
 const Orders = lazy(() => import('../pages/admin/Orders'));
@@ -322,6 +323,7 @@ const router = createBrowserRouter(
       >
         <Route index element={<Navigate to={ROUTES.ADMIN_DASHBOARD} replace />} />
         <Route path={seg(ROUTES.ADMIN_DASHBOARD)} element={<Dashboard />} />
+        <Route path={seg(ROUTES.ADMIN_BOOKINGS)} element={<Bookings />} />
         <Route path={seg(ROUTES.ADMIN_EMAILS)} element={<Emails />} />
         <Route path={seg(ROUTES.ADMIN_LEADS)} element={<Leads />} />
         <Route path={seg(ROUTES.ADMIN_ORDERS)} element={<Orders />} />
