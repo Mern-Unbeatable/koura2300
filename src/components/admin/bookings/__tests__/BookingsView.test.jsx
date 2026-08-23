@@ -105,6 +105,7 @@ describe('BookingsView', () => {
       <BookingsView
         {...createBookingsViewProps({
           openActionMenuId: 'BK-001',
+          onCloseActionMenu: jest.fn(),
           onSeeDetails,
           onStatusChange,
         })}

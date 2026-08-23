@@ -8,7 +8,7 @@ export const BOOKINGS_SUBTITLE_CLASS =
 export const BOOKINGS_FILTER_SELECT_CLASS =
   'h-auto w-full min-w-[140px] cursor-pointer appearance-none rounded-md border border-[#d1d5db] bg-white py-2.5 pr-9 pl-[13px] text-sm leading-5 text-[#1f2937] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange sm:w-auto';
 export const BOOKINGS_TABLE_CARD_CLASS =
-  'overflow-hidden rounded-xl bg-white shadow-sm';
+  'rounded-xl bg-white shadow-sm';
 export const BOOKINGS_TABLE_SCROLL_CLASS =
   'touch-pan-x overflow-x-auto overscroll-x-contain scrollbar-chart';
 export const BOOKINGS_TABLE_CLASS = 'min-w-[1040px] w-full text-left';
@@ -16,8 +16,12 @@ export const BOOKINGS_TABLE_HEAD_CLASS = 'bg-[#f6fbff]';
 export const BOOKINGS_TABLE_HEAD_CELL_CLASS =
   'px-2.5 py-3 text-base font-normal text-black whitespace-nowrap';
 export const BOOKINGS_TABLE_ROW_CLASS = 'border-b border-[#e4e4e4]';
+export const BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS =
+  'px-2.5 py-3 text-center text-base font-normal text-black whitespace-nowrap';
 export const BOOKINGS_TABLE_CELL_CLASS =
   'px-2.5 py-6 text-base leading-6 text-[#0c0c0c] align-middle';
+export const BOOKINGS_TABLE_ACTION_CELL_CLASS =
+  'px-2.5 py-6 text-center align-middle';
 export const BOOKINGS_EMPTY_ROW_CLASS =
   'px-4 py-10 text-center text-base text-[#6b7280]';
 export const BOOKINGS_SERVICE_NAME_CLASS = 'text-[#0b1e3d]';
@@ -33,15 +37,17 @@ export const BOOKINGS_PAGINATION_CLASS = 'flex items-center gap-2';
 export const BOOKINGS_PAGINATION_BUTTON_CLASS =
   'cursor-pointer rounded-xl border border-brand-orange px-4 py-2 text-base font-medium capitalize text-brand-orange transition-colors hover:bg-[#fff1eb] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-50';
 export const BOOKINGS_ACTION_MENU_CLASS =
-  'absolute right-0 z-20 flex w-[193px] flex-col gap-1 overflow-hidden rounded-lg bg-white shadow-[0px_4px_16px_rgba(50,50,71,0.12)]';
+  'fixed z-50 w-[193px]';
+export const BOOKINGS_ACTION_MENU_SURFACE_CLASS =
+  'flex flex-col gap-1 overflow-hidden rounded-lg border border-[#ececec] bg-white py-1 shadow-[0px_4px_16px_rgba(50,50,71,0.12)]';
 export const BOOKINGS_ACTION_MENU_PRIMARY_CLASS =
-  'w-full cursor-pointer bg-brand-orange px-2.5 py-1.5 text-left text-base leading-6 text-white transition-colors hover:bg-brand-orange-dark';
+  'mx-1 w-[calc(100%-0.5rem)] cursor-pointer rounded-md bg-brand-orange px-2.5 py-1.5 text-left text-base leading-6 text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const BOOKINGS_ACTION_MENU_ITEM_CLASS =
-  'w-full cursor-pointer px-2.5 py-1.5 text-left text-base leading-6 text-[#2d3036] transition-colors hover:bg-[#f9fafb]';
+  'w-full cursor-pointer px-3 py-1.5 text-left text-base leading-6 text-[#2d3036] transition-colors hover:bg-[#f9fafb] focus:outline-none focus-visible:bg-[#f9fafb]';
 export const BOOKINGS_ACTION_MENU_STATUS_HEADING_CLASS =
-  'px-2.5 py-1.5 text-base font-medium leading-6 text-brand-orange';
+  'px-3 pb-0.5 pt-1.5 text-base font-medium leading-6 text-brand-orange';
 export const BOOKINGS_ACTION_MENU_STATUS_ITEM_CLASS =
-  'w-full cursor-pointer px-2.5 py-1.5 text-left text-sm leading-normal text-[#2d3036] transition-colors hover:bg-[#f9fafb]';
+  'w-full cursor-pointer px-3 py-1.5 text-left text-sm leading-normal text-[#2d3036] transition-colors hover:bg-[#f9fafb] focus:outline-none focus-visible:bg-[#f9fafb]';
 export const BOOKINGS_STATUS_BADGE_CLASS =
   'inline-flex h-[22px] items-center justify-center rounded-full px-[9px] py-[3px] text-xs font-medium leading-4';
 

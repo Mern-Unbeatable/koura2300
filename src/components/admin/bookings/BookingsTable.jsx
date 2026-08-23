@@ -3,6 +3,7 @@ import {
   BOOKINGS_TABLE_CLASS,
   BOOKINGS_TABLE_COLUMN_COUNT,
   BOOKINGS_EMPTY_ROW_CLASS,
+  BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_HEAD_CLASS,
   BOOKINGS_TABLE_SCROLL_CLASS,
@@ -16,6 +17,7 @@ const BookingsTable = ({
   openActionMenuId,
   pagination,
   onToggleActionMenu,
+  onCloseActionMenu,
   onSeeDetails,
   onChatWithCustomer,
   onStatusChange,
@@ -26,7 +28,15 @@ const BookingsTable = ({
         <thead className={BOOKINGS_TABLE_HEAD_CLASS}>
           <tr>
             {Object.values(copy.columns).map((column) => (
-              <th key={column} scope="col" className={BOOKINGS_TABLE_HEAD_CELL_CLASS}>
+              <th
+                key={column}
+                scope="col"
+                className={
+                  column === copy.columns.action
+                    ? BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS
+                    : BOOKINGS_TABLE_HEAD_CELL_CLASS
+                }
+              >
                 {column}
               </th>
             ))}
@@ -47,6 +57,7 @@ const BookingsTable = ({
                 copy={copy}
                 isActionMenuOpen={openActionMenuId === booking.id}
                 onToggleActionMenu={onToggleActionMenu}
+                onCloseActionMenu={onCloseActionMenu}
                 onSeeDetails={onSeeDetails}
                 onChatWithCustomer={onChatWithCustomer}
                 onStatusChange={onStatusChange}

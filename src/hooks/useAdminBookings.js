@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BOOKINGS_COPY } from '../components/admin/bookings/bookingsCopy';
 import {
@@ -14,10 +14,8 @@ import {
   paginateBookings,
   updateBookingStatus,
 } from '../components/admin/bookings/bookingsUtils';
-import useClickOutside from './useClickOutside';
 
 const useAdminBookings = () => {
-  const menuContainerRef = useRef(null);
   const [bookings, setBookings] = useState(BOOKINGS_SEED);
   const [selectedStatusId, setSelectedStatusId] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,8 +66,6 @@ const useAdminBookings = () => {
     setOpenActionMenuId(null);
   }, []);
 
-  useClickOutside(Boolean(openActionMenuId), menuContainerRef, handleCloseActionMenu);
-
   const handleSeeDetails = useCallback((bookingId) => {
     setOpenActionMenuId(null);
     toast.success(`${BOOKINGS_COPY.toasts.seeDetails} (${bookingId})`);
@@ -95,7 +91,6 @@ const useAdminBookings = () => {
     onStatusFilterChange: handleStatusFilterChange,
     pagination,
     openActionMenuId,
-    menuContainerRef,
     onToggleActionMenu: handleToggleActionMenu,
     onCloseActionMenu: handleCloseActionMenu,
     onSeeDetails: handleSeeDetails,

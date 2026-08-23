@@ -11,8 +11,8 @@ const BookingsView = ({
   onStatusFilterChange,
   pagination,
   openActionMenuId,
-  menuContainerRef,
   onToggleActionMenu,
+  onCloseActionMenu,
   onSeeDetails,
   onChatWithCustomer,
   onStatusChange,
@@ -26,18 +26,17 @@ const BookingsView = ({
       statusFilterLabel={copy.statusFilterLabel}
       onStatusFilterChange={onStatusFilterChange}
     />
-    <div ref={menuContainerRef}>
-      <BookingsTable
-        copy={copy}
-        bookings={bookings}
-        openActionMenuId={openActionMenuId}
-        pagination={pagination}
-        onToggleActionMenu={onToggleActionMenu}
-        onSeeDetails={onSeeDetails}
-        onChatWithCustomer={onChatWithCustomer}
-        onStatusChange={onStatusChange}
-      />
-    </div>
+    <BookingsTable
+      copy={copy}
+      bookings={bookings}
+      openActionMenuId={openActionMenuId}
+      pagination={pagination}
+      onToggleActionMenu={onToggleActionMenu}
+      onCloseActionMenu={onCloseActionMenu}
+      onSeeDetails={onSeeDetails}
+      onChatWithCustomer={onChatWithCustomer}
+      onStatusChange={onStatusChange}
+    />
   </div>
 );
 

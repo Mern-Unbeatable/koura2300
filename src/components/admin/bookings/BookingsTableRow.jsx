@@ -2,6 +2,7 @@ import { formatServiceCost } from './bookingsUtils';
 import {
   BOOKINGS_CATEGORY_CLASS,
   BOOKINGS_SERVICE_NAME_CLASS,
+  BOOKINGS_TABLE_ACTION_CELL_CLASS,
   BOOKINGS_TABLE_CELL_CLASS,
   BOOKINGS_TABLE_ROW_CLASS,
 } from './bookingsData';
@@ -14,6 +15,7 @@ const BookingsTableRow = ({
   copy,
   isActionMenuOpen,
   onToggleActionMenu,
+  onCloseActionMenu,
   onSeeDetails,
   onChatWithCustomer,
   onStatusChange,
@@ -36,12 +38,13 @@ const BookingsTableRow = ({
     <td className={BOOKINGS_TABLE_CELL_CLASS}>
       <BookingsStatusBadge statusId={booking.statusId} />
     </td>
-    <td className={BOOKINGS_TABLE_CELL_CLASS}>
+    <td className={BOOKINGS_TABLE_ACTION_CELL_CLASS}>
       <BookingsRowActions
         bookingId={booking.id}
         copy={copy}
         isOpen={isActionMenuOpen}
         onToggle={onToggleActionMenu}
+        onClose={onCloseActionMenu}
         onSeeDetails={onSeeDetails}
         onChatWithCustomer={onChatWithCustomer}
         onStatusChange={onStatusChange}
