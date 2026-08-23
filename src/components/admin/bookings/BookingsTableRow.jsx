@@ -3,6 +3,7 @@ import {
   BOOKINGS_CATEGORY_CLASS,
   BOOKINGS_SERVICE_NAME_CLASS,
   BOOKINGS_TABLE_ACTION_CELL_CLASS,
+  BOOKINGS_TABLE_STATUS_CELL_CLASS,
   BOOKINGS_TABLE_CELL_CLASS,
   BOOKINGS_TABLE_ROW_CLASS,
 } from './bookingsData';
@@ -35,7 +36,7 @@ const BookingsTableRow = ({
     <td className={BOOKINGS_TABLE_CELL_CLASS}>
       <BookingsMaterialCell material={booking.material} copy={copy} />
     </td>
-    <td className={BOOKINGS_TABLE_CELL_CLASS}>
+    <td className={BOOKINGS_TABLE_STATUS_CELL_CLASS}>
       <BookingsStatusBadge statusId={booking.statusId} />
     </td>
     <td className={BOOKINGS_TABLE_ACTION_CELL_CLASS}>

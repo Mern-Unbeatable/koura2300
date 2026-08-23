@@ -4,6 +4,7 @@ import {
   BOOKINGS_TABLE_COLUMN_COUNT,
   BOOKINGS_EMPTY_ROW_CLASS,
   BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS,
+  BOOKINGS_TABLE_STATUS_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_HEAD_CLASS,
   BOOKINGS_TABLE_SCROLL_CLASS,
@@ -34,7 +35,9 @@ const BookingsTable = ({
                 className={
                   column === copy.columns.action
                     ? BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS
-                    : BOOKINGS_TABLE_HEAD_CELL_CLASS
+                    : column === copy.columns.status
+                      ? BOOKINGS_TABLE_STATUS_HEAD_CELL_CLASS
+                      : BOOKINGS_TABLE_HEAD_CELL_CLASS
                 }
               >
                 {column}

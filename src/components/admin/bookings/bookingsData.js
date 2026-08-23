@@ -18,9 +18,13 @@ export const BOOKINGS_TABLE_HEAD_CELL_CLASS =
 export const BOOKINGS_TABLE_ROW_CLASS = 'border-b border-[#e4e4e4]';
 export const BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS =
   'px-2.5 py-3 text-center text-base font-normal text-black whitespace-nowrap';
+export const BOOKINGS_TABLE_STATUS_HEAD_CELL_CLASS =
+  'px-2.5 py-3 text-center text-base font-normal text-black whitespace-nowrap';
 export const BOOKINGS_TABLE_CELL_CLASS =
   'px-2.5 py-6 text-base leading-6 text-[#0c0c0c] align-middle';
 export const BOOKINGS_TABLE_ACTION_CELL_CLASS =
+  'px-2.5 py-6 text-center align-middle';
+export const BOOKINGS_TABLE_STATUS_CELL_CLASS =
   'px-2.5 py-6 text-center align-middle';
 export const BOOKINGS_EMPTY_ROW_CLASS =
   'px-4 py-10 text-center text-base text-[#6b7280]';
