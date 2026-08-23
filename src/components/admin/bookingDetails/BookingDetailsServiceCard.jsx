@@ -51,7 +51,15 @@ const BookingDetailsServiceCard = ({ copy, service }) => (
 
     <div className={BOOKING_DETAILS_SERVICE_BLOCK_CLASS}>
       <p className={BOOKING_DETAILS_SERVICE_EYEBROW_CLASS}>{copy.labels.description}</p>
-      <p className={BOOKING_DETAILS_SERVICE_DESCRIPTION_CLASS}>{service.description}</p>
+      <div className="flex flex-col gap-0">
+        {(Array.isArray(service.description) ? service.description : [service.description]).map(
+          (line) => (
+            <p key={line} className={BOOKING_DETAILS_SERVICE_DESCRIPTION_CLASS}>
+              {line}
+            </p>
+          ),
+        )}
+      </div>
     </div>
 
     <div className={BOOKING_DETAILS_LISTS_GRID_CLASS}>

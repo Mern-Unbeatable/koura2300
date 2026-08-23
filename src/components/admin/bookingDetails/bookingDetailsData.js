@@ -172,8 +172,10 @@ export const BOOKING_DETAILS_DEFAULT_SUMMARY = {
 };
 
 export const BOOKING_DETAILS_DEFAULT_SERVICE = {
-  description:
-    'Complete upgrade of your residential electrical panel from 100A to 200A service. Includes removal of old panel, installation of new main breaker panel, transfer of existing circuits, and inspection preparation.',
+  description: [
+    'Complete upgrade of your residential electrical panel from 100A to 200A service. Includes removal of old panel,',
+    'installation of new main breaker panel, transfer of existing circuits, and inspection preparation.',
+  ],
   inclusions: BOOKING_DETAILS_DEFAULT_INCLUSIONS,
   exclusions: BOOKING_DETAILS_DEFAULT_EXCLUSIONS,
   startingPrice: '$320',
