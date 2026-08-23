@@ -87,12 +87,31 @@ describe('BookingDetailsView', () => {
     expect(screen.getByText(details.customer.location)).toHaveClass('text-[#f54900]');
   });
 
+  it('renders the Figma service price bar and a larger booking payment amount', () => {
+    renderDetails(noneBooking.id);
+    const details = getBookingDetailsById(noneBooking.id);
+    const priceBar = screen.getByTestId('booking-details-service-price');
+
+    expect(priceBar).toHaveTextContent(BOOKING_DETAILS_COPY.labels.startingPrice);
+    expect(priceBar).toHaveTextContent(details.service.startingPrice);
+    expect(priceBar).toHaveTextContent(BOOKING_DETAILS_COPY.labels.onwards);
+    expect(priceBar).toHaveTextContent(BOOKING_DETAILS_COPY.labels.collectedAfter);
+    expect(priceBar).toHaveTextContent(BOOKING_DETAILS_COPY.labels.completion);
+    expect(priceBar.className).toContain('bg-[#f8fafc]');
+    expect(
+      screen.getAllByText(details.payment.bookingPrice).some((node) =>
+        node.className.includes('text-2xl'),
+      ),
+    ).toBe(true);
+  });
+
   it('uses responsive layout classes for the top summary grid', () => {
     renderDetails(requiredBooking.id);
 
     expect(screen.getByTestId('booking-details-top-grid')).toHaveClass(
       'grid',
       'grid-cols-1',
+      'items-stretch',
       'min-[768px]:grid-cols-2',
     );
   });

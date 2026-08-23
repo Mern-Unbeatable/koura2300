@@ -16,42 +16,53 @@ export const BOOKING_DETAILS_SUBTITLE_CLASS =
 export const BOOKING_DETAILS_CHAT_BUTTON_CLASS =
   'inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-brand-orange px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:w-auto';
 export const BOOKING_DETAILS_TOP_GRID_CLASS =
-  'grid grid-cols-1 gap-4 min-[768px]:grid-cols-2 min-[768px]:gap-5 min-[1020px]:gap-7';
+  'grid grid-cols-1 items-stretch gap-4 min-[768px]:grid-cols-2 min-[768px]:gap-5 min-[1020px]:gap-7';
 export const BOOKING_DETAILS_STACK_CLASS = 'flex min-w-0 flex-col gap-4 min-[768px]:gap-5';
 export const BOOKING_DETAILS_CARD_CLASS =
-  'overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
+  'flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
 export const BOOKING_DETAILS_CARD_HEADER_CLASS =
   'flex items-center gap-3 px-4 py-4 min-[426px]:px-5';
 export const BOOKING_DETAILS_CARD_TITLE_CLASS =
   'text-sm font-bold leading-5 text-[#0f172b]';
 export const BOOKING_DETAILS_CARD_BODY_CLASS =
-  'border-t border-[#f8fafc] px-4 pb-5 pt-4 min-[426px]:px-5';
+  'flex flex-1 flex-col border-t border-[#f8fafc] px-4 pb-5 pt-4 min-[426px]:px-5';
 export const BOOKING_DETAILS_BADGE_CLASS =
   'shrink-0 rounded-full bg-[#ffedd4] px-2 py-0.5 text-xs font-semibold text-[#f54900]';
 export const BOOKING_DETAILS_META_STACK_CLASS = 'flex flex-col gap-[14px]';
 export const BOOKING_DETAILS_META_ROW_CLASS =
-  'flex flex-col gap-3 min-[426px]:flex-row min-[426px]:items-start min-[426px]:justify-between';
-export const BOOKING_DETAILS_META_ITEM_CLASS = 'min-w-0 flex-1';
+  'flex flex-col gap-3 min-[426px]:flex-row min-[426px]:items-start min-[426px]:justify-between min-[426px]:gap-4';
+export const BOOKING_DETAILS_META_ITEM_LEFT_CLASS = 'min-w-0 flex-1';
+export const BOOKING_DETAILS_META_ITEM_RIGHT_CLASS =
+  'min-w-0 min-[426px]:max-w-[48%] min-[426px]:shrink-0 min-[426px]:text-right';
 export const BOOKING_DETAILS_META_LABEL_CLASS =
   'text-xs font-medium leading-4 text-[#90a1b9]';
 export const BOOKING_DETAILS_META_VALUE_CLASS =
   'pt-0.5 text-sm font-semibold leading-5 text-[#0f172b]';
 export const BOOKING_DETAILS_META_HIGHLIGHT_CLASS =
   'pt-0.5 text-sm font-semibold leading-5 text-[#f54900]';
+export const BOOKING_DETAILS_SERVICE_BLOCK_CLASS = 'flex flex-col gap-2 pb-4';
 export const BOOKING_DETAILS_SERVICE_EYEBROW_CLASS =
-  'text-xs font-semibold uppercase tracking-wide text-[#90a1b9]';
+  'text-xs font-medium uppercase tracking-[0.3px] text-[#90a1b9]';
 export const BOOKING_DETAILS_SERVICE_TITLE_CLASS =
-  'mt-1 text-lg font-bold leading-7 text-[#0f172b] min-[426px]:text-xl';
+  'text-xl font-semibold leading-normal text-[#0b1e3d] min-[426px]:text-2xl';
 export const BOOKING_DETAILS_SERVICE_DESCRIPTION_CLASS =
-  'mt-2 text-sm leading-6 text-[#62748e]';
+  'text-sm leading-[22.75px] text-[#45556c]';
 export const BOOKING_DETAILS_LISTS_GRID_CLASS =
-  'mt-5 grid grid-cols-1 gap-5 min-[768px]:grid-cols-2';
+  'mt-1 grid grid-cols-1 gap-5 min-[768px]:grid-cols-2';
 export const BOOKING_DETAILS_LIST_TITLE_CLASS =
-  'text-xs font-semibold uppercase tracking-wide text-[#90a1b9]';
+  'text-xs font-semibold uppercase tracking-[0.3px] text-[#90a1b9]';
 export const BOOKING_DETAILS_LIST_ITEM_CLASS =
   'flex items-start gap-2 pt-1.5 first:pt-0 text-sm text-[#314158]';
 export const BOOKING_DETAILS_SERVICE_FOOTER_CLASS =
-  'mt-5 flex flex-col gap-2 border-t border-[#f8fafc] pt-4 min-[426px]:flex-row min-[426px]:items-center min-[426px]:justify-between';
+  'mt-4 flex flex-col gap-3 rounded-xl border border-[#f1f5f9] bg-[#f8fafc] p-4 min-[426px]:flex-row min-[426px]:items-center min-[426px]:justify-between min-[426px]:gap-4';
+export const BOOKING_DETAILS_SERVICE_PRICE_CLASS =
+  'text-xl font-bold leading-7 text-[#0f172b]';
+export const BOOKING_DETAILS_SERVICE_PRICE_SUFFIX_CLASS =
+  'text-sm font-normal leading-5 text-[#90a1b9]';
+export const BOOKING_DETAILS_SERVICE_COLLECTED_CLASS =
+  'text-xs leading-4 text-[#90a1b9] min-[426px]:text-right';
+export const BOOKING_DETAILS_SERVICE_COLLECTED_EMPHASIS_CLASS =
+  'text-xs font-semibold leading-4 text-[#45556c] min-[426px]:text-right';
 export const BOOKING_DETAILS_MATERIALS_YES_CLASS =
   'rounded-full border border-[#ffd6a8] bg-[#fff7ed] px-2.5 py-1 text-xs font-semibold text-[#ca3500]';
 export const BOOKING_DETAILS_MATERIALS_TABLE_WRAP_CLASS =
@@ -64,6 +75,12 @@ export const BOOKING_DETAILS_MATERIALS_CELL_CLASS =
   'px-3 py-3 max-[425px]:px-2.5 max-[425px]:py-2.5';
 export const BOOKING_DETAILS_PAYMENT_ROW_CLASS =
   'flex flex-col gap-4 min-[426px]:flex-row min-[426px]:items-end min-[426px]:justify-between';
+export const BOOKING_DETAILS_PAYMENT_PRICE_CLASS =
+  'text-2xl font-bold leading-8 text-[#0f172b]';
+export const BOOKING_DETAILS_PAYMENT_SUFFIX_CLASS =
+  'text-sm font-normal leading-5 text-[#90a1b9]';
+export const BOOKING_DETAILS_PAYMENT_STATUS_CLASS =
+  'pt-0.5 text-sm font-semibold leading-5 text-[#45556c]';
 export const BOOKING_DETAILS_TIMELINE_LIST_CLASS = 'pl-1';
 export const BOOKING_DETAILS_TIMELINE_STEP_CLASS = 'relative flex gap-4 pb-6 last:pb-0';
 export const BOOKING_DETAILS_TIMELINE_COMPLETE_DOT_CLASS =
