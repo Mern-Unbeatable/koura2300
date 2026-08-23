@@ -25,8 +25,8 @@ describe('BookingsChatModal', () => {
     expect(screen.getByText('BK-001')).toBeInTheDocument();
     expect(screen.getByText('$185')).toBeInTheDocument();
     expect(
-      screen.getAllByRole('button', { name: BOOKINGS_CHAT_COPY.createOffer }).length,
-    ).toBeGreaterThanOrEqual(1);
+      screen.getByRole('button', { name: BOOKINGS_CHAT_COPY.createOffer }),
+    ).toBeInTheDocument();
     expect(
       screen.getByPlaceholderText(BOOKINGS_CHAT_COPY.inputPlaceholder),
     ).toBeInTheDocument();
@@ -85,17 +85,15 @@ describe('BookingsChatModal', () => {
   it('keeps the Send button beside the composer on Mobile L/M/S', () => {
     render(<BookingsChatModal bookingId="BK-001" onClose={jest.fn()} />);
 
-    const composer = screen.getByTestId('bookings-chat-composer');
     const sendButton = screen.getByRole('button', { name: BOOKINGS_CHAT_COPY.sendLabel });
     const composerRow = sendButton.parentElement;
 
-    expect(composer.className).toContain('flex-col');
     expect(composerRow.className).toContain('flex-row');
     expect(composerRow.className).toContain('items-center');
     expect(sendButton.className).toContain('size-11');
     expect(sendButton.className).toContain('min-[426px]:size-[52px]');
-    expect(
-      screen.getAllByRole('button', { name: BOOKINGS_CHAT_COPY.createOffer }),
-    ).toHaveLength(2);
+    expect(screen.getAllByRole('button', { name: BOOKINGS_CHAT_COPY.createOffer })).toHaveLength(
+      1,
+    );
   });
 });

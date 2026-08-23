@@ -3,23 +3,11 @@ import {
   BOOKINGS_CHAT_COMPOSER_ROW_CLASS,
   BOOKINGS_CHAT_COMPOSER_WRAP_CLASS,
   BOOKINGS_CHAT_CREATE_OFFER_CLASS,
-  BOOKINGS_CHAT_CREATE_OFFER_DESKTOP_CLASS,
-  BOOKINGS_CHAT_CREATE_OFFER_MOBILE_CLASS,
   BOOKINGS_CHAT_INPUT_CLASS,
   BOOKINGS_CHAT_INPUT_SHELL_CLASS,
   BOOKINGS_CHAT_SEND_BUTTON_CLASS,
   BOOKINGS_CHAT_SEND_ICON_SIZE,
 } from './bookingsChatData';
-
-const CreateOfferButton = ({ label, onClick, className }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={`${BOOKINGS_CHAT_CREATE_OFFER_CLASS} ${className}`}
-  >
-    {label}
-  </button>
-);
 
 const BookingsChatComposer = ({
   copy,
@@ -31,19 +19,11 @@ const BookingsChatComposer = ({
   onCreateOffer,
 }) => (
   <div className={BOOKINGS_CHAT_COMPOSER_WRAP_CLASS} data-testid="bookings-chat-composer">
-    <CreateOfferButton
-      label={copy.createOffer}
-      onClick={onCreateOffer}
-      className={BOOKINGS_CHAT_CREATE_OFFER_MOBILE_CLASS}
-    />
-
     <div className={BOOKINGS_CHAT_COMPOSER_ROW_CLASS}>
       <div className={BOOKINGS_CHAT_INPUT_SHELL_CLASS}>
-        <CreateOfferButton
-          label={copy.createOffer}
-          onClick={onCreateOffer}
-          className={BOOKINGS_CHAT_CREATE_OFFER_DESKTOP_CLASS}
-        />
+        <button type="button" onClick={onCreateOffer} className={BOOKINGS_CHAT_CREATE_OFFER_CLASS}>
+          {copy.createOffer}
+        </button>
         <input
           ref={inputRef}
           type="text"

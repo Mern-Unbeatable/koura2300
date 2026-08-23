@@ -32,20 +32,16 @@ export const BOOKINGS_CHAT_BUBBLE_TEXT_CLASS =
 export const BOOKINGS_CHAT_RECEIVED_BUBBLE_CLASS = 'bg-[#f0f2f5]';
 export const BOOKINGS_CHAT_SENT_BUBBLE_CLASS = 'bg-[#e4e7ec]';
 export const BOOKINGS_CHAT_COMPOSER_WRAP_CLASS =
-  'mt-auto flex shrink-0 flex-col gap-2.5 px-3 py-4 min-[376px]:gap-3 min-[376px]:px-6 min-[376px]:py-5 min-[768px]:px-9';
-/** Input + Send always share one row so Send stays aligned on Mobile L/M/S. */
+  'mt-auto shrink-0 px-3 py-4 min-[376px]:px-6 min-[376px]:py-5 min-[768px]:px-9';
+/** Input shell + Send share one row on Mobile L/M/S and desktop. */
 export const BOOKINGS_CHAT_COMPOSER_ROW_CLASS =
   'flex w-full flex-row items-center gap-2 min-[376px]:gap-2.5 min-[426px]:gap-3';
 export const BOOKINGS_CHAT_INPUT_SHELL_CLASS =
-  'flex min-h-11 w-full min-w-0 flex-1 items-center rounded-full bg-white py-0.5 pl-3 pr-3 shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] min-[376px]:min-h-12 min-[426px]:min-h-[52px] min-[426px]:pl-3 min-[426px]:pr-5';
+  'flex min-h-11 w-full min-w-0 flex-1 items-center gap-1.5 overflow-hidden rounded-full bg-white py-0.5 pl-1.5 pr-2 shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] min-[376px]:min-h-12 min-[376px]:gap-2 min-[376px]:pl-2 min-[376px]:pr-3 min-[426px]:min-h-[52px] min-[426px]:pl-3 min-[426px]:pr-5';
 export const BOOKINGS_CHAT_CREATE_OFFER_CLASS =
-  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-[20px] bg-[#f59e0b] px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 min-[376px]:text-base';
-export const BOOKINGS_CHAT_CREATE_OFFER_MOBILE_CLASS =
-  'self-start min-[426px]:hidden';
-export const BOOKINGS_CHAT_CREATE_OFFER_DESKTOP_CLASS =
-  'mr-1 hidden min-[426px]:inline-flex';
+  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-[20px] bg-[#f59e0b] px-2.5 py-1.5 text-xs font-medium text-white transition-colors hover:bg-amber-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 min-[376px]:px-3 min-[376px]:py-2 min-[376px]:text-sm min-[426px]:text-base';
 export const BOOKINGS_CHAT_INPUT_CLASS =
-  'min-w-0 w-full flex-1 bg-transparent px-2 py-2.5 text-sm tracking-[0.5px] text-slate-800 placeholder:text-[#98a2b3] focus:outline-none min-[376px]:px-3 min-[376px]:text-sm';
+  'min-w-0 w-full flex-1 bg-transparent px-1.5 py-2 text-sm tracking-[0.5px] text-slate-800 placeholder:text-[#98a2b3] focus:outline-none min-[376px]:px-2 min-[376px]:text-sm';
 export const BOOKINGS_CHAT_SEND_BUTTON_CLASS =
   'flex size-11 shrink-0 cursor-pointer flex-col items-center justify-center rounded-full bg-white text-[#98a2b3] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-40 min-[376px]:size-12 min-[426px]:size-[52px]';
 export const BOOKINGS_CHAT_OFFER_CARD_CLASS =
