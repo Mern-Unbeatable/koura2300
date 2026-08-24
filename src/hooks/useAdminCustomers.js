@@ -7,6 +7,8 @@ import {
   CUSTOMERS_STATUS_OPTIONS,
 } from '../components/admin/customers/customersData';
 import { getCustomerDetailsById } from '../components/admin/customers/customersDetailsUtils';
+import { CUSTOMERS_SUSPEND_COPY } from '../components/admin/customers/customersSuspendCopy';
+import { suspendCustomer } from '../components/admin/customers/customersSuspendUtils';
 import {
   filterCustomersByStatus,
   getCustomersSummary,
@@ -16,12 +18,15 @@ import {
   updateCustomerStatus,
 } from '../components/admin/customers/customersUtils';
 
+const CUSTOMERS_STATUS_SUSPEND = 'suspend';
+
 const useAdminCustomers = () => {
   const [customers, setCustomers] = useState(CUSTOMERS_SEED);
   const [selectedStatusId, setSelectedStatusId] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [openActionMenuId, setOpenActionMenuId] = useState(null);
   const [detailsCustomerId, setDetailsCustomerId] = useState(null);
+  const [suspendCustomerId, setSuspendCustomerId] = useState(null);
 
   const filteredCustomers = useMemo(
     () => filterCustomersByStatus(customers, selectedStatusId),
@@ -86,12 +91,33 @@ const useAdminCustomers = () => {
   }, []);
 
   const handleStatusChange = useCallback((customerId, statusId) => {
+    setOpenActionMenuId(null);
+
+    if (statusId === CUSTOMERS_STATUS_SUSPEND) {
+      setSuspendCustomerId(customerId);
+      return;
+    }
+
     setCustomers((currentCustomers) =>
       updateCustomerStatus(currentCustomers, customerId, statusId),
     );
-    setOpenActionMenuId(null);
     toast.success(CUSTOMERS_COPY.toasts.statusUpdated);
   }, []);
+
+  const handleCloseSuspend = useCallback(() => {
+    setSuspendCustomerId(null);
+  }, []);
+
+  const handleConfirmSuspend = useCallback(
+    (reason) => {
+      setCustomers((currentCustomers) =>
+        suspendCustomer(currentCustomers, suspendCustomerId, reason),
+      );
+      setSuspendCustomerId(null);
+      toast.success(CUSTOMERS_SUSPEND_COPY.successToast);
+    },
+    [suspendCustomerId],
+  );
 
   return {
     copy: CUSTOMERS_COPY,
@@ -108,6 +134,9 @@ const useAdminCustomers = () => {
     onCloseDetails: handleCloseDetails,
     customerDetails,
     onStatusChange: handleStatusChange,
+    isSuspendModalOpen: Boolean(suspendCustomerId),
+    onCloseSuspend: handleCloseSuspend,
+    onConfirmSuspend: handleConfirmSuspend,
   };
 };
 

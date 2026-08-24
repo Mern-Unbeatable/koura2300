@@ -48,6 +48,9 @@ const createCustomersViewProps = (overrides = {}) => ({
   onCloseDetails: jest.fn(),
   customerDetails: null,
   onStatusChange: jest.fn(),
+  isSuspendModalOpen: false,
+  onCloseSuspend: jest.fn(),
+  onConfirmSuspend: jest.fn(),
   ...overrides,
 });
 
@@ -270,5 +273,20 @@ describe('CustomersView', () => {
     expect(within(dialog).getByText('Cameron Williamson')).toBeInTheDocument();
     expect(within(dialog).getByText('CW')).toBeInTheDocument();
     expect(within(dialog).getByText('$40,000')).toBeInTheDocument();
+  });
+
+  it('renders the Suspend User modal when suspend is open', () => {
+    render(
+      <CustomersView
+        {...createCustomersViewProps({
+          isSuspendModalOpen: true,
+        })}
+      />,
+    );
+
+    expect(screen.getByRole('dialog', { name: /suspend user/i })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Why Suspend this user')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Suspend' })).toBeInTheDocument();
   });
 });

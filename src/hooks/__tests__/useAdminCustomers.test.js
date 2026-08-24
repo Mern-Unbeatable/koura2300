@@ -2,6 +2,7 @@ import { act, renderHook } from '@testing-library/react';
 import toast from 'react-hot-toast';
 import { CUSTOMERS_COPY } from '../../components/admin/customers/customersCopy';
 import { CUSTOMERS_PAGE_SIZE, CUSTOMERS_SEED } from '../../components/admin/customers/customersData';
+import { CUSTOMERS_SUSPEND_COPY } from '../../components/admin/customers/customersSuspendCopy';
 import useAdminCustomers from '../useAdminCustomers';
 
 jest.mock('react-hot-toast', () => ({
@@ -37,22 +38,75 @@ describe('useAdminCustomers', () => {
     );
   });
 
-  it('updates customer status and closes the action menu', () => {
+  it('activates a customer immediately and closes the action menu', () => {
+    const { result } = renderHook(() => useAdminCustomers());
+
+    act(() => {
+      result.current.onToggleActionMenu('CU-002');
+    });
+
+    expect(result.current.openActionMenuId).toBe('CU-002');
+
+    act(() => {
+      result.current.onStatusChange('CU-002', 'active');
+    });
+
+    expect(result.current.openActionMenuId).toBeNull();
+    expect(result.current.isSuspendModalOpen).toBe(false);
+    expect(toast.success).toHaveBeenCalledWith(CUSTOMERS_COPY.toasts.statusUpdated);
+  });
+
+  it('opens the suspend modal instead of suspending immediately', () => {
     const { result } = renderHook(() => useAdminCustomers());
 
     act(() => {
       result.current.onToggleActionMenu('CU-001');
     });
 
-    expect(result.current.openActionMenuId).toBe('CU-001');
-
     act(() => {
       result.current.onStatusChange('CU-001', 'suspend');
     });
 
     expect(result.current.openActionMenuId).toBeNull();
-    expect(toast.success).toHaveBeenCalledWith(CUSTOMERS_COPY.toasts.statusUpdated);
+    expect(result.current.isSuspendModalOpen).toBe(true);
+    expect(toast.success).not.toHaveBeenCalled();
     expect(CUSTOMERS_SEED.find((customer) => customer.id === 'CU-001')?.statusId).toBe('active');
+  });
+
+  it('confirms suspend with a reason and closes the modal', () => {
+    const { result } = renderHook(() => useAdminCustomers());
+
+    act(() => {
+      result.current.onStatusChange('CU-001', 'suspend');
+    });
+
+    act(() => {
+      result.current.onConfirmSuspend('Policy violation');
+    });
+
+    expect(result.current.isSuspendModalOpen).toBe(false);
+    expect(toast.success).toHaveBeenCalledWith(CUSTOMERS_SUSPEND_COPY.successToast);
+
+    act(() => {
+      result.current.onStatusFilterChange({ target: { value: 'suspend' } });
+    });
+
+    expect(result.current.customers.some((customer) => customer.id === 'CU-001')).toBe(true);
+  });
+
+  it('closes the suspend modal without changing status', () => {
+    const { result } = renderHook(() => useAdminCustomers());
+
+    act(() => {
+      result.current.onStatusChange('CU-001', 'suspend');
+    });
+
+    act(() => {
+      result.current.onCloseSuspend();
+    });
+
+    expect(result.current.isSuspendModalOpen).toBe(false);
+    expect(toast.success).not.toHaveBeenCalled();
   });
 
   it('opens customer details when see details is requested', () => {

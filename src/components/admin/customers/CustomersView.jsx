@@ -1,6 +1,7 @@
 import { CUSTOMERS_PAGE_CLASS } from './customersData';
 import CustomersDetailsModal from './CustomersDetailsModal';
 import CustomersHeader from './CustomersHeader';
+import CustomersSuspendModal from './CustomersSuspendModal';
 import CustomersTable from './CustomersTable';
 
 const CustomersView = ({
@@ -18,6 +19,9 @@ const CustomersView = ({
   onCloseDetails,
   customerDetails,
   onStatusChange,
+  isSuspendModalOpen,
+  onCloseSuspend,
+  onConfirmSuspend,
 }) => (
   <div className={CUSTOMERS_PAGE_CLASS}>
     <CustomersHeader
@@ -40,6 +44,9 @@ const CustomersView = ({
     />
     {customerDetails ? (
       <CustomersDetailsModal details={customerDetails} onClose={onCloseDetails} />
+    ) : null}
+    {isSuspendModalOpen ? (
+      <CustomersSuspendModal onClose={onCloseSuspend} onConfirm={onConfirmSuspend} />
     ) : null}
   </div>
 );
