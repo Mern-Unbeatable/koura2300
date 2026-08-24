@@ -5,6 +5,7 @@ import {
   BOOKINGS_TABLE_ACTION_CELL_CLASS,
   BOOKINGS_TABLE_STATUS_CELL_CLASS,
   BOOKINGS_TABLE_STATUS_OFFSET_CLASS,
+  BOOKINGS_TABLE_PREFERRED_CONTACT_CELL_CLASS,
   BOOKINGS_TABLE_CELL_CLASS,
   BOOKINGS_TABLE_ROW_CLASS,
 } from './bookingsData';
@@ -36,6 +37,9 @@ const BookingsTableRow = ({
     </td>
     <td className={BOOKINGS_TABLE_CELL_CLASS}>
       <BookingsMaterialCell material={booking.material} copy={copy} />
+    </td>
+    <td className={BOOKINGS_TABLE_PREFERRED_CONTACT_CELL_CLASS}>
+      {copy.preferredContact[booking.preferredContact]}
     </td>
     <td className={BOOKINGS_TABLE_STATUS_CELL_CLASS}>
       <span className={BOOKINGS_TABLE_STATUS_OFFSET_CLASS}>

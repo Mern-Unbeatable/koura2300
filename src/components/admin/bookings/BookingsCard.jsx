@@ -76,6 +76,9 @@ const BookingsCard = ({
       <BookingsCardField label={copy.columns.material}>
         <BookingsMaterialCell material={booking.material} copy={copy} />
       </BookingsCardField>
+      <BookingsCardField label={copy.columns.preferredContact}>
+        {copy.preferredContact[booking.preferredContact]}
+      </BookingsCardField>
       <BookingsCardField label={copy.columns.status}>
         <BookingsStatusBadge statusId={booking.statusId} />
       </BookingsCardField>

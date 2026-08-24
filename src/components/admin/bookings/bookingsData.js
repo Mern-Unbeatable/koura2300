@@ -10,7 +10,7 @@ export const BOOKINGS_VIEWPORT = {
 /** Cards for mobile → laptop; table only from desktop width. */
 export const BOOKINGS_CARDS_MAX_WIDTH_PX = BOOKINGS_VIEWPORT.DESKTOP - 1;
 
-export const BOOKINGS_TABLE_MIN_WIDTH_PX = 1040;
+export const BOOKINGS_TABLE_MIN_WIDTH_PX = 1510;
 
 export const BOOKINGS_PAGE_CLASS =
   'flex min-w-0 flex-col gap-4 max-[425px]:gap-5 min-[426px]:gap-6 min-[768px]:gap-8 min-[1020px]:gap-9';
@@ -26,7 +26,18 @@ export const BOOKINGS_TABLE_CARD_CLASS =
   'min-w-0 w-full overflow-hidden rounded-lg bg-white shadow-sm min-[768px]:rounded-xl';
 export const BOOKINGS_TABLE_SCROLL_CLASS =
   'w-full touch-pan-x overflow-x-auto overscroll-x-contain scrollbar-chart';
-export const BOOKINGS_TABLE_CLASS = 'min-w-[1040px] w-full text-left';
+export const BOOKINGS_TABLE_CLASS = 'min-w-[1510px] w-full table-fixed text-left';
+export const BOOKINGS_TABLE_COLUMN_WIDTHS = [
+  '150px',
+  '180px',
+  '180px',
+  '180px',
+  '180px',
+  '180px',
+  '180px',
+  '180px',
+  '100px',
+];
 export const BOOKINGS_CARDS_CLASS =
   'flex flex-col gap-3 p-3 min-[376px]:gap-4 min-[376px]:p-4 min-[768px]:gap-5 min-[768px]:p-5';
 export const BOOKINGS_CARD_CLASS =
@@ -52,6 +63,10 @@ export const BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS =
   'px-2 py-2.5 text-center text-xs font-normal text-black whitespace-nowrap min-[376px]:px-2.5 min-[376px]:py-3 min-[426px]:text-sm min-[768px]:text-base';
 export const BOOKINGS_TABLE_STATUS_OFFSET_CLASS =
   'ml-4 max-[320px]:ml-2 min-[376px]:ml-6 min-[768px]:ml-12';
+export const BOOKINGS_TABLE_PREFERRED_CONTACT_HEAD_CELL_CLASS =
+  'px-2 py-2.5 pl-6 text-xs font-normal text-black whitespace-nowrap min-[376px]:px-2.5 min-[376px]:py-3 min-[426px]:text-sm min-[768px]:pl-8 min-[768px]:text-base';
+export const BOOKINGS_TABLE_PREFERRED_CONTACT_CELL_CLASS =
+  'px-2 py-4 pl-6 text-sm leading-5 text-[#0c0c0c] align-middle min-[376px]:px-2.5 min-[376px]:py-5 min-[426px]:text-base min-[426px]:leading-6 min-[768px]:py-6 min-[768px]:pl-8';
 export const BOOKINGS_TABLE_STATUS_HEAD_CELL_CLASS =
   'w-0 px-2 py-2.5 text-left text-xs font-normal text-black whitespace-nowrap min-[376px]:px-2.5 min-[376px]:py-3 min-[426px]:text-sm min-[768px]:text-base';
 export const BOOKINGS_TABLE_CELL_CLASS =
@@ -90,7 +105,7 @@ export const BOOKINGS_STATUS_BADGE_CLASS =
   'inline-flex h-5 items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-medium leading-4 min-[376px]:h-[22px] min-[376px]:px-[9px] min-[376px]:py-[3px] min-[376px]:text-xs';
 
 export const BOOKINGS_PAGE_SIZE = 7;
-export const BOOKINGS_TABLE_COLUMN_COUNT = 8;
+export const BOOKINGS_TABLE_COLUMN_COUNT = 9;
 
 export const BOOKINGS_STATUS_OPTIONS = [
   { id: 'all', label: 'All Statuses' },
@@ -140,6 +155,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Lighting',
     serviceCost: 100,
     material: 'required',
+    preferredContact: 'chat',
     statusId: 'new',
   },
   {
@@ -149,6 +165,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Security',
     serviceCost: 200,
     material: 'none',
+    preferredContact: 'phone',
     statusId: 'new',
   },
   {
@@ -158,6 +175,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Closets',
     serviceCost: 500,
     material: 'required',
+    preferredContact: 'email',
     statusId: 'material-paid',
   },
   {
@@ -167,6 +185,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Fence',
     serviceCost: 400,
     material: 'required',
+    preferredContact: 'chat',
     statusId: 'material-paid',
   },
   {
@@ -176,6 +195,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Deck',
     serviceCost: 200,
     material: 'required',
+    preferredContact: 'email',
     statusId: 'material-paid',
   },
   {
@@ -185,6 +205,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Basement',
     serviceCost: 100,
     material: 'required',
+    preferredContact: 'phone',
     statusId: 'material-paid',
   },
   {
@@ -194,6 +215,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Appliances',
     serviceCost: 299,
     material: 'none',
+    preferredContact: 'phone',
     statusId: 'technician-assigned',
   },
   {
@@ -203,6 +225,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Garage',
     serviceCost: 150,
     material: 'none',
+    preferredContact: 'phone',
     statusId: 'work-in-progress',
   },
   {
@@ -212,6 +235,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Garden',
     serviceCost: 300,
     material: 'required',
+    preferredContact: 'phone',
     statusId: 'completed',
   },
   {
@@ -221,6 +245,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Flooring',
     serviceCost: 100,
     material: 'required',
+    preferredContact: 'phone',
     statusId: 'work-in-progress',
   },
 ];

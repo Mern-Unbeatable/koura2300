@@ -2,10 +2,12 @@ import {
   BOOKINGS_TABLE_CARD_CLASS,
   BOOKINGS_TABLE_CLASS,
   BOOKINGS_TABLE_COLUMN_COUNT,
+  BOOKINGS_TABLE_COLUMN_WIDTHS,
   BOOKINGS_EMPTY_ROW_CLASS,
   BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_STATUS_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_STATUS_OFFSET_CLASS,
+  BOOKINGS_TABLE_PREFERRED_CONTACT_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_HEAD_CELL_CLASS,
   BOOKINGS_TABLE_HEAD_CLASS,
   BOOKINGS_TABLE_SCROLL_CLASS,
@@ -48,6 +50,11 @@ const BookingsTable = ({
       ) : (
         <div data-testid="bookings-table-scroll" className={BOOKINGS_TABLE_SCROLL_CLASS}>
           <table className={BOOKINGS_TABLE_CLASS} aria-label={copy.tableLabel}>
+            <colgroup>
+              {BOOKINGS_TABLE_COLUMN_WIDTHS.map((width, index) => (
+                <col key={index} style={{ width }} />
+              ))}
+            </colgroup>
             <thead className={BOOKINGS_TABLE_HEAD_CLASS}>
               <tr>
                 {Object.values(copy.columns).map((column) => (
@@ -59,7 +66,9 @@ const BookingsTable = ({
                         ? BOOKINGS_TABLE_ACTION_HEAD_CELL_CLASS
                         : column === copy.columns.status
                           ? BOOKINGS_TABLE_STATUS_HEAD_CELL_CLASS
-                          : BOOKINGS_TABLE_HEAD_CELL_CLASS
+                          : column === copy.columns.preferredContact
+                            ? BOOKINGS_TABLE_PREFERRED_CONTACT_HEAD_CELL_CLASS
+                            : BOOKINGS_TABLE_HEAD_CELL_CLASS
                     }
                   >
                     {column === copy.columns.status ? (

@@ -9,8 +9,14 @@ export const BOOKINGS_COPY = {
     serviceCategory: 'Service category',
     serviceCost: 'Service Cost',
     material: 'Material',
+    preferredContact: 'Preffered Contact',
     status: 'Status',
     action: 'Action',
+  },
+  preferredContact: {
+    chat: 'Chat',
+    phone: 'Phone',
+    email: 'Email',
   },
   material: {
     required: 'Required',

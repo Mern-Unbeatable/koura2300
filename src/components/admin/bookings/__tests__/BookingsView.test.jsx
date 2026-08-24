@@ -72,9 +72,11 @@ describe('BookingsView', () => {
 
     expect(within(table).getByText(BOOKINGS_COPY.columns.bookingId)).toBeInTheDocument();
     expect(within(table).getByText(BOOKINGS_COPY.columns.customer)).toBeInTheDocument();
+    expect(within(table).getByText(BOOKINGS_COPY.columns.preferredContact)).toBeInTheDocument();
     expect(within(table).getByText('BK-001')).toBeInTheDocument();
     expect(within(table).getByText('Albert Flores')).toBeInTheDocument();
     expect(within(table).getByText('Ceiling Light Installation')).toBeInTheDocument();
+    expect(within(table).getAllByText(BOOKINGS_COPY.preferredContact.chat).length).toBeGreaterThan(0);
   });
 
   it('renders status badges and material states', () => {
@@ -205,7 +207,7 @@ describe('BookingsView', () => {
       LAPTOP: 1020,
       DESKTOP: 1440,
     });
-    expect(BOOKINGS_TABLE_MIN_WIDTH_PX).toBe(1040);
+    expect(BOOKINGS_TABLE_MIN_WIDTH_PX).toBe(1510);
     expect(screen.queryByRole('table', { name: BOOKINGS_COPY.tableLabel })).not.toBeInTheDocument();
 
     const cards = screen.getByTestId('bookings-cards');
@@ -215,6 +217,8 @@ describe('BookingsView', () => {
     expect(firstCard).toHaveTextContent('BK-001');
     expect(firstCard).toHaveTextContent('Albert Flores');
     expect(firstCard).toHaveTextContent('Ceiling Light Installation');
+    expect(firstCard).toHaveTextContent(BOOKINGS_COPY.columns.preferredContact);
+    expect(firstCard).toHaveTextContent(BOOKINGS_COPY.preferredContact.chat);
     expect(firstCard).toHaveTextContent(BOOKINGS_COPY.columns.status);
     expect(within(firstCard).getByLabelText(BOOKINGS_COPY.actionMenu.label)).toBeInTheDocument();
   });
@@ -228,7 +232,8 @@ describe('BookingsView', () => {
     const nextButton = screen.getByRole('button', { name: BOOKINGS_COPY.pagination.next });
 
     expect(tableCard.className).toContain('min-[768px]:rounded-xl');
-    expect(table.className).toContain('min-w-[1040px]');
+    expect(table.className).toContain('min-w-[1510px]');
+    expect(table.className).toContain('table-fixed');
     expect(footer.className).toContain('min-[768px]:flex-row');
     expect(footer.className).toContain('min-[1020px]:px-6');
     expect(nextButton.className).toContain('min-[426px]:text-base');
