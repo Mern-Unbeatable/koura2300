@@ -15,10 +15,10 @@ export const CUSTOMERS_SUSPEND_CLOSE_CLASS =
 export const CUSTOMERS_SUSPEND_BODY_CLASS =
   'flex flex-col px-4 py-4 min-[376px]:px-6 min-[376px]:py-5';
 export const CUSTOMERS_SUSPEND_LABEL_CLASS =
-  'text-xs leading-4 text-[#455163]';
+  'text-sm leading-5 text-[#455163] min-[376px]:text-base min-[376px]:leading-6';
 export const CUSTOMERS_SUSPEND_REQUIRED_CLASS = 'text-[#f31d2c]';
 export const CUSTOMERS_SUSPEND_TEXTAREA_CLASS =
-  'mt-1.5 min-h-[92px] w-full resize-y rounded-md border border-[#dfe4ea] bg-white px-2 py-2 text-xs leading-4 text-[#202838] placeholder:text-[#455163] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[376px]:text-sm min-[376px]:leading-5';
+  'mt-1.5 min-h-[92px] w-full resize-y rounded-md border border-[#dfe4ea] bg-white px-2.5 py-2.5 text-sm leading-5 text-[#202838] placeholder:text-[#9aa3b2] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[376px]:text-base min-[376px]:leading-6';
 export const CUSTOMERS_SUSPEND_TEXTAREA_ERROR_CLASS =
   'border-[#f31d2c] focus-visible:ring-[#f31d2c]';
 export const CUSTOMERS_SUSPEND_ERROR_TEXT_CLASS = 'mt-1.5 text-xs text-[#f31d2c]';
