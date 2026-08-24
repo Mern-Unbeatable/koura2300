@@ -62,8 +62,10 @@ describe('CustomersDetailsModal', () => {
 
     expect(dialog.className).toContain('max-w-[384px]');
     expect(dialog.className).toContain('rounded-2xl');
+    expect(dialog.className).toContain('animate-page-enter');
     expect(screen.getByTestId('customers-details-overlay').className).toContain(
       'backdrop-blur-[17.4px]',
     );
+    expect(screen.getByTestId('customers-details-overlay').className).toContain('animate-fade-in');
   });
 });

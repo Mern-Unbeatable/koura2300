@@ -4,9 +4,9 @@ export const CUSTOMERS_DETAILS_ICON_SIZE_PX = 20;
 export const CUSTOMERS_DETAILS_MAX_WIDTH_PX = 384;
 
 export const CUSTOMERS_DETAILS_OVERLAY_CLASS =
-  'fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(0,0,0,0.7)] backdrop-blur-[17.4px] p-3 min-[376px]:p-4';
+  'animate-fade-in fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(0,0,0,0.7)] backdrop-blur-[17.4px] p-3 min-[376px]:p-4';
 export const CUSTOMERS_DETAILS_DIALOG_CLASS =
-  'relative flex w-full max-w-[384px] flex-col gap-5 rounded-2xl border border-[#f3f4f6] bg-white p-5 shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05),0px_2px_4px_-1px_rgba(0,0,0,0.03)] min-[376px]:gap-6 min-[376px]:p-[25px] max-h-[90dvh] overflow-y-auto';
+  'animate-page-enter relative flex w-full max-w-[384px] flex-col gap-5 rounded-2xl border border-[#f3f4f6] bg-white p-5 shadow-[0px_4px_6px_-1px_rgba(0,0,0,0.05),0px_2px_4px_-1px_rgba(0,0,0,0.03)] min-[376px]:gap-6 min-[376px]:p-[25px] max-h-[90dvh] overflow-y-auto';
 export const CUSTOMERS_DETAILS_HEADER_CLASS = 'flex w-full flex-col items-center';
 export const CUSTOMERS_DETAILS_AVATAR_CLASS =
   'mb-3 flex size-16 shrink-0 items-center justify-center rounded-full bg-[#10a34f] text-xl font-bold leading-8 text-white min-[376px]:size-20 min-[376px]:text-2xl';
