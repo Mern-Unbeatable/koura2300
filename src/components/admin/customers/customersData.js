@@ -81,8 +81,6 @@ export const CUSTOMERS_PAGINATION_BUTTON_CLASS =
 export const CUSTOMERS_ACTION_MENU_CLASS = 'fixed z-50 w-[193px]';
 export const CUSTOMERS_ACTION_MENU_SURFACE_CLASS =
   'flex flex-col overflow-hidden rounded-lg border border-[#ececec] bg-white shadow-[0px_4px_16px_rgba(50,50,71,0.12)]';
-export const CUSTOMERS_ACTION_MENU_PRIMARY_ITEM_CLASS =
-  'w-full cursor-pointer bg-[#fc6f32] px-2.5 py-1.5 text-left text-base font-normal leading-6 text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CUSTOMERS_ACTION_MENU_ITEM_CLASS =
   'w-full cursor-pointer px-2.5 py-1.5 text-left text-base font-normal leading-6 text-[#2d3036] transition-colors hover:bg-brand-orange-light focus:outline-none focus-visible:bg-brand-orange-light';
 export const CUSTOMERS_STATUS_BADGE_CLASS =

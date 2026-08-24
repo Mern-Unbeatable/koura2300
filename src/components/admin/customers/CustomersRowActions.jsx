@@ -4,7 +4,6 @@ import {
   CUSTOMERS_ACTION_BUTTON_CLASS,
   CUSTOMERS_ACTION_MENU_CLASS,
   CUSTOMERS_ACTION_MENU_ITEM_CLASS,
-  CUSTOMERS_ACTION_MENU_PRIMARY_ITEM_CLASS,
   CUSTOMERS_ACTION_MENU_SURFACE_CLASS,
   CUSTOMERS_ACTION_STATUS_OPTIONS,
   CUSTOMERS_STATUS_STYLES,
@@ -37,7 +36,7 @@ const CustomersActionMenu = ({
         <button
           type="button"
           role="menuitem"
-          className={CUSTOMERS_ACTION_MENU_PRIMARY_ITEM_CLASS}
+          className={CUSTOMERS_ACTION_MENU_ITEM_CLASS}
           onClick={onSeeDetails}
         >
           {copy.actionMenu.seeDetails}
