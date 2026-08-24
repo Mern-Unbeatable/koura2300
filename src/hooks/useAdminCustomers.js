@@ -6,6 +6,7 @@ import {
   CUSTOMERS_SEED,
   CUSTOMERS_STATUS_OPTIONS,
 } from '../components/admin/customers/customersData';
+import { getCustomerDetailsById } from '../components/admin/customers/customersDetailsUtils';
 import {
   filterCustomersByStatus,
   getCustomersSummary,
@@ -20,6 +21,7 @@ const useAdminCustomers = () => {
   const [selectedStatusId, setSelectedStatusId] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [openActionMenuId, setOpenActionMenuId] = useState(null);
+  const [detailsCustomerId, setDetailsCustomerId] = useState(null);
 
   const filteredCustomers = useMemo(
     () => filterCustomersByStatus(customers, selectedStatusId),
@@ -39,6 +41,11 @@ const useAdminCustomers = () => {
   const summarySubtitle = useMemo(
     () => getCustomersSummary(customers).subtitle,
     [customers],
+  );
+
+  const customerDetails = useMemo(
+    () => getCustomerDetailsById(detailsCustomerId, customers),
+    [customers, detailsCustomerId],
   );
 
   const pagination = useMemo(
@@ -69,9 +76,13 @@ const useAdminCustomers = () => {
     setOpenActionMenuId(null);
   }, []);
 
-  const handleSeeDetails = useCallback((_customerId) => {
+  const handleSeeDetails = useCallback((customerId) => {
     setOpenActionMenuId(null);
-    toast.success(CUSTOMERS_COPY.toasts.seeDetails);
+    setDetailsCustomerId(customerId);
+  }, []);
+
+  const handleCloseDetails = useCallback(() => {
+    setDetailsCustomerId(null);
   }, []);
 
   const handleStatusChange = useCallback((customerId, statusId) => {
@@ -94,6 +105,8 @@ const useAdminCustomers = () => {
     onToggleActionMenu: handleToggleActionMenu,
     onCloseActionMenu: handleCloseActionMenu,
     onSeeDetails: handleSeeDetails,
+    onCloseDetails: handleCloseDetails,
+    customerDetails,
     onStatusChange: handleStatusChange,
   };
 };

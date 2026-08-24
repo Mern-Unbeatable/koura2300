@@ -1,4 +1,5 @@
 import { CUSTOMERS_PAGE_CLASS } from './customersData';
+import CustomersDetailsModal from './CustomersDetailsModal';
 import CustomersHeader from './CustomersHeader';
 import CustomersTable from './CustomersTable';
 
@@ -14,6 +15,8 @@ const CustomersView = ({
   onToggleActionMenu,
   onCloseActionMenu,
   onSeeDetails,
+  onCloseDetails,
+  customerDetails,
   onStatusChange,
 }) => (
   <div className={CUSTOMERS_PAGE_CLASS}>
@@ -35,6 +38,9 @@ const CustomersView = ({
       onSeeDetails={onSeeDetails}
       onStatusChange={onStatusChange}
     />
+    {customerDetails ? (
+      <CustomersDetailsModal details={customerDetails} onClose={onCloseDetails} />
+    ) : null}
   </div>
 );
 

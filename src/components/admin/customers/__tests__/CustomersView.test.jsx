@@ -45,6 +45,8 @@ const createCustomersViewProps = (overrides = {}) => ({
   onToggleActionMenu: jest.fn(),
   onCloseActionMenu: jest.fn(),
   onSeeDetails: jest.fn(),
+  onCloseDetails: jest.fn(),
+  customerDetails: null,
   onStatusChange: jest.fn(),
   ...overrides,
 });
@@ -238,5 +240,35 @@ describe('CustomersView', () => {
     );
 
     expect(screen.getByText(CUSTOMERS_COPY.emptyResults)).toBeInTheDocument();
+  });
+
+  it('renders the See Details modal when customer details are open', () => {
+    const details = {
+      id: 'CU-004',
+      name: 'Cameron Williamson',
+      initials: 'CW',
+      statusId: 'active',
+      email: 'kenzi.lawson@example.com',
+      phone: '(406) 555-0120',
+      address: '220 Main Ave, Billings',
+      bookingsCount: 19,
+      revenueLabel: '$40,000',
+    };
+
+    render(
+      <CustomersView
+        {...createCustomersViewProps({
+          customerDetails: details,
+          onCloseDetails: jest.fn(),
+        })}
+      />,
+    );
+
+    const dialog = screen.getByRole('dialog', { name: /customer details/i });
+
+    expect(dialog).toBeInTheDocument();
+    expect(within(dialog).getByText('Cameron Williamson')).toBeInTheDocument();
+    expect(within(dialog).getByText('CW')).toBeInTheDocument();
+    expect(within(dialog).getByText('$40,000')).toBeInTheDocument();
   });
 });

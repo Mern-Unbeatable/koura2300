@@ -55,14 +55,26 @@ describe('useAdminCustomers', () => {
     expect(CUSTOMERS_SEED.find((customer) => customer.id === 'CU-001')?.statusId).toBe('active');
   });
 
-  it('toasts when see details is requested', () => {
+  it('opens customer details when see details is requested', () => {
     const { result } = renderHook(() => useAdminCustomers());
 
     act(() => {
-      result.current.onSeeDetails('CU-002');
+      result.current.onSeeDetails('CU-004');
     });
 
-    expect(toast.success).toHaveBeenCalledWith(CUSTOMERS_COPY.toasts.seeDetails);
     expect(result.current.openActionMenuId).toBeNull();
+    expect(result.current.customerDetails).toMatchObject({
+      id: 'CU-004',
+      name: 'Cameron Williamson',
+      initials: 'CW',
+      bookingsCount: 19,
+      revenueLabel: '$40,000',
+    });
+
+    act(() => {
+      result.current.onCloseDetails();
+    });
+
+    expect(result.current.customerDetails).toBeNull();
   });
 });

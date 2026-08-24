@@ -115,6 +115,8 @@ export const CUSTOMERS_SEED = [
     phone: '(907) 555-0101',
     email: 'felicia.reid@example.com',
     totalBookingsPrice: 1000,
+    bookingsCount: 3,
+    address: '4821 Market St, Anchorage',
     statusId: 'active',
   },
   {
@@ -123,6 +125,8 @@ export const CUSTOMERS_SEED = [
     phone: '(704) 555-0127',
     email: 'michelle.rivera@example.com',
     totalBookingsPrice: 20000,
+    bookingsCount: 12,
+    address: '901 Trade St, Charlotte',
     statusId: 'suspend',
   },
   {
@@ -131,6 +135,8 @@ export const CUSTOMERS_SEED = [
     phone: '(252) 555-0126',
     email: 'curtis.weaver@example.com',
     totalBookingsPrice: 5000,
+    bookingsCount: 7,
+    address: '1901 Broadway, Apt 12, Oakland',
     statusId: 'active',
   },
   {
@@ -139,6 +145,8 @@ export const CUSTOMERS_SEED = [
     phone: '(406) 555-0120',
     email: 'kenzi.lawson@example.com',
     totalBookingsPrice: 40000,
+    bookingsCount: 19,
+    address: '220 Main Ave, Billings',
     statusId: 'active',
   },
   {
@@ -147,6 +155,8 @@ export const CUSTOMERS_SEED = [
     phone: '(480) 555-0103',
     email: 'debbie.baker@example.com',
     totalBookingsPrice: 20000,
+    bookingsCount: 11,
+    address: '88 Camelback Rd, Phoenix',
     statusId: 'active',
   },
   {
@@ -155,6 +165,8 @@ export const CUSTOMERS_SEED = [
     phone: '(225) 555-0118',
     email: 'jackson.graham@example.com',
     totalBookingsPrice: 10000,
+    bookingsCount: 8,
+    address: '14 Government St, Baton Rouge',
     statusId: 'active',
   },
   {
@@ -163,6 +175,8 @@ export const CUSTOMERS_SEED = [
     phone: '(302) 555-0107',
     email: 'tim.jennings@example.com',
     totalBookingsPrice: 29990,
+    bookingsCount: 15,
+    address: '500 N Market St, Wilmington',
     statusId: 'active',
   },
   {
@@ -171,6 +185,8 @@ export const CUSTOMERS_SEED = [
     phone: '(308) 555-0121',
     email: 'jessica.hanson@example.com',
     totalBookingsPrice: 15000,
+    bookingsCount: 9,
+    address: '77 O St, Lincoln',
     statusId: 'active',
   },
   {
@@ -179,6 +195,8 @@ export const CUSTOMERS_SEED = [
     phone: '(209) 555-0104',
     email: 'dolores.chambers@example.com',
     totalBookingsPrice: 30000,
+    bookingsCount: 14,
+    address: '1201 I St, Modesto',
     statusId: 'suspend',
   },
   {
@@ -187,6 +205,8 @@ export const CUSTOMERS_SEED = [
     phone: '(671) 555-0110',
     email: 'georgia.young@example.com',
     totalBookingsPrice: 100089,
+    bookingsCount: 22,
+    address: '33 Marine Corps Dr, Hagatna',
     statusId: 'suspend',
   },
 ];
