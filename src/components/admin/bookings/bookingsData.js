@@ -165,7 +165,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Security',
     serviceCost: 200,
     material: 'none',
-    preferredContact: 'phone',
+    preferredContact: 'na',
     statusId: 'new',
   },
   {
@@ -185,7 +185,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Fence',
     serviceCost: 400,
     material: 'required',
-    preferredContact: 'chat',
+    preferredContact: 'phone',
     statusId: 'material-paid',
   },
   {
@@ -205,7 +205,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Basement',
     serviceCost: 100,
     material: 'required',
-    preferredContact: 'phone',
+    preferredContact: 'chat',
     statusId: 'material-paid',
   },
   {
@@ -215,7 +215,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Appliances',
     serviceCost: 299,
     material: 'none',
-    preferredContact: 'phone',
+    preferredContact: 'na',
     statusId: 'technician-assigned',
   },
   {
@@ -225,7 +225,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Garage',
     serviceCost: 150,
     material: 'none',
-    preferredContact: 'phone',
+    preferredContact: 'na',
     statusId: 'work-in-progress',
   },
   {
@@ -245,7 +245,7 @@ export const BOOKINGS_SEED = [
     serviceCategory: 'Flooring',
     serviceCost: 100,
     material: 'required',
-    preferredContact: 'phone',
+    preferredContact: 'chat',
     statusId: 'work-in-progress',
   },
 ];

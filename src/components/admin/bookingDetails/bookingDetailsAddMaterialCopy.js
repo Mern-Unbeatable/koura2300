@@ -1,0 +1,22 @@
+export const BOOKING_DETAILS_ADD_MATERIAL_COPY = {
+  regionLabel: 'Add material offer card',
+  title: 'Offer Card',
+  subtitle: 'Create an offer card to send to the customer.',
+  closeLabel: 'Close add material',
+  productName: 'Product Name',
+  productNamePlaceholder: 'Add Product Name',
+  quantity: 'Total Quantity',
+  quantityPlaceholder: 'Quantity',
+  price: 'Price',
+  pricePlaceholder: 'Enter Project Name Here',
+  addNewProduct: 'Add New Product',
+  cancel: 'Cancel',
+  submit: 'Add',
+  addSuccessToast: 'Material added to booking.',
+  errors: {
+    productNameRequired: 'Product name is required.',
+    quantityRequired: 'Quantity is required.',
+    priceRequired: 'Price is required.',
+    priceInvalid: 'Enter a valid price.',
+  },
+};

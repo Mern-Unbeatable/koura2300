@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../../config';
 import BookingsChatModal from '../bookingsChat/BookingsChatModal';
+import BookingDetailsAddMaterialModal from './BookingDetailsAddMaterialModal';
 import BookingDetailsCustomerCard from './BookingDetailsCustomerCard';
 import BookingDetailsHeader from './BookingDetailsHeader';
 import BookingDetailsMaterialsCard from './BookingDetailsMaterialsCard';
@@ -33,8 +34,12 @@ const BookingDetailsView = ({
   copy,
   booking,
   chatBookingId,
+  isAddMaterialOpen,
   onChatWithCustomer,
   onCloseChatWithCustomer,
+  onOpenAddMaterial,
+  onCloseAddMaterial,
+  onAddMaterial,
 }) => {
   if (!booking) {
     return <BookingDetailsNotFound copy={copy} />;
@@ -56,7 +61,11 @@ const BookingDetailsView = ({
       <div className={BOOKING_DETAILS_STACK_CLASS}>
         <BookingDetailsServiceCard copy={copy} service={booking.service} />
         {hasMaterialInformation(booking) ? (
-          <BookingDetailsMaterialsCard copy={copy} booking={booking} />
+          <BookingDetailsMaterialsCard
+            copy={copy}
+            booking={booking}
+            onAddMaterial={onOpenAddMaterial}
+          />
         ) : null}
         <BookingDetailsPaymentCard copy={copy} payment={booking.payment} />
         <BookingDetailsTimelineCard copy={copy} timeline={booking.timeline} />
@@ -67,6 +76,13 @@ const BookingDetailsView = ({
           key={chatBookingId}
           bookingId={chatBookingId}
           onClose={onCloseChatWithCustomer}
+        />
+      ) : null}
+
+      {isAddMaterialOpen ? (
+        <BookingDetailsAddMaterialModal
+          onClose={onCloseAddMaterial}
+          onAdd={onAddMaterial}
         />
       ) : null}
     </div>

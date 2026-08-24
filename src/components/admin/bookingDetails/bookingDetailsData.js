@@ -21,7 +21,7 @@ export const BOOKING_DETAILS_STACK_CLASS = 'flex min-w-0 flex-col gap-4 min-[768
 export const BOOKING_DETAILS_CARD_CLASS =
   'flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
 export const BOOKING_DETAILS_CARD_HEADER_CLASS =
-  'flex min-h-[52px] items-start gap-2.5 px-4 py-4 max-[320px]:px-3 min-[376px]:gap-3 min-[426px]:items-center min-[426px]:px-5';
+  'flex min-h-[52px] items-start justify-between gap-2.5 px-4 py-4 max-[320px]:px-3 min-[376px]:gap-3 min-[426px]:items-center min-[426px]:px-5';
 export const BOOKING_DETAILS_CARD_HEADER_MAIN_CLASS =
   'flex min-w-0 flex-1 items-start gap-2.5 min-[376px]:gap-3';
 export const BOOKING_DETAILS_CARD_TITLE_WRAP_CLASS = 'min-w-0 flex-1';
@@ -31,6 +31,10 @@ export const BOOKING_DETAILS_CARD_TITLE_CLASS =
   'text-sm font-bold leading-5 text-[#0f172b]';
 export const BOOKING_DETAILS_CARD_BODY_CLASS =
   'flex flex-1 flex-col border-t border-[#f8fafc] px-4 pb-5 pt-4 max-[320px]:px-3 min-[426px]:px-5';
+export const BOOKING_DETAILS_ADD_MATERIAL_BUTTON_CLASS =
+  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md bg-[#fc6f32] px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[376px]:px-6 min-[426px]:px-7 min-[426px]:py-4 min-[426px]:text-base';
+export const BOOKING_DETAILS_ADD_MATERIAL_OVERLAY_CLASS =
+  'fixed inset-0 z-50 flex items-center justify-center bg-[rgba(13,18,19,0.45)] p-3 min-[376px]:p-4';
 export const BOOKING_DETAILS_BADGE_CLASS =
   'shrink-0 whitespace-nowrap rounded-full bg-[#ffedd4] px-2 py-0.5 text-xs font-semibold text-[#f54900]';
 /** ≤425px: badge under title so header does not overflow on Mobile L/M/S. */

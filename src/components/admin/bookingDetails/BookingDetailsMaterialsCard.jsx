@@ -1,6 +1,7 @@
 import { Package } from 'lucide-react';
 import BookingDetailsCard from './BookingDetailsCard';
 import {
+  BOOKING_DETAILS_ADD_MATERIAL_BUTTON_CLASS,
   BOOKING_DETAILS_MATERIALS_CELL_CLASS,
   BOOKING_DETAILS_MATERIALS_COST_CELL_CLASS,
   BOOKING_DETAILS_MATERIALS_COST_HEAD_CLASS,
@@ -11,14 +12,10 @@ import {
   BOOKING_DETAILS_MATERIALS_TABLE_WRAP_CLASS,
   BOOKING_DETAILS_MATERIALS_YES_CLASS,
 } from './bookingDetailsData';
+import { canAddBookingMaterial } from './bookingDetailsUtils';
 
-const BookingDetailsMaterialsCard = ({ copy, booking }) => (
-  <BookingDetailsCard
-    title={copy.sections.materialInformation}
-    icon={Package}
-    badge={copy.badges.paymentRequired}
-    testId="booking-details-materials"
-  >
+const BookingDetailsMaterialsFilled = ({ copy, booking }) => (
+  <>
     <div className="flex flex-wrap items-center gap-2 min-[376px]:gap-3">
       <p className="text-sm text-[#90a1b9] max-[320px]:text-xs">{copy.labels.materialRequired}</p>
       <span className={BOOKING_DETAILS_MATERIALS_YES_CLASS}>{copy.labels.yes}</span>
@@ -59,7 +56,46 @@ const BookingDetailsMaterialsCard = ({ copy, booking }) => (
         </tfoot>
       </table>
     </div>
-  </BookingDetailsCard>
+  </>
 );
+
+const BookingDetailsMaterialsCard = ({ copy, booking, onAddMaterial }) => {
+  const showAddMaterial = canAddBookingMaterial(booking);
+  const hasMaterialItems = booking.materialItems.length > 0;
+
+  const headerAction =
+    showAddMaterial && onAddMaterial ? (
+      <button
+        type="button"
+        onClick={onAddMaterial}
+        className={BOOKING_DETAILS_ADD_MATERIAL_BUTTON_CLASS}
+      >
+        {copy.actions.addMaterial}
+      </button>
+    ) : null;
+
+  if (showAddMaterial && !hasMaterialItems) {
+    return (
+      <BookingDetailsCard
+        title={copy.sections.materialInformation}
+        icon={Package}
+        headerAction={headerAction}
+        testId="booking-details-materials"
+      />
+    );
+  }
+
+  return (
+    <BookingDetailsCard
+      title={copy.sections.materialInformation}
+      icon={Package}
+      badge={copy.badges.paymentRequired}
+      headerAction={headerAction}
+      testId="booking-details-materials"
+    >
+      <BookingDetailsMaterialsFilled copy={copy} booking={booking} />
+    </BookingDetailsCard>
+  );
+};
 
 export default BookingDetailsMaterialsCard;

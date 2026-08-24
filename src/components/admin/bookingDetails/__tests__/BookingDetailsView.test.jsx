@@ -7,8 +7,16 @@ import BookingDetailsView from '../BookingDetailsView';
 import { BOOKING_DETAILS_COPY } from '../bookingDetailsCopy';
 import { getBookingDetailsById } from '../bookingDetailsUtils';
 
-const requiredBooking = BOOKINGS_SEED.find((booking) => booking.material === 'required');
+const requiredBooking = BOOKINGS_SEED.find(
+  (booking) => booking.material === 'required' && booking.preferredContact === 'chat',
+);
 const noneBooking = BOOKINGS_SEED.find((booking) => booking.material === 'none');
+const phoneRequiredBooking = BOOKINGS_SEED.find(
+  (booking) => booking.material === 'required' && booking.preferredContact === 'phone',
+);
+const emailRequiredBooking = BOOKINGS_SEED.find(
+  (booking) => booking.material === 'required' && booking.preferredContact === 'email',
+);
 
 const renderDetails = (bookingId, overrides = {}) => {
   const details = getBookingDetailsById(bookingId);
@@ -55,6 +63,7 @@ describe('BookingDetailsView', () => {
 
   it('renders shared detail sections for material none bookings', () => {
     renderDetails(noneBooking.id);
+    const details = getBookingDetailsById(noneBooking.id);
 
     expect(screen.getByText(BOOKING_DETAILS_COPY.sections.bookingSummary)).toBeInTheDocument();
     expect(screen.getByText(BOOKING_DETAILS_COPY.sections.customerInformation)).toBeInTheDocument();
@@ -64,6 +73,7 @@ describe('BookingDetailsView', () => {
     expect(
       screen.queryByText(BOOKING_DETAILS_COPY.sections.materialInformation),
     ).not.toBeInTheDocument();
+    expect(screen.getByText(details.customer.preferredContact)).toHaveTextContent('N/A');
   });
 
   it('renders the material information section only for required material', () => {
@@ -79,6 +89,56 @@ describe('BookingDetailsView', () => {
     expect(within(materials).getByText(BOOKING_DETAILS_COPY.labels.yes)).toBeInTheDocument();
     expect(within(materials).getByText('200A Main Breaker Panel')).toBeInTheDocument();
     expect(within(materials).getByText('$185')).toBeInTheDocument();
+    expect(
+      within(materials).queryByRole('button', { name: BOOKING_DETAILS_COPY.actions.addMaterial }),
+    ).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ['phone', phoneRequiredBooking.id],
+    ['email', emailRequiredBooking.id],
+  ])(
+    'shows Add Material header for required + %s preferred contact',
+    (_label, bookingId) => {
+      const onOpenAddMaterial = jest.fn();
+      renderDetails(bookingId, { onOpenAddMaterial });
+
+      const materials = screen.getByTestId('booking-details-materials');
+      const addButton = within(materials).getByRole('button', {
+        name: BOOKING_DETAILS_COPY.actions.addMaterial,
+      });
+
+      expect(within(materials).queryByRole('table')).not.toBeInTheDocument();
+      expect(
+        within(materials).queryByText(BOOKING_DETAILS_COPY.badges.paymentRequired),
+      ).not.toBeInTheDocument();
+      expect(addButton).toBeInTheDocument();
+    },
+  );
+
+  it('opens the Add Material modal for phone preferred contact', async () => {
+    const user = userEvent.setup();
+    const onOpenAddMaterial = jest.fn();
+
+    renderDetails(phoneRequiredBooking.id, { onOpenAddMaterial });
+
+    await user.click(
+      screen.getByRole('button', { name: BOOKING_DETAILS_COPY.actions.addMaterial }),
+    );
+
+    expect(onOpenAddMaterial).toHaveBeenCalled();
+  });
+
+  it('renders the Add Material modal when open', () => {
+    renderDetails(phoneRequiredBooking.id, {
+      isAddMaterialOpen: true,
+      onCloseAddMaterial: jest.fn(),
+      onAddMaterial: jest.fn(),
+    });
+
+    expect(screen.getByRole('dialog', { name: /add material offer card/i })).toBeInTheDocument();
+    expect(screen.getByTestId('booking-details-add-material-overlay')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add' })).toBeInTheDocument();
   });
 
   it('fits Material Information on Mobile L/M/S without a forced table min-width', () => {
@@ -149,6 +209,28 @@ describe('BookingDetailsView', () => {
     ).toBe(true);
   });
 
+  it('hides Chat with customer for phone or email preferred contact', () => {
+    renderDetails(phoneRequiredBooking.id);
+
+    expect(
+      screen.queryByRole('button', { name: BOOKING_DETAILS_COPY.actions.chatWithCustomer }),
+    ).not.toBeInTheDocument();
+
+    renderDetails(emailRequiredBooking.id);
+
+    expect(
+      screen.queryByRole('button', { name: BOOKING_DETAILS_COPY.actions.chatWithCustomer }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('hides Chat with customer for material none bookings with N/A preferred contact', () => {
+    renderDetails(noneBooking.id);
+
+    expect(
+      screen.queryByRole('button', { name: BOOKING_DETAILS_COPY.actions.chatWithCustomer }),
+    ).not.toBeInTheDocument();
+  });
+
   it('uses responsive layout classes for the top summary grid', () => {
     renderDetails(requiredBooking.id);
 
@@ -173,12 +255,9 @@ describe('BookingDetailsView', () => {
     expect(onChatWithCustomer).toHaveBeenCalledWith(requiredBooking.id);
   });
 
-  it.each([
-    ['required', requiredBooking.id],
-    ['none', noneBooking.id],
-  ])('opens Chat With Customer modal from %s material details', (_label, bookingId) => {
-    renderDetails(bookingId, {
-      chatBookingId: bookingId,
+  it('opens Chat With Customer modal when chatBookingId is set', () => {
+    renderDetails(requiredBooking.id, {
+      chatBookingId: requiredBooking.id,
       onCloseChatWithCustomer: jest.fn(),
     });
 

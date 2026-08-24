@@ -7,6 +7,7 @@ export const BOOKING_DETAILS_COPY = {
   actions: {
     back: 'Back',
     chatWithCustomer: 'Chat with customer',
+    addMaterial: 'Add Material',
   },
   sections: {
     bookingSummary: 'Booking Summary',
@@ -57,5 +58,6 @@ export const BOOKING_DETAILS_COPY = {
   },
   toasts: {
     chatWithCustomer: 'Opening customer chat.',
+    materialAdded: 'Material added to booking.',
   },
 };

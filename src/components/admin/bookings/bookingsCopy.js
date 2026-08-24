@@ -17,6 +17,7 @@ export const BOOKINGS_COPY = {
     chat: 'Chat',
     phone: 'Phone',
     email: 'Email',
+    na: 'N/A',
   },
   material: {
     required: 'Required',

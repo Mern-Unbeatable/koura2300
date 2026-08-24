@@ -1,3 +1,4 @@
+import { BOOKINGS_COPY } from '../bookings/bookingsCopy';
 import { BOOKINGS_SEED } from '../bookings/bookingsData';
 import {
   BOOKING_DETAILS_CREATED_DATE,
@@ -9,20 +10,86 @@ import {
   BOOKING_DETAILS_DEFAULT_SUMMARY,
   BOOKING_DETAILS_DEFAULT_TIMELINE,
 } from './bookingDetailsData';
+import {
+  formatOfferPriceLabel,
+  parseOfferPrice,
+} from '../bookingsChat/bookingsCreateOfferUtils';
+
+export const PREFERRED_CONTACT_CHAT = 'chat';
+export const PREFERRED_CONTACT_PHONE = 'phone';
+export const PREFERRED_CONTACT_EMAIL = 'email';
+export const PREFERRED_CONTACT_NA = 'na';
 
 export const buildBookingDetailsTitle = (bookingId) => `Booking ${bookingId}`;
 
 export const hasMaterialInformation = (bookingDetails) =>
   Boolean(bookingDetails?.materialRequired);
 
-const buildMaterialFields = (material) => {
-  const materialRequired = material === 'required';
+export const canAddBookingMaterial = (bookingDetails) =>
+  Boolean(bookingDetails?.canAddMaterial);
 
-  if (!materialRequired) {
+export const formatPreferredContactLabel = (preferredContact) =>
+  BOOKINGS_COPY.preferredContact[preferredContact] ?? BOOKINGS_COPY.preferredContact.na;
+
+export const shouldAllowAddMaterial = (material, preferredContact) =>
+  material === 'required' &&
+  (preferredContact === PREFERRED_CONTACT_PHONE || preferredContact === PREFERRED_CONTACT_EMAIL);
+
+export const shouldShowChatWithCustomer = (preferredContact) =>
+  preferredContact === PREFERRED_CONTACT_CHAT;
+
+export const sumMaterialItemsTotal = (materialItems) => {
+  const totalAmount = materialItems.reduce((sum, item) => {
+    const amount = parseOfferPrice(item.cost) ?? 0;
+    return sum + amount;
+  }, 0);
+
+  return formatOfferPriceLabel(totalAmount);
+};
+
+export const mergeMaterialItems = (currentItems, nextItems) => {
+  const materialItems = [...currentItems, ...nextItems];
+
+  return {
+    materialItems,
+    materialTotal: sumMaterialItemsTotal(materialItems),
+  };
+};
+
+export const buildMaterialItemsFromProducts = (products) => {
+  const materialItems = products.map((product) => {
+    const amount = parseOfferPrice(product.price) ?? 0;
+
+    return {
+      id: product.id,
+      name: product.productName.trim(),
+      qty: product.quantity.trim(),
+      cost: formatOfferPriceLabel(amount),
+    };
+  });
+
+  return {
+    materialItems,
+    materialTotal: sumMaterialItemsTotal(materialItems),
+  };
+};
+
+const buildMaterialFields = (booking) => {
+  if (booking.material !== 'required') {
     return {
       materialRequired: false,
       materialItems: [],
       materialTotal: null,
+      canAddMaterial: false,
+    };
+  }
+
+  if (shouldAllowAddMaterial(booking.material, booking.preferredContact)) {
+    return {
+      materialRequired: true,
+      materialItems: [],
+      materialTotal: null,
+      canAddMaterial: true,
     };
   }
 
@@ -30,6 +97,7 @@ const buildMaterialFields = (material) => {
     materialRequired: true,
     materialItems: BOOKING_DETAILS_DEFAULT_MATERIAL_ITEMS,
     materialTotal: BOOKING_DETAILS_DEFAULT_MATERIAL_TOTAL,
+    canAddMaterial: false,
   };
 };
 
@@ -37,6 +105,8 @@ export const buildBookingDetails = (booking) => {
   if (!booking) {
     return null;
   }
+
+  const preferredContact = booking.material === 'none' ? PREFERRED_CONTACT_NA : booking.preferredContact;
 
   return {
     id: booking.id,
@@ -47,6 +117,7 @@ export const buildBookingDetails = (booking) => {
     serviceCategory: booking.serviceCategory,
     serviceCost: booking.serviceCost,
     statusId: booking.statusId,
+    preferredContact,
     summary: {
       ...BOOKING_DETAILS_DEFAULT_SUMMARY,
       category: booking.serviceCategory,
@@ -54,6 +125,7 @@ export const buildBookingDetails = (booking) => {
     customer: {
       ...BOOKING_DETAILS_DEFAULT_CUSTOMER,
       name: booking.customer,
+      preferredContact: formatPreferredContactLabel(preferredContact),
     },
     service: {
       ...BOOKING_DETAILS_DEFAULT_SERVICE,
@@ -65,7 +137,7 @@ export const buildBookingDetails = (booking) => {
       bookingPrice: `$${booking.serviceCost}`,
     },
     timeline: BOOKING_DETAILS_DEFAULT_TIMELINE,
-    ...buildMaterialFields(booking.material),
+    ...buildMaterialFields({ ...booking, preferredContact }),
   };
 };
 
