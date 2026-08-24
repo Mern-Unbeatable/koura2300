@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   Mail,
   Users,
+  ContactRound,
   ShoppingCart,
   Store,
   Briefcase,
@@ -25,6 +26,7 @@ import {
 const NAV_ITEMS = [
   { name: "Dashboard", path: ROUTES.ADMIN_DASHBOARD, icon: LayoutDashboard },
   { name: "Bookings", path: ROUTES.ADMIN_BOOKINGS, icon: CalendarDays },
+  { name: "Customers", path: ROUTES.ADMIN_CUSTOMERS, icon: ContactRound },
   { name: "Emails", path: ROUTES.ADMIN_EMAILS, icon: Mail },
   { name: "Leads", path: ROUTES.ADMIN_LEADS, icon: Users },
   { name: "Orders", path: ROUTES.ADMIN_ORDERS, icon: ShoppingCart },

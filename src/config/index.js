@@ -36,6 +36,7 @@ export const ROUTES = {
   ADMIN_DASHBOARD: '/admin/dashboard',
   ADMIN_BOOKINGS: '/admin/bookings',
   ADMIN_BOOKING_DETAILS: '/admin/bookings/:bookingId',
+  ADMIN_CUSTOMERS: '/admin/customers',
   ADMIN_EMAILS: '/admin/emails',
   ADMIN_LEADS: '/admin/leads',
   ADMIN_ORDERS: '/admin/orders',
