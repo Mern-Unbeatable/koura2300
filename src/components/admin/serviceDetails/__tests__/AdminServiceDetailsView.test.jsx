@@ -117,7 +117,7 @@ describe('AdminServiceDetailsView', () => {
       LAPTOP: 1020,
       DESKTOP: 1440,
     });
-    expect(ADMIN_SERVICE_DETAILS_SPLIT_CLASS).toContain('min-[1020px]:grid-cols-2');
+    expect(ADMIN_SERVICE_DETAILS_SPLIT_CLASS).toContain('min-[1440px]:grid-cols-2');
     expect(ADMIN_SERVICE_DETAILS_PACKAGE_GRID_CLASS).toContain('min-[768px]:grid-cols-2');
   });
 

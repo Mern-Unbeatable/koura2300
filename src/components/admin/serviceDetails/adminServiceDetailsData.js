@@ -51,11 +51,12 @@ export const ADMIN_SERVICE_DETAILS_ASSETS = {
 };
 
 export const ADMIN_SERVICE_DETAILS_PAGE_CLASS =
-  'flex min-w-0 flex-col gap-5 max-[425px]:gap-5 min-[426px]:gap-6 min-[768px]:gap-8 min-[1020px]:gap-10';
+  'flex min-w-0 flex-col gap-5 max-[425px]:gap-5 min-[426px]:gap-6 min-[768px]:gap-8 min-[1440px]:gap-10';
 export const ADMIN_SERVICE_DETAILS_BACK_LINK_CLASS =
   'inline-flex items-center gap-1 text-sm font-normal text-[#191c1f] transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+/** Gallery | summary side-by-side only at desktop; laptop keeps tablet stacked layout. */
 export const ADMIN_SERVICE_DETAILS_SPLIT_CLASS =
-  'grid min-w-0 grid-cols-1 items-start gap-5 min-[1020px]:grid-cols-2';
+  'grid min-w-0 grid-cols-1 items-start gap-5 min-[768px]:gap-8 min-[1440px]:grid-cols-2 min-[1440px]:gap-10';
 export const ADMIN_SERVICE_DETAILS_TITLE_CLASS =
   'text-2xl font-semibold leading-tight text-[#0b1e3d] min-[376px]:text-[28px] min-[768px]:text-[32px]';
 export const ADMIN_SERVICE_DETAILS_BADGES_CLASS =
@@ -81,11 +82,11 @@ export const ADMIN_SERVICE_DETAILS_PACKAGE_RADIO_CLASS = {
     'size-5 shrink-0 rounded-[10px] border-2 border-[#151515] bg-[#fff7f4]',
 };
 export const ADMIN_SERVICE_DETAILS_HERO_IMAGE_CLASS =
-  'h-56 w-full min-w-0 rounded-lg object-cover min-[376px]:h-64 min-[768px]:h-80 min-[1020px]:h-[624px]';
+  'h-56 w-full min-w-0 rounded-lg object-cover min-[376px]:h-64 min-[768px]:h-80 min-[1440px]:h-[624px]';
 export const ADMIN_SERVICE_DETAILS_THUMB_GRID_CLASS =
   'grid min-w-0 grid-cols-4 gap-2 min-[426px]:gap-3';
 export const ADMIN_SERVICE_DETAILS_THUMB_IMAGE_CLASS =
-  'h-14 w-full min-w-0 object-cover min-[376px]:h-16 min-[768px]:h-24 min-[1020px]:h-[136px]';
+  'h-14 w-full min-w-0 object-cover min-[376px]:h-16 min-[768px]:h-24 min-[1440px]:h-[136px]';
 export const ADMIN_SERVICE_DETAILS_PACKAGE_GRID_CLASS =
   'grid min-w-0 grid-cols-1 gap-3 min-[768px]:grid-cols-2';
 export const ADMIN_SERVICE_DETAILS_PACKAGE_STANDARD_CLASS =

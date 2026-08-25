@@ -54,7 +54,7 @@ const AdminServiceDetailsGallery = memo(({ copy, gallery, imageAlt }) => {
     <div
       role="region"
       aria-label={copy.gallery.regionLabel}
-      className="flex min-w-0 flex-col gap-3 min-[1020px]:gap-5"
+      className="flex min-w-0 flex-col gap-3 min-[768px]:gap-4 min-[1440px]:gap-5"
     >
       <img
         src={activeImage}
