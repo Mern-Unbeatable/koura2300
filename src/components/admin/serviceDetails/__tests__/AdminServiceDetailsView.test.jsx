@@ -8,6 +8,7 @@ import {
   ADMIN_SERVICE_DETAILS_CATEGORY_BADGE_CLASS,
   ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS,
   ADMIN_SERVICE_DETAILS_PACKAGE_GRID_CLASS,
+  ADMIN_SERVICE_DETAILS_RATING_HEADER_CLASS,
   ADMIN_SERVICE_DETAILS_RATING_SUMMARY_CLASS,
   ADMIN_SERVICE_DETAILS_SPLIT_CLASS,
   ADMIN_SERVICE_DETAILS_SUBCATEGORY_BADGE_CLASS,
@@ -82,7 +83,8 @@ describe('AdminServiceDetailsView', () => {
     expect(screen.getByText('Darrell Steward')).toBeInTheDocument();
     expect(screen.getByText('Esther Howard')).toBeInTheDocument();
     expect(ADMIN_SERVICE_DETAILS_RATING_SUMMARY_CLASS).toContain('bg-[#fbf4ce]');
-    expect(ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS).toContain('min-[1020px]:w-[424px]');
+    expect(ADMIN_SERVICE_DETAILS_RATING_HEADER_CLASS).toContain('min-[1440px]:flex-row');
+    expect(ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS).toContain('min-[1440px]:max-w-[424px]');
   });
 
   it('switches gallery hero image when a thumbnail is selected', async () => {

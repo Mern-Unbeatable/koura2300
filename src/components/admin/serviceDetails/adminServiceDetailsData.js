@@ -111,20 +111,21 @@ export const ADMIN_SERVICE_DETAILS_EXCLUDED_BADGE_CLASS =
   'flex size-5 shrink-0 items-center justify-center rounded-full border border-[#ef4444]';
 export const ADMIN_SERVICE_DETAILS_REVIEWS_CARD_CLASS =
   'flex min-w-0 flex-col gap-8 overflow-hidden rounded border border-[#e4e7e9] bg-white pb-8 min-[426px]:gap-10';
+/** Side-by-side only at desktop: laptop content width (sidebar + padding) cannot fit Figma's 424px tracks. */
 export const ADMIN_SERVICE_DETAILS_RATING_HEADER_CLASS =
-  'flex min-w-0 flex-col gap-6 px-4 pt-6 min-[426px]:px-6 min-[768px]:flex-row min-[768px]:items-center min-[768px]:gap-8 min-[768px]:px-10';
+  'flex min-w-0 flex-col gap-6 px-4 pt-6 min-[426px]:px-6 min-[768px]:px-10 min-[1440px]:flex-row min-[1440px]:items-center min-[1440px]:gap-8';
 export const ADMIN_SERVICE_DETAILS_RATING_SUMMARY_CLASS =
-  'flex w-full shrink-0 flex-col items-center justify-center gap-3 rounded bg-[#fbf4ce] p-6 min-[426px]:p-8 min-[768px]:w-auto';
+  'flex w-full shrink-0 flex-col items-center justify-center gap-3 rounded bg-[#fbf4ce] p-6 min-[426px]:p-8 min-[1440px]:w-auto';
 export const ADMIN_SERVICE_DETAILS_RATING_SCORE_CLASS =
-  'w-full text-center text-4xl font-semibold leading-none text-[#191c1f] min-[376px]:text-5xl min-[768px]:w-[232px] min-[768px]:text-[56px] min-[768px]:leading-[64px]';
+  'w-full text-center text-4xl font-semibold leading-none text-[#191c1f] min-[376px]:text-5xl min-[768px]:text-[56px] min-[768px]:leading-[64px] min-[1440px]:w-[232px]';
 export const ADMIN_SERVICE_DETAILS_RATING_LABEL_CLASS =
-  'w-full text-center text-base leading-6 min-[768px]:w-[232px]';
+  'w-full text-center text-base leading-6 min-[1440px]:w-[232px]';
 export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_LIST_CLASS =
-  'flex min-w-0 flex-1 flex-col gap-4';
+  'flex min-w-0 w-full flex-1 flex-col gap-4';
 export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_ROW_CLASS =
   'flex min-w-0 items-center gap-3 min-[768px]:gap-4';
 export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS =
-  'relative h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-[#e4e7e9] min-[1020px]:w-[424px] min-[1020px]:flex-none';
+  'relative h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-[#e4e7e9] min-[1440px]:max-w-[424px]';
 export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_FILL_CLASS =
   'absolute left-0 top-0 h-full rounded-full bg-[#fa8232]';
 export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_LABEL_CLASS =
