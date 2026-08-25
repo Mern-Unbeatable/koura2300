@@ -83,7 +83,7 @@ describe('ServicesView', () => {
     expect(listbox.className).toContain('max-h-[220px]');
     expect(
       screen.getByRole('option', { name: 'Indoor Lighting' }).className,
-    ).toContain('whitespace-nowrap');
+    ).toContain('break-words');
   });
 
   it('renders shared landing ServiceCard content for admin services', () => {

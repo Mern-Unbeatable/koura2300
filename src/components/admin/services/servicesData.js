@@ -35,16 +35,18 @@ export const SERVICES_FILTER_SELECTS_CLASS =
   'flex w-full flex-col gap-3 min-[426px]:flex-row min-[426px]:items-center min-[768px]:w-auto min-[768px]:gap-3';
 export const SERVICES_FILTER_SELECT_WRAP_CLASS = 'relative w-full min-[426px]:w-auto';
 export const SERVICES_FILTER_TRIGGER_CLASS =
-  'inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-md border border-[#d1d5db] bg-white px-3 text-left text-sm leading-5 text-[#1f2937] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-md border border-[#e8ebf0] bg-white px-3 text-left text-sm leading-5 text-[#455163] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ffd4c2]';
 export const SERVICES_FILTER_TRIGGER_LABEL_CLASS = 'min-w-0 flex-1 truncate whitespace-nowrap';
-export const SERVICES_FILTER_CATEGORY_WIDTH_CLASS = 'min-[426px]:w-[148px]';
-export const SERVICES_FILTER_SUBCATEGORY_WIDTH_CLASS = 'min-[426px]:w-[168px]';
+export const SERVICES_FILTER_CATEGORY_WIDTH_CLASS = 'shrink-0 min-[426px]:w-[148px]';
+export const SERVICES_FILTER_SUBCATEGORY_WIDTH_CLASS = 'shrink-0 min-[426px]:w-[200px]';
 export const SERVICES_FILTER_MENU_CLASS =
-  'absolute top-[calc(100%+4px)] left-0 z-30 max-h-[220px] w-full overflow-y-auto overscroll-y-contain rounded-md border border-[#d1d5db] bg-white py-1 shadow-[0px_8px_24px_rgba(15,23,42,0.12)] scrollbar-services-ash';
+  'absolute top-[calc(100%+4px)] left-0 z-30 max-h-[220px] w-full overflow-x-hidden overflow-y-auto overscroll-y-contain rounded-md border border-[#e8ebf0] bg-[#fcfcfd] py-1 shadow-[0px_8px_20px_rgba(15,23,42,0.06)] scrollbar-services-ash';
 export const SERVICES_FILTER_OPTION_CLASS =
-  'flex w-full cursor-pointer items-center px-3 py-1.5 text-left text-sm leading-5 text-[#1f2937] whitespace-nowrap transition-colors hover:bg-[#fff1eb] focus:outline-none focus-visible:bg-[#fff1eb]';
+  'flex w-full cursor-pointer items-center px-3 py-1.5 text-left text-sm leading-5 text-[#536070] whitespace-nowrap transition-colors hover:bg-[#fff7f3] focus:outline-none focus-visible:bg-[#fff7f3]';
+export const SERVICES_FILTER_OPTION_WRAP_CLASS =
+  'flex w-full cursor-pointer items-start px-3 py-1.5 text-left text-sm leading-5 text-[#536070] whitespace-normal break-words transition-colors hover:bg-[#fff7f3] focus:outline-none focus-visible:bg-[#fff7f3]';
 export const SERVICES_FILTER_OPTION_ACTIVE_CLASS =
-  'bg-[#fc6f32] text-white hover:bg-[#fc6f32] focus-visible:bg-[#fc6f32]';
+  'bg-[#fff1eb] text-[#fc6f32] hover:bg-[#fff1eb] focus-visible:bg-[#fff1eb]';
 export const SERVICES_FILTER_MENU_MAX_HEIGHT_PX = 220;
 export const SERVICES_GRID_CLASS =
   'grid grid-cols-1 gap-5 min-[426px]:grid-cols-1 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-3 min-[1440px]:grid-cols-4';

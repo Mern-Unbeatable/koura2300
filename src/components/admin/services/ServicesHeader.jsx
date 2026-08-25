@@ -6,6 +6,7 @@ import {
   SERVICES_FILTER_MENU_CLASS,
   SERVICES_FILTER_OPTION_ACTIVE_CLASS,
   SERVICES_FILTER_OPTION_CLASS,
+  SERVICES_FILTER_OPTION_WRAP_CLASS,
   SERVICES_FILTER_SELECT_WRAP_CLASS,
   SERVICES_FILTER_SELECTS_CLASS,
   SERVICES_FILTER_SUBCATEGORY_WIDTH_CLASS,
@@ -30,9 +31,13 @@ const ServicesFilterSelect = ({
   options,
   onChange,
   widthClassName,
+  wrapOptions = false,
 }) => {
   const { containerRef, isOpen, onToggle, onClose } = useServicesFilterMenu();
   const selectedLabel = getSelectedOptionLabel(options, value);
+  const optionBaseClass = wrapOptions
+    ? SERVICES_FILTER_OPTION_WRAP_CLASS
+    : SERVICES_FILTER_OPTION_CLASS;
 
   const handleSelect = (nextValue) => {
     onChange({ target: { value: nextValue } });
@@ -70,8 +75,8 @@ const ServicesFilterSelect = ({
           {options.map((option) => {
             const isActive = option.id === value;
             const optionClassName = isActive
-              ? `${SERVICES_FILTER_OPTION_CLASS} ${SERVICES_FILTER_OPTION_ACTIVE_CLASS}`
-              : SERVICES_FILTER_OPTION_CLASS;
+              ? `${optionBaseClass} ${SERVICES_FILTER_OPTION_ACTIVE_CLASS}`
+              : optionBaseClass;
 
             return (
               <li key={`${option.categoryId ?? 'root'}-${option.id}`} role="presentation">
@@ -83,7 +88,7 @@ const ServicesFilterSelect = ({
                   className={optionClassName}
                   onClick={() => handleSelect(option.id)}
                 >
-                  <span className="truncate">{option.label}</span>
+                  {option.label}
                 </button>
               </li>
             );
@@ -134,6 +139,7 @@ const ServicesHeader = ({
             options={subcategoryOptions}
             onChange={onSubcategoryFilterChange}
             widthClassName={SERVICES_FILTER_SUBCATEGORY_WIDTH_CLASS}
+            wrapOptions
           />
         </div>
       </div>

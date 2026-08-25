@@ -166,23 +166,34 @@
   border-radius: 9999px;
 }
 
-/* Service Management filter menus — thin ash scrollbar */
+/* Service Management filter menus — thin light ash scrollbar */
 .scrollbar-services-ash {
   scrollbar-width: thin;
-  scrollbar-color: #c4c8ce transparent;
+  scrollbar-color: #e5e7eb transparent;
 }
 
 .scrollbar-services-ash::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
+}
+
+.scrollbar-services-ash::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .scrollbar-services-ash::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f8fafc;
+  border-radius: 9999px;
 }
 
 .scrollbar-services-ash::-webkit-scrollbar-thumb {
-  background-color: #c4c8ce;
+  background-color: #e5e7eb;
   border-radius: 9999px;
+}
+
+.scrollbar-services-ash::-webkit-scrollbar-thumb:hover {
+  background-color: #d1d5db;
 }
 
 .scrollbar-landing-chat {
