@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { ChevronDown } from 'lucide-react';
+import useServicesFilterMenu from '../services/useServicesFilterMenu';
 import {
   ADMIN_SERVICE_FORM_CONTROL_CLASS,
   ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS,
@@ -10,9 +11,14 @@ import {
   ADMIN_SERVICE_FORM_PAIR_CLASS,
   ADMIN_SERVICE_FORM_ROW_CLASS,
   ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE,
-  ADMIN_SERVICE_FORM_SELECT_CLASS,
-  ADMIN_SERVICE_FORM_SELECT_FILLED_CLASS,
   ADMIN_SERVICE_FORM_SELECT_ICON_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_MENU_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_OPTION_ACTIVE_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_OPTION_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_PLACEHOLDER_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_TRIGGER_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_TRIGGER_LABEL_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_VALUE_CLASS,
   ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS,
   ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS,
   ADMIN_SERVICE_FORM_TEXTAREA_SHORT_CLASS,
@@ -68,38 +74,80 @@ const TextAreaField = memo(({ id, label, value, placeholder, error, onChange, lo
 
 TextAreaField.displayName = 'TextAreaField';
 
-const SelectField = memo(({ id, label, value, placeholder, options, error, onChange }) => (
-  <div className={ADMIN_SERVICE_FORM_FIELD_CLASS}>
-    <label htmlFor={id} className={ADMIN_SERVICE_FORM_LABEL_CLASS}>
-      {label}
-    </label>
-    <div className={ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS}>
-      <select
-        id={id}
-        value={value}
-        onChange={onChange}
-        className={`${ADMIN_SERVICE_FORM_SELECT_CLASS} ${ADMIN_SERVICE_FORM_SELECT_FILLED_CLASS} ${
-          error ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
-        }`}
-      >
-        <option value="" disabled>
-          {placeholder}
-        </option>
-        {options.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <ChevronDown
-        size={ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE}
-        className={ADMIN_SERVICE_FORM_SELECT_ICON_CLASS}
-        aria-hidden="true"
-      />
+const SelectField = memo(({ id, label, value, placeholder, options, error, onChange }) => {
+  const { containerRef, isOpen, onToggle, onClose } = useServicesFilterMenu();
+  const selectedOption = options.find((option) => option.id === value);
+  const displayLabel = selectedOption?.label || placeholder;
+  const labelClassName = selectedOption
+    ? ADMIN_SERVICE_FORM_SELECT_VALUE_CLASS
+    : ADMIN_SERVICE_FORM_SELECT_PLACEHOLDER_CLASS;
+
+  const handleSelect = (nextValue) => {
+    onChange({ target: { value: nextValue } });
+    onClose();
+  };
+
+  return (
+    <div className={ADMIN_SERVICE_FORM_FIELD_CLASS}>
+      <span className={ADMIN_SERVICE_FORM_LABEL_CLASS} id={`${id}-label`}>
+        {label}
+      </span>
+      <div ref={containerRef} className={ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS}>
+        <button
+          id={id}
+          type="button"
+          aria-labelledby={`${id}-label`}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          className={`${ADMIN_SERVICE_FORM_SELECT_TRIGGER_CLASS} ${
+            error ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
+          }`}
+          onClick={onToggle}
+        >
+          <span className={`${ADMIN_SERVICE_FORM_SELECT_TRIGGER_LABEL_CLASS} ${labelClassName}`}>
+            {displayLabel}
+          </span>
+          <ChevronDown
+            size={ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE}
+            className={ADMIN_SERVICE_FORM_SELECT_ICON_CLASS}
+            aria-hidden="true"
+          />
+        </button>
+
+        {isOpen ? (
+          <ul
+            role="listbox"
+            aria-labelledby={`${id}-label`}
+            className={ADMIN_SERVICE_FORM_SELECT_MENU_CLASS}
+          >
+            {options.map((option) => {
+              const isActive = option.id === value;
+              const optionClassName = isActive
+                ? `${ADMIN_SERVICE_FORM_SELECT_OPTION_CLASS} ${ADMIN_SERVICE_FORM_SELECT_OPTION_ACTIVE_CLASS}`
+                : ADMIN_SERVICE_FORM_SELECT_OPTION_CLASS;
+
+              return (
+                <li key={`${option.categoryId ?? 'root'}-${option.id}`} role="presentation">
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={isActive}
+                    title={option.label}
+                    className={optionClassName}
+                    onClick={() => handleSelect(option.id)}
+                  >
+                    {option.label}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
+      </div>
+      <FieldError error={error} />
     </div>
-    <FieldError error={error} />
-  </div>
-));
+  );
+});
 
 SelectField.displayName = 'SelectField';
 

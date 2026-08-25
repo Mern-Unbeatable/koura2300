@@ -82,14 +82,20 @@ export const ADMIN_SERVICE_FORM_LABEL_CLASS =
 export const ADMIN_SERVICE_FORM_PLACEHOLDER_COLOR = '#b8bec6';
 export const ADMIN_SERVICE_FORM_CONTROL_CLASS =
   'h-10 w-full rounded border border-[rgba(0,0,0,0.2)] bg-white px-2.5 text-xs leading-4 text-[#3b3f46] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[768px]:text-sm';
-export const ADMIN_SERVICE_FORM_SELECT_CLASS =
-  `${ADMIN_SERVICE_FORM_CONTROL_CLASS} appearance-none pr-9 [&>option]:bg-white [&>option]:text-[#191c1f]`;
-export const ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS = 'relative w-full min-w-0';
-export const ADMIN_SERVICE_FORM_SELECT_ICON_CLASS =
-  'pointer-events-none absolute top-1/2 right-2.5 size-4 -translate-y-1/2 text-[#697076]';
-export const ADMIN_SERVICE_FORM_SELECT_EMPTY_CLASS = 'text-[#b8bec6]';
-export const ADMIN_SERVICE_FORM_SELECT_FILLED_CLASS = 'text-[#191c1f]';
 export const ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE = 16;
+export const ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS = 'relative w-full min-w-0';
+export const ADMIN_SERVICE_FORM_SELECT_TRIGGER_CLASS =
+  'inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded border border-[rgba(0,0,0,0.2)] bg-white px-2.5 text-left text-xs leading-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[768px]:text-sm';
+export const ADMIN_SERVICE_FORM_SELECT_TRIGGER_LABEL_CLASS = 'min-w-0 flex-1 truncate';
+export const ADMIN_SERVICE_FORM_SELECT_PLACEHOLDER_CLASS = 'text-[#b8bec6]';
+export const ADMIN_SERVICE_FORM_SELECT_VALUE_CLASS = 'text-[#191c1f]';
+export const ADMIN_SERVICE_FORM_SELECT_ICON_CLASS = 'shrink-0 text-[#697076]';
+export const ADMIN_SERVICE_FORM_SELECT_MENU_CLASS =
+  'absolute top-[calc(100%+4px)] left-0 z-30 max-h-[220px] w-full overflow-x-hidden overflow-y-auto overscroll-y-contain rounded-md border border-[#e8ebf0] bg-white py-1 shadow-[0px_8px_20px_rgba(15,23,42,0.06)] scrollbar-services-ash';
+export const ADMIN_SERVICE_FORM_SELECT_OPTION_CLASS =
+  'flex w-full cursor-pointer items-start px-3 py-1.5 text-left text-sm leading-5 text-[#191c1f] whitespace-normal break-words transition-colors hover:bg-[#fff7f3] focus:outline-none focus-visible:bg-[#fff7f3]';
+export const ADMIN_SERVICE_FORM_SELECT_OPTION_ACTIVE_CLASS =
+  'bg-[#fff1eb] text-[#fc6f32] hover:bg-[#fff1eb] focus-visible:bg-[#fff1eb]';
 export const ADMIN_SERVICE_FORM_TEXTAREA_SHORT_CLASS =
   'min-h-[122px] w-full resize-y rounded border border-[rgba(0,0,0,0.2)] bg-white px-4 py-4 text-sm leading-[1.6] text-[#3b3f46] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS =

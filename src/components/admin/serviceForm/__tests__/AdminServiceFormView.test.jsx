@@ -3,13 +3,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ADMIN_SERVICE_FORM_COPY } from '../adminServiceFormCopy';
 import {
+  ADMIN_SERVICE_FORM_CONTROL_CLASS,
   ADMIN_SERVICE_FORM_EMPTY_VALUES,
   ADMIN_SERVICE_FORM_FIELDS,
-  ADMIN_SERVICE_FORM_CONTROL_CLASS,
   ADMIN_SERVICE_FORM_OTHER_PREVIEW_COLUMNS,
   ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS,
   ADMIN_SERVICE_FORM_PAIR_CLASS,
   ADMIN_SERVICE_FORM_ROW_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_MENU_CLASS,
   ADMIN_SERVICE_FORM_VIEWPORT,
 } from '../adminServiceFormData';
 import AdminServiceFormView from '../AdminServiceFormView';
@@ -48,6 +49,7 @@ describe('AdminServiceFormView', () => {
     expect(screen.getByText(ADMIN_SERVICE_FORM_COPY.subtitle)).toBeInTheDocument();
     expect(screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.category)).toBeInTheDocument();
     expect(screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.duration)).toBeInTheDocument();
+    expect(ADMIN_SERVICE_FORM_SELECT_MENU_CLASS).toContain('scrollbar-services-ash');
     expect(
       screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.standardPrice),
     ).toBeInTheDocument();
