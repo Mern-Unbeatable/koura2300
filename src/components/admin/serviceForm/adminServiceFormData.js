@@ -104,8 +104,13 @@ export const ADMIN_SERVICE_FORM_UPLOAD_META_CLASS =
   'mt-1 flex flex-wrap items-center justify-center gap-3 text-sm font-medium leading-4 text-[#94a3b8] min-[768px]:gap-4';
 export const ADMIN_SERVICE_FORM_UPLOAD_META_ITEM_CLASS =
   'inline-flex items-center gap-1';
+export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_COLUMNS = 5;
 export const ADMIN_SERVICE_FORM_PREVIEW_CLASS =
   'mt-3 h-40 w-full overflow-hidden rounded-lg border border-[rgba(0,0,0,0.2)] object-cover';
+export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS =
+  'mt-3 grid min-w-0 grid-cols-2 gap-2 min-[426px]:grid-cols-3 min-[768px]:grid-cols-5 min-[768px]:gap-3';
+export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS =
+  'aspect-square w-full min-w-0 overflow-hidden rounded-lg border border-[rgba(0,0,0,0.2)] object-cover';
 export const ADMIN_SERVICE_FORM_SUBMIT_CLASS =
   'inline-flex h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-6 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:w-auto';
 export const ADMIN_SERVICE_FORM_NOT_FOUND_CLASS =

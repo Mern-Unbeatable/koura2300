@@ -2,7 +2,11 @@ import { memo, useId, useRef } from 'react';
 import { Check, CloudUpload } from 'lucide-react';
 import {
   ADMIN_SERVICE_FORM_ACCEPT,
+  ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS,
+  ADMIN_SERVICE_FORM_LABEL_CLASS,
   ADMIN_SERVICE_FORM_META_ICON_SIZE,
+  ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS,
+  ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS,
   ADMIN_SERVICE_FORM_PREVIEW_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_HINT_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_ICON_SIZE,
@@ -12,9 +16,12 @@ import {
   ADMIN_SERVICE_FORM_UPLOAD_SECTION_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_TITLE_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_ZONE_CLASS,
-  ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS,
-  ADMIN_SERVICE_FORM_LABEL_CLASS,
 } from './adminServiceFormData';
+
+const PREVIEW_LAYOUT = {
+  STACK: 'stack',
+  GRID: 'grid',
+};
 
 const UploadMetaItem = memo(({ label }) => (
   <span className={ADMIN_SERVICE_FORM_UPLOAD_META_ITEM_CLASS}>
@@ -25,6 +32,33 @@ const UploadMetaItem = memo(({ label }) => (
 
 UploadMetaItem.displayName = 'UploadMetaItem';
 
+const UploadPreviewList = memo(({ previewUrls, layout }) => {
+  if (previewUrls.length === 0) {
+    return null;
+  }
+
+  if (layout === PREVIEW_LAYOUT.GRID) {
+    return (
+      <div className={ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS}>
+        {previewUrls.map((url) => (
+          <img
+            key={url}
+            src={url}
+            alt=""
+            className={ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  return previewUrls.map((url) => (
+    <img key={url} src={url} alt="" className={ADMIN_SERVICE_FORM_PREVIEW_CLASS} />
+  ));
+});
+
+UploadPreviewList.displayName = 'UploadPreviewList';
+
 const AdminServiceFormUploadZone = memo(
   ({
     label,
@@ -33,6 +67,7 @@ const AdminServiceFormUploadZone = memo(
     dropHint,
     metaLabels,
     multiple = false,
+    previewLayout = PREVIEW_LAYOUT.STACK,
     error,
     previewUrls = [],
     onFilesSelected,
@@ -71,9 +106,7 @@ const AdminServiceFormUploadZone = memo(
           />
         </label>
         {error ? <p className={ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS}>{error}</p> : null}
-        {previewUrls.map((url) => (
-          <img key={url} src={url} alt="" className={ADMIN_SERVICE_FORM_PREVIEW_CLASS} />
-        ))}
+        <UploadPreviewList previewUrls={previewUrls} layout={previewLayout} />
       </div>
     );
   },
@@ -81,4 +114,5 @@ const AdminServiceFormUploadZone = memo(
 
 AdminServiceFormUploadZone.displayName = 'AdminServiceFormUploadZone';
 
+export { PREVIEW_LAYOUT };
 export default AdminServiceFormUploadZone;

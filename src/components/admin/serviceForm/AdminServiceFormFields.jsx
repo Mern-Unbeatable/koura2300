@@ -176,7 +176,7 @@ const AdminServiceFormFields = memo(
         <TextAreaField
           id="service-form-short-description"
           label={copy.fields.shortDescription}
-          placeholder={copy.placeholders.description}
+          placeholder={copy.placeholders.shortDescription}
           value={values[ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION]}
           error={errors[ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION]}
           onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION)}
@@ -185,7 +185,7 @@ const AdminServiceFormFields = memo(
         <TextAreaField
           id="service-form-long-description"
           label={copy.fields.longDescription}
-          placeholder={copy.placeholders.description}
+          placeholder={copy.placeholders.longDescription}
           value={values[ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION]}
           error={errors[ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION]}
           onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION)}
@@ -195,7 +195,7 @@ const AdminServiceFormFields = memo(
         <TextAreaField
           id="service-form-included"
           label={copy.fields.included}
-          placeholder={copy.placeholders.description}
+          placeholder={copy.placeholders.included}
           value={values[ADMIN_SERVICE_FORM_FIELDS.INCLUDED]}
           error={errors[ADMIN_SERVICE_FORM_FIELDS.INCLUDED]}
           onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)}
@@ -205,7 +205,7 @@ const AdminServiceFormFields = memo(
         <TextAreaField
           id="service-form-not-included"
           label={copy.fields.notIncluded}
-          placeholder={copy.placeholders.description}
+          placeholder={copy.placeholders.notIncluded}
           value={values[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]}
           error={errors[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]}
           onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)}

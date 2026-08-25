@@ -13,7 +13,9 @@ import {
   ADMIN_SERVICE_FORM_TITLE_CLASS,
 } from './adminServiceFormData';
 import AdminServiceFormFields from './AdminServiceFormFields';
-import AdminServiceFormUploadZone from './AdminServiceFormUploadZone';
+import AdminServiceFormUploadZone, {
+  PREVIEW_LAYOUT,
+} from './AdminServiceFormUploadZone';
 
 const AdminServiceFormNotFound = ({ copy }) => (
   <div className={ADMIN_SERVICE_FORM_NOT_FOUND_CLASS}>
@@ -88,6 +90,7 @@ const AdminServiceFormView = ({
           dropHint={copy.upload.dropHint}
           metaLabels={[copy.upload.formats, copy.upload.resolution]}
           multiple
+          previewLayout={PREVIEW_LAYOUT.GRID}
           previewUrls={otherPreviews}
           onFilesSelected={onOtherFilesSelected}
         />

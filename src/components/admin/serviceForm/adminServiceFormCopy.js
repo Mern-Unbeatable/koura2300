@@ -36,12 +36,14 @@ export const ADMIN_SERVICE_FORM_COPY = {
   placeholders: {
     category: 'Select a category',
     subcategory: 'Select a subcategory',
-    duration: '1-2 hours',
-    price: '$200.00',
-    featured: 'Write feature',
-    title: 'Portland Cement Quick Set',
-    description:
-      'Portland Cement is a high-quality, versatile construction material designed for strong, durable, and long-lasting structures.',
+    duration: 'e.g. 1–2 hours',
+    price: '$0.00',
+    featured: 'Enter a package feature',
+    title: 'Enter service title',
+    shortDescription: 'Brief summary of the service',
+    longDescription: 'Detailed description of the service scope and approach',
+    included: 'List what is included with this service',
+    notIncluded: 'List what is not included with this service',
   },
   upload: {
     dropTitle: 'Drag and drop photos here',
