@@ -16,6 +16,7 @@ import {
   getSubcategoryOptionsForCategory,
   getTotalPages,
   paginateServices,
+  shouldShowServicesPagination,
 } from '../components/admin/services/servicesUtils';
 
 const useAdminServices = () => {
@@ -56,6 +57,7 @@ const useAdminServices = () => {
 
   const pagination = useMemo(
     () => ({
+      isVisible: shouldShowServicesPagination(filteredServices.length, SERVICES_PAGE_SIZE),
       currentPage: activePage,
       totalPages,
       pageItems: getPaginationItems(activePage, totalPages),
@@ -65,7 +67,7 @@ const useAdminServices = () => {
       onNext: () => setCurrentPage((page) => clampPage(page + 1, totalPages)),
       onPageChange: (page) => setCurrentPage(clampPage(page, totalPages)),
     }),
-    [activePage, totalPages],
+    [activePage, filteredServices.length, totalPages],
   );
 
   const handleCategoryFilterChange = useCallback((event) => {

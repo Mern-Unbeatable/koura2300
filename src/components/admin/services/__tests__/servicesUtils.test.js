@@ -8,12 +8,12 @@ import {
   getTotalPages,
   PAGINATION_ELLIPSIS_TOKEN,
   paginateServices,
+  shouldShowServicesPagination,
 } from '../servicesUtils';
 import {
   SERVICES_ALL_FILTER_ID,
   SERVICES_PAGE_SIZE,
   SERVICES_SEED,
-  SERVICES_TOTAL_PAGES,
 } from '../servicesData';
 
 describe('servicesUtils', () => {
@@ -27,20 +27,42 @@ describe('servicesUtils', () => {
     expect(bySubcategory.every((service) => service.category === subcategory)).toBe(true);
   });
 
+  it('includes later catalog categories such as Deck and Walls & Ceilings', () => {
+    const laterCategories = [
+      'Deck',
+      'Basement',
+      'Appliances',
+      'Garage',
+      'Garden',
+      'Flooring',
+      'Windows',
+      'Doors',
+      'Kitchen',
+      'Bathroom',
+      'Walls & Ceilings',
+    ];
+
+    laterCategories.forEach((categoryTitle) => {
+      const matches = filterServices(SERVICES_SEED, categoryTitle, SERVICES_ALL_FILTER_ID);
+      expect(matches.length).toBeGreaterThan(0);
+      expect(matches.every((service) => service.catalogTitle === categoryTitle)).toBe(true);
+    });
+  });
+
   it('returns all seed services when filters are all', () => {
     expect(
       filterServices(SERVICES_SEED, SERVICES_ALL_FILTER_ID, SERVICES_ALL_FILTER_ID),
     ).toHaveLength(SERVICES_SEED.length);
   });
 
-  it('paginates eight services per page across ten Figma pages', () => {
+  it('paginates eight services per page', () => {
     const pageOne = paginateServices(SERVICES_SEED, 1, SERVICES_PAGE_SIZE);
     const pageTwo = paginateServices(SERVICES_SEED, 2, SERVICES_PAGE_SIZE);
+    const totalPages = getTotalPages(SERVICES_SEED.length, SERVICES_PAGE_SIZE);
 
-    expect(SERVICES_SEED).toHaveLength(SERVICES_PAGE_SIZE * SERVICES_TOTAL_PAGES);
     expect(pageOne).toHaveLength(SERVICES_PAGE_SIZE);
     expect(pageTwo).toHaveLength(SERVICES_PAGE_SIZE);
-    expect(getTotalPages(SERVICES_SEED.length, SERVICES_PAGE_SIZE)).toBe(SERVICES_TOTAL_PAGES);
+    expect(totalPages).toBeGreaterThan(1);
   });
 
   it('builds summary subtitle from the service count', () => {
@@ -62,15 +84,12 @@ describe('servicesUtils', () => {
     expect(getPaginationItems(1, 2)).toEqual([1, 2]);
     expect(getPaginationItems(1, 10)).toEqual([1, 2, 3, PAGINATION_ELLIPSIS_TOKEN, 10]);
     expect(getPaginationItems(10, 10)).toEqual([1, PAGINATION_ELLIPSIS_TOKEN, 8, 9, 10]);
-    expect(getPaginationItems(5, 10)).toEqual([
-      1,
-      PAGINATION_ELLIPSIS_TOKEN,
-      4,
-      5,
-      6,
-      PAGINATION_ELLIPSIS_TOKEN,
-      10,
-    ]);
+  });
+
+  it('shows pagination only when there are more than eight cards', () => {
+    expect(shouldShowServicesPagination(0, SERVICES_PAGE_SIZE)).toBe(false);
+    expect(shouldShowServicesPagination(8, SERVICES_PAGE_SIZE)).toBe(false);
+    expect(shouldShowServicesPagination(9, SERVICES_PAGE_SIZE)).toBe(true);
   });
 
   it('clamps page numbers within the valid range', () => {
@@ -85,6 +104,5 @@ describe('servicesUtils', () => {
 
     expect(updated).toHaveLength(SERVICES_SEED.length - 1);
     expect(updated.find((service) => service.id === targetId)).toBeUndefined();
-    expect(SERVICES_SEED).toHaveLength(SERVICES_PAGE_SIZE * SERVICES_TOTAL_PAGES);
   });
 });

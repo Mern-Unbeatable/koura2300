@@ -40,7 +40,7 @@ const ServicesView = ({
       onEditService={onEditService}
       onDeleteService={onDeleteService}
     />
-    <ServicesPagination copy={copy} {...pagination} />
+    {pagination.isVisible ? <ServicesPagination copy={copy} {...pagination} /> : null}
   </div>
 );
 

@@ -83,3 +83,7 @@ export const PAGINATION_ELLIPSIS_TOKEN = PAGINATION_ELLIPSIS;
 
 export const clampPage = (page, totalPages) =>
   Math.min(Math.max(page, 1), totalPages);
+
+/** Pagination only when filtered results exceed one page of cards. */
+export const shouldShowServicesPagination = (totalItems, pageSize) =>
+  totalItems > pageSize;

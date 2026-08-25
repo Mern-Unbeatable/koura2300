@@ -25,6 +25,7 @@ const createServicesViewProps = (overrides = {}) => ({
   onEditService: jest.fn(),
   onDeleteService: jest.fn(),
   pagination: {
+    isVisible: true,
     currentPage: 1,
     totalPages: 10,
     pageItems: [1, 2, 3, 'ellipsis', 10],
@@ -149,6 +150,7 @@ describe('ServicesView', () => {
       <ServicesView
         {...createServicesViewProps({
           pagination: {
+            isVisible: true,
             currentPage: 1,
             totalPages: 10,
             pageItems: [1, 2, 3, 'ellipsis', 10],
@@ -175,6 +177,52 @@ describe('ServicesView', () => {
 
     expect(onPageChange).toHaveBeenCalledWith(2);
     expect(onNext).toHaveBeenCalled();
+  });
+
+  it('hides pagination when results fit on one page or are empty', () => {
+    const { rerender } = render(
+      <ServicesView
+        {...createServicesViewProps({
+          services: [],
+          summarySubtitle: '0 services',
+          pagination: {
+            isVisible: false,
+            currentPage: 1,
+            totalPages: 1,
+            pageItems: [1],
+            canGoPrevious: false,
+            canGoNext: false,
+            onPrevious: jest.fn(),
+            onNext: jest.fn(),
+            onPageChange: jest.fn(),
+          },
+        })}
+      />,
+    );
+
+    expect(screen.queryByTestId('services-pagination')).not.toBeInTheDocument();
+    expect(screen.getByText(SERVICES_COPY.emptyResults)).toBeInTheDocument();
+
+    rerender(
+      <ServicesView
+        {...createServicesViewProps({
+          services: SERVICES_SEED.slice(0, SERVICES_PAGE_SIZE),
+          pagination: {
+            isVisible: false,
+            currentPage: 1,
+            totalPages: 1,
+            pageItems: [1],
+            canGoPrevious: false,
+            canGoNext: false,
+            onPrevious: jest.fn(),
+            onNext: jest.fn(),
+            onPageChange: jest.fn(),
+          },
+        })}
+      />,
+    );
+
+    expect(screen.queryByTestId('services-pagination')).not.toBeInTheDocument();
   });
 
   it('uses responsive grid classes across breakpoints', () => {

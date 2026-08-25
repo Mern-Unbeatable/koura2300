@@ -11,9 +11,7 @@ export const SERVICES_VIEWPORT = {
 };
 
 export const SERVICES_PAGE_SIZE = 8;
-export const SERVICES_TOTAL_PAGES = 10;
 export const SERVICES_FILTER_CHEVRON_SIZE_PX = 16;
-export const SERVICES_SEED_LIMIT = SERVICES_PAGE_SIZE * SERVICES_TOTAL_PAGES;
 export const SERVICES_ALL_FILTER_ID = ALL_CATEGORIES_VALUE;
 
 export const SERVICES_PAGE_CLASS =
@@ -89,5 +87,5 @@ export const SERVICES_SUBCATEGORY_OPTIONS = [
   ),
 ];
 
-/** Seed enough catalog cards for Figma pagination: 8 per page × 10 pages. */
-export const SERVICES_SEED = ALL_CATALOG_SERVICES.slice(0, SERVICES_SEED_LIMIT);
+/** Full landing/catalog services so every category and subcategory has cards. */
+export const SERVICES_SEED = ALL_CATALOG_SERVICES;

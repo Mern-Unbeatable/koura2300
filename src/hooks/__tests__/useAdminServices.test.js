@@ -5,9 +5,11 @@ import {
   SERVICES_ALL_FILTER_ID,
   SERVICES_PAGE_SIZE,
   SERVICES_SEED,
-  SERVICES_TOTAL_PAGES,
 } from '../../components/admin/services/servicesData';
-import { PAGINATION_ELLIPSIS_TOKEN } from '../../components/admin/services/servicesUtils';
+import {
+  getTotalPages,
+  PAGINATION_ELLIPSIS_TOKEN,
+} from '../../components/admin/services/servicesUtils';
 import useAdminServices from '../useAdminServices';
 
 jest.mock('react-hot-toast', () => ({
@@ -22,19 +24,16 @@ describe('useAdminServices', () => {
     jest.clearAllMocks();
   });
 
-  it('paginates seeded catalog services and exposes the Figma page chrome', () => {
+  it('paginates full catalog services and shows pagination when needed', () => {
     const { result } = renderHook(() => useAdminServices());
+    const totalPages = getTotalPages(SERVICES_SEED.length, SERVICES_PAGE_SIZE);
 
     expect(result.current.services).toHaveLength(SERVICES_PAGE_SIZE);
     expect(result.current.summarySubtitle).toBe(`${SERVICES_SEED.length} services`);
-    expect(result.current.pagination.totalPages).toBe(SERVICES_TOTAL_PAGES);
-    expect(result.current.pagination.pageItems).toEqual([
-      1,
-      2,
-      3,
-      PAGINATION_ELLIPSIS_TOKEN,
-      SERVICES_TOTAL_PAGES,
-    ]);
+    expect(result.current.pagination.isVisible).toBe(true);
+    expect(result.current.pagination.totalPages).toBe(totalPages);
+    expect(result.current.pagination.pageItems[0]).toBe(1);
+    expect(result.current.pagination.pageItems).toContain(PAGINATION_ELLIPSIS_TOKEN);
     expect(result.current.pagination.canGoPrevious).toBe(false);
     expect(result.current.pagination.canGoNext).toBe(true);
     expect(result.current.selectedCategoryId).toBe(SERVICES_ALL_FILTER_ID);
@@ -57,6 +56,36 @@ describe('useAdminServices', () => {
     expect(
       result.current.services.every((service) => service.catalogTitle === 'Lighting'),
     ).toBe(true);
+  });
+
+  it('keeps later categories populated with services', () => {
+    const { result } = renderHook(() => useAdminServices());
+
+    act(() => {
+      result.current.onCategoryFilterChange({ target: { value: 'Deck' } });
+    });
+
+    expect(result.current.services.length).toBeGreaterThan(0);
+    expect(result.current.services.every((service) => service.catalogTitle === 'Deck')).toBe(
+      true,
+    );
+  });
+
+  it('hides pagination when filtered results fit on one page', () => {
+    const { result } = renderHook(() => useAdminServices());
+
+    act(() => {
+      result.current.onCategoryFilterChange({ target: { value: 'Lighting' } });
+    });
+
+    act(() => {
+      result.current.onSubcategoryFilterChange({
+        target: { value: 'Indoor Lighting' },
+      });
+    });
+
+    const filteredCount = Number(result.current.summarySubtitle.split(' ')[0]);
+    expect(result.current.pagination.isVisible).toBe(filteredCount > SERVICES_PAGE_SIZE);
   });
 
   it('filters by landing subcategory within a category', () => {
@@ -104,6 +133,7 @@ describe('useAdminServices', () => {
 
   it('moves through pages with eight cards each', () => {
     const { result } = renderHook(() => useAdminServices());
+    const lastPage = result.current.pagination.totalPages;
 
     act(() => {
       result.current.pagination.onNext();
@@ -114,17 +144,10 @@ describe('useAdminServices', () => {
     expect(result.current.pagination.canGoPrevious).toBe(true);
 
     act(() => {
-      result.current.pagination.onPageChange(SERVICES_TOTAL_PAGES);
+      result.current.pagination.onPageChange(lastPage);
     });
 
-    expect(result.current.pagination.currentPage).toBe(SERVICES_TOTAL_PAGES);
+    expect(result.current.pagination.currentPage).toBe(lastPage);
     expect(result.current.pagination.canGoNext).toBe(false);
-    expect(result.current.pagination.pageItems).toEqual([
-      1,
-      PAGINATION_ELLIPSIS_TOKEN,
-      8,
-      9,
-      10,
-    ]);
   });
 });
