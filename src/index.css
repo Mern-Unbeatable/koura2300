@@ -166,6 +166,25 @@
   border-radius: 9999px;
 }
 
+/* Service Management filter menus — thin ash scrollbar */
+.scrollbar-services-ash {
+  scrollbar-width: thin;
+  scrollbar-color: #c4c8ce transparent;
+}
+
+.scrollbar-services-ash::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-services-ash::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-services-ash::-webkit-scrollbar-thumb {
+  background-color: #c4c8ce;
+  border-radius: 9999px;
+}
+
 .scrollbar-landing-chat {
   scrollbar-width: thin;
   scrollbar-color: #d1d5db transparent;

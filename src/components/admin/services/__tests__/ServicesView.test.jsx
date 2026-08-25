@@ -60,8 +60,30 @@ describe('ServicesView', () => {
     expect(
       screen.getByLabelText(SERVICES_COPY.subcategoryFilterLabel),
     ).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Lighting' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Indoor Lighting' })).toBeInTheDocument();
+  });
+
+  it('keeps the Service Management title on one line', () => {
+    render(<ServicesView {...createServicesViewProps()} />);
+
+    expect(screen.getByRole('heading', { level: 1 }).className).toContain('whitespace-nowrap');
+  });
+
+  it('opens a compact sub-category menu with single-line options and ash scrollbar', async () => {
+    const user = userEvent.setup();
+
+    render(<ServicesView {...createServicesViewProps()} />);
+
+    await user.click(screen.getByLabelText(SERVICES_COPY.subcategoryFilterLabel));
+
+    const listbox = screen.getByRole('listbox', {
+      name: SERVICES_COPY.subcategoryFilterLabel,
+    });
+
+    expect(listbox.className).toContain('scrollbar-services-ash');
+    expect(listbox.className).toContain('max-h-[220px]');
+    expect(
+      screen.getByRole('option', { name: 'Indoor Lighting' }).className,
+    ).toContain('whitespace-nowrap');
   });
 
   it('renders shared landing ServiceCard content for admin services', () => {
@@ -104,15 +126,15 @@ describe('ServicesView', () => {
       />,
     );
 
-    await user.selectOptions(
-      screen.getByLabelText(SERVICES_COPY.categoryFilterLabel),
-      'Lighting',
-    );
+    await user.click(screen.getByLabelText(SERVICES_COPY.categoryFilterLabel));
+    await user.click(screen.getByRole('option', { name: 'Lighting' }));
     await user.click(screen.getByRole('button', { name: SERVICES_COPY.addNewService }));
     await user.click(screen.getAllByRole('button', { name: SERVICES_COPY.edit })[0]);
     await user.click(screen.getAllByRole('button', { name: SERVICES_COPY.delete })[0]);
 
-    expect(onCategoryFilterChange).toHaveBeenCalled();
+    expect(onCategoryFilterChange).toHaveBeenCalledWith(
+      expect.objectContaining({ target: { value: 'Lighting' } }),
+    );
     expect(onAddNewService).toHaveBeenCalled();
     expect(onEditService).toHaveBeenCalledWith(firstServiceId);
     expect(onDeleteService).toHaveBeenCalledWith(firstServiceId);
