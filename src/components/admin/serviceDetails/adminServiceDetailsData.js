@@ -16,7 +16,9 @@ export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_STAR_SIZE = 18;
 export const ADMIN_SERVICE_DETAILS_REVIEW_STAR_SIZE = 18;
 export const ADMIN_SERVICE_DETAILS_FEATURE_ICON_SIZE = 22;
 export const ADMIN_SERVICE_DETAILS_INCLUSION_CHECK_SIZE = 12;
-export const ADMIN_SERVICE_DETAILS_INCLUSION_ALERT_SIZE = 20;
+export const ADMIN_SERVICE_DETAILS_EXCLUDED_MARK = '!';
+export const ADMIN_SERVICE_DETAILS_EXCLUDED_MARK_CLASS =
+  'text-center text-xs font-bold leading-[18px] text-[#ef4444]';
 export const ADMIN_SERVICE_DETAILS_AVATAR_SIZE = 48;
 export const ADMIN_SERVICE_DETAILS_GALLERY_THUMB_COUNT = 4;
 export const ADMIN_SERVICE_DETAILS_FIRST_PHOTO = 1;
@@ -108,7 +110,7 @@ export const ADMIN_SERVICE_DETAILS_INCLUSION_ITEM_CLASS =
 export const ADMIN_SERVICE_DETAILS_INCLUDED_BADGE_CLASS =
   'flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-orange-light';
 export const ADMIN_SERVICE_DETAILS_EXCLUDED_BADGE_CLASS =
-  'flex size-5 shrink-0 items-center justify-center rounded-full border border-[#ef4444]';
+  'flex size-5 shrink-0 items-center justify-center rounded-[10px] border border-solid border-[#ef4444]';
 export const ADMIN_SERVICE_DETAILS_REVIEWS_CARD_CLASS =
   'flex min-w-0 flex-col gap-8 overflow-hidden rounded border border-[#e4e7e9] bg-white pb-8 min-[426px]:gap-10';
 /** Side-by-side only at desktop: laptop content width (sidebar + padding) cannot fit Figma's 424px tracks. */

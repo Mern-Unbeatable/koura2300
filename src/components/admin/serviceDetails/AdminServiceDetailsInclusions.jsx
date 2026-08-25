@@ -1,9 +1,10 @@
 import { memo } from 'react';
-import { Check, CircleAlert } from 'lucide-react';
+import { Check } from 'lucide-react';
 import {
   ADMIN_SERVICE_DETAILS_EXCLUDED_BADGE_CLASS,
+  ADMIN_SERVICE_DETAILS_EXCLUDED_MARK,
+  ADMIN_SERVICE_DETAILS_EXCLUDED_MARK_CLASS,
   ADMIN_SERVICE_DETAILS_INCLUDED_BADGE_CLASS,
-  ADMIN_SERVICE_DETAILS_INCLUSION_ALERT_SIZE,
   ADMIN_SERVICE_DETAILS_INCLUSION_CARD_CLASS,
   ADMIN_SERVICE_DETAILS_INCLUSION_CHECK_SIZE,
   ADMIN_SERVICE_DETAILS_INCLUSION_HEADING_CLASS,
@@ -17,29 +18,26 @@ const INCLUSION_KIND = {
   EXCLUDED: 'excluded',
 };
 
-const INCLUSION_APPEARANCE = {
-  [INCLUSION_KIND.INCLUDED]: {
-    badgeClassName: ADMIN_SERVICE_DETAILS_INCLUDED_BADGE_CLASS,
-    iconClassName: 'text-brand-orange',
-    Icon: Check,
-    iconSize: ADMIN_SERVICE_DETAILS_INCLUSION_CHECK_SIZE,
-  },
-  [INCLUSION_KIND.EXCLUDED]: {
-    badgeClassName: ADMIN_SERVICE_DETAILS_EXCLUDED_BADGE_CLASS,
-    iconClassName: 'text-[#ef4444]',
-    Icon: CircleAlert,
-    iconSize: ADMIN_SERVICE_DETAILS_INCLUSION_ALERT_SIZE,
-  },
-};
-
 const InclusionItem = memo(({ item, kind }) => {
-  const appearance = INCLUSION_APPEARANCE[kind];
-  const ItemIcon = appearance.Icon;
+  const isExcluded = kind === INCLUSION_KIND.EXCLUDED;
 
   return (
     <li className={ADMIN_SERVICE_DETAILS_INCLUSION_ITEM_CLASS}>
-      <span className={appearance.badgeClassName} aria-hidden="true">
-        <ItemIcon size={appearance.iconSize} className={appearance.iconClassName} />
+      <span
+        className={
+          isExcluded
+            ? ADMIN_SERVICE_DETAILS_EXCLUDED_BADGE_CLASS
+            : ADMIN_SERVICE_DETAILS_INCLUDED_BADGE_CLASS
+        }
+        aria-hidden="true"
+      >
+        {isExcluded ? (
+          <span className={ADMIN_SERVICE_DETAILS_EXCLUDED_MARK_CLASS}>
+            {ADMIN_SERVICE_DETAILS_EXCLUDED_MARK}
+          </span>
+        ) : (
+          <Check size={ADMIN_SERVICE_DETAILS_INCLUSION_CHECK_SIZE} className="text-brand-orange" />
+        )}
       </span>
       {item}
     </li>
