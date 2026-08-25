@@ -18,9 +18,9 @@ const CATEGORY_BADGE_CLASS =
 const SUBCATEGORY_BADGE_CLASS =
   'rounded-full bg-[#4f6589] px-3 py-1 text-xs font-semibold text-white';
 const ADMIN_EDIT_BUTTON_CLASS =
-  `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 items-center justify-center rounded-full bg-brand-orange px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`;
+  `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 cursor-pointer items-center justify-center rounded-full bg-brand-orange px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`;
 const ADMIN_DELETE_BUTTON_CLASS =
-  `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 items-center justify-center rounded-full bg-[#f52e0b] px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-[#d6280a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f52e0b]`;
+  `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 cursor-pointer items-center justify-center rounded-full bg-[#f52e0b] px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-[#d6280a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f52e0b]`;
 
 export const SERVICE_CARD_VARIANTS = {
   DEFAULT: 'default',
