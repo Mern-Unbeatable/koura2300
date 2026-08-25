@@ -1,4 +1,5 @@
 import ServiceCard, { SERVICE_CARD_VARIANTS } from '../../home/ServiceCard';
+import { buildAdminServiceDetailsRoute } from '../../../config';
 import { SERVICES_EMPTY_CLASS, SERVICES_GRID_CLASS } from './servicesData';
 
 const ServicesGrid = ({
@@ -22,6 +23,7 @@ const ServicesGrid = ({
           key={service.id}
           service={service}
           variant={SERVICE_CARD_VARIANTS.ADMIN}
+          detailsPath={buildAdminServiceDetailsRoute(service.id)}
           onEdit={onEditService}
           onDelete={onDeleteService}
           editLabel={copy.edit}

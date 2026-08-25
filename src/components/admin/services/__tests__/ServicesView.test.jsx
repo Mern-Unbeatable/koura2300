@@ -1,5 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
+import { buildAdminServiceDetailsRoute } from '../../../../config';
 import ServicesView from '../ServicesView';
 import { SERVICES_COPY } from '../servicesCopy';
 import {
@@ -41,9 +43,16 @@ const createServicesViewProps = (overrides = {}) => ({
   ...overrides,
 });
 
+const renderServicesView = (overrides = {}) =>
+  render(
+    <MemoryRouter>
+      <ServicesView {...createServicesViewProps(overrides)} />
+    </MemoryRouter>,
+  );
+
 describe('ServicesView', () => {
   it('renders the Service Management header actions from the updated Figma', () => {
-    render(<ServicesView {...createServicesViewProps()} />);
+    renderServicesView();
 
     expect(
       screen.getByRole('heading', { level: 1, name: SERVICES_COPY.title }),
@@ -56,7 +65,7 @@ describe('ServicesView', () => {
   });
 
   it('renders landing catalog category and sub-category filters', () => {
-    render(<ServicesView {...createServicesViewProps()} />);
+    renderServicesView();
 
     expect(
       screen.getByLabelText(SERVICES_COPY.categoryFilterLabel),
@@ -67,7 +76,7 @@ describe('ServicesView', () => {
   });
 
   it('keeps the Service Management title on one line', () => {
-    render(<ServicesView {...createServicesViewProps()} />);
+    renderServicesView();
 
     expect(screen.getByRole('heading', { level: 1 }).className).toContain('whitespace-nowrap');
   });
@@ -75,7 +84,7 @@ describe('ServicesView', () => {
   it('opens a compact sub-category menu with single-line options and ash scrollbar', async () => {
     const user = userEvent.setup();
 
-    render(<ServicesView {...createServicesViewProps()} />);
+    renderServicesView();
 
     await user.click(screen.getByLabelText(SERVICES_COPY.subcategoryFilterLabel));
 
@@ -92,7 +101,7 @@ describe('ServicesView', () => {
 
   it('renders shared landing ServiceCard content for admin services', () => {
     const firstService = SERVICES_SEED[0];
-    render(<ServicesView {...createServicesViewProps()} />);
+    renderServicesView();
 
     const grid = screen.getByRole('region', { name: SERVICES_COPY.gridLabel });
     const firstCard = within(grid).getByTestId(`services-card-${firstService.id}`);
@@ -109,6 +118,10 @@ describe('ServicesView', () => {
     expect(
       within(firstCard).getByRole('button', { name: SERVICES_COPY.delete }),
     ).toBeInTheDocument();
+    expect(within(firstCard).getByRole('link', { name: `View ${firstService.title}` })).toHaveAttribute(
+      'href',
+      buildAdminServiceDetailsRoute(firstService.id),
+    );
   });
 
   it('invokes filter and shared card action callbacks', async () => {
@@ -119,16 +132,12 @@ describe('ServicesView', () => {
     const onAddNewService = jest.fn();
     const firstServiceId = SERVICES_SEED[0].id;
 
-    render(
-      <ServicesView
-        {...createServicesViewProps({
-          onCategoryFilterChange,
-          onEditService,
-          onDeleteService,
-          onAddNewService,
-        })}
-      />,
-    );
+    renderServicesView({
+      onCategoryFilterChange,
+      onEditService,
+      onDeleteService,
+      onAddNewService,
+    });
 
     await user.click(screen.getByLabelText(SERVICES_COPY.categoryFilterLabel));
     await user.click(screen.getByRole('option', { name: 'Lighting' }));
@@ -149,23 +158,19 @@ describe('ServicesView', () => {
     const onNext = jest.fn();
     const onPageChange = jest.fn();
 
-    render(
-      <ServicesView
-        {...createServicesViewProps({
-          pagination: {
-            isVisible: true,
-            currentPage: 1,
-            totalPages: 10,
-            pageItems: [1, 2, 3, 'ellipsis', 10],
-            canGoPrevious: false,
-            canGoNext: true,
-            onPrevious: jest.fn(),
-            onNext,
-            onPageChange,
-          },
-        })}
-      />,
-    );
+    renderServicesView({
+      pagination: {
+        isVisible: true,
+        currentPage: 1,
+        totalPages: 10,
+        pageItems: [1, 2, 3, 'ellipsis', 10],
+        canGoPrevious: false,
+        canGoNext: true,
+        onPrevious: jest.fn(),
+        onNext,
+        onPageChange,
+      },
+    });
 
     const pagination = screen.getByTestId('services-pagination');
 
@@ -183,53 +188,51 @@ describe('ServicesView', () => {
   });
 
   it('hides pagination when results fit on one page or are empty', () => {
-    const { rerender } = render(
-      <ServicesView
-        {...createServicesViewProps({
-          services: [],
-          summarySubtitle: '0 services',
-          pagination: {
-            isVisible: false,
-            currentPage: 1,
-            totalPages: 1,
-            pageItems: [1],
-            canGoPrevious: false,
-            canGoNext: false,
-            onPrevious: jest.fn(),
-            onNext: jest.fn(),
-            onPageChange: jest.fn(),
-          },
-        })}
-      />,
-    );
+    const { rerender } = renderServicesView({
+      services: [],
+      summarySubtitle: '0 services',
+      pagination: {
+        isVisible: false,
+        currentPage: 1,
+        totalPages: 1,
+        pageItems: [1],
+        canGoPrevious: false,
+        canGoNext: false,
+        onPrevious: jest.fn(),
+        onNext: jest.fn(),
+        onPageChange: jest.fn(),
+      },
+    });
 
     expect(screen.queryByTestId('services-pagination')).not.toBeInTheDocument();
     expect(screen.getByText(SERVICES_COPY.emptyResults)).toBeInTheDocument();
 
     rerender(
-      <ServicesView
-        {...createServicesViewProps({
-          services: SERVICES_SEED.slice(0, SERVICES_PAGE_SIZE),
-          pagination: {
-            isVisible: false,
-            currentPage: 1,
-            totalPages: 1,
-            pageItems: [1],
-            canGoPrevious: false,
-            canGoNext: false,
-            onPrevious: jest.fn(),
-            onNext: jest.fn(),
-            onPageChange: jest.fn(),
-          },
-        })}
-      />,
+      <MemoryRouter>
+        <ServicesView
+          {...createServicesViewProps({
+            services: SERVICES_SEED.slice(0, SERVICES_PAGE_SIZE),
+            pagination: {
+              isVisible: false,
+              currentPage: 1,
+              totalPages: 1,
+              pageItems: [1],
+              canGoPrevious: false,
+              canGoNext: false,
+              onPrevious: jest.fn(),
+              onNext: jest.fn(),
+              onPageChange: jest.fn(),
+            },
+          })}
+        />
+      </MemoryRouter>,
     );
 
     expect(screen.queryByTestId('services-pagination')).not.toBeInTheDocument();
   });
 
   it('uses responsive grid classes across breakpoints', () => {
-    render(<ServicesView {...createServicesViewProps()} />);
+    renderServicesView();
 
     const grid = screen.getByRole('region', { name: SERVICES_COPY.gridLabel });
 
@@ -249,14 +252,10 @@ describe('ServicesView', () => {
   });
 
   it('renders empty state when no services match', () => {
-    render(
-      <ServicesView
-        {...createServicesViewProps({
-          services: [],
-          summarySubtitle: '0 services',
-        })}
-      />,
-    );
+    renderServicesView({
+      services: [],
+      summarySubtitle: '0 services',
+    });
 
     expect(screen.getByText(SERVICES_COPY.emptyResults)).toBeInTheDocument();
   });
@@ -264,13 +263,9 @@ describe('ServicesView', () => {
   it('opens the edit modal with the selected service card fields', () => {
     const editingService = SERVICES_SEED[0];
 
-    render(
-      <ServicesView
-        {...createServicesViewProps({
-          editingService,
-        })}
-      />,
-    );
+    renderServicesView({
+      editingService,
+    });
 
     expect(screen.getByRole('dialog', { name: 'Edit service' })).toBeInTheDocument();
     expect(screen.getByDisplayValue(editingService.title)).toBeInTheDocument();
