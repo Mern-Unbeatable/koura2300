@@ -49,6 +49,7 @@ const Bookings = lazy(() => import('../pages/admin/Bookings'));
 const BookingDetails = lazy(() => import('../pages/admin/BookingDetails'));
 const Customers = lazy(() => import('../pages/admin/Customers'));
 const AdminServices = lazy(() => import('../pages/admin/Services'));
+const AdminServiceForm = lazy(() => import('../pages/admin/ServiceForm'));
 const AdminServiceDetails = lazy(() => import('../pages/admin/ServiceDetails'));
 const Emails = lazy(() => import('../pages/admin/Emails'));
 const Leads = lazy(() => import('../pages/admin/Leads'));
@@ -331,6 +332,8 @@ const router = createBrowserRouter(
         <Route path={seg(ROUTES.ADMIN_BOOKING_DETAILS)} element={<BookingDetails />} />
         <Route path={seg(ROUTES.ADMIN_CUSTOMERS)} element={<Customers />} />
         <Route path={seg(ROUTES.ADMIN_SERVICES)} element={<AdminServices />} />
+        <Route path={seg(ROUTES.ADMIN_SERVICE_NEW)} element={<AdminServiceForm />} />
+        <Route path={seg(ROUTES.ADMIN_SERVICE_EDIT)} element={<AdminServiceForm />} />
         <Route path={seg(ROUTES.ADMIN_SERVICE_DETAILS)} element={<AdminServiceDetails />} />
         <Route path={seg(ROUTES.ADMIN_EMAILS)} element={<Emails />} />
         <Route path={seg(ROUTES.ADMIN_LEADS)} element={<Leads />} />

@@ -1,0 +1,119 @@
+import { act, renderHook } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { ADMIN_SERVICE_FORM_COPY } from '../../components/admin/serviceForm/adminServiceFormCopy';
+import {
+  ADMIN_SERVICE_FORM_FIELDS,
+  ADMIN_SERVICE_FORM_MODE,
+} from '../../components/admin/serviceForm/adminServiceFormData';
+import { SERVICES_SEED } from '../../components/admin/services/servicesData';
+import { ROUTES } from '../../config';
+import useAdminServiceForm from '../useAdminServiceForm';
+
+jest.mock('react-hot-toast', () => ({
+  __esModule: true,
+  default: {
+    success: jest.fn(),
+  },
+}));
+
+const renderFormHook = (initialPath) =>
+  renderHook(() => useAdminServiceForm(), {
+    wrapper: ({ children }) => (
+      <MemoryRouter initialEntries={[initialPath]}>
+        <Routes>
+          <Route path={ROUTES.ADMIN_SERVICE_NEW} element={children} />
+          <Route path={ROUTES.ADMIN_SERVICE_EDIT} element={children} />
+          <Route path={ROUTES.ADMIN_SERVICES} element={<div>services</div>} />
+        </Routes>
+      </MemoryRouter>
+    ),
+  });
+
+describe('useAdminServiceForm', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    global.URL.createObjectURL = jest.fn(() => 'blob:mock-url');
+    global.URL.revokeObjectURL = jest.fn();
+  });
+
+  it('starts in create mode on the new route', () => {
+    const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
+
+    expect(result.current.mode).toBe(ADMIN_SERVICE_FORM_MODE.CREATE);
+    expect(result.current.pageTitle).toBe(ADMIN_SERVICE_FORM_COPY.titles.create);
+    expect(result.current.isNotFound).toBe(false);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.TITLE]).toBe('');
+  });
+
+  it('prefills edit mode from catalog service details', () => {
+    const service = SERVICES_SEED.find((item) => item.catalogTitle === 'Lighting');
+    const { result } = renderFormHook(`/admin/services/${service.id}/edit`);
+
+    expect(result.current.mode).toBe(ADMIN_SERVICE_FORM_MODE.EDIT);
+    expect(result.current.pageTitle).toBe(ADMIN_SERVICE_FORM_COPY.titles.edit);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.TITLE]).toBe(service.title);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID]).toBe(
+      service.catalogTitle,
+    );
+  });
+
+  it('marks missing edit targets as not found', () => {
+    const { result } = renderFormHook('/admin/services/missing-service/edit');
+
+    expect(result.current.isNotFound).toBe(true);
+  });
+
+  it('validates before upload and toasts on success', () => {
+    const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
+
+    act(() => {
+      result.current.onSubmit({ preventDefault: jest.fn() });
+    });
+
+    expect(result.current.errors[ADMIN_SERVICE_FORM_FIELDS.TITLE]).toBeTruthy();
+    expect(toast.success).not.toHaveBeenCalled();
+
+    act(() => {
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID)({
+        target: { value: 'Lighting' },
+      });
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.SUBCATEGORY_ID)({
+        target: { value: 'Indoor Lighting' },
+      });
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.DURATION)({
+        target: { value: '1-2 hrs' },
+      });
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.STANDARD_PRICE)({
+        target: { value: '$200.00' },
+      });
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.PREMIUM_PRICE)({
+        target: { value: '$250.00' },
+      });
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.TITLE)({
+        target: { value: 'Test Service' },
+      });
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION)({
+        target: { value: 'Short' },
+      });
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION)({
+        target: { value: 'Long' },
+      });
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)({
+        target: { value: 'Included' },
+      });
+      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)({
+        target: { value: 'Excluded' },
+      });
+      result.current.onBannerFilesSelected([
+        new File(['banner'], 'banner.png', { type: 'image/png' }),
+      ]);
+    });
+
+    act(() => {
+      result.current.onSubmit({ preventDefault: jest.fn() });
+    });
+
+    expect(toast.success).toHaveBeenCalledWith(ADMIN_SERVICE_FORM_COPY.toasts.created);
+  });
+});

@@ -1,5 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import {
+  buildAdminServiceEditRoute,
+  buildAdminServiceNewRoute,
+} from '../config';
 import { SERVICES_COPY } from '../components/admin/services/servicesCopy';
 import {
   SERVICES_ALL_FILTER_ID,
@@ -20,6 +25,7 @@ import {
 } from '../components/admin/services/servicesUtils';
 
 const useAdminServices = () => {
+  const navigate = useNavigate();
   const [services, setServices] = useState(SERVICES_SEED);
   const [selectedCategoryId, setSelectedCategoryId] = useState(SERVICES_ALL_FILTER_ID);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(SERVICES_ALL_FILTER_ID);
@@ -82,10 +88,15 @@ const useAdminServices = () => {
   }, []);
 
   const handleAddNewService = useCallback(() => {
-    toast.success(SERVICES_COPY.toasts.addNewService);
-  }, []);
+    navigate(buildAdminServiceNewRoute());
+  }, [navigate]);
 
-  const handleEditService = useCallback(() => {}, []);
+  const handleEditService = useCallback(
+    (serviceId) => {
+      navigate(buildAdminServiceEditRoute(serviceId));
+    },
+    [navigate],
+  );
 
   const handleDeleteService = useCallback((serviceId) => {
     setServices((currentServices) => deleteServiceById(currentServices, serviceId));

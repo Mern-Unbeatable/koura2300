@@ -38,6 +38,8 @@ export const ROUTES = {
   ADMIN_BOOKING_DETAILS: '/admin/bookings/:bookingId',
   ADMIN_CUSTOMERS: '/admin/customers',
   ADMIN_SERVICES: '/admin/services',
+  ADMIN_SERVICE_NEW: '/admin/services/new',
+  ADMIN_SERVICE_EDIT: '/admin/services/:serviceId/edit',
   ADMIN_SERVICE_DETAILS: '/admin/services/:serviceId',
   ADMIN_EMAILS: '/admin/emails',
   ADMIN_LEADS: '/admin/leads',
@@ -61,6 +63,10 @@ export const buildOrderDetailsRoute = (orderId) => `/orders/${orderId}`;
 export const buildAdminBookingDetailsRoute = (bookingId) => `/admin/bookings/${bookingId}`;
 
 export const buildAdminServiceDetailsRoute = (serviceId) => `/admin/services/${serviceId}`;
+
+export const buildAdminServiceNewRoute = () => ROUTES.ADMIN_SERVICE_NEW;
+
+export const buildAdminServiceEditRoute = (serviceId) => `/admin/services/${serviceId}/edit`;
 
 export const buildServiceDetailsRoute = (serviceId, category = CATALOG_ALL_CATEGORY) => {
   const searchParams = new URLSearchParams({

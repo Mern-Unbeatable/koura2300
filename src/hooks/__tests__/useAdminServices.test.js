@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { SERVICES_COPY } from '../../components/admin/services/servicesCopy';
 import {
@@ -10,7 +11,15 @@ import {
   getTotalPages,
   PAGINATION_ELLIPSIS_TOKEN,
 } from '../../components/admin/services/servicesUtils';
+import { buildAdminServiceEditRoute, buildAdminServiceNewRoute } from '../../config';
 import useAdminServices from '../useAdminServices';
+
+const mockNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+}));
 
 jest.mock('react-hot-toast', () => ({
   __esModule: true,
@@ -19,13 +28,18 @@ jest.mock('react-hot-toast', () => ({
   },
 }));
 
+const renderUseAdminServices = () =>
+  renderHook(() => useAdminServices(), {
+    wrapper: ({ children }) => <MemoryRouter>{children}</MemoryRouter>,
+  });
+
 describe('useAdminServices', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('paginates full catalog services and shows pagination when needed', () => {
-    const { result } = renderHook(() => useAdminServices());
+    const { result } = renderUseAdminServices();
     const totalPages = getTotalPages(SERVICES_SEED.length, SERVICES_PAGE_SIZE);
 
     expect(result.current.services).toHaveLength(SERVICES_PAGE_SIZE);
@@ -40,7 +54,7 @@ describe('useAdminServices', () => {
   });
 
   it('filters by landing catalog category and resets page and subcategory', () => {
-    const { result } = renderHook(() => useAdminServices());
+    const { result } = renderUseAdminServices();
 
     act(() => {
       result.current.pagination.onPageChange(4);
@@ -59,7 +73,7 @@ describe('useAdminServices', () => {
   });
 
   it('keeps later categories populated with services', () => {
-    const { result } = renderHook(() => useAdminServices());
+    const { result } = renderUseAdminServices();
 
     act(() => {
       result.current.onCategoryFilterChange({ target: { value: 'Deck' } });
@@ -72,7 +86,7 @@ describe('useAdminServices', () => {
   });
 
   it('hides pagination when filtered results fit on one page', () => {
-    const { result } = renderHook(() => useAdminServices());
+    const { result } = renderUseAdminServices();
 
     act(() => {
       result.current.onCategoryFilterChange({ target: { value: 'Lighting' } });
@@ -89,7 +103,7 @@ describe('useAdminServices', () => {
   });
 
   it('filters by landing subcategory within a category', () => {
-    const { result } = renderHook(() => useAdminServices());
+    const { result } = renderUseAdminServices();
 
     act(() => {
       result.current.onCategoryFilterChange({ target: { value: 'Lighting' } });
@@ -105,7 +119,7 @@ describe('useAdminServices', () => {
   });
 
   it('deletes a service and shows a success toast', () => {
-    const { result } = renderHook(() => useAdminServices());
+    const { result } = renderUseAdminServices();
     const targetId = SERVICES_SEED[0].id;
 
     act(() => {
@@ -116,29 +130,29 @@ describe('useAdminServices', () => {
     expect(result.current.summarySubtitle).toBe(`${SERVICES_SEED.length - 1} services`);
   });
 
-  it('toasts when add action is requested', () => {
-    const { result } = renderHook(() => useAdminServices());
+  it('navigates to the add service form', () => {
+    const { result } = renderUseAdminServices();
 
     act(() => {
       result.current.onAddNewService();
     });
 
-    expect(toast.success).toHaveBeenCalledWith(SERVICES_COPY.toasts.addNewService);
+    expect(mockNavigate).toHaveBeenCalledWith(buildAdminServiceNewRoute());
   });
 
-  it('keeps edit as a no-op until the editor is restored', () => {
-    const { result } = renderHook(() => useAdminServices());
+  it('navigates to the edit service form for a card', () => {
+    const { result } = renderUseAdminServices();
+    const serviceId = SERVICES_SEED[0].id;
 
     act(() => {
-      result.current.onEditService(SERVICES_SEED[0].id);
+      result.current.onEditService(serviceId);
     });
 
-    expect(result.current.editingService).toBeUndefined();
-    expect(toast.success).not.toHaveBeenCalledWith(expect.stringMatching(/edit|updated/i));
+    expect(mockNavigate).toHaveBeenCalledWith(buildAdminServiceEditRoute(serviceId));
   });
 
   it('moves through pages with eight cards each', () => {
-    const { result } = renderHook(() => useAdminServices());
+    const { result } = renderUseAdminServices();
     const lastPage = result.current.pagination.totalPages;
 
     act(() => {
