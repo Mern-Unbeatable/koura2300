@@ -21,6 +21,7 @@ export const ADMIN_SERVICE_DETAILS_COPY = {
   reviews: {
     regionLabel: 'Customer reviews',
     customerRatingLabel: 'Customer Rating',
+    distributionLabel: 'Rating distribution',
     feedbackTitle: 'Customer Feedback',
     metaSeparator: '•',
   },

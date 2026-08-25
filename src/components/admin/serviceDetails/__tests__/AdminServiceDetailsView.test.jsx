@@ -6,7 +6,9 @@ import { SERVICES_SEED } from '../../services/servicesData';
 import { ADMIN_SERVICE_DETAILS_COPY } from '../adminServiceDetailsCopy';
 import {
   ADMIN_SERVICE_DETAILS_CATEGORY_BADGE_CLASS,
+  ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS,
   ADMIN_SERVICE_DETAILS_PACKAGE_GRID_CLASS,
+  ADMIN_SERVICE_DETAILS_RATING_SUMMARY_CLASS,
   ADMIN_SERVICE_DETAILS_SPLIT_CLASS,
   ADMIN_SERVICE_DETAILS_SUBCATEGORY_BADGE_CLASS,
   ADMIN_SERVICE_DETAILS_VIEWPORT,
@@ -69,8 +71,18 @@ describe('AdminServiceDetailsView', () => {
     expect(
       screen.getByRole('region', { name: ADMIN_SERVICE_DETAILS_COPY.reviews.regionLabel }),
     ).toBeInTheDocument();
+    expect(screen.getByText('4.7')).toBeInTheDocument();
+    expect(screen.getByText(/Customer Rating/)).toBeInTheDocument();
+    expect(screen.getByText('63%')).toBeInTheDocument();
+    expect(
+      screen.getByRole('list', {
+        name: ADMIN_SERVICE_DETAILS_COPY.reviews.distributionLabel,
+      }),
+    ).toBeInTheDocument();
     expect(screen.getByText('Darrell Steward')).toBeInTheDocument();
     expect(screen.getByText('Esther Howard')).toBeInTheDocument();
+    expect(ADMIN_SERVICE_DETAILS_RATING_SUMMARY_CLASS).toContain('bg-[#fbf4ce]');
+    expect(ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS).toContain('min-[1020px]:w-[424px]');
   });
 
   it('switches gallery hero image when a thumbnail is selected', async () => {

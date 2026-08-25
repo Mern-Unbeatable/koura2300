@@ -33,6 +33,11 @@ export const ADMIN_SERVICE_DETAILS_ASSETS = {
     '/assets/admin/service-details/thumb-3.png',
     '/assets/admin/service-details/thumb-4.png',
   ],
+  stars: {
+    filled: '/assets/admin/service-details/star-filled.svg',
+    half: '/assets/admin/service-details/star-half.svg',
+    empty: '/assets/admin/service-details/star-empty.svg',
+  },
   avatars: {
     darrell: '/assets/admin/service-details/avatar-darrell.png',
     brooklyn: '/assets/admin/service-details/avatar-2.png',
@@ -106,14 +111,24 @@ export const ADMIN_SERVICE_DETAILS_EXCLUDED_BADGE_CLASS =
   'flex size-5 shrink-0 items-center justify-center rounded-full border border-[#ef4444]';
 export const ADMIN_SERVICE_DETAILS_REVIEWS_CARD_CLASS =
   'flex min-w-0 flex-col gap-8 overflow-hidden rounded border border-[#e4e7e9] bg-white pb-8 min-[426px]:gap-10';
+export const ADMIN_SERVICE_DETAILS_RATING_HEADER_CLASS =
+  'flex min-w-0 flex-col gap-6 px-4 pt-6 min-[426px]:px-6 min-[768px]:flex-row min-[768px]:items-center min-[768px]:gap-8 min-[768px]:px-10';
 export const ADMIN_SERVICE_DETAILS_RATING_SUMMARY_CLASS =
-  'flex size-full min-w-0 flex-col items-center justify-center gap-3 rounded bg-[#fbf4ce] p-6 min-[426px]:p-8';
+  'flex w-full shrink-0 flex-col items-center justify-center gap-3 rounded bg-[#fbf4ce] p-6 min-[426px]:p-8 min-[768px]:w-auto';
 export const ADMIN_SERVICE_DETAILS_RATING_SCORE_CLASS =
-  'text-center text-4xl font-semibold leading-none text-[#191c1f] min-[376px]:text-5xl min-[768px]:text-[56px] min-[768px]:leading-[64px]';
+  'w-full text-center text-4xl font-semibold leading-none text-[#191c1f] min-[376px]:text-5xl min-[768px]:w-[232px] min-[768px]:text-[56px] min-[768px]:leading-[64px]';
+export const ADMIN_SERVICE_DETAILS_RATING_LABEL_CLASS =
+  'w-full text-center text-base leading-6 min-[768px]:w-[232px]';
+export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_LIST_CLASS =
+  'flex min-w-0 flex-1 flex-col gap-4';
+export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_ROW_CLASS =
+  'flex min-w-0 items-center gap-3 min-[768px]:gap-4';
 export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS =
-  'h-1 w-full max-w-[424px] overflow-hidden rounded-full bg-[#e4e7e9]';
+  'relative h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-[#e4e7e9] min-[1020px]:w-[424px] min-[1020px]:flex-none';
 export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_FILL_CLASS =
-  'h-full rounded-full bg-[#fa8232]';
+  'absolute left-0 top-0 h-full rounded-full bg-[#fa8232]';
+export const ADMIN_SERVICE_DETAILS_DISTRIBUTION_LABEL_CLASS =
+  'shrink-0 text-sm leading-5 whitespace-nowrap';
 export const ADMIN_SERVICE_DETAILS_NOT_FOUND_CLASS =
   'rounded-2xl border border-[#e8ebf0] bg-white px-6 py-10 text-center';
 
@@ -124,12 +139,13 @@ export const ADMIN_SERVICE_DETAILS_RATING_SUMMARY = {
   hasHalfStar: true,
 };
 
+/** Fill widths match Figma progress geometry on a 424px track. */
 export const ADMIN_SERVICE_DETAILS_RATING_DISTRIBUTION = [
-  { id: 'five', stars: 5, percent: 63, countLabel: '(94,532)', fillClassName: 'w-[63%]' },
-  { id: 'four', stars: 4, percent: 24, countLabel: '(6,717)', fillClassName: 'w-[24%]' },
-  { id: 'three', stars: 3, percent: 9, countLabel: '(714)', fillClassName: 'w-[9%]' },
-  { id: 'two', stars: 2, percent: 1, countLabel: '(152)', fillClassName: 'w-[1%]' },
-  { id: 'one', stars: 1, percent: 7, countLabel: '(643)', fillClassName: 'w-[7%]' },
+  { id: 'five', stars: 5, percent: 63, countLabel: '(94,532)', fillClassName: 'w-[73.6%]' },
+  { id: 'four', stars: 4, percent: 24, countLabel: '(6,717)', fillClassName: 'w-[29.2%]' },
+  { id: 'three', stars: 3, percent: 9, countLabel: '(714)', fillClassName: 'w-[9.4%]' },
+  { id: 'two', stars: 2, percent: 1, countLabel: '(152)', fillClassName: 'w-[1.9%]' },
+  { id: 'one', stars: 1, percent: 7, countLabel: '(643)', fillClassName: 'w-[5.7%]' },
 ];
 
 export const ADMIN_SERVICE_DETAILS_REVIEWS = [

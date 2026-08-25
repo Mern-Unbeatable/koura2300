@@ -1,10 +1,15 @@
 import { memo } from 'react';
-import { Star } from 'lucide-react';
 import {
+  ADMIN_SERVICE_DETAILS_ASSETS,
   ADMIN_SERVICE_DETAILS_AVATAR_SIZE,
   ADMIN_SERVICE_DETAILS_DISTRIBUTION_FILL_CLASS,
+  ADMIN_SERVICE_DETAILS_DISTRIBUTION_LABEL_CLASS,
+  ADMIN_SERVICE_DETAILS_DISTRIBUTION_LIST_CLASS,
+  ADMIN_SERVICE_DETAILS_DISTRIBUTION_ROW_CLASS,
   ADMIN_SERVICE_DETAILS_DISTRIBUTION_STAR_SIZE,
   ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS,
+  ADMIN_SERVICE_DETAILS_RATING_HEADER_CLASS,
+  ADMIN_SERVICE_DETAILS_RATING_LABEL_CLASS,
   ADMIN_SERVICE_DETAILS_RATING_SCORE_CLASS,
   ADMIN_SERVICE_DETAILS_RATING_SUMMARY_CLASS,
   ADMIN_SERVICE_DETAILS_REVIEW_STAR_SIZE,
@@ -13,33 +18,58 @@ import {
   ADMIN_SERVICE_DETAILS_SUMMARY_STAR_SIZE,
 } from './adminServiceDetailsData';
 
-const StarRow = memo(({ filledCount, size, hasHalfStar = false }) => (
-  <span className="flex items-start gap-0.5 text-brand-orange" aria-hidden="true">
-    {Array.from({ length: ADMIN_SERVICE_DETAILS_STAR_COUNT }, (_, starIndex) => {
-      const isFilled = starIndex < filledCount;
-      const isHalf = hasHalfStar && starIndex === filledCount;
+const STAR_VARIANT = {
+  FILLED: 'filled',
+  HALF: 'half',
+  EMPTY: 'empty',
+};
 
-      return (
-        <Star
-          key={starIndex}
-          size={size}
-          fill={isFilled || isHalf ? 'currentColor' : 'none'}
-          className={isFilled || isHalf ? 'text-brand-orange' : 'text-[#e4e7e9]'}
-        />
-      );
-    })}
+const getStarVariant = ({ starIndex, filledCount, hasHalfStar }) => {
+  if (starIndex < filledCount) {
+    return STAR_VARIANT.FILLED;
+  }
+
+  if (hasHalfStar && starIndex === filledCount) {
+    return STAR_VARIANT.HALF;
+  }
+
+  return STAR_VARIANT.EMPTY;
+};
+
+const RatingStar = memo(({ variant, size }) => (
+  <img
+    src={ADMIN_SERVICE_DETAILS_ASSETS.stars[variant]}
+    alt=""
+    width={size}
+    height={size}
+    className="shrink-0"
+    aria-hidden="true"
+  />
+));
+
+RatingStar.displayName = 'RatingStar';
+
+const StarRow = memo(({ filledCount, size, hasHalfStar = false }) => (
+  <span className="flex shrink-0 items-start gap-0.5" aria-hidden="true">
+    {Array.from({ length: ADMIN_SERVICE_DETAILS_STAR_COUNT }, (_, starIndex) => (
+      <RatingStar
+        key={starIndex}
+        size={size}
+        variant={getStarVariant({ starIndex, filledCount, hasHalfStar })}
+      />
+    ))}
   </span>
 ));
 
 StarRow.displayName = 'StarRow';
 
 const RatingDistributionRow = memo(({ row }) => (
-  <div className="flex min-w-0 flex-wrap items-center gap-3 min-[768px]:gap-4">
+  <div className={ADMIN_SERVICE_DETAILS_DISTRIBUTION_ROW_CLASS}>
     <StarRow filledCount={row.stars} size={ADMIN_SERVICE_DETAILS_DISTRIBUTION_STAR_SIZE} />
-    <div className={`${ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS} min-w-[120px] flex-1`}>
+    <div className={ADMIN_SERVICE_DETAILS_DISTRIBUTION_TRACK_CLASS}>
       <div className={`${ADMIN_SERVICE_DETAILS_DISTRIBUTION_FILL_CLASS} ${row.fillClassName}`} />
     </div>
-    <p className="shrink-0 text-sm leading-5 whitespace-nowrap">
+    <p className={ADMIN_SERVICE_DETAILS_DISTRIBUTION_LABEL_CLASS}>
       <span className="font-medium text-[#191c1f]">{row.percent}%</span>
       <span className="font-normal text-[#77878f]"> {row.countLabel}</span>
     </p>
@@ -85,7 +115,7 @@ const AdminServiceDetailsReviews = memo(
       aria-label={copy.reviews.regionLabel}
       className={ADMIN_SERVICE_DETAILS_REVIEWS_CARD_CLASS}
     >
-      <div className="flex min-w-0 flex-col gap-6 px-4 pt-6 min-[426px]:px-6 min-[768px]:flex-row min-[768px]:items-center min-[768px]:gap-8 min-[768px]:px-10">
+      <div className={ADMIN_SERVICE_DETAILS_RATING_HEADER_CLASS}>
         <div className={ADMIN_SERVICE_DETAILS_RATING_SUMMARY_CLASS}>
           <p className={ADMIN_SERVICE_DETAILS_RATING_SCORE_CLASS}>{ratingSummary.score}</p>
           <StarRow
@@ -93,14 +123,22 @@ const AdminServiceDetailsReviews = memo(
             size={ADMIN_SERVICE_DETAILS_SUMMARY_STAR_SIZE}
             hasHalfStar={ratingSummary.hasHalfStar}
           />
-          <p className="text-center text-base leading-6 text-[#191c1f]">
-            <span className="font-medium">{copy.reviews.customerRatingLabel} </span>
+          <p className={ADMIN_SERVICE_DETAILS_RATING_LABEL_CLASS}>
+            <span className="font-medium text-[#191c1f]">
+              {copy.reviews.customerRatingLabel}{' '}
+            </span>
             <span className="font-normal text-[#475156]">{ratingSummary.totalLabel}</span>
           </p>
         </div>
-        <div className="flex min-w-0 flex-1 flex-col gap-4">
+        <div
+          role="list"
+          aria-label={copy.reviews.distributionLabel}
+          className={ADMIN_SERVICE_DETAILS_DISTRIBUTION_LIST_CLASS}
+        >
           {ratingDistribution.map((row) => (
-            <RatingDistributionRow key={row.id} row={row} />
+            <div key={row.id} role="listitem">
+              <RatingDistributionRow row={row} />
+            </div>
           ))}
         </div>
       </div>
