@@ -13,10 +13,19 @@ const STAR_ICON_SIZE = 12;
 const ADD_ICON_SIZE = 14;
 const CARD_STRETCHED_LINK_CLASS = 'absolute inset-0 z-[1]';
 const CARD_ACTION_LAYER_CLASS = 'relative z-[2]';
+const CATEGORY_BADGE_CLASS =
+  'rounded-full bg-brand-blue px-3 py-1 text-xs font-semibold text-white';
+const SUBCATEGORY_BADGE_CLASS =
+  'rounded-full bg-[#4f6589] px-3 py-1 text-xs font-semibold text-white';
+const ADMIN_EDIT_BUTTON_CLASS =
+  `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 items-center justify-center rounded-full bg-brand-orange px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`;
+const ADMIN_DELETE_BUTTON_CLASS =
+  `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 items-center justify-center rounded-full bg-[#f52e0b] px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-[#d6280a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f52e0b]`;
 
 export const SERVICE_CARD_VARIANTS = {
   DEFAULT: 'default',
   CATALOG: 'catalog',
+  ADMIN: 'admin',
 };
 
 const VARIANT_STYLES = {
@@ -38,45 +47,123 @@ const VARIANT_STYLES = {
     imageWidth: CATALOG_IMAGE_WIDTH,
     imageHeight: CATALOG_IMAGE_HEIGHT,
   },
+  [SERVICE_CARD_VARIANTS.ADMIN]: {
+    article: 'h-full',
+    image: 'h-52',
+    description: 'line-clamp-3',
+    price: 'text-xl',
+    button: 'px-5',
+    imageWidth: CATALOG_IMAGE_WIDTH,
+    imageHeight: CATALOG_IMAGE_HEIGHT,
+  },
 };
 
-const ServiceCardMedia = memo(({ service, variantStyles }) => (
-  <div className="relative">
-    <img
-      src={service.image}
-      alt={service.imageAlt}
-      width={variantStyles.imageWidth}
-      height={variantStyles.imageHeight}
-      loading="lazy"
-      className={`w-full object-cover ${variantStyles.image}`}
-    />
-    <span className="absolute left-3 top-3 rounded-full bg-brand-blue px-3 py-1 text-xs font-semibold text-white">
-      {service.category}
-    </span>
-  </div>
-));
+const ServiceCardMedia = memo(({ service, variantStyles, isAdmin }) => {
+  const categoryLabel = service.catalogTitle ?? service.category;
+  const subcategoryLabel = service.catalogTitle ? service.category : service.subcategory;
+
+  return (
+    <div className="relative">
+      <img
+        src={service.image}
+        alt={service.imageAlt}
+        width={variantStyles.imageWidth}
+        height={variantStyles.imageHeight}
+        loading="lazy"
+        className={`w-full object-cover ${variantStyles.image}`}
+      />
+      <div className="absolute left-3 top-3 z-[1] flex max-w-[calc(100%-1.5rem)] flex-wrap gap-2">
+        <span className={CATEGORY_BADGE_CLASS}>{categoryLabel}</span>
+        {isAdmin && subcategoryLabel ? (
+          <span className={SUBCATEGORY_BADGE_CLASS}>{subcategoryLabel}</span>
+        ) : null}
+      </div>
+    </div>
+  );
+});
 
 ServiceCardMedia.displayName = 'ServiceCardMedia';
 
-/**
- * Shared presentational card for a single top-rated service.
- * Section orchestration (cart dispatch, grid layout) stays in TopServices.
- */
-const ServiceCard = memo(
-  ({ service, onAdd, variant = SERVICE_CARD_VARIANTS.DEFAULT, detailsPath }) => {
-    const variantStyles = VARIANT_STYLES[variant] ?? VARIANT_STYLES[SERVICE_CARD_VARIANTS.DEFAULT];
+const ServiceCardCartAction = memo(({ service, onAdd, buttonClassName }) => {
+  const handleAdd = useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      onAdd(service);
+    },
+    [onAdd, service],
+  );
 
-    const handleAdd = useCallback(
+  return (
+    <button
+      type="button"
+      onClick={handleAdd}
+      aria-label={`Add ${service.title} to cart`}
+      className={`${CARD_ACTION_LAYER_CLASS} flex items-center gap-1 rounded-lg bg-brand-orange py-2 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 ${buttonClassName}`}
+    >
+      <Plus size={ADD_ICON_SIZE} aria-hidden="true" />
+      {LANDING_CONTENT.services.add}
+    </button>
+  );
+});
+
+ServiceCardCartAction.displayName = 'ServiceCardCartAction';
+
+const ServiceCardAdminActions = memo(
+  ({ service, onEdit, onDelete, editLabel, deleteLabel }) => {
+    const handleEdit = useCallback(
       (event) => {
         event.preventDefault();
         event.stopPropagation();
-        onAdd(service);
+        onEdit(service.id);
       },
-      [onAdd, service],
+      [onEdit, service.id],
+    );
+
+    const handleDelete = useCallback(
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onDelete(service.id);
+      },
+      [onDelete, service.id],
     );
 
     return (
+      <div className="mt-2 flex w-full gap-5">
+        <button type="button" className={ADMIN_EDIT_BUTTON_CLASS} onClick={handleEdit}>
+          {editLabel}
+        </button>
+        <button type="button" className={ADMIN_DELETE_BUTTON_CLASS} onClick={handleDelete}>
+          {deleteLabel}
+        </button>
+      </div>
+    );
+  },
+);
+
+ServiceCardAdminActions.displayName = 'ServiceCardAdminActions';
+
+/**
+ * Shared presentational card for landing, catalog, and admin service management.
+ */
+const ServiceCard = memo(
+  ({
+    service,
+    onAdd,
+    onEdit,
+    onDelete,
+    variant = SERVICE_CARD_VARIANTS.DEFAULT,
+    detailsPath,
+    editLabel = 'Edit',
+    deleteLabel = 'Delete',
+  }) => {
+    const variantStyles = VARIANT_STYLES[variant] ?? VARIANT_STYLES[SERVICE_CARD_VARIANTS.DEFAULT];
+    const isAdmin = variant === SERVICE_CARD_VARIANTS.ADMIN;
+
+    return (
       <article
+        data-testid={`services-card-${service.id}`}
         className={`relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ${variantStyles.article}`}
       >
         {detailsPath ? (
@@ -87,7 +174,11 @@ const ServiceCard = memo(
           />
         ) : null}
 
-        <ServiceCardMedia service={service} variantStyles={variantStyles} />
+        <ServiceCardMedia
+          service={service}
+          variantStyles={variantStyles}
+          isAdmin={isAdmin}
+        />
 
         <div className="flex flex-1 flex-col gap-2 p-4">
           <h3 className="font-semibold text-brand-blue">{service.title}</h3>
@@ -114,16 +205,24 @@ const ServiceCard = memo(
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={handleAdd}
-              aria-label={`Add ${service.title} to cart`}
-              className={`${CARD_ACTION_LAYER_CLASS} flex items-center gap-1 rounded-lg bg-brand-orange py-2 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2 ${variantStyles.button}`}
-            >
-              <Plus size={ADD_ICON_SIZE} aria-hidden="true" />
-              {LANDING_CONTENT.services.add}
-            </button>
+            {isAdmin ? null : (
+              <ServiceCardCartAction
+                service={service}
+                onAdd={onAdd}
+                buttonClassName={variantStyles.button}
+              />
+            )}
           </div>
+
+          {isAdmin ? (
+            <ServiceCardAdminActions
+              service={service}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              editLabel={editLabel}
+              deleteLabel={deleteLabel}
+            />
+          ) : null}
         </div>
       </article>
     );
