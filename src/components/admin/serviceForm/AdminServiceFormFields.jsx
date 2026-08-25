@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { ChevronDown } from 'lucide-react';
 import {
   ADMIN_SERVICE_FORM_CONTROL_CLASS,
   ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS,
@@ -8,7 +9,11 @@ import {
   ADMIN_SERVICE_FORM_LABEL_CLASS,
   ADMIN_SERVICE_FORM_PAIR_CLASS,
   ADMIN_SERVICE_FORM_ROW_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE,
   ADMIN_SERVICE_FORM_SELECT_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_EMPTY_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_ICON_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS,
   ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS,
   ADMIN_SERVICE_FORM_TEXTAREA_SHORT_CLASS,
   getAdminServiceFormSubcategoryOptions,
@@ -68,21 +73,28 @@ const SelectField = memo(({ id, label, value, placeholder, options, error, onCha
     <label htmlFor={id} className={ADMIN_SERVICE_FORM_LABEL_CLASS}>
       {label}
     </label>
-    <select
-      id={id}
-      value={value}
-      onChange={onChange}
-      className={`${ADMIN_SERVICE_FORM_SELECT_CLASS} ${
-        error ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
-      }`}
-    >
-      <option value="">{placeholder}</option>
-      {options.map((option) => (
-        <option key={option.id} value={option.id}>
-          {option.label}
-        </option>
-      ))}
-    </select>
+    <div className={ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS}>
+      <select
+        id={id}
+        value={value}
+        onChange={onChange}
+        className={`${ADMIN_SERVICE_FORM_SELECT_CLASS} ${
+          value ? '' : ADMIN_SERVICE_FORM_SELECT_EMPTY_CLASS
+        } ${error ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''}`}
+      >
+        <option value="">{placeholder}</option>
+        {options.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <ChevronDown
+        size={ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE}
+        className={ADMIN_SERVICE_FORM_SELECT_ICON_CLASS}
+        aria-hidden="true"
+      />
+    </div>
     <FieldError error={error} />
   </div>
 ));

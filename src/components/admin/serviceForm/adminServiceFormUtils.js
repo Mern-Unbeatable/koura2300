@@ -87,7 +87,12 @@ export const createAdminServiceFormValues = (details) => {
     [ADMIN_SERVICE_FORM_FIELDS.INCLUDED]: joinListItems(includedItems),
     [ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]: joinListItems(excludedItems),
     [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: service.image
-      ? { name: 'banner', previewUrl: service.image, isExisting: true }
+      ? {
+          id: `existing-banner-${service.id}`,
+          name: 'banner',
+          previewUrl: service.image,
+          isExisting: true,
+        }
       : null,
     [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: [],
   };
@@ -179,29 +184,65 @@ export const validateAdminServiceForm = (formValues, { requireBanner }) => {
   return errors;
 };
 
-export const createBannerImageFromFile = (file) => {
+export const toFileArray = (files) => Array.from(files ?? []).filter(Boolean);
+
+export const readFileAsDataUrl = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ''));
+    reader.onerror = () => reject(reader.error ?? new Error('Failed to read image file.'));
+    reader.readAsDataURL(file);
+  });
+
+const isAcceptedImageFile = (file) => {
+  const type = String(file.type || '').toLowerCase();
+  if (type === 'image/jpeg' || type === 'image/jpg' || type === 'image/png') {
+    return true;
+  }
+
+  const name = String(file.name || '').toLowerCase();
+  return name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png');
+};
+
+export const filterAcceptedImageFiles = (files) => toFileArray(files).filter(isAcceptedImageFile);
+
+export const createBannerImageFromFile = async (file) => {
   if (!file) {
     return null;
   }
 
+  const previewUrl = await readFileAsDataUrl(file);
+
   return {
+    id: `banner-${file.name}-${file.lastModified}-${previewUrl.length}`,
     name: file.name,
-    previewUrl: URL.createObjectURL(file),
+    previewUrl,
     file,
     isExisting: false,
   };
 };
 
-export const createOtherImagesFromFiles = (files) =>
-  Array.from(files ?? []).map((file) => ({
-    name: file.name,
-    previewUrl: URL.createObjectURL(file),
-    file,
-    isExisting: false,
-  }));
+export const createOtherImagesFromFiles = async (files) => {
+  const acceptedFiles = toFileArray(files);
+  const previews = await Promise.all(
+    acceptedFiles.map(async (file, index) => {
+      const previewUrl = await readFileAsDataUrl(file);
+
+      return {
+        id: `other-${file.name}-${file.lastModified}-${index}-${previewUrl.length}`,
+        name: file.name,
+        previewUrl,
+        file,
+        isExisting: false,
+      };
+    }),
+  );
+
+  return previews;
+};
 
 export const assertBannerFileLimit = (files) => {
-  if ((files?.length ?? 0) > ADMIN_SERVICE_FORM_BANNER_MAX_FILES) {
+  if (toFileArray(files).length > ADMIN_SERVICE_FORM_BANNER_MAX_FILES) {
     return ADMIN_SERVICE_FORM_COPY.errors.bannerTooMany;
   }
 

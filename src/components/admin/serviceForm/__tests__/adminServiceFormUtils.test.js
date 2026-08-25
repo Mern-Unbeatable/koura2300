@@ -18,15 +18,6 @@ import {
 import { SERVICES_SEED } from '../../services/servicesData';
 
 describe('adminServiceFormUtils', () => {
-  beforeAll(() => {
-    global.URL.createObjectURL = jest.fn(() => 'blob:mock-url');
-    global.URL.revokeObjectURL = jest.fn();
-  });
-
-  afterAll(() => {
-    delete global.URL.createObjectURL;
-    delete global.URL.revokeObjectURL;
-  });
   it('resolves create and edit modes from service id', () => {
     expect(resolveAdminServiceFormMode(undefined)).toBe(ADMIN_SERVICE_FORM_MODE.CREATE);
     expect(resolveAdminServiceFormMode('svc-1')).toBe(ADMIN_SERVICE_FORM_MODE.EDIT);
@@ -71,12 +62,12 @@ describe('adminServiceFormUtils', () => {
     expect(ADMIN_SERVICE_FORM_BANNER_MAX_FILES).toBe(1);
   });
 
-  it('creates a banner preview object from a file', () => {
+  it('creates a banner preview object from a file', async () => {
     const file = new File(['banner'], 'banner.png', { type: 'image/png' });
-    const banner = createBannerImageFromFile(file);
+    const banner = await createBannerImageFromFile(file);
 
     expect(banner.name).toBe('banner.png');
-    expect(banner.previewUrl).toBe('blob:mock-url');
+    expect(banner.previewUrl).toMatch(/^data:image\/png;base64,/);
     expect(banner.isExisting).toBe(false);
   });
 });

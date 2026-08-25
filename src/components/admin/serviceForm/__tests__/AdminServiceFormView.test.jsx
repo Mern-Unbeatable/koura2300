@@ -5,6 +5,7 @@ import { ADMIN_SERVICE_FORM_COPY } from '../adminServiceFormCopy';
 import {
   ADMIN_SERVICE_FORM_EMPTY_VALUES,
   ADMIN_SERVICE_FORM_FIELDS,
+  ADMIN_SERVICE_FORM_CONTROL_CLASS,
   ADMIN_SERVICE_FORM_OTHER_PREVIEW_COLUMNS,
   ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS,
   ADMIN_SERVICE_FORM_PAIR_CLASS,
@@ -65,7 +66,8 @@ describe('AdminServiceFormView', () => {
     expect(ADMIN_SERVICE_FORM_VIEWPORT.LAPTOP).toBe(1020);
     expect(ADMIN_SERVICE_FORM_COPY.placeholders.title).toBe('Enter service title');
     expect(ADMIN_SERVICE_FORM_OTHER_PREVIEW_COLUMNS).toBe(5);
-    expect(ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS).toContain('min-[768px]:grid-cols-5');
+    expect(ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS).toContain('grid-cols-5');
+    expect(ADMIN_SERVICE_FORM_CONTROL_CLASS).toContain('placeholder:text-[#b8bec6]');
   });
 
   it('shows edit title and submits the form', async () => {

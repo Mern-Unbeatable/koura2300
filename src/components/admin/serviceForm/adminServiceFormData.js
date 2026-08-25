@@ -79,14 +79,20 @@ export const ADMIN_SERVICE_FORM_PAIR_CLASS =
 export const ADMIN_SERVICE_FORM_FIELD_CLASS = 'flex min-w-0 flex-col gap-2';
 export const ADMIN_SERVICE_FORM_LABEL_CLASS =
   'text-sm leading-5 text-[#2d3036] min-[376px]:text-base';
+export const ADMIN_SERVICE_FORM_PLACEHOLDER_COLOR = '#b8bec6';
 export const ADMIN_SERVICE_FORM_CONTROL_CLASS =
-  'h-10 w-full rounded border border-[rgba(0,0,0,0.2)] bg-white px-2.5 text-xs leading-4 text-[#3b3f46] placeholder:text-[#697076] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[768px]:text-sm';
+  'h-10 w-full rounded border border-[rgba(0,0,0,0.2)] bg-white px-2.5 text-xs leading-4 text-[#3b3f46] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[768px]:text-sm';
 export const ADMIN_SERVICE_FORM_SELECT_CLASS =
-  `${ADMIN_SERVICE_FORM_CONTROL_CLASS} appearance-none pr-8`;
+  `${ADMIN_SERVICE_FORM_CONTROL_CLASS} appearance-none pr-9`;
+export const ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS = 'relative w-full min-w-0';
+export const ADMIN_SERVICE_FORM_SELECT_ICON_CLASS =
+  'pointer-events-none absolute top-1/2 right-2.5 size-4 -translate-y-1/2 text-[#697076]';
+export const ADMIN_SERVICE_FORM_SELECT_EMPTY_CLASS = 'text-[#b8bec6]';
+export const ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE = 16;
 export const ADMIN_SERVICE_FORM_TEXTAREA_SHORT_CLASS =
-  'min-h-[122px] w-full resize-y rounded border border-[rgba(0,0,0,0.2)] bg-white px-4 py-4 text-sm leading-[1.6] text-[#3b3f46] placeholder:text-[#697076] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'min-h-[122px] w-full resize-y rounded border border-[rgba(0,0,0,0.2)] bg-white px-4 py-4 text-sm leading-[1.6] text-[#3b3f46] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS =
-  'min-h-[210px] w-full resize-y rounded border border-[rgba(0,0,0,0.2)] bg-white px-4 py-4 text-sm leading-[1.6] text-[#3b3f46] placeholder:text-[#697076] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'min-h-[210px] w-full resize-y rounded border border-[rgba(0,0,0,0.2)] bg-white px-4 py-4 text-sm leading-[1.6] text-[#3b3f46] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS =
   'border-[#f31d2c] focus-visible:ring-[#f31d2c]';
 export const ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS = 'text-xs text-[#f31d2c]';
@@ -108,9 +114,11 @@ export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_COLUMNS = 5;
 export const ADMIN_SERVICE_FORM_PREVIEW_CLASS =
   'mt-3 h-40 w-full overflow-hidden rounded-lg border border-[rgba(0,0,0,0.2)] object-cover';
 export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS =
-  'mt-3 grid min-w-0 grid-cols-2 gap-2 min-[426px]:grid-cols-3 min-[768px]:grid-cols-5 min-[768px]:gap-3';
+  'mt-3 grid min-w-0 grid-cols-5 gap-2 min-[768px]:gap-3';
 export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS =
   'aspect-square w-full min-w-0 overflow-hidden rounded-lg border border-[rgba(0,0,0,0.2)] object-cover';
+export const ADMIN_SERVICE_FORM_UPLOAD_ZONE_ACTIVE_CLASS =
+  'border-brand-orange bg-[#fff7f3]';
 export const ADMIN_SERVICE_FORM_SUBMIT_CLASS =
   'inline-flex h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-6 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:w-auto';
 export const ADMIN_SERVICE_FORM_NOT_FOUND_CLASS =

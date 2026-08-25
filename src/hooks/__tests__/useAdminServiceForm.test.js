@@ -64,7 +64,7 @@ describe('useAdminServiceForm', () => {
     expect(result.current.isNotFound).toBe(true);
   });
 
-  it('validates before upload and toasts on success', () => {
+  it('validates before upload and toasts on success', async () => {
     const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
 
     act(() => {
@@ -105,7 +105,10 @@ describe('useAdminServiceForm', () => {
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)({
         target: { value: 'Excluded' },
       });
-      result.current.onBannerFilesSelected([
+    });
+
+    await act(async () => {
+      await result.current.onBannerFilesSelected([
         new File(['banner'], 'banner.png', { type: 'image/png' }),
       ]);
     });

@@ -46,13 +46,7 @@ const useAdminServiceForm = () => {
   valuesRef.current = values;
 
   useEffect(() => {
-    if (!isEditMode) {
-      setValues({ ...ADMIN_SERVICE_FORM_EMPTY_VALUES });
-      setErrors({});
-      return undefined;
-    }
-
-    if (!details) {
+    if (!isEditMode || !details) {
       return undefined;
     }
 
@@ -104,8 +98,9 @@ const useAdminServiceForm = () => {
     [],
   );
 
-  const handleBannerFilesSelected = useCallback((fileList) => {
-    const limitError = assertBannerFileLimit(fileList);
+  const handleBannerFilesSelected = useCallback(async (files) => {
+    const selectedFiles = Array.isArray(files) ? files : Array.from(files ?? []);
+    const limitError = assertBannerFileLimit(selectedFiles);
     if (limitError) {
       setErrors((current) => ({
         ...current,
@@ -114,16 +109,18 @@ const useAdminServiceForm = () => {
       return;
     }
 
-    const file = fileList?.[0];
+    const file = selectedFiles[0];
     if (!file) {
       return;
     }
+
+    const bannerImage = await createBannerImageFromFile(file);
 
     setValues((current) => {
       revokePreviewUrl(current[ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]);
       return {
         ...current,
-        [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: createBannerImageFromFile(file),
+        [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: bannerImage,
       };
     });
     setErrors((current) => {
@@ -133,18 +130,21 @@ const useAdminServiceForm = () => {
     });
   }, []);
 
-  const handleOtherFilesSelected = useCallback((fileList) => {
-    if (!fileList?.length) {
+  const handleOtherFilesSelected = useCallback(async (files) => {
+    const selectedFiles = Array.isArray(files) ? files : Array.from(files ?? []);
+    if (selectedFiles.length === 0) {
       return;
     }
 
-    setValues((current) => {
-      revokePreviewUrls(current[ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]);
-      return {
-        ...current,
-        [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: createOtherImagesFromFiles(fileList),
-      };
-    });
+    const nextImages = await createOtherImagesFromFiles(selectedFiles);
+
+    setValues((current) => ({
+      ...current,
+      [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: [
+        ...(current[ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES] ?? []),
+        ...nextImages,
+      ],
+    }));
   }, []);
 
   const handleSubmit = useCallback(

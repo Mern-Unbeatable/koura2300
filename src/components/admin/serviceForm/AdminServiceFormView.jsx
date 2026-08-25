@@ -46,10 +46,8 @@ const AdminServiceFormView = ({
     return <AdminServiceFormNotFound copy={copy} />;
   }
 
-  const bannerPreview = values[ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]?.previewUrl;
-  const otherPreviews = (values[ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES] ?? []).map(
-    (image) => image.previewUrl,
-  );
+  const bannerPreview = values[ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE];
+  const otherPreviews = values[ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES] ?? [];
 
   return (
     <div className={ADMIN_SERVICE_FORM_PAGE_CLASS}>
@@ -79,7 +77,7 @@ const AdminServiceFormView = ({
           dropHint={copy.upload.dropHint}
           metaLabels={[copy.upload.formats, copy.upload.maxBanner, copy.upload.resolution]}
           error={errors[ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]}
-          previewUrls={bannerPreview ? [bannerPreview] : []}
+          previews={bannerPreview ? [bannerPreview] : []}
           onFilesSelected={onBannerFilesSelected}
         />
 
@@ -91,7 +89,7 @@ const AdminServiceFormView = ({
           metaLabels={[copy.upload.formats, copy.upload.resolution]}
           multiple
           previewLayout={PREVIEW_LAYOUT.GRID}
-          previewUrls={otherPreviews}
+          previews={otherPreviews}
           onFilesSelected={onOtherFilesSelected}
         />
 

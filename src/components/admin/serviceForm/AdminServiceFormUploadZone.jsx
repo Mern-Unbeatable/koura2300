@@ -1,4 +1,4 @@
-import { memo, useId, useRef } from 'react';
+import { memo, useId, useRef, useState } from 'react';
 import { Check, CloudUpload } from 'lucide-react';
 import {
   ADMIN_SERVICE_FORM_ACCEPT,
@@ -15,8 +15,10 @@ import {
   ADMIN_SERVICE_FORM_UPLOAD_META_ITEM_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_SECTION_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_TITLE_CLASS,
+  ADMIN_SERVICE_FORM_UPLOAD_ZONE_ACTIVE_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_ZONE_CLASS,
 } from './adminServiceFormData';
+import { filterAcceptedImageFiles, toFileArray } from './adminServiceFormUtils';
 
 const PREVIEW_LAYOUT = {
   STACK: 'stack',
@@ -32,18 +34,18 @@ const UploadMetaItem = memo(({ label }) => (
 
 UploadMetaItem.displayName = 'UploadMetaItem';
 
-const UploadPreviewList = memo(({ previewUrls, layout }) => {
-  if (previewUrls.length === 0) {
+const UploadPreviewList = memo(({ previews, layout }) => {
+  if (previews.length === 0) {
     return null;
   }
 
   if (layout === PREVIEW_LAYOUT.GRID) {
     return (
       <div className={ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS}>
-        {previewUrls.map((url) => (
+        {previews.map((preview) => (
           <img
-            key={url}
-            src={url}
+            key={preview.id}
+            src={preview.previewUrl}
             alt=""
             className={ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS}
           />
@@ -52,8 +54,13 @@ const UploadPreviewList = memo(({ previewUrls, layout }) => {
     );
   }
 
-  return previewUrls.map((url) => (
-    <img key={url} src={url} alt="" className={ADMIN_SERVICE_FORM_PREVIEW_CLASS} />
+  return previews.map((preview) => (
+    <img
+      key={preview.id}
+      src={preview.previewUrl}
+      alt=""
+      className={ADMIN_SERVICE_FORM_PREVIEW_CLASS}
+    />
   ));
 });
 
@@ -69,21 +76,59 @@ const AdminServiceFormUploadZone = memo(
     multiple = false,
     previewLayout = PREVIEW_LAYOUT.STACK,
     error,
-    previewUrls = [],
+    previews = [],
     onFilesSelected,
   }) => {
     const inputId = useId();
     const inputRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false);
+
+    const emitSelectedFiles = (fileList) => {
+      const acceptedFiles = filterAcceptedImageFiles(fileList);
+      if (acceptedFiles.length === 0) {
+        return;
+      }
+
+      onFilesSelected(acceptedFiles);
+    };
 
     const handleChange = (event) => {
-      onFilesSelected(event.target.files);
+      const selectedFiles = toFileArray(event.target.files);
       event.target.value = '';
+      emitSelectedFiles(selectedFiles);
+    };
+
+    const handleDragOver = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setIsDragging(true);
+    };
+
+    const handleDragLeave = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setIsDragging(false);
+    };
+
+    const handleDrop = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setIsDragging(false);
+      emitSelectedFiles(event.dataTransfer.files);
     };
 
     return (
       <div className={ADMIN_SERVICE_FORM_UPLOAD_SECTION_CLASS}>
         <p className={ADMIN_SERVICE_FORM_LABEL_CLASS}>{label}</p>
-        <label htmlFor={inputId} className={ADMIN_SERVICE_FORM_UPLOAD_ZONE_CLASS}>
+        <label
+          htmlFor={inputId}
+          className={`${ADMIN_SERVICE_FORM_UPLOAD_ZONE_CLASS} ${
+            isDragging ? ADMIN_SERVICE_FORM_UPLOAD_ZONE_ACTIVE_CLASS : ''
+          }`}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+        >
           <span className={ADMIN_SERVICE_FORM_UPLOAD_ICON_WRAP_CLASS}>
             <CloudUpload size={ADMIN_SERVICE_FORM_UPLOAD_ICON_SIZE} className="text-[#0f172a]" />
           </span>
@@ -106,7 +151,7 @@ const AdminServiceFormUploadZone = memo(
           />
         </label>
         {error ? <p className={ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS}>{error}</p> : null}
-        <UploadPreviewList previewUrls={previewUrls} layout={previewLayout} />
+        <UploadPreviewList previews={previews} layout={previewLayout} />
       </div>
     );
   },
