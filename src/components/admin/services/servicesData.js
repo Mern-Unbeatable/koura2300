@@ -37,12 +37,12 @@ export const SERVICES_FILTER_SELECT_WRAP_CLASS = 'relative w-full min-[426px]:w-
 export const SERVICES_FILTER_TRIGGER_CLASS =
   'inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-md border border-[#e8ebf0] bg-white px-3 text-left text-sm leading-5 text-[#455163] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ffd4c2]';
 export const SERVICES_FILTER_TRIGGER_LABEL_CLASS = 'min-w-0 flex-1 truncate whitespace-nowrap';
-export const SERVICES_FILTER_CATEGORY_WIDTH_CLASS = 'shrink-0 min-[426px]:w-[148px]';
+export const SERVICES_FILTER_CATEGORY_WIDTH_CLASS = 'shrink-0 min-[426px]:w-[200px]';
 export const SERVICES_FILTER_SUBCATEGORY_WIDTH_CLASS = 'shrink-0 min-[426px]:w-[200px]';
 export const SERVICES_FILTER_MENU_CLASS =
   'absolute top-[calc(100%+4px)] left-0 z-30 max-h-[220px] w-full overflow-x-hidden overflow-y-auto overscroll-y-contain rounded-md border border-[#e8ebf0] bg-[#fcfcfd] py-1 shadow-[0px_8px_20px_rgba(15,23,42,0.06)] scrollbar-services-ash';
 export const SERVICES_FILTER_OPTION_CLASS =
-  'flex w-full cursor-pointer items-center px-3 py-1.5 text-left text-sm leading-5 text-[#536070] whitespace-nowrap transition-colors hover:bg-[#fff7f3] focus:outline-none focus-visible:bg-[#fff7f3]';
+  'flex w-full cursor-pointer items-start px-3 py-1.5 text-left text-sm leading-5 text-[#536070] whitespace-normal break-words transition-colors hover:bg-[#fff7f3] focus:outline-none focus-visible:bg-[#fff7f3]';
 export const SERVICES_FILTER_OPTION_WRAP_CLASS =
   'flex w-full cursor-pointer items-start px-3 py-1.5 text-left text-sm leading-5 text-[#536070] whitespace-normal break-words transition-colors hover:bg-[#fff7f3] focus:outline-none focus-visible:bg-[#fff7f3]';
 export const SERVICES_FILTER_OPTION_ACTIVE_CLASS =

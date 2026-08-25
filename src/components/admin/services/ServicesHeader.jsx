@@ -131,6 +131,7 @@ const ServicesHeader = ({
             options={categoryOptions}
             onChange={onCategoryFilterChange}
             widthClassName={SERVICES_FILTER_CATEGORY_WIDTH_CLASS}
+            wrapOptions
           />
           <ServicesFilterSelect
             id="services-subcategory-filter"
