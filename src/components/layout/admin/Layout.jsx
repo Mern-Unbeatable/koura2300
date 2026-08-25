@@ -87,7 +87,10 @@ const Layout = () => {
         </header>
 
         {/* Scrollable page area — data-lenis-prevent stops Lenis hijacking this scroll container */}
-        <div className="flex-1 min-h-0 overflow-y-auto" data-lenis-prevent>
+        <div
+          className="scrollbar-services-ash min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
+          data-lenis-prevent
+        >
           <div className="w-full min-h-full px-6 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8 flex flex-col">
             <Outlet />
           </div>
