@@ -8,6 +8,23 @@ import {
 } from './adminServiceDetailsData';
 
 const LIGHTING_CATALOG_TITLE = 'Lighting';
+const RATING_LABEL_PATTERN = /^([\d.]+)\s*(\(.*\))$/;
+
+export const parseServiceRatingLabel = (ratingLabel) => {
+  const matched = String(ratingLabel ?? '').trim().match(RATING_LABEL_PATTERN);
+
+  if (!matched) {
+    return {
+      scoreLabel: String(ratingLabel ?? ''),
+      countLabel: '',
+    };
+  }
+
+  return {
+    scoreLabel: matched[1],
+    countLabel: matched[2],
+  };
+};
 
 export const buildAdminServiceGalleryImages = (service) => {
   if (!service) {

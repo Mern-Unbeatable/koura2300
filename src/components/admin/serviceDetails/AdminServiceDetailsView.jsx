@@ -49,6 +49,8 @@ const AdminServiceDetailsView = ({ copy, details }) => {
         />
         <AdminServiceDetailsSummary
           copy={copy}
+          catalogTitle={service.catalogTitle}
+          subcategory={service.category}
           title={service.title}
           overview={overview}
           duration={service.duration}

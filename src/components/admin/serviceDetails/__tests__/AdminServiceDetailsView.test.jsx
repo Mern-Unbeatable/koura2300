@@ -5,8 +5,10 @@ import { ROUTES } from '../../../../config';
 import { SERVICES_SEED } from '../../services/servicesData';
 import { ADMIN_SERVICE_DETAILS_COPY } from '../adminServiceDetailsCopy';
 import {
+  ADMIN_SERVICE_DETAILS_CATEGORY_BADGE_CLASS,
   ADMIN_SERVICE_DETAILS_PACKAGE_GRID_CLASS,
   ADMIN_SERVICE_DETAILS_SPLIT_CLASS,
+  ADMIN_SERVICE_DETAILS_SUBCATEGORY_BADGE_CLASS,
   ADMIN_SERVICE_DETAILS_VIEWPORT,
 } from '../adminServiceDetailsData';
 import AdminServiceDetailsView from '../AdminServiceDetailsView';
@@ -46,8 +48,12 @@ describe('AdminServiceDetailsView', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: lightingService.title }),
     ).toBeInTheDocument();
+    expect(screen.getByText(lightingService.catalogTitle)).toBeInTheDocument();
+    expect(screen.getByText(lightingService.category)).toBeInTheDocument();
     expect(screen.getByText(details.overview)).toBeInTheDocument();
     expect(screen.getByText(lightingService.duration)).toBeInTheDocument();
+    expect(ADMIN_SERVICE_DETAILS_CATEGORY_BADGE_CLASS).toContain('bg-[#0b1e3d]');
+    expect(ADMIN_SERVICE_DETAILS_SUBCATEGORY_BADGE_CLASS).toContain('bg-[#4f6589]');
     expect(screen.getByText(details.packages[0].title)).toBeInTheDocument();
     expect(screen.getByText(details.packages[1].title)).toBeInTheDocument();
     expect(

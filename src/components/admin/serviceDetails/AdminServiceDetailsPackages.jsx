@@ -6,6 +6,7 @@ import {
   ADMIN_SERVICE_DETAILS_PACKAGE_GRID_CLASS,
   ADMIN_SERVICE_DETAILS_PACKAGE_PREMIUM_CLASS,
   ADMIN_SERVICE_DETAILS_PACKAGE_PRICE_CLASS,
+  ADMIN_SERVICE_DETAILS_PACKAGE_RADIO_CLASS,
   ADMIN_SERVICE_DETAILS_PACKAGE_STANDARD_CLASS,
   ADMIN_SERVICE_DETAILS_PACKAGE_TITLE_CLASS,
 } from './adminServiceDetailsData';
@@ -31,7 +32,7 @@ PackageFeature.displayName = 'PackageFeature';
 const PackageCard = memo(({ servicePackage }) => (
   <article className={PACKAGE_CARD_CLASS[servicePackage.id]}>
     <span
-      className="size-5 rounded-[10px] border-2 border-[#151515]"
+      className={ADMIN_SERVICE_DETAILS_PACKAGE_RADIO_CLASS[servicePackage.id]}
       aria-hidden="true"
     />
     <div className="flex flex-col gap-2">

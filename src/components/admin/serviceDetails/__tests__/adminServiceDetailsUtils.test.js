@@ -7,6 +7,7 @@ import {
 import {
   buildAdminServiceGalleryImages,
   getAdminServiceDetailsById,
+  parseServiceRatingLabel,
 } from '../adminServiceDetailsUtils';
 import { SERVICES_SEED } from '../../services/servicesData';
 
@@ -15,6 +16,13 @@ describe('adminServiceDetailsUtils', () => {
     (service) => service.catalogTitle === 'Lighting',
   );
   const fenceService = SERVICES_SEED.find((service) => service.catalogTitle === 'Fence');
+
+  it('parses the Figma rating score and count labels', () => {
+    expect(parseServiceRatingLabel('4.9 (312)')).toEqual({
+      scoreLabel: '4.9',
+      countLabel: '(312)',
+    });
+  });
 
   it('builds lighting gallery assets from the Figma service details set', () => {
     const gallery = buildAdminServiceGalleryImages(lightingService);

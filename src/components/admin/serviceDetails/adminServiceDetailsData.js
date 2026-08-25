@@ -51,8 +51,28 @@ export const ADMIN_SERVICE_DETAILS_SPLIT_CLASS =
   'grid min-w-0 grid-cols-1 items-start gap-5 min-[1020px]:grid-cols-2';
 export const ADMIN_SERVICE_DETAILS_TITLE_CLASS =
   'text-2xl font-semibold leading-tight text-[#0b1e3d] min-[376px]:text-[28px] min-[768px]:text-[32px]';
+export const ADMIN_SERVICE_DETAILS_BADGES_CLASS =
+  'flex min-w-0 flex-wrap items-end gap-2.5';
+export const ADMIN_SERVICE_DETAILS_CATEGORY_BADGE_CLASS =
+  'inline-flex items-center rounded-full bg-[#0b1e3d] px-2.5 py-1 text-xs font-semibold leading-4 text-white';
+export const ADMIN_SERVICE_DETAILS_SUBCATEGORY_BADGE_CLASS =
+  'inline-flex items-center rounded-full bg-[#4f6589] px-2.5 py-1 text-xs font-semibold leading-4 text-white';
+export const ADMIN_SERVICE_DETAILS_META_CLASS =
+  'flex flex-wrap items-center gap-4 text-sm';
+export const ADMIN_SERVICE_DETAILS_RATING_META_CLASS =
+  'flex items-center gap-1 border-r border-[#878787] pr-4';
+export const ADMIN_SERVICE_DETAILS_RATING_SCORE_TEXT_CLASS = 'text-xs leading-4 text-[#6a7282]';
+export const ADMIN_SERVICE_DETAILS_RATING_COUNT_TEXT_CLASS = 'text-xs leading-4 text-[#191919]';
+export const ADMIN_SERVICE_DETAILS_DURATION_META_CLASS =
+  'flex items-center gap-1 text-sm leading-5 text-[#1f2a2e]';
 export const ADMIN_SERVICE_DETAILS_OVERVIEW_CLASS =
   'text-sm leading-6 text-[#2c2c2c] min-[426px]:text-base min-[426px]:leading-6';
+export const ADMIN_SERVICE_DETAILS_PACKAGE_RADIO_CLASS = {
+  [SERVICE_PACKAGES.STANDARD]:
+    'size-5 shrink-0 rounded-[10px] border-2 border-[#151515] bg-[#f8f8f8]',
+  [SERVICE_PACKAGES.PREMIUM]:
+    'size-5 shrink-0 rounded-[10px] border-2 border-[#151515] bg-[#fff7f4]',
+};
 export const ADMIN_SERVICE_DETAILS_HERO_IMAGE_CLASS =
   'h-56 w-full min-w-0 rounded-lg object-cover min-[376px]:h-64 min-[768px]:h-80 min-[1020px]:h-[624px]';
 export const ADMIN_SERVICE_DETAILS_THUMB_GRID_CLASS =
