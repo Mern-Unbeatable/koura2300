@@ -126,48 +126,15 @@ describe('useAdminServices', () => {
     expect(toast.success).toHaveBeenCalledWith(SERVICES_COPY.toasts.addNewService);
   });
 
-  it('opens and saves the edit service modal with card fields', () => {
-    const { result } = renderHook(() => useAdminServices());
-    const target = SERVICES_SEED[1];
-
-    act(() => {
-      result.current.onEditService(target.id);
-    });
-
-    expect(result.current.editingService).toMatchObject({
-      id: target.id,
-      title: target.title,
-      catalogTitle: target.catalogTitle,
-      category: target.category,
-    });
-
-    act(() => {
-      result.current.onSaveEditService({
-        ...target,
-        title: 'Saved from modal',
-        price: 150,
-      });
-    });
-
-    expect(result.current.editingService).toBeNull();
-    expect(toast.success).toHaveBeenCalledWith(SERVICES_COPY.toasts.editService);
-    expect(result.current.services.some((service) => service.title === 'Saved from modal')).toBe(
-      true,
-    );
-  });
-
-  it('closes the edit modal without saving', () => {
+  it('keeps edit as a no-op until the editor is restored', () => {
     const { result } = renderHook(() => useAdminServices());
 
     act(() => {
       result.current.onEditService(SERVICES_SEED[0].id);
     });
 
-    act(() => {
-      result.current.onCloseEditService();
-    });
-
-    expect(result.current.editingService).toBeNull();
+    expect(result.current.editingService).toBeUndefined();
+    expect(toast.success).not.toHaveBeenCalledWith(expect.stringMatching(/edit|updated/i));
   });
 
   it('moves through pages with eight cards each', () => {

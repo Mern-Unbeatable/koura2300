@@ -1,5 +1,4 @@
 import { SERVICES_PAGE_CLASS } from './servicesData';
-import ServicesEditModal from './ServicesEditModal';
 import ServicesGrid from './ServicesGrid';
 import ServicesHeader from './ServicesHeader';
 import ServicesPagination from './ServicesPagination';
@@ -17,9 +16,6 @@ const ServicesView = ({
   onAddNewService,
   onEditService,
   onDeleteService,
-  editingService,
-  onCloseEditService,
-  onSaveEditService,
   pagination,
 }) => (
   <div className={SERVICES_PAGE_CLASS}>
@@ -45,13 +41,6 @@ const ServicesView = ({
       onDeleteService={onDeleteService}
     />
     {pagination.isVisible ? <ServicesPagination copy={copy} {...pagination} /> : null}
-    {editingService ? (
-      <ServicesEditModal
-        service={editingService}
-        onClose={onCloseEditService}
-        onSave={onSaveEditService}
-      />
-    ) : null}
   </div>
 );
 

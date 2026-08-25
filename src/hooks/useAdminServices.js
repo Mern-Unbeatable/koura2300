@@ -11,14 +11,12 @@ import {
   clampPage,
   deleteServiceById,
   filterServices,
-  findServiceById,
   getPaginationItems,
   getServicesSummary,
   getSubcategoryOptionsForCategory,
   getTotalPages,
   paginateServices,
   shouldShowServicesPagination,
-  updateServiceById,
 } from '../components/admin/services/servicesUtils';
 
 const useAdminServices = () => {
@@ -26,7 +24,6 @@ const useAdminServices = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(SERVICES_ALL_FILTER_ID);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(SERVICES_ALL_FILTER_ID);
   const [currentPage, setCurrentPage] = useState(1);
-  const [editingServiceId, setEditingServiceId] = useState(null);
 
   const filteredServices = useMemo(
     () => filterServices(services, selectedCategoryId, selectedSubcategoryId),
@@ -56,11 +53,6 @@ const useAdminServices = () => {
   const subcategoryOptions = useMemo(
     () => getSubcategoryOptionsForCategory(selectedCategoryId),
     [selectedCategoryId],
-  );
-
-  const editingService = useMemo(
-    () => findServiceById(services, editingServiceId),
-    [editingServiceId, services],
   );
 
   const pagination = useMemo(
@@ -93,21 +85,7 @@ const useAdminServices = () => {
     toast.success(SERVICES_COPY.toasts.addNewService);
   }, []);
 
-  const handleEditService = useCallback((serviceId) => {
-    setEditingServiceId(serviceId);
-  }, []);
-
-  const handleCloseEditService = useCallback(() => {
-    setEditingServiceId(null);
-  }, []);
-
-  const handleSaveEditService = useCallback((updates) => {
-    setServices((currentServices) =>
-      updateServiceById(currentServices, editingServiceId, updates),
-    );
-    setEditingServiceId(null);
-    toast.success(SERVICES_COPY.toasts.editService);
-  }, [editingServiceId]);
+  const handleEditService = useCallback(() => {}, []);
 
   const handleDeleteService = useCallback((serviceId) => {
     setServices((currentServices) => deleteServiceById(currentServices, serviceId));
@@ -127,9 +105,6 @@ const useAdminServices = () => {
     onAddNewService: handleAddNewService,
     onEditService: handleEditService,
     onDeleteService: handleDeleteService,
-    editingService,
-    onCloseEditService: handleCloseEditService,
-    onSaveEditService: handleSaveEditService,
     pagination,
   };
 };
