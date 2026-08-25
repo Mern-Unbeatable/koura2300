@@ -11,7 +11,7 @@ import {
   ADMIN_SERVICE_FORM_ROW_CLASS,
   ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE,
   ADMIN_SERVICE_FORM_SELECT_CLASS,
-  ADMIN_SERVICE_FORM_SELECT_EMPTY_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_FILLED_CLASS,
   ADMIN_SERVICE_FORM_SELECT_ICON_CLASS,
   ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS,
   ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS,
@@ -78,11 +78,13 @@ const SelectField = memo(({ id, label, value, placeholder, options, error, onCha
         id={id}
         value={value}
         onChange={onChange}
-        className={`${ADMIN_SERVICE_FORM_SELECT_CLASS} ${
-          value ? '' : ADMIN_SERVICE_FORM_SELECT_EMPTY_CLASS
-        } ${error ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''}`}
+        className={`${ADMIN_SERVICE_FORM_SELECT_CLASS} ${ADMIN_SERVICE_FORM_SELECT_FILLED_CLASS} ${
+          error ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
+        }`}
       >
-        <option value="">{placeholder}</option>
+        <option value="" disabled>
+          {placeholder}
+        </option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.label}
