@@ -14,7 +14,7 @@ export const SERVICES_EDIT_SUBTITLE_CLASS =
 export const SERVICES_EDIT_CLOSE_CLASS =
   'cursor-pointer rounded-full p-1 text-[#536070] transition-colors hover:text-[#202838] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const SERVICES_EDIT_BODY_CLASS =
-  'flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 py-4 min-[376px]:gap-5 min-[376px]:px-6 min-[376px]:py-5';
+  'scrollbar-services-ash flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-y-contain px-4 py-4 min-[376px]:gap-5 min-[376px]:px-6 min-[376px]:py-5';
 export const SERVICES_EDIT_FIELDS_ROW_CLASS =
   'grid grid-cols-1 gap-4 min-[768px]:grid-cols-3';
 export const SERVICES_EDIT_FIELDS_PAIR_CLASS =

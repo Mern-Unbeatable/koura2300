@@ -166,7 +166,7 @@
   border-radius: 9999px;
 }
 
-/* Service Management filter menus — thin light ash scrollbar */
+/* Service Management filter menus + edit modal — thin light ash scrollbar */
 .scrollbar-services-ash {
   scrollbar-width: thin;
   scrollbar-color: #e5e7eb transparent;

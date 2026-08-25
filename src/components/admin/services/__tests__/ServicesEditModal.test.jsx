@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ServicesEditModal from '../ServicesEditModal';
+import { SERVICES_EDIT_BODY_CLASS } from '../servicesEditData';
 import { SERVICES_EDIT_COPY } from '../servicesEditCopy';
 import { SERVICES_SEED } from '../servicesData';
 
@@ -15,6 +16,7 @@ describe('ServicesEditModal', () => {
     expect(
       screen.getByRole('dialog', { name: SERVICES_EDIT_COPY.regionLabel }),
     ).toBeInTheDocument();
+    expect(SERVICES_EDIT_BODY_CLASS).toContain('scrollbar-services-ash');
     expect(screen.getByLabelText(SERVICES_EDIT_COPY.categoryLabel)).toHaveValue(
       service.catalogTitle,
     );
