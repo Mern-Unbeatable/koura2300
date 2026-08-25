@@ -24,6 +24,9 @@ const createServicesViewProps = (overrides = {}) => ({
   onAddNewService: jest.fn(),
   onEditService: jest.fn(),
   onDeleteService: jest.fn(),
+  editingService: null,
+  onCloseEditService: jest.fn(),
+  onSaveEditService: jest.fn(),
   pagination: {
     isVisible: true,
     currentPage: 1,
@@ -256,5 +259,20 @@ describe('ServicesView', () => {
     );
 
     expect(screen.getByText(SERVICES_COPY.emptyResults)).toBeInTheDocument();
+  });
+
+  it('opens the edit modal with the selected service card fields', () => {
+    const editingService = SERVICES_SEED[0];
+
+    render(
+      <ServicesView
+        {...createServicesViewProps({
+          editingService,
+        })}
+      />,
+    );
+
+    expect(screen.getByRole('dialog', { name: 'Edit service' })).toBeInTheDocument();
+    expect(screen.getByDisplayValue(editingService.title)).toBeInTheDocument();
   });
 });

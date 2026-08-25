@@ -47,6 +47,11 @@ export const getSubcategoryOptionsForCategory = (categoryId) => {
 export const deleteServiceById = (services, serviceId) =>
   services.filter((service) => service.id !== serviceId);
 
+export {
+  findServiceById,
+  updateServiceById,
+} from './servicesEditUtils';
+
 const PAGINATION_COMPACT_LIMIT = 5;
 const PAGINATION_ELLIPSIS = 'ellipsis';
 const PAGINATION_EDGE_WINDOW = 3;

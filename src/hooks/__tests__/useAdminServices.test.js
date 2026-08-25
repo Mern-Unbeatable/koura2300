@@ -116,19 +116,58 @@ describe('useAdminServices', () => {
     expect(result.current.summarySubtitle).toBe(`${SERVICES_SEED.length - 1} services`);
   });
 
-  it('toasts when add and edit actions are requested', () => {
+  it('toasts when add action is requested', () => {
     const { result } = renderHook(() => useAdminServices());
 
     act(() => {
       result.current.onAddNewService();
     });
 
+    expect(toast.success).toHaveBeenCalledWith(SERVICES_COPY.toasts.addNewService);
+  });
+
+  it('opens and saves the edit service modal with card fields', () => {
+    const { result } = renderHook(() => useAdminServices());
+    const target = SERVICES_SEED[1];
+
     act(() => {
-      result.current.onEditService(SERVICES_SEED[1].id);
+      result.current.onEditService(target.id);
     });
 
-    expect(toast.success).toHaveBeenCalledWith(SERVICES_COPY.toasts.addNewService);
+    expect(result.current.editingService).toMatchObject({
+      id: target.id,
+      title: target.title,
+      catalogTitle: target.catalogTitle,
+      category: target.category,
+    });
+
+    act(() => {
+      result.current.onSaveEditService({
+        ...target,
+        title: 'Saved from modal',
+        price: 150,
+      });
+    });
+
+    expect(result.current.editingService).toBeNull();
     expect(toast.success).toHaveBeenCalledWith(SERVICES_COPY.toasts.editService);
+    expect(result.current.services.some((service) => service.title === 'Saved from modal')).toBe(
+      true,
+    );
+  });
+
+  it('closes the edit modal without saving', () => {
+    const { result } = renderHook(() => useAdminServices());
+
+    act(() => {
+      result.current.onEditService(SERVICES_SEED[0].id);
+    });
+
+    act(() => {
+      result.current.onCloseEditService();
+    });
+
+    expect(result.current.editingService).toBeNull();
   });
 
   it('moves through pages with eight cards each', () => {

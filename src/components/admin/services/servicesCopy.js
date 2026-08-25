@@ -18,7 +18,7 @@ export const SERVICES_COPY = {
   emptyResults: 'No services found for these filters.',
   toasts: {
     addNewService: 'Opening add service form.',
-    editService: 'Opening service editor.',
+    editService: 'Service updated.',
     deleteService: 'Service deleted.',
   },
 };
