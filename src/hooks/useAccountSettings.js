@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { ACCOUNT_CONTENT } from '../components/account/accountCopy';
@@ -6,18 +6,9 @@ import { ACCOUNT_PROFILE_FIELDS } from '../components/account/accountData';
 import {
   buildAccountProfileFromUser,
   buildAuthUserFromProfile,
+  hasAccountProfileChanges,
 } from '../components/account/accountUtils';
 import { selectUser, updateUser } from '../store/slices/authSlice';
-
-const PROFILE_TEXT_FIELDS = [
-  ACCOUNT_PROFILE_FIELDS.FULL_NAME,
-  ACCOUNT_PROFILE_FIELDS.EMAIL,
-  ACCOUNT_PROFILE_FIELDS.PHONE,
-  ACCOUNT_PROFILE_FIELDS.ADDRESS,
-];
-
-const isProfileValid = (profile) =>
-  PROFILE_TEXT_FIELDS.every((field) => profile[field]?.trim().length > 0);
 
 const readAvatarPreview = (file, onLoad) => {
   const reader = new FileReader();
@@ -35,11 +26,12 @@ const useAccountSettings = () => {
   const dispatch = useDispatch();
   const authUser = useSelector(selectUser);
   const avatarInputRef = useRef(null);
-  const [profile, setProfile] = useState(() => buildAccountProfileFromUser(authUser));
+  const savedProfile = useMemo(() => buildAccountProfileFromUser(authUser), [authUser]);
+  const [profile, setProfile] = useState(savedProfile);
 
   useEffect(() => {
-    setProfile(buildAccountProfileFromUser(authUser));
-  }, [authUser]);
+    setProfile(savedProfile);
+  }, [savedProfile]);
 
   const handleProfileChange = useCallback((field) => (event) => {
     setProfile((currentProfile) => ({
@@ -71,8 +63,13 @@ const useAccountSettings = () => {
     (event) => {
       event.preventDefault();
 
-      if (!isProfileValid(profile)) {
+      if (!profile.fullName?.trim()) {
         toast.error(ACCOUNT_CONTENT.validation.fullNameRequired);
+        return;
+      }
+
+      if (!profile.email?.trim()) {
+        toast.error(ACCOUNT_CONTENT.validation.emailRequired);
         return;
       }
 
@@ -82,7 +79,7 @@ const useAccountSettings = () => {
     [dispatch, profile],
   );
 
-  const isSaveDisabled = !isProfileValid(profile);
+  const isSaveDisabled = !hasAccountProfileChanges(profile, savedProfile);
 
   return {
     profile,

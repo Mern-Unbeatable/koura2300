@@ -14,7 +14,7 @@ export const ACCOUNT_BORDER_COLOR = '#eef0f2';
 export const ACCOUNT_PAGE_CLASS =
   'flex min-h-screen flex-col overflow-x-clip bg-white font-inter text-brand-ink';
 export const ACCOUNT_MAIN_CLASS =
-  'animate-page-enter mx-auto flex w-full max-w-screen-2xl flex-1 items-center px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12';
+  'animate-page-enter mx-auto flex w-full max-w-screen-2xl flex-1 flex-col justify-center px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12';
 export const ACCOUNT_GRID_CLASS = 'grid w-full gap-6 xl:grid-cols-2';
 export const ACCOUNT_CARD_CLASS =
   'flex min-h-[440px] flex-col overflow-hidden rounded border border-[#eef0f2] bg-white';
@@ -33,7 +33,7 @@ export const ACCOUNT_LABEL_CLASS = 'text-sm leading-[22px] text-[#191c1f]';
 export const ACCOUNT_INPUT_CLASS =
   'h-[44px] w-full rounded-[2px] border border-[#eef0f2] bg-white px-[15px] text-sm leading-5 text-[#475156] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ACCOUNT_PRIMARY_BUTTON_CLASS =
-  'inline-flex h-12 cursor-pointer items-center justify-center rounded-[2px] bg-brand-orange px-6 text-sm font-bold uppercase tracking-[0.168px] text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-50';
+  'inline-flex h-12 w-full cursor-pointer items-center justify-center rounded-[2px] bg-brand-orange px-6 text-sm font-bold uppercase tracking-[0.168px] text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-[#f7c3ad] disabled:hover:bg-[#f7c3ad]';
 export const ACCOUNT_AVATAR_WRAP_CLASS = 'relative mx-auto shrink-0 lg:mx-0';
 export const ACCOUNT_AVATAR_IMAGE_CLASS = 'size-[176px] rounded-full object-cover';
 export const ACCOUNT_CAMERA_BUTTON_CLASS =

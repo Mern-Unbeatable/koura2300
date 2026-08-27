@@ -1,4 +1,16 @@
-import { ACCOUNT_DEFAULT_PROFILE } from './accountData';
+import {
+  ACCOUNT_DEFAULT_PROFILE,
+  ACCOUNT_MIN_PASSWORD_LENGTH,
+  ACCOUNT_PASSWORD_FIELDS,
+  ACCOUNT_PROFILE_FIELDS,
+} from './accountData';
+
+const PROFILE_TEXT_FIELDS = [
+  ACCOUNT_PROFILE_FIELDS.FULL_NAME,
+  ACCOUNT_PROFILE_FIELDS.EMAIL,
+  ACCOUNT_PROFILE_FIELDS.PHONE,
+  ACCOUNT_PROFILE_FIELDS.ADDRESS,
+];
 
 const splitFullName = (fullName = '') => {
   const trimmed = fullName.trim();
@@ -52,4 +64,39 @@ export const buildAuthUserFromProfile = (profile) => {
     address: profile.address,
     avatarUrl: profile.avatarUrl,
   };
+};
+
+export const isAccountProfileComplete = (profile) =>
+  PROFILE_TEXT_FIELDS.every((field) => profile?.[field]?.trim().length > 0);
+
+export const hasAccountProfileChanges = (currentProfile, savedProfile) => {
+  if (!currentProfile || !savedProfile) {
+    return false;
+  }
+
+  const fieldsChanged = PROFILE_TEXT_FIELDS.some(
+    (field) => (currentProfile[field] || '').trim() !== (savedProfile[field] || '').trim(),
+  );
+
+  if (fieldsChanged) {
+    return true;
+  }
+
+  return (currentProfile.avatarUrl || '') !== (savedProfile.avatarUrl || '');
+};
+
+export const isChangePasswordReady = (fields) => {
+  const currentPassword = fields?.[ACCOUNT_PASSWORD_FIELDS.CURRENT]?.trim() || '';
+  const newPassword = fields?.[ACCOUNT_PASSWORD_FIELDS.NEW]?.trim() || '';
+  const confirmPassword = fields?.[ACCOUNT_PASSWORD_FIELDS.CONFIRM]?.trim() || '';
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    return false;
+  }
+
+  if (newPassword.length < ACCOUNT_MIN_PASSWORD_LENGTH) {
+    return false;
+  }
+
+  return newPassword === confirmPassword;
 };

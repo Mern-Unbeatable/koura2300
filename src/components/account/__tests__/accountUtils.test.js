@@ -1,8 +1,11 @@
 import {
   buildAccountProfileFromUser,
   buildAuthUserFromProfile,
+  hasAccountProfileChanges,
+  isAccountProfileComplete,
+  isChangePasswordReady,
 } from '../accountUtils';
-import { ACCOUNT_DEFAULT_PROFILE } from '../accountData';
+import { ACCOUNT_DEFAULT_PROFILE, ACCOUNT_PASSWORD_FIELDS } from '../accountData';
 
 describe('accountUtils', () => {
   it('falls back to the default profile when no user is logged in', () => {
@@ -45,5 +48,72 @@ describe('accountUtils', () => {
       address: '12 Main St',
       avatarUrl: '/avatar.png',
     });
+  });
+
+  it('marks profile incomplete when phone or address is missing', () => {
+    expect(
+      isAccountProfileComplete({
+        fullName: 'kamrul',
+        email: 'kamrul@gmail.com',
+        phone: '',
+        address: '',
+      }),
+    ).toBe(false);
+
+    expect(
+      isAccountProfileComplete({
+        fullName: 'kamrul',
+        email: 'kamrul@gmail.com',
+        phone: '555-0199',
+        address: '42 Service Lane',
+      }),
+    ).toBe(true);
+  });
+
+  it('detects profile edits even when some fields stay empty', () => {
+    const saved = {
+      fullName: 'kamrul',
+      email: 'kamrul@gmail.com',
+      phone: '',
+      address: '',
+      avatarUrl: '/a.png',
+    };
+
+    expect(hasAccountProfileChanges(saved, saved)).toBe(false);
+    expect(
+      hasAccountProfileChanges(
+        {
+          ...saved,
+          address: 'adsfdasf',
+        },
+        saved,
+      ),
+    ).toBe(true);
+  });
+
+  it('requires filled matching passwords of minimum length', () => {
+    expect(
+      isChangePasswordReady({
+        [ACCOUNT_PASSWORD_FIELDS.CURRENT]: 'old-pass',
+        [ACCOUNT_PASSWORD_FIELDS.NEW]: 'short',
+        [ACCOUNT_PASSWORD_FIELDS.CONFIRM]: 'short',
+      }),
+    ).toBe(false);
+
+    expect(
+      isChangePasswordReady({
+        [ACCOUNT_PASSWORD_FIELDS.CURRENT]: 'old-pass',
+        [ACCOUNT_PASSWORD_FIELDS.NEW]: 'new-pass-1',
+        [ACCOUNT_PASSWORD_FIELDS.CONFIRM]: 'new-pass-2',
+      }),
+    ).toBe(false);
+
+    expect(
+      isChangePasswordReady({
+        [ACCOUNT_PASSWORD_FIELDS.CURRENT]: 'old-pass',
+        [ACCOUNT_PASSWORD_FIELDS.NEW]: 'new-pass-1',
+        [ACCOUNT_PASSWORD_FIELDS.CONFIRM]: 'new-pass-1',
+      }),
+    ).toBe(true);
   });
 });

@@ -116,6 +116,33 @@ describe('AccountContent', () => {
       screen.getByPlaceholderText(ACCOUNT_CONTENT.changePassword.newPasswordPlaceholder),
     ).toBeInTheDocument();
   });
+
+  it('enables Save Changes after any profile field is updated', async () => {
+    const user = userEvent.setup();
+    renderAccountPage(ROUTES.ACCOUNT, {
+      isAuthenticated: true,
+      user: {
+        name: 'kamrul',
+        email: 'kamrul@gmail.com',
+        phone: '',
+        address: '',
+        role: 'user',
+      },
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: ACCOUNT_CONTENT.accountSetting.saveButton,
+    });
+
+    expect(saveButton).toBeDisabled();
+
+    await user.type(
+      screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.addressLabel),
+      'adsfdasf',
+    );
+
+    expect(saveButton).toBeEnabled();
+  });
 });
 
 describe('Account navbar integration', () => {

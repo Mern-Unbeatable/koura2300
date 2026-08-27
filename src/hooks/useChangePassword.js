@@ -5,6 +5,7 @@ import {
   ACCOUNT_MIN_PASSWORD_LENGTH,
   ACCOUNT_PASSWORD_FIELDS,
 } from '../components/account/accountData';
+import { isChangePasswordReady } from '../components/account/accountUtils';
 
 const createEmptyPasswordFields = () => ({
   [ACCOUNT_PASSWORD_FIELDS.CURRENT]: '',
@@ -17,9 +18,6 @@ const createInitialVisibility = () => ({
   [ACCOUNT_PASSWORD_FIELDS.NEW]: false,
   [ACCOUNT_PASSWORD_FIELDS.CONFIRM]: false,
 });
-
-const arePasswordFieldsFilled = (fields) =>
-  Object.values(fields).every((value) => value.trim().length > 0);
 
 const useChangePassword = () => {
   const [fields, setFields] = useState(createEmptyPasswordFields);
@@ -40,7 +38,7 @@ const useChangePassword = () => {
   }, []);
 
   const isPasswordSubmitDisabled = useMemo(
-    () => !arePasswordFieldsFilled(fields),
+    () => !isChangePasswordReady(fields),
     [fields],
   );
 

@@ -116,6 +116,47 @@ describe('AccountView', () => {
     expect(onPasswordSubmit).toHaveBeenCalledTimes(1);
   });
 
+  it('disables Save Changes when profile fields are incomplete', () => {
+    render(
+      <AccountView
+        {...createAccountViewProps({
+          isSaveDisabled: true,
+          profile: {
+            ...ACCOUNT_DEFAULT_PROFILE,
+            fullName: 'kamrul',
+            email: 'kamrul@gmail.com',
+            phone: '',
+            address: '',
+          },
+        })}
+      />,
+    );
+
+    const accountRegion = screen.getByRole('region', {
+      name: ACCOUNT_CONTENT.accountSetting.regionLabel,
+    });
+
+    expect(
+      within(accountRegion).getByRole('button', {
+        name: ACCOUNT_CONTENT.accountSetting.saveButton,
+      }),
+    ).toBeDisabled();
+  });
+
+  it('enables Save Changes when all profile fields are filled', () => {
+    render(<AccountView {...createAccountViewProps({ isSaveDisabled: false })} />);
+
+    const accountRegion = screen.getByRole('region', {
+      name: ACCOUNT_CONTENT.accountSetting.regionLabel,
+    });
+
+    expect(
+      within(accountRegion).getByRole('button', {
+        name: ACCOUNT_CONTENT.accountSetting.saveButton,
+      }),
+    ).toBeEnabled();
+  });
+
   it('disables password submit when validation has not passed', () => {
     render(<AccountView {...createAccountViewProps({ isPasswordSubmitDisabled: true })} />);
 
