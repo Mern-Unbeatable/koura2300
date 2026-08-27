@@ -2,6 +2,7 @@ import {
   buildAccountProfileFromUser,
   buildAuthUserFromProfile,
   hasAccountProfileChanges,
+  hasChangePasswordInput,
   isAccountProfileComplete,
   isChangePasswordReady,
 } from '../accountUtils';
@@ -113,6 +114,24 @@ describe('accountUtils', () => {
         [ACCOUNT_PASSWORD_FIELDS.CURRENT]: 'old-pass',
         [ACCOUNT_PASSWORD_FIELDS.NEW]: 'new-pass-1',
         [ACCOUNT_PASSWORD_FIELDS.CONFIRM]: 'new-pass-1',
+      }),
+    ).toBe(true);
+  });
+
+  it('detects any password input for enabling the submit button', () => {
+    expect(
+      hasChangePasswordInput({
+        [ACCOUNT_PASSWORD_FIELDS.CURRENT]: '',
+        [ACCOUNT_PASSWORD_FIELDS.NEW]: '',
+        [ACCOUNT_PASSWORD_FIELDS.CONFIRM]: '',
+      }),
+    ).toBe(false);
+
+    expect(
+      hasChangePasswordInput({
+        [ACCOUNT_PASSWORD_FIELDS.CURRENT]: 'a',
+        [ACCOUNT_PASSWORD_FIELDS.NEW]: '',
+        [ACCOUNT_PASSWORD_FIELDS.CONFIRM]: '',
       }),
     ).toBe(true);
   });

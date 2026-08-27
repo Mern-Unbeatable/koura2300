@@ -143,6 +143,24 @@ describe('AccountContent', () => {
 
     expect(saveButton).toBeEnabled();
   });
+
+  it('enables Change Password after typing in a password field', async () => {
+    const user = userEvent.setup();
+    renderAccountPage(ROUTES.ACCOUNT, authenticatedUser);
+
+    const passwordButton = screen.getByRole('button', {
+      name: ACCOUNT_CONTENT.changePassword.submitButton,
+    });
+
+    expect(passwordButton).toBeDisabled();
+
+    await user.type(
+      screen.getByLabelText(ACCOUNT_CONTENT.changePassword.currentPasswordLabel),
+      'secret',
+    );
+
+    expect(passwordButton).toBeEnabled();
+  });
 });
 
 describe('Account navbar integration', () => {

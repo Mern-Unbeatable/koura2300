@@ -100,3 +100,6 @@ export const isChangePasswordReady = (fields) => {
 
   return newPassword === confirmPassword;
 };
+
+export const hasChangePasswordInput = (fields) =>
+  Object.values(fields || {}).some((value) => String(value || '').length > 0);

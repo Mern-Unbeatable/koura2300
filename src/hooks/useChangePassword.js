@@ -5,7 +5,7 @@ import {
   ACCOUNT_MIN_PASSWORD_LENGTH,
   ACCOUNT_PASSWORD_FIELDS,
 } from '../components/account/accountData';
-import { isChangePasswordReady } from '../components/account/accountUtils';
+import { hasChangePasswordInput } from '../components/account/accountUtils';
 
 const createEmptyPasswordFields = () => ({
   [ACCOUNT_PASSWORD_FIELDS.CURRENT]: '',
@@ -38,7 +38,7 @@ const useChangePassword = () => {
   }, []);
 
   const isPasswordSubmitDisabled = useMemo(
-    () => !isChangePasswordReady(fields),
+    () => !hasChangePasswordInput(fields),
     [fields],
   );
 
