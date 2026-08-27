@@ -73,8 +73,10 @@ export const CATEGORIES_MODAL_FIELD_CLASS = 'flex flex-col gap-2.5';
 export const CATEGORIES_MODAL_LABEL_CLASS =
   'text-base font-medium leading-6 text-[#323232]';
 
+export const CATEGORIES_MODAL_PLACEHOLDER_TEXT_CLASS = 'text-[#b8bec6]';
+
 export const CATEGORIES_MODAL_INPUT_CLASS =
-  'h-10 w-full rounded-lg bg-[#f4f4f4] px-2 py-2.5 text-sm leading-[22px] text-[#454545] placeholder:text-[#454545] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'h-10 w-full rounded-lg bg-[#f4f4f4] px-2 py-2.5 text-sm leading-[22px] text-[#454545] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 export const CATEGORIES_MODAL_INPUT_ERROR_CLASS =
   'ring-2 ring-[#f31d2c] focus-visible:ring-[#f31d2c]';
@@ -86,7 +88,7 @@ export const CATEGORIES_MODAL_SELECT_WRAP_CLASS = 'relative w-full';
 export const CATEGORIES_MODAL_SELECT_TRIGGER_CLASS =
   'inline-flex h-10 w-full cursor-pointer items-center justify-between rounded-lg bg-[#f4f4f4] px-2 py-2.5 text-left text-sm leading-[22px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
-export const CATEGORIES_MODAL_SELECT_PLACEHOLDER_CLASS = 'text-[#454545]';
+export const CATEGORIES_MODAL_SELECT_PLACEHOLDER_CLASS = CATEGORIES_MODAL_PLACEHOLDER_TEXT_CLASS;
 
 export const CATEGORIES_MODAL_SELECT_VALUE_CLASS = 'text-[#454545]';
 
