@@ -47,20 +47,12 @@ const AccountSettingCard = memo(
 
           <div className={ACCOUNT_FORM_STACK_CLASS}>
             <div className={ACCOUNT_FORM_FIELDS_CLASS}>
-              <div className={ACCOUNT_FORM_ROW_CLASS}>
-                <AccountFormField
-                  id="account-first-name"
-                  label={copy.firstNameLabel}
-                  value={profile.firstName}
-                  onChange={onProfileChange(profileFields.FIRST_NAME)}
-                />
-                <AccountFormField
-                  id="account-last-name"
-                  label={copy.lastNameLabel}
-                  value={profile.lastName}
-                  onChange={onProfileChange(profileFields.LAST_NAME)}
-                />
-              </div>
+              <AccountFormField
+                id="account-full-name"
+                label={copy.fullNameLabel}
+                value={profile.fullName}
+                onChange={onProfileChange(profileFields.FULL_NAME)}
+              />
 
               <div className={ACCOUNT_FORM_ROW_CLASS}>
                 <AccountFormField

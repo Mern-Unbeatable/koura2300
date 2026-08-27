@@ -10,8 +10,7 @@ import {
 import { selectUser, updateUser } from '../store/slices/authSlice';
 
 const PROFILE_TEXT_FIELDS = [
-  ACCOUNT_PROFILE_FIELDS.FIRST_NAME,
-  ACCOUNT_PROFILE_FIELDS.LAST_NAME,
+  ACCOUNT_PROFILE_FIELDS.FULL_NAME,
   ACCOUNT_PROFILE_FIELDS.EMAIL,
   ACCOUNT_PROFILE_FIELDS.PHONE,
   ACCOUNT_PROFILE_FIELDS.ADDRESS,
@@ -73,7 +72,7 @@ const useAccountSettings = () => {
       event.preventDefault();
 
       if (!isProfileValid(profile)) {
-        toast.error(ACCOUNT_CONTENT.validation.firstNameRequired);
+        toast.error(ACCOUNT_CONTENT.validation.fullNameRequired);
         return;
       }
 

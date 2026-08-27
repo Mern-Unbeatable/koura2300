@@ -14,19 +14,24 @@ const splitFullName = (fullName = '') => {
   };
 };
 
+const resolveFullName = (user) => {
+  if (user.name?.trim()) {
+    return user.name.trim();
+  }
+
+  return [user.firstName, user.lastName].filter(Boolean).join(' ').trim();
+};
+
 export const buildAccountProfileFromUser = (user) => {
   if (!user) {
     return { ...ACCOUNT_DEFAULT_PROFILE };
   }
 
-  const fromFullName = splitFullName(user.name || '');
-  const firstName = user.firstName?.trim() || fromFullName.firstName;
-  const lastName = user.lastName?.trim() || fromFullName.lastName;
-  const displayName = [firstName, lastName].filter(Boolean).join(' ') || user.email || 'User';
+  const fullName = resolveFullName(user);
+  const displayName = fullName || user.email || 'User';
 
   return {
-    firstName,
-    lastName,
+    fullName,
     email: user.email || '',
     phone: user.phone || '',
     address: user.address || '',
@@ -35,12 +40,16 @@ export const buildAccountProfileFromUser = (user) => {
   };
 };
 
-export const buildAuthUserFromProfile = (profile) => ({
-  firstName: profile.firstName,
-  lastName: profile.lastName,
-  name: [profile.firstName, profile.lastName].filter(Boolean).join(' ').trim(),
-  email: profile.email,
-  phone: profile.phone,
-  address: profile.address,
-  avatarUrl: profile.avatarUrl,
-});
+export const buildAuthUserFromProfile = (profile) => {
+  const { firstName, lastName } = splitFullName(profile.fullName);
+
+  return {
+    firstName,
+    lastName,
+    name: profile.fullName.trim(),
+    email: profile.email,
+    phone: profile.phone,
+    address: profile.address,
+    avatarUrl: profile.avatarUrl,
+  };
+};

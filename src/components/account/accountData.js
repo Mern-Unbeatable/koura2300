@@ -44,8 +44,7 @@ export const ACCOUNT_PASSWORD_TOGGLE_CLASS =
   'absolute top-1/2 right-[15px] -translate-y-1/2 cursor-pointer text-[#77878f] transition-colors hover:text-[#475156] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 export const ACCOUNT_PROFILE_FIELDS = {
-  FIRST_NAME: 'firstName',
-  LAST_NAME: 'lastName',
+  FULL_NAME: 'fullName',
   EMAIL: 'email',
   PHONE: 'phone',
   ADDRESS: 'address',
@@ -58,11 +57,10 @@ export const ACCOUNT_PASSWORD_FIELDS = {
 };
 
 export const ACCOUNT_DEFAULT_PROFILE = {
-  firstName: 'Kevin',
-  lastName: 'Display name',
+  fullName: 'Kevin Display name',
   email: 'customer@gmail.com',
   phone: '+1-202-555-0118',
   address: 'Road No. 13/x, House no. 1320/C, Flat No. 5D',
   avatarUrl: `${LANDING_ASSET_PATH}/article-plumbing.png`,
-  avatarAlt: 'Kevin profile photo',
+  avatarAlt: 'Kevin Display name profile photo',
 };

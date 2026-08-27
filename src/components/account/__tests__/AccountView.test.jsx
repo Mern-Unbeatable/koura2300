@@ -50,9 +50,8 @@ describe('AccountView', () => {
   it('renders seeded profile values from the design', () => {
     render(<AccountView {...createAccountViewProps()} />);
 
-    expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.firstNameLabel)).toHaveValue('Kevin');
-    expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.lastNameLabel)).toHaveValue(
-      'Display name',
+    expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.fullNameLabel)).toHaveValue(
+      'Kevin Display name',
     );
     expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.emailLabel)).toHaveValue(
       'customer@gmail.com',

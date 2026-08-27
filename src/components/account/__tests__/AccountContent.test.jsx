@@ -74,11 +74,11 @@ describe('AccountContent', () => {
     const user = userEvent.setup();
     renderAccountPage();
 
-    const firstNameInput = screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.firstNameLabel);
-    await user.clear(firstNameInput);
-    await user.type(firstNameInput, 'Alex');
+    const fullNameInput = screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.fullNameLabel);
+    await user.clear(fullNameInput);
+    await user.type(fullNameInput, 'Alex');
 
-    expect(firstNameInput).toHaveValue('Alex');
+    expect(fullNameInput).toHaveValue('Alex');
   });
 
   it('shows the logged-in user details in account settings', () => {
@@ -93,12 +93,9 @@ describe('AccountContent', () => {
       },
     });
 
-    expect(
-      screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.firstNameLabel),
-    ).toHaveValue('Md');
-    expect(
-      screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.lastNameLabel),
-    ).toHaveValue('Kamrul');
+    expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.fullNameLabel)).toHaveValue(
+      'Md Kamrul',
+    );
     expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.emailLabel)).toHaveValue(
       'kamrul@test.com',
     );

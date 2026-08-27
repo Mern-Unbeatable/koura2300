@@ -7,11 +7,12 @@ export const ACCOUNT_CONTENT = {
   accountSetting: {
     regionLabel: 'Account settings',
     title: 'Account Setting',
-    firstNameLabel: 'First name',
+    firstNameLabel: 'Full Name',
     lastNameLabel: 'Last name',
     emailLabel: 'Email',
     phoneLabel: 'Phone Number',
     addressLabel: 'Address',
+    fullNameLabel: 'Full Name',
     saveButton: 'Save Changes',
     avatarLabel: 'Profile photo',
     changePhotoLabel: 'Change profile photo',
@@ -34,7 +35,8 @@ export const ACCOUNT_CONTENT = {
     currentPasswordRequired: 'Current password is required.',
   },
   validation: {
-    firstNameRequired: 'First name is required.',
+    fullNameRequired: 'Full name is required.',
+    firstNameRequired: 'Full name is required.',
     lastNameRequired: 'Last name is required.',
     emailRequired: 'Email is required.',
     phoneRequired: 'Phone number is required.',

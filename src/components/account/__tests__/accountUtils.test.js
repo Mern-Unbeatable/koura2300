@@ -9,7 +9,7 @@ describe('accountUtils', () => {
     expect(buildAccountProfileFromUser(null)).toEqual(ACCOUNT_DEFAULT_PROFILE);
   });
 
-  it('maps the logged-in user into account setting fields', () => {
+  it('maps the logged-in user into a full name field', () => {
     expect(
       buildAccountProfileFromUser({
         name: 'Jane Doe',
@@ -18,8 +18,7 @@ describe('accountUtils', () => {
         address: '12 Main St',
       }),
     ).toEqual({
-      firstName: 'Jane',
-      lastName: 'Doe',
+      fullName: 'Jane Doe',
       email: 'jane@test.com',
       phone: '555-0100',
       address: '12 Main St',
@@ -28,26 +27,10 @@ describe('accountUtils', () => {
     });
   });
 
-  it('prefers explicit first and last name fields when present', () => {
-    expect(
-      buildAccountProfileFromUser({
-        firstName: 'Kamrul',
-        lastName: 'Hasan',
-        name: 'Ignored Name',
-        email: 'kamrul@test.com',
-      }),
-    ).toMatchObject({
-      firstName: 'Kamrul',
-      lastName: 'Hasan',
-      email: 'kamrul@test.com',
-    });
-  });
-
-  it('builds auth user updates from the account profile form', () => {
+  it('builds auth user updates from the full name profile form', () => {
     expect(
       buildAuthUserFromProfile({
-        firstName: 'Jane',
-        lastName: 'Doe',
+        fullName: 'Jane Doe',
         email: 'jane@test.com',
         phone: '555-0100',
         address: '12 Main St',
