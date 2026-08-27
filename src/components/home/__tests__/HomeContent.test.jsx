@@ -5,6 +5,7 @@ import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import HomeContent from '../HomeContent';
+import authReducer from '../../../store/slices/authSlice';
 import cartReducer from '../../../store/slices/cartSlice';
 
 const CurrentPath = () => {
@@ -15,6 +16,7 @@ const CurrentPath = () => {
 const createTestStore = () =>
   configureStore({
     reducer: {
+      auth: authReducer,
       cart: cartReducer,
     },
   });

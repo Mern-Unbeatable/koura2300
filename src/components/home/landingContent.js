@@ -17,6 +17,8 @@ export const LANDING_CONTENT = {
     searchLabel: 'Search services',
     searchPlaceholder: 'Search...',
     searchSubmit: 'Submit service search',
+    login: 'Login',
+    dashboard: 'Dashboard',
     account: 'Account',
     order: 'Order',
     chat: 'Chat',

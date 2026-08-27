@@ -1,7 +1,13 @@
 import React, { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MessageCircle, Package, UserRound, X } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import { LayoutDashboard, LogIn, MessageCircle, Package, UserRound, X } from 'lucide-react';
 import { ROUTES } from '../../config';
+import { getAccountNavLabel, isAdminUser } from '../login/loginUtils';
+import {
+  selectIsAuthenticated,
+  selectUser,
+} from '../../store/slices/authSlice';
 import CategoryNavigation from './CategoryNavigation';
 import { LANDING_CONTENT } from './landingContent';
 import { LANDING_ASSET_PATH } from './landingData';
@@ -11,8 +17,14 @@ const CLOSE_ICON_SIZE = 24;
 const ACTION_TILE_CLASS =
   'flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg bg-white/5 py-4 text-xs font-medium transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
+const getTileClass = (isActive) =>
+  isActive ? `${ACTION_TILE_CLASS} text-brand-orange` : ACTION_TILE_CLASS;
+
 const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
   const { pathname } = useLocation();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const user = useSelector(selectUser);
+  const isAdmin = isAdminUser(user);
 
   if (!isOpen) {
     return null;
@@ -20,9 +32,9 @@ const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
 
   const { header } = LANDING_CONTENT;
   const isAccountActive = pathname === ROUTES.ACCOUNT;
-  const accountTileClass = isAccountActive
-    ? `${ACTION_TILE_CLASS} text-brand-orange`
-    : ACTION_TILE_CLASS;
+  const isLoginActive = pathname === ROUTES.LOGIN;
+  const isDashboardActive = pathname.startsWith(ROUTES.ADMIN);
+  const accountLabel = getAccountNavLabel(user, header.account);
 
   return (
     <div className="lg:hidden">
@@ -57,15 +69,40 @@ const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {!isAuthenticated ? (
+              <Link
+                to={ROUTES.LOGIN}
+                onClick={onClose}
+                aria-current={isLoginActive ? 'page' : undefined}
+                className={getTileClass(isLoginActive)}
+              >
+                <LogIn size={ACTION_ICON_SIZE} aria-hidden="true" />
+                {header.login}
+              </Link>
+            ) : null}
+
+            {isAuthenticated && isAdmin ? (
+              <Link
+                to={ROUTES.ADMIN_DASHBOARD}
+                onClick={onClose}
+                aria-current={isDashboardActive ? 'page' : undefined}
+                className={getTileClass(isDashboardActive)}
+              >
+                <LayoutDashboard size={ACTION_ICON_SIZE} aria-hidden="true" />
+                {header.dashboard}
+              </Link>
+            ) : null}
+
             <Link
               to={ROUTES.ACCOUNT}
               onClick={onClose}
               aria-current={isAccountActive ? 'page' : undefined}
-              className={accountTileClass}
+              className={getTileClass(isAccountActive)}
+              title={accountLabel}
             >
               <UserRound size={ACTION_ICON_SIZE} aria-hidden="true" />
-              {header.account}
+              <span className="max-w-full truncate px-1">{accountLabel}</span>
             </Link>
 
             <Link to={ROUTES.ORDERS} onClick={onClose} className={ACTION_TILE_CLASS}>

@@ -196,6 +196,7 @@ const useServiceBooking = (service, packages) => {
             email: fields.email,
             phone: fields.phone,
             address: fields.address,
+            role: 'user',
           },
           token: null,
         }),

@@ -1,17 +1,24 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import LoginView from '../LoginView';
 import { LOGIN_COPY } from '../loginCopy';
+import { LOGIN_AUTH_MODES } from '../loginData';
 
 const createLoginViewProps = (overrides = {}) => ({
   copy: LOGIN_COPY,
+  authMode: LOGIN_AUTH_MODES.LOGIN,
+  name: '',
   email: '',
   password: '',
   showPassword: false,
   errors: {},
   isLoading: false,
+  onNameChange: jest.fn(),
   onEmailChange: jest.fn(),
   onPasswordChange: jest.fn(),
   onTogglePasswordVisibility: jest.fn(),
+  onSwitchToCreateAccount: jest.fn(),
+  onSwitchToLogin: jest.fn(),
   onSubmit: jest.fn(),
   ...overrides,
 });
@@ -26,6 +33,9 @@ describe('LoginView', () => {
     expect(
       screen.getByRole('button', { name: LOGIN_COPY.form.submit }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: LOGIN_COPY.form.switchToCreateAction }),
+    ).toBeInTheDocument();
   });
 
   it('renders desktop hero panel copy', () => {
@@ -33,5 +43,38 @@ describe('LoginView', () => {
 
     expect(screen.getByText(LOGIN_COPY.hero.title)).toBeInTheDocument();
     expect(screen.getByText(LOGIN_COPY.hero.description)).toBeInTheDocument();
+  });
+
+  it('shows create-account fields when create mode is active', () => {
+    render(
+      <LoginView
+        {...createLoginViewProps({
+          authMode: LOGIN_AUTH_MODES.CREATE_ACCOUNT,
+        })}
+      />,
+    );
+
+    expect(
+      screen.getByRole('heading', { name: LOGIN_COPY.form.createTitle }),
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText(LOGIN_COPY.form.nameLabel)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: LOGIN_COPY.form.createSubmit }),
+    ).toBeInTheDocument();
+  });
+
+  it('switches to create account when the CTA is clicked', async () => {
+    const user = userEvent.setup();
+    const onSwitchToCreateAccount = jest.fn();
+
+    render(
+      <LoginView {...createLoginViewProps({ onSwitchToCreateAccount })} />,
+    );
+
+    await user.click(
+      screen.getByRole('button', { name: LOGIN_COPY.form.switchToCreateAction }),
+    );
+
+    expect(onSwitchToCreateAccount).toHaveBeenCalledTimes(1);
   });
 });

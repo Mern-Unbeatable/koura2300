@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import Layout from '../components/Layout';
 import AdminLayout from '../components/layout/admin/Layout';
 import { ROUTES } from '../config';
-import { selectIsAuthenticated } from '../store/slices/authSlice';
+import { selectIsAuthenticated, selectIsAdmin } from '../store/slices/authSlice';
 
 // Derive a relative segment from an absolute admin route path
 const seg = (route) => route.replace(`${ROUTES.ADMIN}/`, '');
@@ -81,10 +81,17 @@ const NotFound = () => (
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isAdmin = useSelector(selectIsAdmin);
   const location = useLocation();
+
   if (!isAuthenticated) {
     return <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />;
   }
+
+  if (!isAdmin) {
+    return <Navigate to={ROUTES.HOME} replace />;
+  }
+
   return children;
 };
 

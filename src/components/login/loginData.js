@@ -45,6 +45,24 @@ export const LOGIN_FOOTER_NOTE_CLASS = 'mt-8 text-center text-xs text-[#9ca3af]'
 
 export const LOGIN_EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+export const USER_ROLES = {
+  ADMIN: 'admin',
+  USER: 'user',
+};
+
+export const LOGIN_AUTH_MODES = {
+  LOGIN: 'login',
+  CREATE_ACCOUNT: 'createAccount',
+};
+
+export const LOGIN_MIN_PASSWORD_LENGTH = 8;
+
+export const LOGIN_MODE_SWITCH_CLASS =
+  'mt-6 text-center text-sm text-[#6b7280]';
+
+export const LOGIN_MODE_SWITCH_BUTTON_CLASS =
+  'font-semibold text-brand-orange transition-colors hover:text-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+
 export const LOGIN_FEATURES = [
   { id: 'analytics', icon: BarChart3, label: 'Real-time analytics and reporting' },
   { id: 'customers', icon: Users, label: 'Lead and customer management' },

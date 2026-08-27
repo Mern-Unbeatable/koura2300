@@ -72,3 +72,20 @@ export const selectUser = (state) => state.auth.user;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectToken = (state) => state.auth.token;
 export const selectAuthLoading = (state) => state.auth.loading;
+export const selectIsAdmin = (state) => {
+  const user = state.auth.user;
+  if (!user) {
+    return false;
+  }
+
+  const role = String(user.role || '').toLowerCase();
+  if (role === 'admin') {
+    return true;
+  }
+  if (role === 'user') {
+    return false;
+  }
+
+  return /admin/i.test(user.email || '');
+};
+
