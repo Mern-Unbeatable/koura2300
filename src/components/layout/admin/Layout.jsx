@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Menu } from "lucide-react";
 import Sidebar from "./adminSidebar/Sidebar";
+import {
+  SIDEBAR_COPY,
+  SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS,
+  SIDEBAR_LOGO_HEIGHT_PX,
+  SIDEBAR_LOGO_SRC,
+  SIDEBAR_LOGO_WIDTH_PX,
+} from "./adminSidebar/sidebarNav";
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -74,15 +81,12 @@ const Layout = () => {
             <Menu size={20} aria-hidden="true" />
           </button>
           <img
-            src="/Logoipsum_logo.png"
-            alt="Logoipsum"
-            width={120}
-            height={28}
+            src={SIDEBAR_LOGO_SRC}
+            alt={SIDEBAR_COPY.logoAlt}
+            width={SIDEBAR_LOGO_WIDTH_PX}
+            height={SIDEBAR_LOGO_HEIGHT_PX}
             fetchPriority="high"
-            className="h-7 w-auto object-contain"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
+            className={`${SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS} w-auto max-w-[180px] object-contain`}
           />
         </header>
 

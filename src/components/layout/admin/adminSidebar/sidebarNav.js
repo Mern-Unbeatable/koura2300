@@ -17,6 +17,7 @@ export const SIDEBAR_COPY = {
   management: 'MANAGEMENT',
   other: 'OTHER',
   overview: 'Overview',
+  logoAlt: 'Logoipsum',
   logOut: 'Log Out',
   adminRole: 'Admin',
   comingSoon: 'Coming soon',
@@ -83,6 +84,11 @@ export const SIDEBAR_NAV_GROUPS = [
 export const SIDEBAR_ICON_SIZE_PX = 20;
 export const SIDEBAR_CHEVRON_SIZE_PX = 18;
 export const SIDEBAR_LOGOUT_REDIRECT_MS = 900;
+
+export const SIDEBAR_LOGO_SRC = '/assets/admin/sidebar-logo.svg';
+export const SIDEBAR_LOGO_WIDTH_PX = 220;
+export const SIDEBAR_LOGO_HEIGHT_PX = 40;
+export const SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS = 'h-10';
 
 export const SIDEBAR_NAV_BASE_CLASS =
   'group flex w-full items-center gap-[11px] rounded-[9px] border-l-4 px-2.5 py-3 text-base font-medium transition-colors duration-200';

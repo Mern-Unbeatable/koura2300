@@ -10,6 +10,10 @@ import {
   SIDEBAR_GROUP_CLASS,
   SIDEBAR_GROUPS_CLASS,
   SIDEBAR_ICON_SIZE_PX,
+  SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS,
+  SIDEBAR_LOGO_HEIGHT_PX,
+  SIDEBAR_LOGO_SRC,
+  SIDEBAR_LOGO_WIDTH_PX,
   SIDEBAR_LOGOUT_REDIRECT_MS,
   SIDEBAR_NAV_ACTIVE_CLASS,
   SIDEBAR_NAV_BASE_CLASS,
@@ -145,18 +149,15 @@ const Sidebar = ({
 
   return (
     <div className="flex h-full w-full flex-col border-r border-[#e8ebf1] bg-white">
-      <div className="flex shrink-0 items-start justify-between border-b border-[#f2f2f2] px-4 pb-4 pt-5">
-        <div>
+      <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-[#f2f2f2] px-4">
+        <div className="min-w-0">
           <img
-            src="/Logoipsum_logo.png"
-            alt="Logoipsum"
-            width={120}
-            height={32}
+            src={SIDEBAR_LOGO_SRC}
+            alt={SIDEBAR_COPY.logoAlt}
+            width={SIDEBAR_LOGO_WIDTH_PX}
+            height={SIDEBAR_LOGO_HEIGHT_PX}
             fetchpriority="high"
-            className="h-8 w-auto object-contain"
-            onError={(event) => {
-              event.currentTarget.style.display = 'none';
-            }}
+            className={`${SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS} w-auto max-w-[220px] object-contain object-left`}
           />
         </div>
         <button
