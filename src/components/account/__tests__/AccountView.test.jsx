@@ -2,7 +2,11 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AccountView from '../AccountView';
 import { ACCOUNT_CONTENT } from '../accountCopy';
-import { ACCOUNT_DEFAULT_PROFILE, ACCOUNT_PASSWORD_FIELDS, ACCOUNT_PROFILE_FIELDS } from '../accountData';
+import {
+  ACCOUNT_DEFAULT_PROFILE,
+  ACCOUNT_PASSWORD_FIELDS,
+  ACCOUNT_PROFILE_FIELDS,
+} from '../accountData';
 
 const createAccountViewProps = (overrides = {}) => ({
   profile: ACCOUNT_DEFAULT_PROFILE,
@@ -84,7 +88,9 @@ describe('AccountView', () => {
     });
 
     await user.click(
-      within(accountRegion).getByRole('button', { name: ACCOUNT_CONTENT.accountSetting.saveButton }),
+      within(accountRegion).getByRole('button', {
+        name: ACCOUNT_CONTENT.accountSetting.saveButton,
+      }),
     );
 
     expect(onSaveProfile).toHaveBeenCalledTimes(1);
