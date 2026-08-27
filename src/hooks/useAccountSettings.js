@@ -1,12 +1,13 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ACCOUNT_CONTENT } from '../components/account/accountCopy';
+import { ACCOUNT_PROFILE_FIELDS } from '../components/account/accountData';
 import {
-  ACCOUNT_DEFAULT_PROFILE,
-  ACCOUNT_PROFILE_FIELDS,
-} from '../components/account/accountData';
-import { updateUser } from '../store/slices/authSlice';
+  buildAccountProfileFromUser,
+  buildAuthUserFromProfile,
+} from '../components/account/accountUtils';
+import { selectUser, updateUser } from '../store/slices/authSlice';
 
 const PROFILE_TEXT_FIELDS = [
   ACCOUNT_PROFILE_FIELDS.FIRST_NAME,
@@ -33,8 +34,13 @@ const readAvatarPreview = (file, onLoad) => {
 
 const useAccountSettings = () => {
   const dispatch = useDispatch();
+  const authUser = useSelector(selectUser);
   const avatarInputRef = useRef(null);
-  const [profile, setProfile] = useState(ACCOUNT_DEFAULT_PROFILE);
+  const [profile, setProfile] = useState(() => buildAccountProfileFromUser(authUser));
+
+  useEffect(() => {
+    setProfile(buildAccountProfileFromUser(authUser));
+  }, [authUser]);
 
   const handleProfileChange = useCallback((field) => (event) => {
     setProfile((currentProfile) => ({
@@ -71,15 +77,7 @@ const useAccountSettings = () => {
         return;
       }
 
-      dispatch(
-        updateUser({
-          firstName: profile.firstName,
-          lastName: profile.lastName,
-          email: profile.email,
-          phone: profile.phone,
-          address: profile.address,
-        }),
-      );
+      dispatch(updateUser(buildAuthUserFromProfile(profile)));
       toast.success(ACCOUNT_CONTENT.toasts.profileSaved);
     },
     [dispatch, profile],

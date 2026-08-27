@@ -16,16 +16,25 @@ jest.mock('react-hot-toast', () => ({
   error: jest.fn(),
 }));
 
-const createTestStore = () =>
+const createTestStore = (authOverrides = {}) =>
   configureStore({
     reducer: {
       cart: cartReducer,
       auth: authReducer,
     },
+    preloadedState: {
+      auth: {
+        user: null,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        ...authOverrides,
+      },
+    },
   });
 
-const renderAccountPage = (initialPath = ROUTES.ACCOUNT) => {
-  const store = createTestStore();
+const renderAccountPage = (initialPath = ROUTES.ACCOUNT, authOverrides = {}) => {
+  const store = createTestStore(authOverrides);
 
   render(
     <Provider store={store}>
@@ -70,6 +79,35 @@ describe('AccountContent', () => {
     await user.type(firstNameInput, 'Alex');
 
     expect(firstNameInput).toHaveValue('Alex');
+  });
+
+  it('shows the logged-in user details in account settings', () => {
+    renderAccountPage(ROUTES.ACCOUNT, {
+      isAuthenticated: true,
+      user: {
+        name: 'Md Kamrul',
+        email: 'kamrul@test.com',
+        phone: '555-0199',
+        address: '42 Service Lane',
+        role: 'user',
+      },
+    });
+
+    expect(
+      screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.firstNameLabel),
+    ).toHaveValue('Md');
+    expect(
+      screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.lastNameLabel),
+    ).toHaveValue('Kamrul');
+    expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.emailLabel)).toHaveValue(
+      'kamrul@test.com',
+    );
+    expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.phoneLabel)).toHaveValue(
+      '555-0199',
+    );
+    expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.addressLabel)).toHaveValue(
+      '42 Service Lane',
+    );
   });
 
   it('shows password placeholder from Figma for the new password field', () => {
