@@ -66,7 +66,18 @@ const LandingHeaderActions = memo(({ isChatActive = false, onChatClick }) => {
           icon={LogIn}
           isActive={isLoginActive}
         />
-      ) : (
+      ) : null}
+
+      {isAuthenticated && isAdmin ? (
+        <HeaderActionLink
+          to={ROUTES.ADMIN_DASHBOARD}
+          label={LANDING_CONTENT.header.dashboard}
+          icon={LayoutDashboard}
+          isActive={isDashboardActive}
+        />
+      ) : null}
+
+      {isAuthenticated && !isAdmin ? (
         <button
           type="button"
           onClick={handleLogout}
@@ -76,15 +87,6 @@ const LandingHeaderActions = memo(({ isChatActive = false, onChatClick }) => {
           <LogOut size={ACTION_ICON_SIZE} aria-hidden="true" />
           <span className="max-w-full truncate">{LANDING_CONTENT.header.logout}</span>
         </button>
-      )}
-
-      {isAuthenticated && isAdmin ? (
-        <HeaderActionLink
-          to={ROUTES.ADMIN_DASHBOARD}
-          label={LANDING_CONTENT.header.dashboard}
-          icon={LayoutDashboard}
-          isActive={isDashboardActive}
-        />
       ) : null}
 
       <HeaderActionLink

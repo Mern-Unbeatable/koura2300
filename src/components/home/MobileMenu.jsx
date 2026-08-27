@@ -97,12 +97,7 @@ const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
                 <LogIn size={ACTION_ICON_SIZE} aria-hidden="true" />
                 {header.login}
               </Link>
-            ) : (
-              <button type="button" onClick={handleLogout} className={ACTION_TILE_CLASS}>
-                <LogOut size={ACTION_ICON_SIZE} aria-hidden="true" />
-                {header.logout}
-              </button>
-            )}
+            ) : null}
 
             {isAuthenticated && isAdmin ? (
               <Link
@@ -114,6 +109,13 @@ const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
                 <LayoutDashboard size={ACTION_ICON_SIZE} aria-hidden="true" />
                 {header.dashboard}
               </Link>
+            ) : null}
+
+            {isAuthenticated && !isAdmin ? (
+              <button type="button" onClick={handleLogout} className={ACTION_TILE_CLASS}>
+                <LogOut size={ACTION_ICON_SIZE} aria-hidden="true" />
+                {header.logout}
+              </button>
             ) : null}
 
             <Link

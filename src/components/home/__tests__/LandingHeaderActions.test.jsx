@@ -45,14 +45,14 @@ describe('LandingHeaderActions auth slots', () => {
     expect(screen.queryByRole('button', { name: LANDING_CONTENT.header.logout })).not.toBeInTheDocument();
   });
 
-  it('shows Dashboard and Logout for logged-in admins and hides Login', () => {
+  it('shows Dashboard for logged-in admins and hides Login and Logout', () => {
     renderActions({
       isAuthenticated: true,
       user: { email: 'admin@test.com', name: 'Admin', role: USER_ROLES.ADMIN },
     });
 
     expect(screen.queryByRole('link', { name: LANDING_CONTENT.header.login })).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: LANDING_CONTENT.header.logout })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: LANDING_CONTENT.header.logout })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: LANDING_CONTENT.header.dashboard })).toHaveAttribute(
       'href',
       ROUTES.ADMIN_DASHBOARD,
