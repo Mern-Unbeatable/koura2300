@@ -3,6 +3,9 @@ import { APP_CONFIG } from '../../config';
 import {
   LOGIN_AUTH_MODES,
   LOGIN_CREATE_FIELDS_CLASS,
+  LOGIN_CREATE_FIELDS_CLIP_CLASS,
+  LOGIN_CREATE_FIELDS_INNER_CLASS,
+  LOGIN_CREATE_FIELDS_OPEN_MARGIN_CLASS,
   LOGIN_FEATURE_ICON_WRAP_CLASS,
   LOGIN_FEATURE_ITEM_CLASS,
   LOGIN_FEATURE_LABEL_CLASS,
@@ -13,7 +16,7 @@ import {
   LOGIN_FORM_CARD_CLASS,
   LOGIN_FORM_ERROR_CLASS,
   LOGIN_FORM_PANEL_CLASS,
-  LOGIN_FORM_STACK_CLASS,
+  LOGIN_FORM_FIELDS_CLASS,
   LOGIN_FORM_SUBTITLE_CLASS,
   LOGIN_FORM_TITLE_CLASS,
   LOGIN_HERO_CLASS,
@@ -93,6 +96,7 @@ const LoginTextField = ({
   onChange,
   placeholder,
   error,
+  tabIndex,
 }) => {
   const errorId = `${id}-error`;
 
@@ -109,6 +113,7 @@ const LoginTextField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        tabIndex={tabIndex}
         aria-invalid={!!error}
         aria-describedby={error ? errorId : undefined}
         className={`${LOGIN_INPUT_CLASS} ${error ? LOGIN_INPUT_ERROR_CLASS : ''}`}
@@ -171,6 +176,7 @@ const LoginPasswordField = ({
 
 const LoginCreateAccountFields = ({
   copy,
+  isCreateMode,
   name,
   phone,
   address,
@@ -178,41 +184,59 @@ const LoginCreateAccountFields = ({
   onNameChange,
   onPhoneChange,
   onAddressChange,
-}) => (
-  <div className={LOGIN_CREATE_FIELDS_CLASS}>
-    <LoginTextField
-      id="login-name"
-      name="name"
-      label={copy.form.nameLabel}
-      autoComplete="name"
-      value={name}
-      onChange={onNameChange}
-      placeholder={copy.form.namePlaceholder}
-      error={errors.name}
-    />
-    <LoginTextField
-      id="login-phone"
-      name="phone"
-      label={copy.form.phoneLabel}
-      type="tel"
-      autoComplete="tel"
-      value={phone}
-      onChange={onPhoneChange}
-      placeholder={copy.form.phonePlaceholder}
-      error={errors.phone}
-    />
-    <LoginTextField
-      id="login-address"
-      name="address"
-      label={copy.form.addressLabel}
-      autoComplete="street-address"
-      value={address}
-      onChange={onAddressChange}
-      placeholder={copy.form.addressPlaceholder}
-      error={errors.address}
-    />
-  </div>
-);
+}) => {
+  const collapsedTabIndex = isCreateMode ? undefined : -1;
+
+  return (
+    <div
+      className={`${LOGIN_CREATE_FIELDS_CLASS} ${isCreateMode ? LOGIN_CREATE_FIELDS_OPEN_MARGIN_CLASS : ''}`}
+      style={{
+        gridTemplateRows: isCreateMode ? '1fr' : '0fr',
+        opacity: isCreateMode ? 1 : 0,
+      }}
+      aria-hidden={!isCreateMode}
+    >
+      <div className={LOGIN_CREATE_FIELDS_CLIP_CLASS}>
+        <div className={LOGIN_CREATE_FIELDS_INNER_CLASS}>
+          <LoginTextField
+            id="login-name"
+            name="name"
+            label={copy.form.nameLabel}
+            autoComplete="name"
+            value={name}
+            onChange={onNameChange}
+            placeholder={copy.form.namePlaceholder}
+            error={isCreateMode ? errors.name : undefined}
+            tabIndex={collapsedTabIndex}
+          />
+          <LoginTextField
+            id="login-phone"
+            name="phone"
+            label={copy.form.phoneLabel}
+            type="tel"
+            autoComplete="tel"
+            value={phone}
+            onChange={onPhoneChange}
+            placeholder={copy.form.phonePlaceholder}
+            error={isCreateMode ? errors.phone : undefined}
+            tabIndex={collapsedTabIndex}
+          />
+          <LoginTextField
+            id="login-address"
+            name="address"
+            label={copy.form.addressLabel}
+            autoComplete="street-address"
+            value={address}
+            onChange={onAddressChange}
+            placeholder={copy.form.addressPlaceholder}
+            error={isCreateMode ? errors.address : undefined}
+            tabIndex={collapsedTabIndex}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const LoginFormPanel = ({
   copy,
@@ -260,52 +284,53 @@ const LoginFormPanel = ({
           </div>
         ) : null}
 
-        <form onSubmit={onSubmit} noValidate className={LOGIN_FORM_STACK_CLASS}>
-          {isCreateMode ? (
-            <LoginCreateAccountFields
-              copy={copy}
-              name={name}
-              phone={phone}
-              address={address}
-              errors={errors}
-              onNameChange={onNameChange}
-              onPhoneChange={onPhoneChange}
-              onAddressChange={onAddressChange}
-            />
-          ) : null}
-
-          <LoginTextField
-            id="login-email"
-            name="email"
-            label={copy.form.emailLabel}
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={onEmailChange}
-            placeholder={copy.form.emailPlaceholder}
-            error={errors.email}
-          />
-
-          <LoginPasswordField
+        <form onSubmit={onSubmit} noValidate className="mt-8">
+          <LoginCreateAccountFields
             copy={copy}
-            value={password}
-            onChange={onPasswordChange}
-            showPassword={showPassword}
-            onTogglePasswordVisibility={onTogglePasswordVisibility}
-            error={errors.password}
-            autoComplete={isCreateMode ? 'new-password' : 'current-password'}
+            isCreateMode={isCreateMode}
+            name={name}
+            phone={phone}
+            address={address}
+            errors={errors}
+            onNameChange={onNameChange}
+            onPhoneChange={onPhoneChange}
+            onAddressChange={onAddressChange}
           />
 
-          <button type="submit" disabled={isLoading} className={LOGIN_SUBMIT_BUTTON_CLASS}>
-            {isLoading ? (
-              <span className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-            ) : isCreateMode ? (
-              <UserPlus size={18} aria-hidden="true" />
-            ) : (
-              <LogIn size={18} aria-hidden="true" />
-            )}
-            {submitLabel}
-          </button>
+          <div className={LOGIN_FORM_FIELDS_CLASS}>
+            <LoginTextField
+              id="login-email"
+              name="email"
+              label={copy.form.emailLabel}
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={onEmailChange}
+              placeholder={copy.form.emailPlaceholder}
+              error={errors.email}
+            />
+
+            <LoginPasswordField
+              copy={copy}
+              value={password}
+              onChange={onPasswordChange}
+              showPassword={showPassword}
+              onTogglePasswordVisibility={onTogglePasswordVisibility}
+              error={errors.password}
+              autoComplete={isCreateMode ? 'new-password' : 'current-password'}
+            />
+
+            <button type="submit" disabled={isLoading} className={LOGIN_SUBMIT_BUTTON_CLASS}>
+              {isLoading ? (
+                <span className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              ) : isCreateMode ? (
+                <UserPlus size={18} aria-hidden="true" />
+              ) : (
+                <LogIn size={18} aria-hidden="true" />
+              )}
+              {submitLabel}
+            </button>
+          </div>
         </form>
 
         <LoginModeSwitch
