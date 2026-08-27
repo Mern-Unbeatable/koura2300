@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { CATEGORIES_COPY } from '../../components/admin/categories/categoriesCopy';
 import {
   buildCategorySeed,
-  buildSubcategorySeed,
+  buildSubcategorySeedForCategory,
 } from '../../components/admin/categories/categoriesUtils';
 import useAdminCategories from '../useAdminCategories';
 
@@ -26,7 +26,9 @@ describe('useAdminCategories', () => {
 
     expect(result.current.categories).toHaveLength(seed.length);
     expect(result.current.selectedCategoryId).toBe(lighting.id);
-    expect(result.current.subcategories).toEqual(buildSubcategorySeed(lighting.id));
+    expect(result.current.subcategories).toEqual(
+      buildSubcategorySeedForCategory(seed, 'Lighting'),
+    );
     expect(result.current.copy.title).toBe(CATEGORIES_COPY.title);
   });
 
@@ -39,7 +41,10 @@ describe('useAdminCategories', () => {
     });
 
     expect(result.current.selectedCategoryId).toBe(deck.id);
-    expect(result.current.subcategories).toEqual([]);
+    expect(result.current.subcategories).toEqual(
+      buildSubcategorySeedForCategory(result.current.categories, 'Deck'),
+    );
+    expect(result.current.subcategories.length).toBeGreaterThan(0);
   });
 
   it('adds a category after validating the draft name', () => {

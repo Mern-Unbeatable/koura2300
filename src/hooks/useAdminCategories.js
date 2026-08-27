@@ -4,8 +4,8 @@ import { CATEGORIES_COPY } from '../components/admin/categories/categoriesCopy';
 import { CATEGORIES_ADD_KIND } from '../components/admin/categories/categoriesData';
 import {
   addNamedItem,
+  buildAllSubcategorySeed,
   buildCategorySeed,
-  buildSubcategorySeed,
   createCategoryId,
   createSubcategoryId,
   filterSubcategoriesByCategoryId,
@@ -21,9 +21,7 @@ import {
 const INITIAL_CATEGORIES = buildCategorySeed();
 const INITIAL_LIGHTING_CATEGORY =
   INITIAL_CATEGORIES.find((item) => item.name === 'Lighting') ?? null;
-const INITIAL_SUBCATEGORIES = INITIAL_LIGHTING_CATEGORY
-  ? buildSubcategorySeed(INITIAL_LIGHTING_CATEGORY.id)
-  : [];
+const INITIAL_SUBCATEGORIES = buildAllSubcategorySeed(INITIAL_CATEGORIES);
 
 const useAdminCategories = () => {
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
@@ -99,7 +97,7 @@ const useAdminCategories = () => {
       setSubcategories((current) => [
         ...current,
         {
-          id: createSubcategoryId(normalized),
+          id: createSubcategoryId(selectedCategoryId, normalized),
           name: normalized,
           categoryId: selectedCategoryId,
         },

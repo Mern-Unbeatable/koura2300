@@ -1,5 +1,4 @@
 import { CATALOG_COLLECTIONS } from '../../catalog/catalogRegistry';
-import { LIGHTING_CATEGORIES } from '../../lighting/lightingData';
 import {
   CATEGORIES_COPY,
   CATEGORIES_VALIDATION,
@@ -16,7 +15,8 @@ const slugifyName = (name) =>
 
 export const createCategoryId = (name) => `category-${slugifyName(name)}`;
 
-export const createSubcategoryId = (name) => `subcategory-${slugifyName(name)}`;
+export const createSubcategoryId = (categoryId, name) =>
+  `subcategory-${slugifyName(categoryId)}-${slugifyName(name)}`;
 
 export const buildCategorySeed = () =>
   CATALOG_COLLECTIONS.map((collection) => ({
@@ -24,12 +24,41 @@ export const buildCategorySeed = () =>
     name: collection.title,
   }));
 
-export const buildSubcategorySeed = (lightingCategoryId) =>
-  LIGHTING_CATEGORIES.map((name) => ({
-    id: createSubcategoryId(name),
+const getUniqueSubcategoryNames = (services) =>
+  [...new Set(services.map((service) => service.category))];
+
+export const buildSubcategorySeedForCollection = (categoryId, services) =>
+  getUniqueSubcategoryNames(services).map((name) => ({
+    id: createSubcategoryId(categoryId, name),
     name,
-    categoryId: lightingCategoryId,
+    categoryId,
   }));
+
+export const buildAllSubcategorySeed = (categories) => {
+  const categoryIdByName = new Map(
+    categories.map((category) => [category.name, category.id]),
+  );
+
+  return CATALOG_COLLECTIONS.flatMap((collection) => {
+    const categoryId = categoryIdByName.get(collection.title);
+    if (!categoryId) {
+      return [];
+    }
+
+    return buildSubcategorySeedForCollection(categoryId, collection.services);
+  });
+};
+
+export const buildSubcategorySeedForCategory = (categories, categoryName) => {
+  const category = categories.find((item) => item.name === categoryName);
+  const collection = CATALOG_COLLECTIONS.find((item) => item.title === categoryName);
+
+  if (!category || !collection) {
+    return [];
+  }
+
+  return buildSubcategorySeedForCollection(category.id, collection.services);
+};
 
 export const normalizeItemName = (name) => String(name ?? '').trim();
 

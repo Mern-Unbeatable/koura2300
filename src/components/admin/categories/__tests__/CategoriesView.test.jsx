@@ -7,11 +7,11 @@ import {
   CATEGORIES_PAGE_CLASS,
   CATEGORIES_VIEWPORT,
 } from '../categoriesData';
-import { buildCategorySeed, buildSubcategorySeed } from '../categoriesUtils';
+import { buildCategorySeed, buildSubcategorySeedForCategory } from '../categoriesUtils';
 
 const categories = buildCategorySeed();
 const lighting = categories.find((item) => item.name === 'Lighting');
-const subcategories = buildSubcategorySeed(lighting.id);
+const subcategories = buildSubcategorySeedForCategory(categories, 'Lighting');
 
 const createCategoriesViewProps = (overrides = {}) => ({
   copy: CATEGORIES_COPY,

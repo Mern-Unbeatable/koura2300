@@ -2,8 +2,9 @@ import { CATEGORIES_COPY, CATEGORIES_VALIDATION } from '../categoriesCopy';
 import { CATEGORIES_NAME_MAX_LENGTH } from '../categoriesData';
 import {
   addNamedItem,
+  buildAllSubcategorySeed,
   buildCategorySeed,
-  buildSubcategorySeed,
+  buildSubcategorySeedForCategory,
   createCategoryId,
   createSubcategoryId,
   isDuplicateName,
@@ -27,15 +28,42 @@ describe('categoriesUtils', () => {
     expect(seed.map((item) => item.name)).toContain('Walls & Ceilings');
   });
 
-  it('builds lighting subcategory seed linked to lighting category', () => {
+  it('builds subcategory seed for every catalog category', () => {
     const categories = buildCategorySeed();
+    const subcategories = buildAllSubcategorySeed(categories);
     const lighting = categories.find((item) => item.name === 'Lighting');
-    const subcategories = buildSubcategorySeed(lighting.id);
+    const security = categories.find((item) => item.name === 'Security');
+    const deck = categories.find((item) => item.name === 'Deck');
 
     expect(subcategories.length).toBeGreaterThan(0);
-    expect(subcategories.every((item) => item.categoryId === lighting.id)).toBe(true);
-    expect(subcategories.map((item) => item.name)).toEqual(
+    expect(
+      subcategories.filter((item) => item.categoryId === lighting.id).map((item) => item.name),
+    ).toEqual(
       expect.arrayContaining(['Indoor Lighting', 'Outdoor Lighting', 'Smart Lighting']),
+    );
+    expect(
+      subcategories.filter((item) => item.categoryId === security.id).map((item) => item.name),
+    ).toEqual(
+      expect.arrayContaining([
+        'Security Camera Services',
+        'Alarm System Services',
+        'Smart Home Security',
+      ]),
+    );
+    expect(
+      subcategories.filter((item) => item.categoryId === deck.id).map((item) => item.name),
+    ).toEqual(
+      expect.arrayContaining(['Deck Repair', 'Deck Staining & Sealing', 'Deck Maintenance']),
+    );
+  });
+
+  it('builds subcategories for a single category by name', () => {
+    const categories = buildCategorySeed();
+    const fenceSubcategories = buildSubcategorySeedForCategory(categories, 'Fence');
+
+    expect(fenceSubcategories.length).toBeGreaterThan(0);
+    expect(fenceSubcategories.map((item) => item.name)).toEqual(
+      expect.arrayContaining(['Fence Installation', 'Fence Repair', 'Fence Gate Services']),
     );
   });
 
@@ -81,7 +109,7 @@ describe('categoriesUtils', () => {
 
   it('creates distinct category and subcategory ids', () => {
     expect(createCategoryId('Lighting')).toMatch(/^category-/);
-    expect(createSubcategoryId('Indoor Lighting')).toMatch(/^subcategory-/);
+    expect(createSubcategoryId('category-lighting', 'Indoor Lighting')).toMatch(/^subcategory-/);
   });
 
   it('exposes page copy used by the Categories Figma screen', () => {
