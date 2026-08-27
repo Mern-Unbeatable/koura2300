@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LOGIN_COPY } from '../components/login/loginCopy';
 import { LOGIN_AUTH_MODES, USER_ROLES } from '../components/login/loginData';
@@ -12,7 +12,11 @@ import {
 } from '../components/login/loginUtils';
 import { API_ENDPOINTS } from '../services/httpEndpoint';
 import { httpMethods } from '../services/httpMethods';
-import { loginSuccess } from '../store/slices/authSlice';
+import {
+  loginSuccess,
+  selectIsAuthenticated,
+  selectUser,
+} from '../store/slices/authSlice';
 
 const isMockAuthEnabled = () => process.env.REACT_APP_DEV_MOCK_AUTH === 'true';
 
@@ -28,6 +32,8 @@ const useLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const authUser = useSelector(selectUser);
 
   const [authMode, setAuthMode] = useState(LOGIN_AUTH_MODES.LOGIN);
   const [name, setName] = useState('');
@@ -40,6 +46,14 @@ const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const fromPath = location.state?.from?.pathname;
+
+  useEffect(() => {
+    if (!isAuthenticated || !authUser) {
+      return;
+    }
+
+    navigate(resolvePostLoginPath(authUser, fromPath), { replace: true });
+  }, [authUser, fromPath, isAuthenticated, navigate]);
 
   const completeAuth = useCallback(
     (user, token) => {

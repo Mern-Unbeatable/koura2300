@@ -1,10 +1,18 @@
-import React, { memo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { LayoutDashboard, LogIn, MessageCircle, Package, UserRound } from 'lucide-react';
+import React, { memo, useCallback } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  LayoutDashboard,
+  LogIn,
+  LogOut,
+  MessageCircle,
+  Package,
+  UserRound,
+} from 'lucide-react';
 import { ROUTES } from '../../config';
 import { getAccountNavLabel, isAdminUser } from '../login/loginUtils';
 import {
+  logout,
   selectIsAuthenticated,
   selectUser,
 } from '../../store/slices/authSlice';
@@ -31,6 +39,8 @@ HeaderActionLink.displayName = 'HeaderActionLink';
 
 const LandingHeaderActions = memo(({ isChatActive = false, onChatClick }) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectUser);
   const isAdmin = isAdminUser(user);
@@ -42,6 +52,11 @@ const LandingHeaderActions = memo(({ isChatActive = false, onChatClick }) => {
 
   const accountLabel = getAccountNavLabel(user, LANDING_CONTENT.header.account);
 
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+    navigate(ROUTES.LOGIN, { replace: true });
+  }, [dispatch, navigate]);
+
   return (
     <div className="hidden shrink-0 items-center lg:flex">
       {!isAuthenticated ? (
@@ -51,7 +66,17 @@ const LandingHeaderActions = memo(({ isChatActive = false, onChatClick }) => {
           icon={LogIn}
           isActive={isLoginActive}
         />
-      ) : null}
+      ) : (
+        <button
+          type="button"
+          onClick={handleLogout}
+          title={LANDING_CONTENT.header.logout}
+          className={ACTION_CLASS}
+        >
+          <LogOut size={ACTION_ICON_SIZE} aria-hidden="true" />
+          <span className="max-w-full truncate">{LANDING_CONTENT.header.logout}</span>
+        </button>
+      )}
 
       {isAuthenticated && isAdmin ? (
         <HeaderActionLink

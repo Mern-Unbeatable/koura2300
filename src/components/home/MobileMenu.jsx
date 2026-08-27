@@ -1,10 +1,19 @@
-import React, { memo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { LayoutDashboard, LogIn, MessageCircle, Package, UserRound, X } from 'lucide-react';
+import React, { memo, useCallback } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  LayoutDashboard,
+  LogIn,
+  LogOut,
+  MessageCircle,
+  Package,
+  UserRound,
+  X,
+} from 'lucide-react';
 import { ROUTES } from '../../config';
 import { getAccountNavLabel, isAdminUser } from '../login/loginUtils';
 import {
+  logout,
   selectIsAuthenticated,
   selectUser,
 } from '../../store/slices/authSlice';
@@ -22,9 +31,17 @@ const getTileClass = (isActive) =>
 
 const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const user = useSelector(selectUser);
   const isAdmin = isAdminUser(user);
+
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+    onClose();
+    navigate(ROUTES.LOGIN, { replace: true });
+  }, [dispatch, navigate, onClose]);
 
   if (!isOpen) {
     return null;
@@ -80,7 +97,12 @@ const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
                 <LogIn size={ACTION_ICON_SIZE} aria-hidden="true" />
                 {header.login}
               </Link>
-            ) : null}
+            ) : (
+              <button type="button" onClick={handleLogout} className={ACTION_TILE_CLASS}>
+                <LogOut size={ACTION_ICON_SIZE} aria-hidden="true" />
+                {header.logout}
+              </button>
+            )}
 
             {isAuthenticated && isAdmin ? (
               <Link
