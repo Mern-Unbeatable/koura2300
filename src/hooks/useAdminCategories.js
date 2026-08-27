@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
-import { CATEGORIES_COPY } from '../components/admin/categories/categoriesCopy';
+import { CATEGORIES_COPY, CATEGORIES_VALIDATION } from '../components/admin/categories/categoriesCopy';
 import { CATEGORIES_ADD_KIND } from '../components/admin/categories/categoriesData';
 import {
   addNamedItem,
@@ -32,6 +32,13 @@ const useAdminCategories = () => {
   const [addModalKind, setAddModalKind] = useState(null);
   const [draftName, setDraftName] = useState('');
   const [draftError, setDraftError] = useState(null);
+  const [draftCategoryId, setDraftCategoryId] = useState('');
+  const [draftCategoryError, setDraftCategoryError] = useState(null);
+
+  const categoryOptions = useMemo(
+    () => categories.map((category) => ({ id: category.id, label: category.name })),
+    [categories],
+  );
 
   const visibleSubcategories = useMemo(
     () => filterSubcategoriesByCategoryId(subcategories, selectedCategoryId),
@@ -42,6 +49,8 @@ const useAdminCategories = () => {
     setAddModalKind(null);
     setDraftName('');
     setDraftError(null);
+    setDraftCategoryId('');
+    setDraftCategoryError(null);
   }, []);
 
   const handleSelectCategory = useCallback((categoryId) => {
@@ -58,11 +67,18 @@ const useAdminCategories = () => {
     setAddModalKind(CATEGORIES_ADD_KIND.SUBCATEGORY);
     setDraftName('');
     setDraftError(null);
-  }, []);
+    setDraftCategoryId(selectedCategoryId ?? '');
+    setDraftCategoryError(null);
+  }, [selectedCategoryId]);
 
   const handleDraftNameChange = useCallback((event) => {
     setDraftName(event.target.value);
     setDraftError(null);
+  }, []);
+
+  const handleDraftCategoryChange = useCallback((event) => {
+    setDraftCategoryId(event.target.value);
+    setDraftCategoryError(null);
   }, []);
 
   const handleSubmitAddModal = useCallback(
@@ -85,8 +101,15 @@ const useAdminCategories = () => {
 
       const siblingSubcategories = filterSubcategoriesByCategoryId(
         subcategories,
-        selectedCategoryId,
+        draftCategoryId,
       );
+      if (!draftCategoryId) {
+        setDraftCategoryError(
+          getValidationErrorMessage(CATEGORIES_VALIDATION.CATEGORY_REQUIRED),
+        );
+        return;
+      }
+
       const validationCode = validateItemName(draftName, siblingSubcategories);
       if (validationCode) {
         setDraftError(getValidationErrorMessage(validationCode));
@@ -97,15 +120,16 @@ const useAdminCategories = () => {
       setSubcategories((current) => [
         ...current,
         {
-          id: createSubcategoryId(selectedCategoryId, normalized),
+          id: createSubcategoryId(draftCategoryId, normalized),
           name: normalized,
-          categoryId: selectedCategoryId,
+          categoryId: draftCategoryId,
         },
       ]);
+      setSelectedCategoryId(draftCategoryId);
       toast.success(CATEGORIES_COPY.toasts.subcategoryAdded);
       resetAddModal();
     },
-    [addModalKind, categories, draftName, resetAddModal, selectedCategoryId, subcategories],
+    [addModalKind, categories, draftCategoryId, draftName, resetAddModal, subcategories],
   );
 
   const handleDeleteCategory = useCallback(
@@ -163,6 +187,9 @@ const useAdminCategories = () => {
     selectedCategoryId,
     draftName,
     draftError,
+    draftCategoryId,
+    draftCategoryError,
+    categoryOptions,
     addModalKind,
     onSelectCategory: handleSelectCategory,
     onDeleteCategory: handleDeleteCategory,
@@ -171,6 +198,7 @@ const useAdminCategories = () => {
     onOpenAddSubcategory: handleOpenAddSubcategory,
     onCloseAddModal: resetAddModal,
     onDraftNameChange: handleDraftNameChange,
+    onDraftCategoryChange: handleDraftCategoryChange,
     onSubmitAddModal: handleSubmitAddModal,
     onReorderCategory: handleReorderCategory,
     onReorderSubcategory: handleReorderSubcategory,

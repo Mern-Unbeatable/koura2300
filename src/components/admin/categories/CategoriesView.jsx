@@ -23,6 +23,9 @@ const CategoriesView = ({
   selectedCategoryId,
   draftName,
   draftError,
+  draftCategoryId,
+  draftCategoryError,
+  categoryOptions,
   addModalKind,
   onSelectCategory,
   onDeleteCategory,
@@ -31,6 +34,7 @@ const CategoriesView = ({
   onOpenAddSubcategory,
   onCloseAddModal,
   onDraftNameChange,
+  onDraftCategoryChange,
   onSubmitAddModal,
   onReorderCategory,
   onReorderSubcategory,
@@ -69,8 +73,12 @@ const CategoriesView = ({
         kind={addModalKind}
         draftName={draftName}
         draftError={draftError}
+        draftCategoryId={draftCategoryId}
+        draftCategoryError={draftCategoryError}
+        categoryOptions={categoryOptions}
         onClose={onCloseAddModal}
         onDraftNameChange={onDraftNameChange}
+        onDraftCategoryChange={onDraftCategoryChange}
         onSubmit={onSubmitAddModal}
       />
     ) : null}

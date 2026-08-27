@@ -8,9 +8,12 @@ export const CATEGORIES_COPY = {
   addSubcategory: '+ Add Sub-category',
   addCategoryModalTitle: 'Add Category',
   addSubcategoryModalTitle: 'Add Sub-category',
-  nameLabel: 'Name',
-  namePlaceholder: 'Enter a name',
-  cancelLabel: 'Cancel',
+  categoryNameLabel: 'Category name',
+  categoryNamePlaceholder: 'Category name',
+  categorySelectLabel: 'Category',
+  categorySelectPlaceholder: 'Select category',
+  subcategoryNameLabel: 'Sub-category',
+  subcategoryNamePlaceholder: 'Subcategory name',
   saveLabel: 'Save',
   closeLabel: 'Close',
   emptySubcategories: 'No sub-categories yet. Add one to get started.',
@@ -18,6 +21,7 @@ export const CATEGORIES_COPY = {
   deleteSubcategoryLabel: (name) => `Delete sub-category ${name}`,
   errors: {
     required: 'Name is required.',
+    categoryRequired: 'Category is required.',
     tooLong: 'Name is too long.',
     duplicate: 'This name already exists.',
   },
@@ -31,6 +35,7 @@ export const CATEGORIES_COPY = {
 
 export const CATEGORIES_VALIDATION = {
   REQUIRED: 'required',
+  CATEGORY_REQUIRED: 'categoryRequired',
   TOO_LONG: 'tooLong',
   DUPLICATE: 'duplicate',
 };

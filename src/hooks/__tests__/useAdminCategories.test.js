@@ -76,11 +76,29 @@ describe('useAdminCategories', () => {
     expect(toast.success).toHaveBeenCalledWith(CATEGORIES_COPY.toasts.categoryAdded);
   });
 
-  it('adds a subcategory under the selected category', () => {
+  it('prefills the subcategory modal with the selected category', () => {
+    const { result } = renderHook(() => useAdminCategories());
+    const deck = result.current.categories.find((item) => item.name === 'Deck');
+
+    act(() => {
+      result.current.onSelectCategory(deck.id);
+    });
+
+    act(() => {
+      result.current.onOpenAddSubcategory();
+    });
+
+    expect(result.current.addModalKind).toBe('subcategory');
+    expect(result.current.draftCategoryId).toBe(deck.id);
+    expect(result.current.categoryOptions.some((option) => option.id === deck.id)).toBe(true);
+  });
+
+  it('requires a category before saving a subcategory', () => {
     const { result } = renderHook(() => useAdminCategories());
 
     act(() => {
       result.current.onOpenAddSubcategory();
+      result.current.onDraftCategoryChange({ target: { value: '' } });
       result.current.onDraftNameChange({ target: { value: 'Emergency Lighting' } });
     });
 
@@ -88,6 +106,24 @@ describe('useAdminCategories', () => {
       result.current.onSubmitAddModal({ preventDefault: jest.fn() });
     });
 
+    expect(result.current.draftCategoryError).toBe(CATEGORIES_COPY.errors.categoryRequired);
+  });
+
+  it('adds a subcategory under the category chosen in the modal', () => {
+    const { result } = renderHook(() => useAdminCategories());
+    const security = result.current.categories.find((item) => item.name === 'Security');
+
+    act(() => {
+      result.current.onOpenAddSubcategory();
+      result.current.onDraftCategoryChange({ target: { value: security.id } });
+      result.current.onDraftNameChange({ target: { value: 'Emergency Lighting' } });
+    });
+
+    act(() => {
+      result.current.onSubmitAddModal({ preventDefault: jest.fn() });
+    });
+
+    expect(result.current.selectedCategoryId).toBe(security.id);
     expect(
       result.current.subcategories.some((item) => item.name === 'Emergency Lighting'),
     ).toBe(true);

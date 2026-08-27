@@ -10,7 +10,9 @@ export const CATEGORIES_VIEWPORT = {
 export const CATEGORIES_NAME_MAX_LENGTH = 48;
 export const CATEGORIES_CHIP_ICON_SIZE_PX = 20;
 export const CATEGORIES_ADD_ICON_SIZE_PX = 16;
-export const CATEGORIES_MODAL_CLOSE_ICON_SIZE_PX = 20;
+export const CATEGORIES_MODAL_MAX_WIDTH_PX = 400;
+export const CATEGORIES_MODAL_SELECT_CHEVRON_SIZE_PX = 24;
+export const CATEGORIES_MODAL_INPUT_HEIGHT_PX = 40;
 export const CATEGORIES_DRAG_MIME_TYPE = 'application/x-koura-category-id';
 
 export const CATEGORIES_ADD_KIND = {
@@ -59,35 +61,43 @@ export const CATEGORIES_CHIP_DELETE_CLASS =
 export const CATEGORIES_EMPTY_CLASS = 'text-sm leading-5 text-[#6b7280]';
 
 export const CATEGORIES_MODAL_OVERLAY_CLASS =
-  'fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm';
+  'animate-fade-in fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(0,0,0,0.7)] backdrop-blur-[17.4px] p-3 min-[376px]:p-4';
 
 export const CATEGORIES_MODAL_DIALOG_CLASS =
-  'w-full max-w-md rounded-xl bg-white p-5 shadow-lg min-[426px]:p-6';
+  'animate-page-enter flex w-full max-w-[400px] flex-col rounded-[12px] bg-white p-5 shadow-[0px_75px_88.5px_0px_rgba(14,20,35,0.25)]';
 
-export const CATEGORIES_MODAL_HEADER_CLASS =
-  'mb-4 flex items-start justify-between gap-3';
+export const CATEGORIES_MODAL_FORM_CLASS = 'flex flex-col gap-4';
 
-export const CATEGORIES_MODAL_TITLE_CLASS =
-  'text-lg font-semibold text-[#0a0a0a] min-[426px]:text-xl';
-
-export const CATEGORIES_MODAL_CLOSE_CLASS =
-  'inline-flex size-8 items-center justify-center rounded-md text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const CATEGORIES_MODAL_FIELD_CLASS = 'flex flex-col gap-2.5';
 
 export const CATEGORIES_MODAL_LABEL_CLASS =
-  'mb-1.5 block text-sm font-medium text-[#455163]';
+  'text-base font-medium leading-6 text-[#323232]';
 
 export const CATEGORIES_MODAL_INPUT_CLASS =
-  'w-full rounded-lg border border-[#e8ebf0] bg-white px-3 py-2.5 text-sm text-[#0a0a0a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ffd4c2]';
+  'h-10 w-full rounded-lg bg-[#f4f4f4] px-2 py-2.5 text-sm leading-[22px] text-[#454545] placeholder:text-[#454545] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
-export const CATEGORIES_MODAL_INPUT_ERROR_CLASS = 'border-red-400 focus-visible:ring-red-200';
+export const CATEGORIES_MODAL_INPUT_ERROR_CLASS =
+  'ring-2 ring-[#f31d2c] focus-visible:ring-[#f31d2c]';
 
-export const CATEGORIES_MODAL_ERROR_CLASS = 'mt-1.5 text-sm text-red-600';
+export const CATEGORIES_MODAL_ERROR_CLASS = 'text-xs leading-5 text-[#f31d2c]';
 
-export const CATEGORIES_MODAL_ACTIONS_CLASS =
-  'mt-5 flex flex-col-reverse gap-2 min-[426px]:flex-row min-[426px]:justify-end';
+export const CATEGORIES_MODAL_SELECT_WRAP_CLASS = 'relative w-full';
 
-export const CATEGORIES_MODAL_CANCEL_CLASS =
-  'inline-flex w-full cursor-pointer items-center justify-center rounded-lg border border-[#e8ebf0] bg-white px-4 py-2.5 text-sm font-medium text-[#455163] transition-colors hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:w-auto';
+export const CATEGORIES_MODAL_SELECT_TRIGGER_CLASS =
+  'inline-flex h-10 w-full cursor-pointer items-center justify-between rounded-lg bg-[#f4f4f4] px-2 py-2.5 text-left text-sm leading-[22px] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+
+export const CATEGORIES_MODAL_SELECT_PLACEHOLDER_CLASS = 'text-[#454545]';
+
+export const CATEGORIES_MODAL_SELECT_VALUE_CLASS = 'text-[#454545]';
+
+export const CATEGORIES_MODAL_SELECT_MENU_CLASS =
+  'absolute top-[calc(100%+4px)] left-0 z-30 max-h-[220px] w-full overflow-x-hidden overflow-y-auto overscroll-y-contain rounded-lg border border-[#e8ebf0] bg-white py-1 shadow-[0px_8px_20px_rgba(15,23,42,0.06)] scrollbar-services-ash';
+
+export const CATEGORIES_MODAL_SELECT_OPTION_CLASS =
+  'flex w-full cursor-pointer items-start px-3 py-2 text-left text-sm leading-[22px] text-[#454545] transition-colors hover:bg-[#fff7f3] focus:outline-none focus-visible:bg-[#fff7f3]';
+
+export const CATEGORIES_MODAL_SELECT_OPTION_ACTIVE_CLASS =
+  'bg-[#fff1eb] text-[#fc6f32] hover:bg-[#fff1eb] focus-visible:bg-[#fff1eb]';
 
 export const CATEGORIES_MODAL_SAVE_CLASS =
-  'inline-flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:w-auto';
+  'inline-flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-5 py-2.5 text-xs leading-5 text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';

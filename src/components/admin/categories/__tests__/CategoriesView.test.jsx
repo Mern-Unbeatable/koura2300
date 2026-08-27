@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CategoriesView from '../CategoriesView';
 import { CATEGORIES_COPY } from '../categoriesCopy';
@@ -20,6 +20,9 @@ const createCategoriesViewProps = (overrides = {}) => ({
   selectedCategoryId: lighting.id,
   draftName: '',
   draftError: null,
+  draftCategoryId: '',
+  draftCategoryError: null,
+  categoryOptions: categories.map((category) => ({ id: category.id, label: category.name })),
   addModalKind: null,
   onSelectCategory: jest.fn(),
   onDeleteCategory: jest.fn(),
@@ -28,6 +31,7 @@ const createCategoriesViewProps = (overrides = {}) => ({
   onOpenAddSubcategory: jest.fn(),
   onCloseAddModal: jest.fn(),
   onDraftNameChange: jest.fn(),
+  onDraftCategoryChange: jest.fn(),
   onSubmitAddModal: jest.fn(),
   onReorderCategory: jest.fn(),
   onReorderSubcategory: jest.fn(),
@@ -105,7 +109,7 @@ describe('CategoriesView', () => {
     expect(props.onDeleteCategory).toHaveBeenCalledWith(fence.id);
   });
 
-  it('renders the add modal with inline validation error when open', async () => {
+  it('renders the animated Add Category modal with Figma fields when open', async () => {
     const user = userEvent.setup();
     const onDraftNameChange = jest.fn();
     const onSubmitAddModal = jest.fn((event) => event.preventDefault());
@@ -123,12 +127,17 @@ describe('CategoriesView', () => {
     expect(
       screen.getByRole('dialog', { name: CATEGORIES_COPY.addCategoryModalTitle }),
     ).toBeInTheDocument();
+    expect(screen.getByLabelText(CATEGORIES_COPY.categoryNameLabel)).toBeInTheDocument();
     expect(screen.getByText(CATEGORIES_COPY.errors.required)).toBeInTheDocument();
+    expect(screen.getByTestId('categories-add-overlay').className).toContain('animate-fade-in');
 
-    await user.type(screen.getByLabelText(CATEGORIES_COPY.nameLabel), 'Solar');
+    await user.type(
+      screen.getByPlaceholderText(CATEGORIES_COPY.categoryNamePlaceholder),
+      'Solar',
+    );
     expect(onDraftNameChange).toHaveBeenCalled();
 
-    await user.click(screen.getByRole('button', { name: CATEGORIES_COPY.cancelLabel }));
+    fireEvent.click(screen.getByTestId('categories-add-overlay'));
     expect(onCloseAddModal).toHaveBeenCalledTimes(1);
   });
 
