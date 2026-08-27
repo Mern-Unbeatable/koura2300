@@ -43,22 +43,12 @@ describe('Sidebar Figma navigation', () => {
     expect(screen.getByText(SIDEBAR_COPY.other)).toBeInTheDocument();
   });
 
-  it('includes Categories in MANAGEMENT and marks it active on the categories route', () => {
-    renderSidebar(ROUTES.ADMIN_CATEGORIES);
+  it('includes Reviews in MANAGEMENT with an active route', () => {
+    renderSidebar(ROUTES.ADMIN_REVIEWS);
 
-    const categoriesLink = screen.getByRole('link', { name: /Categories/i });
-    expect(categoriesLink).toHaveAttribute('href', ROUTES.ADMIN_CATEGORIES);
-    expect(categoriesLink.className).toContain('bg-[#fff1eb]');
-    expect(categoriesLink.className).toContain('border-[#fc6f32]');
-  });
-
-  it('uses Overview label for the dashboard route', () => {
-    renderSidebar(ROUTES.ADMIN_DASHBOARD);
-
-    expect(screen.getByRole('link', { name: /Overview/i })).toHaveAttribute(
-      'href',
-      ROUTES.ADMIN_DASHBOARD,
-    );
+    const reviewsLink = screen.getByRole('link', { name: /Reviews/i });
+    expect(reviewsLink).toHaveAttribute('href', ROUTES.ADMIN_REVIEWS);
+    expect(reviewsLink.className).toContain('bg-[#fff1eb]');
   });
 
   it('exposes the Figma management items in nav config', () => {

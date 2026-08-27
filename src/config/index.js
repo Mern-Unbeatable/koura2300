@@ -42,6 +42,7 @@ export const ROUTES = {
   ADMIN_SERVICE_EDIT: '/admin/services/:serviceId/edit',
   ADMIN_SERVICE_DETAILS: '/admin/services/:serviceId',
   ADMIN_CATEGORIES: '/admin/categories',
+  ADMIN_REVIEWS: '/admin/reviews',
   ADMIN_EMAILS: '/admin/emails',
   ADMIN_LEADS: '/admin/leads',
   ADMIN_ORDERS: '/admin/orders',

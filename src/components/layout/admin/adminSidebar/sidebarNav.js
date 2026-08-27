@@ -49,9 +49,8 @@ export const SIDEBAR_NAV_GROUPS = [
       },
       {
         name: 'Reviews',
-        path: null,
+        path: ROUTES.ADMIN_REVIEWS,
         icon: Star,
-        comingSoon: true,
       },
       { name: 'Blog Post', path: ROUTES.ADMIN_BLOG, icon: FileText },
       {
