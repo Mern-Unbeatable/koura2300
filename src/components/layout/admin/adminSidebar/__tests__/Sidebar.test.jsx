@@ -35,10 +35,13 @@ const renderSidebar = (initialPath = ROUTES.ADMIN_CATEGORIES) => {
 };
 
 describe('Sidebar Figma navigation', () => {
-  it('renders the Logoipsum brand logo in the sidebar header', () => {
+  it('renders the Logoipsum brand logo linked to the home page', () => {
     renderSidebar();
 
-    const logo = screen.getByRole('img', { name: /Logoipsum/i });
+    const homeLink = screen.getByRole('link', { name: SIDEBAR_COPY.homeLabel });
+    expect(homeLink).toHaveAttribute('href', ROUTES.HOME);
+
+    const logo = homeLink.querySelector('img');
     expect(logo).toHaveAttribute('src', '/assets/admin/sidebar-logo.svg');
     expect(logo).toHaveAttribute('width', '220');
     expect(logo).toHaveAttribute('height', '40');

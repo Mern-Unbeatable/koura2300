@@ -18,6 +18,7 @@ export const SIDEBAR_COPY = {
   other: 'OTHER',
   overview: 'Overview',
   logoAlt: 'Logoipsum',
+  homeLabel: 'Logoipsum home',
   logOut: 'Log Out',
   adminRole: 'Admin',
   comingSoon: 'Coming soon',

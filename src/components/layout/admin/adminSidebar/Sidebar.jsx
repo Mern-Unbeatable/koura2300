@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { ChevronRight, ChevronsLeft, ChevronsRight, LogOut, X } from 'lucide-react';
@@ -150,16 +150,21 @@ const Sidebar = ({
   return (
     <div className="flex h-full w-full flex-col border-r border-[#e8ebf1] bg-white">
       <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-[#f2f2f2] px-4">
-        <div className="min-w-0">
+        <Link
+          to={ROUTES.HOME}
+          aria-label={SIDEBAR_COPY.homeLabel}
+          onClick={onClose}
+          className="min-w-0 shrink-0"
+        >
           <img
             src={SIDEBAR_LOGO_SRC}
-            alt={SIDEBAR_COPY.logoAlt}
+            alt=""
             width={SIDEBAR_LOGO_WIDTH_PX}
             height={SIDEBAR_LOGO_HEIGHT_PX}
             fetchpriority="high"
             className={`${SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS} w-auto max-w-[220px] object-contain object-left`}
           />
-        </div>
+        </Link>
         <button
           type="button"
           onClick={onClose}

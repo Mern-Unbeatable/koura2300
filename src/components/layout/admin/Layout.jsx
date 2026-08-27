@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Menu } from "lucide-react";
 import Sidebar from "./adminSidebar/Sidebar";
+import { ROUTES } from "../../../config";
 import {
   SIDEBAR_COPY,
   SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS,
@@ -80,14 +81,16 @@ const Layout = () => {
           >
             <Menu size={20} aria-hidden="true" />
           </button>
-          <img
-            src={SIDEBAR_LOGO_SRC}
-            alt={SIDEBAR_COPY.logoAlt}
-            width={SIDEBAR_LOGO_WIDTH_PX}
-            height={SIDEBAR_LOGO_HEIGHT_PX}
-            fetchPriority="high"
-            className={`${SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS} w-auto max-w-[180px] object-contain`}
-          />
+          <Link to={ROUTES.HOME} aria-label={SIDEBAR_COPY.homeLabel} className="min-w-0 shrink-0">
+            <img
+              src={SIDEBAR_LOGO_SRC}
+              alt=""
+              width={SIDEBAR_LOGO_WIDTH_PX}
+              height={SIDEBAR_LOGO_HEIGHT_PX}
+              fetchpriority="high"
+              className={`${SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS} w-auto max-w-[180px] object-contain`}
+            />
+          </Link>
         </header>
 
         {/* Scrollable page area — data-lenis-prevent stops Lenis hijacking this scroll container */}
