@@ -29,16 +29,16 @@ export const LOGIN_FORM_TITLE_CLASS = 'text-2xl font-semibold text-[#1a1a2e]';
 export const LOGIN_FORM_SUBTITLE_CLASS = 'mt-2 text-sm leading-6 text-[#6b7280]';
 export const LOGIN_FORM_STACK_CLASS = 'mt-8 space-y-5';
 export const LOGIN_FIELD_CLASS = 'flex flex-col gap-2';
-export const LOGIN_LABEL_CLASS = 'text-sm font-medium text-[#191c1f]';
+export const LOGIN_LABEL_CLASS = 'cursor-pointer text-sm font-medium text-[#191c1f]';
 export const LOGIN_INPUT_CLASS =
-  'h-11 w-full rounded-[4px] border border-[#eef0f2] bg-white px-[15px] text-sm text-[#475156] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'h-11 w-full cursor-text rounded-[4px] border border-[#eef0f2] bg-white px-[15px] text-sm text-[#475156] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const LOGIN_INPUT_ERROR_CLASS = 'border-red-400';
 export const LOGIN_ERROR_TEXT_CLASS = 'text-xs text-red-600';
 export const LOGIN_FORM_ERROR_CLASS =
   'rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700';
 export const LOGIN_PASSWORD_WRAP_CLASS = 'relative';
 export const LOGIN_PASSWORD_TOGGLE_CLASS =
-  'absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#77878f] transition-colors hover:text-[#475156] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-sm p-0.5 text-[#77878f] transition-colors hover:text-[#475156] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const LOGIN_SUBMIT_BUTTON_CLASS =
   'inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[4px] bg-brand-orange text-sm font-bold uppercase tracking-[0.168px] text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-60';
 export const LOGIN_FOOTER_NOTE_CLASS = 'mt-8 text-center text-xs text-[#9ca3af]';
@@ -61,7 +61,7 @@ export const LOGIN_MODE_SWITCH_CLASS =
   'mt-6 text-center text-sm text-[#6b7280]';
 
 export const LOGIN_MODE_SWITCH_BUTTON_CLASS =
-  'font-semibold text-brand-orange transition-colors hover:text-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'cursor-pointer font-semibold text-brand-orange transition-colors hover:text-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 export const LOGIN_FEATURES = [
   { id: 'analytics', icon: BarChart3, label: 'Real-time analytics and reporting' },
