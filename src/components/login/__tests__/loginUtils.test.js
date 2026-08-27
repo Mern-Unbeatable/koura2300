@@ -76,12 +76,16 @@ describe('loginUtils', () => {
       });
       expect(validateCreateAccountForm({ name: '', email: 'x', password: '1' })).toMatchObject({
         name: expect.any(String),
+        phone: expect.any(String),
+        address: expect.any(String),
         email: expect.any(String),
         password: expect.any(String),
       });
       expect(
         validateCreateAccountForm({
           name: 'Jane',
+          phone: '555-0100',
+          address: '12 Main St',
           email: 'jane@test.com',
           password: 'password123',
         }),

@@ -28,6 +28,8 @@ const useLogin = () => {
 
   const [authMode, setAuthMode] = useState(LOGIN_AUTH_MODES.LOGIN);
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
   const [email, setEmail] = useState(process.env.REACT_APP_DEV_DEFAULT_EMAIL || '');
   const [password, setPassword] = useState(process.env.REACT_APP_DEV_DEFAULT_PASSWORD || '');
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +48,14 @@ const useLogin = () => {
 
   const handleNameChange = useCallback((event) => {
     setName(event.target.value);
+  }, []);
+
+  const handlePhoneChange = useCallback((event) => {
+    setPhone(event.target.value);
+  }, []);
+
+  const handleAddressChange = useCallback((event) => {
+    setAddress(event.target.value);
   }, []);
 
   const handleEmailChange = useCallback((event) => {
@@ -112,7 +122,13 @@ const useLogin = () => {
   }, [completeAuth, email, password]);
 
   const submitCreateAccount = useCallback(async () => {
-    const validationErrors = validateCreateAccountForm({ name, email, password });
+    const validationErrors = validateCreateAccountForm({
+      name,
+      phone,
+      address,
+      email,
+      password,
+    });
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -122,20 +138,17 @@ const useLogin = () => {
     setErrors({});
     setIsLoading(true);
 
+    const profile = { name, phone, address, email, role: USER_ROLES.USER };
+
     try {
       if (isMockAuthEnabled()) {
-        completeAuth(
-          buildAuthUser({ email, name, role: USER_ROLES.USER }),
-          null,
-        );
+        completeAuth(buildAuthUser(profile), null);
         return;
       }
 
       const { data, error } = await httpMethods.post(API_ENDPOINTS.AUTH.REGISTER, {
-        name,
-        email,
+        ...profile,
         password,
-        role: USER_ROLES.USER,
       });
 
       if (error) {
@@ -149,19 +162,11 @@ const useLogin = () => {
       }
 
       const { token, user: apiUser } = extractAuthPayload(data);
-      completeAuth(
-        buildAuthUser({
-          ...(apiUser || {}),
-          email,
-          name,
-          role: USER_ROLES.USER,
-        }),
-        token,
-      );
+      completeAuth(buildAuthUser({ ...(apiUser || {}), ...profile }), token);
     } finally {
       setIsLoading(false);
     }
-  }, [completeAuth, email, name, password]);
+  }, [address, completeAuth, email, name, password, phone]);
 
   const handleSubmit = useCallback(
     async (event) => {
@@ -181,12 +186,16 @@ const useLogin = () => {
     copy: LOGIN_COPY,
     authMode,
     name,
+    phone,
+    address,
     email,
     password,
     showPassword,
     errors,
     isLoading,
     onNameChange: handleNameChange,
+    onPhoneChange: handlePhoneChange,
+    onAddressChange: handleAddressChange,
     onEmailChange: handleEmailChange,
     onPasswordChange: handlePasswordChange,
     onTogglePasswordVisibility: handleTogglePasswordVisibility,

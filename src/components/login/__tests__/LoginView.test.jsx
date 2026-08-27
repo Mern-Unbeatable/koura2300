@@ -8,12 +8,16 @@ const createLoginViewProps = (overrides = {}) => ({
   copy: LOGIN_COPY,
   authMode: LOGIN_AUTH_MODES.LOGIN,
   name: '',
+  phone: '',
+  address: '',
   email: '',
   password: '',
   showPassword: false,
   errors: {},
   isLoading: false,
   onNameChange: jest.fn(),
+  onPhoneChange: jest.fn(),
+  onAddressChange: jest.fn(),
   onEmailChange: jest.fn(),
   onPasswordChange: jest.fn(),
   onTogglePasswordVisibility: jest.fn(),
@@ -58,6 +62,10 @@ describe('LoginView', () => {
       screen.getByRole('heading', { name: LOGIN_COPY.form.createTitle }),
     ).toBeInTheDocument();
     expect(screen.getByLabelText(LOGIN_COPY.form.nameLabel)).toBeInTheDocument();
+    expect(screen.getByLabelText(LOGIN_COPY.form.phoneLabel)).toBeInTheDocument();
+    expect(screen.getByLabelText(LOGIN_COPY.form.addressLabel)).toBeInTheDocument();
+    expect(screen.getByLabelText(LOGIN_COPY.form.emailLabel)).toBeInTheDocument();
+    expect(screen.getByLabelText(LOGIN_COPY.form.passwordLabel)).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: LOGIN_COPY.form.createSubmit }),
     ).toBeInTheDocument();

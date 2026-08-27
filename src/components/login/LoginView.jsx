@@ -81,16 +81,106 @@ const LoginModeSwitch = ({ copy, isCreateMode, onSwitchToCreateAccount, onSwitch
   );
 };
 
+const LoginTextField = ({
+  id,
+  name,
+  label,
+  type = 'text',
+  autoComplete,
+  value,
+  onChange,
+  placeholder,
+  error,
+}) => {
+  const errorId = `${id}-error`;
+
+  return (
+    <div className={LOGIN_FIELD_CLASS}>
+      <label htmlFor={id} className={LOGIN_LABEL_CLASS}>
+        {label}
+      </label>
+      <input
+        id={id}
+        name={name}
+        type={type}
+        autoComplete={autoComplete}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        aria-invalid={!!error}
+        aria-describedby={error ? errorId : undefined}
+        className={`${LOGIN_INPUT_CLASS} ${error ? LOGIN_INPUT_ERROR_CLASS : ''}`}
+      />
+      {error ? (
+        <p id={errorId} className={LOGIN_ERROR_TEXT_CLASS}>
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+};
+
+const LoginPasswordField = ({
+  copy,
+  value,
+  onChange,
+  showPassword,
+  onTogglePasswordVisibility,
+  error,
+  autoComplete,
+}) => {
+  const errorId = 'login-password-error';
+
+  return (
+    <div className={LOGIN_FIELD_CLASS}>
+      <label htmlFor="login-password" className={LOGIN_LABEL_CLASS}>
+        {copy.form.passwordLabel}
+      </label>
+      <div className={LOGIN_PASSWORD_WRAP_CLASS}>
+        <input
+          id="login-password"
+          name="password"
+          type={showPassword ? 'text' : 'password'}
+          autoComplete={autoComplete}
+          value={value}
+          onChange={onChange}
+          placeholder={copy.form.passwordPlaceholder}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          className={`${LOGIN_INPUT_CLASS} pr-11 ${error ? LOGIN_INPUT_ERROR_CLASS : ''}`}
+        />
+        <button
+          type="button"
+          onClick={onTogglePasswordVisibility}
+          aria-label={showPassword ? copy.form.hidePassword : copy.form.showPassword}
+          className={LOGIN_PASSWORD_TOGGLE_CLASS}
+        >
+          {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+        </button>
+      </div>
+      {error ? (
+        <p id={errorId} className={LOGIN_ERROR_TEXT_CLASS}>
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+};
+
 const LoginFormPanel = ({
   copy,
   authMode,
   name,
+  phone,
+  address,
   email,
   password,
   showPassword,
   errors,
   isLoading,
   onNameChange,
+  onPhoneChange,
+  onAddressChange,
   onEmailChange,
   onPasswordChange,
   onTogglePasswordVisibility,
@@ -123,85 +213,62 @@ const LoginFormPanel = ({
 
         <form onSubmit={onSubmit} noValidate className={LOGIN_FORM_STACK_CLASS}>
           {isCreateMode ? (
-            <div className={LOGIN_FIELD_CLASS}>
-              <label htmlFor="login-name" className={LOGIN_LABEL_CLASS}>
-                {copy.form.nameLabel}
-              </label>
-              <input
+            <>
+              <LoginTextField
                 id="login-name"
                 name="name"
-                type="text"
+                label={copy.form.nameLabel}
                 autoComplete="name"
                 value={name}
                 onChange={onNameChange}
                 placeholder={copy.form.namePlaceholder}
-                aria-invalid={!!errors.name}
-                aria-describedby={errors.name ? 'login-name-error' : undefined}
-                className={`${LOGIN_INPUT_CLASS} ${errors.name ? LOGIN_INPUT_ERROR_CLASS : ''}`}
+                error={errors.name}
               />
-              {errors.name ? (
-                <p id="login-name-error" className={LOGIN_ERROR_TEXT_CLASS}>
-                  {errors.name}
-                </p>
-              ) : null}
-            </div>
+              <LoginTextField
+                id="login-phone"
+                name="phone"
+                label={copy.form.phoneLabel}
+                type="tel"
+                autoComplete="tel"
+                value={phone}
+                onChange={onPhoneChange}
+                placeholder={copy.form.phonePlaceholder}
+                error={errors.phone}
+              />
+              <LoginTextField
+                id="login-address"
+                name="address"
+                label={copy.form.addressLabel}
+                autoComplete="street-address"
+                value={address}
+                onChange={onAddressChange}
+                placeholder={copy.form.addressPlaceholder}
+                error={errors.address}
+              />
+            </>
           ) : null}
 
-          <div className={LOGIN_FIELD_CLASS}>
-            <label htmlFor="login-email" className={LOGIN_LABEL_CLASS}>
-              {copy.form.emailLabel}
-            </label>
-            <input
-              id="login-email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={onEmailChange}
-              placeholder={copy.form.emailPlaceholder}
-              aria-invalid={!!errors.email}
-              aria-describedby={errors.email ? 'login-email-error' : undefined}
-              className={`${LOGIN_INPUT_CLASS} ${errors.email ? LOGIN_INPUT_ERROR_CLASS : ''}`}
-            />
-            {errors.email ? (
-              <p id="login-email-error" className={LOGIN_ERROR_TEXT_CLASS}>
-                {errors.email}
-              </p>
-            ) : null}
-          </div>
+          <LoginTextField
+            id="login-email"
+            name="email"
+            label={copy.form.emailLabel}
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={onEmailChange}
+            placeholder={copy.form.emailPlaceholder}
+            error={errors.email}
+          />
 
-          <div className={LOGIN_FIELD_CLASS}>
-            <label htmlFor="login-password" className={LOGIN_LABEL_CLASS}>
-              {copy.form.passwordLabel}
-            </label>
-            <div className={LOGIN_PASSWORD_WRAP_CLASS}>
-              <input
-                id="login-password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                autoComplete={isCreateMode ? 'new-password' : 'current-password'}
-                value={password}
-                onChange={onPasswordChange}
-                placeholder={copy.form.passwordPlaceholder}
-                aria-invalid={!!errors.password}
-                aria-describedby={errors.password ? 'login-password-error' : undefined}
-                className={`${LOGIN_INPUT_CLASS} pr-11 ${errors.password ? LOGIN_INPUT_ERROR_CLASS : ''}`}
-              />
-              <button
-                type="button"
-                onClick={onTogglePasswordVisibility}
-                aria-label={showPassword ? copy.form.hidePassword : copy.form.showPassword}
-                className={LOGIN_PASSWORD_TOGGLE_CLASS}
-              >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
-            </div>
-            {errors.password ? (
-              <p id="login-password-error" className={LOGIN_ERROR_TEXT_CLASS}>
-                {errors.password}
-              </p>
-            ) : null}
-          </div>
+          <LoginPasswordField
+            copy={copy}
+            value={password}
+            onChange={onPasswordChange}
+            showPassword={showPassword}
+            onTogglePasswordVisibility={onTogglePasswordVisibility}
+            error={errors.password}
+            autoComplete={isCreateMode ? 'new-password' : 'current-password'}
+          />
 
           <button type="submit" disabled={isLoading} className={LOGIN_SUBMIT_BUTTON_CLASS}>
             {isLoading ? (

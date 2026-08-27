@@ -88,12 +88,26 @@ export const validateLoginForm = (email, password) => {
   return errors;
 };
 
-export const validateCreateAccountForm = ({ name, email, password }) => {
+export const validateCreateAccountForm = ({
+  name = '',
+  phone = '',
+  address = '',
+  email = '',
+  password = '',
+}) => {
   const errors = {};
   const emailError = validateEmailField(email);
 
   if (!name.trim()) {
     errors.name = LOGIN_COPY.validation.nameRequired;
+  }
+
+  if (!phone.trim()) {
+    errors.phone = LOGIN_COPY.validation.phoneRequired;
+  }
+
+  if (!address.trim()) {
+    errors.address = LOGIN_COPY.validation.addressRequired;
   }
 
   if (emailError) {
