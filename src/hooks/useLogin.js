@@ -16,6 +16,9 @@ import { loginSuccess } from '../store/slices/authSlice';
 
 const isMockAuthEnabled = () => process.env.REACT_APP_DEV_MOCK_AUTH === 'true';
 
+const DEV_LOGIN_EMAIL = process.env.REACT_APP_DEV_DEFAULT_EMAIL || '';
+const DEV_LOGIN_PASSWORD = process.env.REACT_APP_DEV_DEFAULT_PASSWORD || '';
+
 const extractAuthPayload = (data) => ({
   token: data?.token ?? data?.data?.token ?? data?.accessToken ?? null,
   user: data?.user ?? data?.data?.user ?? null,
@@ -30,8 +33,8 @@ const useLogin = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  const [email, setEmail] = useState(process.env.REACT_APP_DEV_DEFAULT_EMAIL || '');
-  const [password, setPassword] = useState(process.env.REACT_APP_DEV_DEFAULT_PASSWORD || '');
+  const [email, setEmail] = useState(DEV_LOGIN_EMAIL);
+  const [password, setPassword] = useState(DEV_LOGIN_PASSWORD);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -72,11 +75,23 @@ const useLogin = () => {
 
   const handleSwitchToCreateAccount = useCallback(() => {
     setAuthMode(LOGIN_AUTH_MODES.CREATE_ACCOUNT);
+    setName('');
+    setPhone('');
+    setAddress('');
+    setEmail('');
+    setPassword('');
+    setShowPassword(false);
     setErrors({});
   }, []);
 
   const handleSwitchToLogin = useCallback(() => {
     setAuthMode(LOGIN_AUTH_MODES.LOGIN);
+    setName('');
+    setPhone('');
+    setAddress('');
+    setEmail(DEV_LOGIN_EMAIL);
+    setPassword(DEV_LOGIN_PASSWORD);
+    setShowPassword(false);
     setErrors({});
   }, []);
 
