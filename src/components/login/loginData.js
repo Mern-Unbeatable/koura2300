@@ -43,10 +43,8 @@ export const LOGIN_SUBMIT_BUTTON_CLASS =
   'inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[4px] bg-brand-orange text-sm font-bold uppercase tracking-[0.168px] text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-60';
 export const LOGIN_FOOTER_NOTE_CLASS = 'mt-8 text-center text-xs text-[#9ca3af]';
 
-export const LOGIN_CREATE_FIELDS_CLASS =
-  'space-y-5 overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out motion-reduce:transition-none';
-export const LOGIN_CREATE_FIELDS_OPEN_MAX_HEIGHT_PX = 360;
 export const LOGIN_MODE_HEADING_CLASS = 'animate-page-enter';
+export const LOGIN_CREATE_FIELDS_CLASS = 'animate-page-enter space-y-5';
 
 export const LOGIN_EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
