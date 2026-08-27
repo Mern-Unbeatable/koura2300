@@ -2,6 +2,8 @@ import { Eye, EyeOff, LogIn, UserPlus } from 'lucide-react';
 import { APP_CONFIG } from '../../config';
 import {
   LOGIN_AUTH_MODES,
+  LOGIN_CREATE_FIELDS_CLASS,
+  LOGIN_CREATE_FIELDS_OPEN_MAX_HEIGHT_PX,
   LOGIN_FEATURE_ICON_WRAP_CLASS,
   LOGIN_FEATURE_ITEM_CLASS,
   LOGIN_FEATURE_LABEL_CLASS,
@@ -24,6 +26,7 @@ import {
   LOGIN_INPUT_CLASS,
   LOGIN_INPUT_ERROR_CLASS,
   LOGIN_LABEL_CLASS,
+  LOGIN_MODE_HEADING_CLASS,
   LOGIN_MODE_SWITCH_BUTTON_CLASS,
   LOGIN_MODE_SWITCH_CLASS,
   LOGIN_PASSWORD_TOGGLE_CLASS,
@@ -91,6 +94,7 @@ const LoginTextField = ({
   onChange,
   placeholder,
   error,
+  tabIndex,
 }) => {
   const errorId = `${id}-error`;
 
@@ -107,6 +111,7 @@ const LoginTextField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        tabIndex={tabIndex}
         aria-invalid={!!error}
         aria-describedby={error ? errorId : undefined}
         className={`${LOGIN_INPUT_CLASS} ${error ? LOGIN_INPUT_ERROR_CLASS : ''}`}
@@ -167,6 +172,66 @@ const LoginPasswordField = ({
   );
 };
 
+const LoginCreateAccountFields = ({
+  copy,
+  isCreateMode,
+  name,
+  phone,
+  address,
+  errors,
+  onNameChange,
+  onPhoneChange,
+  onAddressChange,
+}) => {
+  const collapsedTabIndex = isCreateMode ? undefined : -1;
+
+  return (
+    <div
+      className={LOGIN_CREATE_FIELDS_CLASS}
+      style={{
+        maxHeight: isCreateMode ? `${LOGIN_CREATE_FIELDS_OPEN_MAX_HEIGHT_PX}px` : '0px',
+        opacity: isCreateMode ? 1 : 0,
+      }}
+      aria-hidden={!isCreateMode}
+    >
+      <LoginTextField
+        id="login-name"
+        name="name"
+        label={copy.form.nameLabel}
+        autoComplete="name"
+        value={name}
+        onChange={onNameChange}
+        placeholder={copy.form.namePlaceholder}
+        error={isCreateMode ? errors.name : undefined}
+        tabIndex={collapsedTabIndex}
+      />
+      <LoginTextField
+        id="login-phone"
+        name="phone"
+        label={copy.form.phoneLabel}
+        type="tel"
+        autoComplete="tel"
+        value={phone}
+        onChange={onPhoneChange}
+        placeholder={copy.form.phonePlaceholder}
+        error={isCreateMode ? errors.phone : undefined}
+        tabIndex={collapsedTabIndex}
+      />
+      <LoginTextField
+        id="login-address"
+        name="address"
+        label={copy.form.addressLabel}
+        autoComplete="street-address"
+        value={address}
+        onChange={onAddressChange}
+        placeholder={copy.form.addressPlaceholder}
+        error={isCreateMode ? errors.address : undefined}
+        tabIndex={collapsedTabIndex}
+      />
+    </div>
+  );
+};
+
 const LoginFormPanel = ({
   copy,
   authMode,
@@ -202,8 +267,10 @@ const LoginFormPanel = ({
   return (
     <section className={LOGIN_FORM_PANEL_CLASS} aria-label={title}>
       <div className={LOGIN_FORM_CARD_CLASS}>
-        <h2 className={LOGIN_FORM_TITLE_CLASS}>{title}</h2>
-        <p className={LOGIN_FORM_SUBTITLE_CLASS}>{subtitle}</p>
+        <div key={authMode} className={LOGIN_MODE_HEADING_CLASS}>
+          <h2 className={LOGIN_FORM_TITLE_CLASS}>{title}</h2>
+          <p className={LOGIN_FORM_SUBTITLE_CLASS}>{subtitle}</p>
+        </div>
 
         {errors.form ? (
           <div role="alert" className={`${LOGIN_FORM_ERROR_CLASS} mt-6`}>
@@ -212,41 +279,17 @@ const LoginFormPanel = ({
         ) : null}
 
         <form onSubmit={onSubmit} noValidate className={LOGIN_FORM_STACK_CLASS}>
-          {isCreateMode ? (
-            <>
-              <LoginTextField
-                id="login-name"
-                name="name"
-                label={copy.form.nameLabel}
-                autoComplete="name"
-                value={name}
-                onChange={onNameChange}
-                placeholder={copy.form.namePlaceholder}
-                error={errors.name}
-              />
-              <LoginTextField
-                id="login-phone"
-                name="phone"
-                label={copy.form.phoneLabel}
-                type="tel"
-                autoComplete="tel"
-                value={phone}
-                onChange={onPhoneChange}
-                placeholder={copy.form.phonePlaceholder}
-                error={errors.phone}
-              />
-              <LoginTextField
-                id="login-address"
-                name="address"
-                label={copy.form.addressLabel}
-                autoComplete="street-address"
-                value={address}
-                onChange={onAddressChange}
-                placeholder={copy.form.addressPlaceholder}
-                error={errors.address}
-              />
-            </>
-          ) : null}
+          <LoginCreateAccountFields
+            copy={copy}
+            isCreateMode={isCreateMode}
+            name={name}
+            phone={phone}
+            address={address}
+            errors={errors}
+            onNameChange={onNameChange}
+            onPhoneChange={onPhoneChange}
+            onAddressChange={onAddressChange}
+          />
 
           <LoginTextField
             id="login-email"

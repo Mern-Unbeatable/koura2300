@@ -5,7 +5,7 @@ export const LOGIN_ASSET_PATH = LANDING_ASSET_PATH;
 
 export const LOGIN_PAGE_CLASS = 'min-h-screen overflow-x-clip bg-[#f9fafb] font-inter text-brand-ink';
 export const LOGIN_MAIN_CLASS =
-  'mx-auto flex min-h-[calc(100dvh-12rem)] max-w-screen-2xl items-center justify-center px-4 py-10 sm:px-6 lg:px-8 lg:py-14';
+  'mx-auto flex min-h-[calc(100dvh-12rem)] max-w-screen-2xl items-start justify-center px-4 py-10 sm:px-6 lg:px-8 lg:py-14';
 export const LOGIN_SHELL_CLASS =
   'grid w-full max-w-5xl overflow-hidden rounded-2xl border border-[#ececec] bg-white shadow-sm lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]';
 export const LOGIN_HERO_CLASS =
@@ -23,7 +23,7 @@ export const LOGIN_FEATURE_ITEM_CLASS = 'flex items-center gap-3';
 export const LOGIN_FEATURE_ICON_WRAP_CLASS =
   'flex size-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5';
 export const LOGIN_FEATURE_LABEL_CLASS = 'text-sm text-white/85';
-export const LOGIN_FORM_PANEL_CLASS = 'flex items-center justify-center p-6 sm:p-8 lg:p-10';
+export const LOGIN_FORM_PANEL_CLASS = 'flex items-start justify-center p-6 sm:p-8 lg:p-10';
 export const LOGIN_FORM_CARD_CLASS = 'w-full max-w-md';
 export const LOGIN_FORM_TITLE_CLASS = 'text-2xl font-semibold text-[#1a1a2e]';
 export const LOGIN_FORM_SUBTITLE_CLASS = 'mt-2 text-sm leading-6 text-[#6b7280]';
@@ -42,6 +42,11 @@ export const LOGIN_PASSWORD_TOGGLE_CLASS =
 export const LOGIN_SUBMIT_BUTTON_CLASS =
   'inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-[4px] bg-brand-orange text-sm font-bold uppercase tracking-[0.168px] text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-60';
 export const LOGIN_FOOTER_NOTE_CLASS = 'mt-8 text-center text-xs text-[#9ca3af]';
+
+export const LOGIN_CREATE_FIELDS_CLASS =
+  'space-y-5 overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out motion-reduce:transition-none';
+export const LOGIN_CREATE_FIELDS_OPEN_MAX_HEIGHT_PX = 360;
+export const LOGIN_MODE_HEADING_CLASS = 'animate-page-enter';
 
 export const LOGIN_EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
