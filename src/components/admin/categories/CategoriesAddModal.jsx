@@ -1,7 +1,10 @@
+import { X } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { CATEGORIES_COPY } from './categoriesCopy';
 import {
   CATEGORIES_ADD_KIND,
+  CATEGORIES_MODAL_CLOSE_CLASS,
+  CATEGORIES_MODAL_CLOSE_ICON_SIZE_PX,
   CATEGORIES_MODAL_DIALOG_CLASS,
   CATEGORIES_MODAL_ERROR_CLASS,
   CATEGORIES_MODAL_FIELD_CLASS,
@@ -73,6 +76,15 @@ const CategoriesAddModal = ({
         aria-label={title}
         className={CATEGORIES_MODAL_DIALOG_CLASS}
       >
+        <button
+          type="button"
+          aria-label={CATEGORIES_COPY.closeLabel}
+          onClick={onClose}
+          className={CATEGORIES_MODAL_CLOSE_CLASS}
+        >
+          <X size={CATEGORIES_MODAL_CLOSE_ICON_SIZE_PX} aria-hidden="true" />
+        </button>
+
         <form className={CATEGORIES_MODAL_FORM_CLASS} onSubmit={onSubmit} noValidate>
           {isCategoryModal ? (
             <div className={CATEGORIES_MODAL_FIELD_CLASS}>

@@ -12,6 +12,7 @@ export const CATEGORIES_CHIP_ICON_SIZE_PX = 20;
 export const CATEGORIES_ADD_ICON_SIZE_PX = 16;
 export const CATEGORIES_MODAL_MAX_WIDTH_PX = 400;
 export const CATEGORIES_MODAL_SELECT_CHEVRON_SIZE_PX = 24;
+export const CATEGORIES_MODAL_CLOSE_ICON_SIZE_PX = 18;
 export const CATEGORIES_MODAL_INPUT_HEIGHT_PX = 40;
 export const CATEGORIES_DRAG_MIME_TYPE = 'application/x-koura-category-id';
 
@@ -64,7 +65,10 @@ export const CATEGORIES_MODAL_OVERLAY_CLASS =
   'animate-fade-in fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(0,0,0,0.7)] backdrop-blur-[17.4px] p-3 min-[376px]:p-4';
 
 export const CATEGORIES_MODAL_DIALOG_CLASS =
-  'animate-page-enter flex w-full max-w-[400px] flex-col rounded-[12px] bg-white p-5 shadow-[0px_75px_88.5px_0px_rgba(14,20,35,0.25)]';
+  'animate-page-enter relative flex w-full max-w-[400px] flex-col rounded-[12px] bg-white p-5 shadow-[0px_75px_88.5px_0px_rgba(14,20,35,0.25)]';
+
+export const CATEGORIES_MODAL_CLOSE_CLASS =
+  'absolute right-4 top-4 cursor-pointer rounded-full p-1 text-[#536070] transition-colors hover:text-[#202838] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 export const CATEGORIES_MODAL_FORM_CLASS = 'flex flex-col gap-4';
 

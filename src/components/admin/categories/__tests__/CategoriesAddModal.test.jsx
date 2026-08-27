@@ -101,6 +101,16 @@ describe('CategoriesAddModal', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
+  it('closes from the lucide close icon', async () => {
+    const user = userEvent.setup();
+    const onClose = jest.fn();
+    renderCategoryModal({ onClose });
+
+    await user.click(screen.getByRole('button', { name: CATEGORIES_COPY.closeLabel }));
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
   it('wires category and subcategory field changes', async () => {
     const user = userEvent.setup();
     const onDraftNameChange = jest.fn();
