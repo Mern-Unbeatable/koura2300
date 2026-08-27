@@ -1,61 +1,69 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
-import { ROUTES } from "../../../../config";
-import { logout, selectUser } from "../../../../store/slices/authSlice";
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import { ChevronRight, ChevronsLeft, ChevronsRight, LogOut, X } from 'lucide-react';
+import { ROUTES } from '../../../../config';
+import { logout, selectUser } from '../../../../store/slices/authSlice';
 import {
-  CalendarDays,
-  LayoutDashboard,
-  Mail,
-  Users,
-  ContactRound,
-  Wrench,
-  ShoppingCart,
-  Store,
-  Briefcase,
-  FileText,
-  ClipboardList,
-  DollarSign,
-  MessageSquare,
-  LogOut,
-  X,
-  ChevronRight,
-  ChevronsRight,
-  ChevronsLeft,
-} from "lucide-react";
-
-const NAV_ITEMS = [
-  { name: "Dashboard", path: ROUTES.ADMIN_DASHBOARD, icon: LayoutDashboard },
-  { name: "Bookings", path: ROUTES.ADMIN_BOOKINGS, icon: CalendarDays },
-  { name: "Customers", path: ROUTES.ADMIN_CUSTOMERS, icon: ContactRound },
-  { name: "Services", path: ROUTES.ADMIN_SERVICES, icon: Wrench },
-  { name: "Emails", path: ROUTES.ADMIN_EMAILS, icon: Mail },
-  { name: "Leads", path: ROUTES.ADMIN_LEADS, icon: Users },
-  { name: "Orders", path: ROUTES.ADMIN_ORDERS, icon: ShoppingCart },
-  {
-    name: "Marketplace Orders",
-    path: ROUTES.ADMIN_MARKETPLACE_ORDERS,
-    icon: Store,
-  },
-  { name: "Case Studies", path: ROUTES.ADMIN_CASE_STUDIES, icon: Briefcase },
-  { name: "Blog", path: ROUTES.ADMIN_BLOG, icon: FileText },
-  { name: "Jobs", path: ROUTES.ADMIN_JOBS, icon: ClipboardList },
-  { name: "Pricing", path: ROUTES.ADMIN_PRICING, icon: DollarSign },
-  { name: "Messages", path: ROUTES.ADMIN_MESSAGES, icon: MessageSquare },
-];
-
-// Border lives in NAV_BASE so layout never shifts; only the color changes between states (CLS fix)
-const NAV_BASE =
-  "group flex items-center gap-3 rounded-lg border text-base font-medium transition-all duration-200 pl-3.25 pr-3 py-2.5 hover:-translate-y-0.5";
-const NAV_ACTIVE =
-  "bg-orange-100 text-orange-700 border-transparent shadow-[inset_3px_0_0_0_#ea580c]";
-const NAV_INACTIVE =
-  "text-gray-700 border-gray-100 hover:bg-orange-50/40 hover:text-gray-900 hover:border-orange-100";
+  SIDEBAR_CHEVRON_SIZE_PX,
+  SIDEBAR_COPY,
+  SIDEBAR_GROUP_CLASS,
+  SIDEBAR_GROUPS_CLASS,
+  SIDEBAR_ICON_SIZE_PX,
+  SIDEBAR_LOGOUT_REDIRECT_MS,
+  SIDEBAR_NAV_ACTIVE_CLASS,
+  SIDEBAR_NAV_BASE_CLASS,
+  SIDEBAR_NAV_GROUPS,
+  SIDEBAR_NAV_INACTIVE_CLASS,
+  SIDEBAR_SECTION_LABEL_CLASS,
+} from './sidebarNav';
 
 const getNavClass = ({ isActive }) =>
-  `${NAV_BASE} ${isActive ? NAV_ACTIVE : NAV_INACTIVE}`;
+  `${SIDEBAR_NAV_BASE_CLASS} ${isActive ? SIDEBAR_NAV_ACTIVE_CLASS : SIDEBAR_NAV_INACTIVE_CLASS}`;
 
-const LOGOUT_REDIRECT_MS = 900;
+const flattenNavItems = (groups) => groups.flatMap((group) => group.items);
+
+const SidebarNavItem = ({ item, onNavigate }) => {
+  const { name, path, icon: Icon, end, comingSoon } = item;
+
+  if (comingSoon || !path) {
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          toast(SIDEBAR_COPY.comingSoon);
+          onNavigate();
+        }}
+        className={`${SIDEBAR_NAV_BASE_CLASS} ${SIDEBAR_NAV_INACTIVE_CLASS}`}
+      >
+        <Icon size={SIDEBAR_ICON_SIZE_PX} aria-hidden="true" className="shrink-0" />
+        <span className="truncate flex-1 text-left">{name}</span>
+      </button>
+    );
+  }
+
+  return (
+    <NavLink to={path} end={Boolean(end)} onClick={onNavigate} className={getNavClass}>
+      {({ isActive }) => (
+        <>
+          <Icon
+            size={SIDEBAR_ICON_SIZE_PX}
+            aria-hidden="true"
+            className={`shrink-0 transition-colors ${
+              isActive ? 'text-[#fc6f32]' : 'text-[#5d687b] group-hover:text-[#455163]'
+            }`}
+          />
+          <span className="truncate flex-1">{name}</span>
+          <ChevronRight
+            size={SIDEBAR_CHEVRON_SIZE_PX}
+            aria-hidden="true"
+            className={`shrink-0 text-[#fc6f32] ${isActive ? 'opacity-100' : 'opacity-0'}`}
+          />
+        </>
+      )}
+    </NavLink>
+  );
+};
 
 const Sidebar = ({
   onClose,
@@ -67,159 +75,139 @@ const Sidebar = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const flatItems = flattenNavItems(SIDEBAR_NAV_GROUPS);
+
+  const handleNavigate = (autoCollapse) => {
+    onClose();
+    if (autoCollapse && onAutoCollapse) {
+      onAutoCollapse();
+    }
+  };
 
   const handleLogout = () => {
     dispatch(logout());
-    toast.success("Signed out successfully");
-    setTimeout(() => navigate(ROUTES.LOGIN), LOGOUT_REDIRECT_MS);
+    toast.success('Signed out successfully');
+    setTimeout(() => navigate(ROUTES.LOGIN), SIDEBAR_LOGOUT_REDIRECT_MS);
   };
 
   if (isCollapsed) {
     return (
-      <div className="h-full w-full bg-white flex flex-col items-center border-r border-gray-100 py-3 gap-1">
+      <div className="flex h-full w-full flex-col items-center gap-1 border-r border-gray-100 bg-white py-3">
         <button
           type="button"
           onClick={onExpand}
           title="Expand sidebar"
           aria-label="Expand sidebar"
-          className="w-10 h-10 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-800 hover:bg-orange-50/40 transition-colors duration-200 mb-2 shrink-0"
+          className="mb-2 flex size-10 shrink-0 items-center justify-center rounded-lg text-gray-500 transition-colors duration-200 hover:bg-orange-50/40 hover:text-gray-800"
         >
-          <ChevronsRight size={20} aria-hidden="true" />
+          <ChevronsRight size={SIDEBAR_ICON_SIZE_PX} aria-hidden="true" />
         </button>
 
         <nav
-          className="flex-1 flex flex-col items-center gap-1 w-full px-2 overflow-y-auto"
+          className="flex w-full flex-1 flex-col items-center gap-1 overflow-y-auto px-2"
           aria-label="Main navigation"
         >
-          {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
-            <NavLink
-              key={path}
-              to={path}
-              end={path === ROUTES.ADMIN_DASHBOARD}
-              title={name}
-              aria-label={name}
-              onClick={() => {
-                onClose();
-                if (autoCollapse && onAutoCollapse) onAutoCollapse();
-              }}
-              className={({ isActive }) =>
-                `w-10 h-10 flex items-center justify-center rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? "bg-orange-100 text-orange-600"
-                    : "text-gray-400 hover:text-gray-900 hover:bg-orange-50/40"
-                }`
-              }
-            >
-              <Icon size={20} aria-hidden="true" />
-            </NavLink>
-          ))}
+          {flatItems
+            .filter((item) => item.path)
+            .map(({ name, path, icon: Icon, end, autoCollapse }) => (
+              <NavLink
+                key={path}
+                to={path}
+                end={Boolean(end)}
+                title={name}
+                aria-label={name}
+                onClick={() => handleNavigate(autoCollapse)}
+                className={({ isActive }) =>
+                  `flex size-10 items-center justify-center rounded-lg transition-colors duration-200 ${
+                    isActive
+                      ? 'bg-[#fff1eb] text-[#fc6f32]'
+                      : 'text-gray-400 hover:bg-orange-50/40 hover:text-gray-900'
+                  }`
+                }
+              >
+                <Icon size={SIDEBAR_ICON_SIZE_PX} aria-hidden="true" />
+              </NavLink>
+            ))}
         </nav>
 
         <button
           type="button"
           onClick={handleLogout}
-          title="Sign Out"
-          aria-label="Sign Out"
-          className="mt-1 w-10 h-10 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors duration-200 shrink-0"
+          title={SIDEBAR_COPY.logOut}
+          aria-label={SIDEBAR_COPY.logOut}
+          className="mt-1 flex size-10 shrink-0 items-center justify-center rounded-lg text-gray-400 transition-colors duration-200 hover:bg-red-50 hover:text-red-500"
         >
-          <LogOut size={20} aria-hidden="true" />
+          <LogOut size={SIDEBAR_ICON_SIZE_PX} aria-hidden="true" />
         </button>
       </div>
     );
   }
 
   return (
-    <div className="h-full w-full bg-white flex flex-col border-r border-gray-100">
-      <div className="flex items-start justify-between px-5 pt-5 pb-4 border-b border-gray-100 shrink-0">
+    <div className="flex h-full w-full flex-col border-r border-[#e8ebf1] bg-white">
+      <div className="flex shrink-0 items-start justify-between border-b border-[#f2f2f2] px-4 pb-4 pt-5">
         <div>
           <img
             src="/Logoipsum_logo.png"
             alt="Logoipsum"
             width={120}
             height={32}
-            fetchPriority="high"
+            fetchpriority="high"
             className="h-8 w-auto object-contain"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
+            onError={(event) => {
+              event.currentTarget.style.display = 'none';
             }}
           />
-          <p className="text-sm text-gray-400 mt-1.5">Admin Dashboard</p>
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="lg:hidden mt-0.5 p-1.5 -mr-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+          className="-mr-1 mt-0.5 rounded-md p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 lg:hidden"
           aria-label="Close navigation"
         >
-          <X size={20} aria-hidden="true" />
+          <X size={SIDEBAR_ICON_SIZE_PX} aria-hidden="true" />
         </button>
         <button
           type="button"
           onClick={onDesktopClose}
-          className="hidden lg:flex items-center justify-center mt-0.5 p-1.5 -mr-1 rounded-md text-gray-500 hover:text-gray-900 hover:bg-orange-50/40 transition-colors"
+          className="-mr-1 mt-0.5 hidden items-center justify-center rounded-md p-1.5 text-gray-500 transition-colors hover:bg-orange-50/40 hover:text-gray-900 lg:flex"
           aria-label="Collapse sidebar"
         >
-          <ChevronsLeft size={20} aria-hidden="true" />
+          <ChevronsLeft size={SIDEBAR_ICON_SIZE_PX} aria-hidden="true" />
         </button>
       </div>
 
-      <nav
-        className="flex-1 overflow-y-auto px-3 py-5"
-        aria-label="Main navigation"
-      >
-        <p className="px-3 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-[0.08em]">
-          Main Menu
-        </p>
-        <ul className="space-y-1.5">
-          {NAV_ITEMS.map(({ name, path, icon: Icon, autoCollapse }) => (
-            <li key={path}>
-              <NavLink
-                to={path}
-                end={path === ROUTES.ADMIN_DASHBOARD}
-                onClick={() => {
-                  onClose();
-                  if (autoCollapse && onAutoCollapse) onAutoCollapse();
-                }}
-                className={getNavClass}
-              >
-                {({ isActive }) => (
-                  <>
-                    <Icon
-                      size={20}
-                      aria-hidden="true"
-                      className={`shrink-0 transition-colors ${
-                        isActive
-                          ? "text-orange-600"
-                          : "text-gray-400 group-hover:text-gray-500"
-                      }`}
+      <nav className="flex-1 overflow-y-auto px-3 py-5" aria-label="Main navigation">
+        <div className={SIDEBAR_GROUPS_CLASS}>
+          {SIDEBAR_NAV_GROUPS.map((group) => (
+            <div key={group.id} className={SIDEBAR_GROUP_CLASS}>
+              <p className={SIDEBAR_SECTION_LABEL_CLASS}>{group.label}</p>
+              <ul className="space-y-1">
+                {group.items.map((item) => (
+                  <li key={item.name}>
+                    <SidebarNavItem
+                      item={item}
+                      onNavigate={() => handleNavigate(item.autoCollapse)}
                     />
-                    <span className="truncate flex-1">{name}</span>
-                    <ChevronRight
-                      size={18}
-                      aria-hidden="true"
-                      className={`shrink-0 mr-0.5 text-orange-500 drop-shadow-[0_0_6px_#f97316] ${
-                        isActive ? "animate-nav-arrow" : "opacity-0"
-                      }`}
-                    />
-                  </>
-                )}
-              </NavLink>
-            </li>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       </nav>
 
-      <div className="shrink-0 border-t border-gray-100 px-3 py-3 space-y-1.5">
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gray-50">
-          <div className="shrink-0 w-9 h-9 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-base font-bold select-none">
-            M
+      <div className="shrink-0 space-y-4 border-t border-[#e4e4e4] px-3 pb-3 pt-6">
+        <div className="flex items-center gap-5 rounded-lg bg-[#f6f6f6] p-2.5">
+          <div className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-linear-to-br from-orange-400 to-orange-600 text-base font-bold text-white select-none">
+            {(user?.name || 'A').charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-base font-semibold text-gray-900 leading-snug truncate">
-              {user?.name || "Admin"}
+            <p className="truncate text-base font-medium capitalize leading-normal text-black">
+              {user?.name || 'Admin'}
             </p>
-            <p className="text-sm text-gray-400 leading-snug truncate">
-              {user?.email || ""}
+            <p className="truncate text-sm leading-[22px] text-black">
+              {SIDEBAR_COPY.adminRole}
             </p>
           </div>
         </div>
@@ -227,14 +215,10 @@ const Sidebar = ({
         <button
           type="button"
           onClick={handleLogout}
-          className={`${NAV_BASE} w-full text-gray-600 border-transparent hover:bg-red-50 hover:text-red-600 hover:shadow-[inset_3px_0_0_0_#ef4444]`}
+          className="flex w-full items-center gap-2 rounded-lg bg-[#fafafa] px-4 py-2.5 text-base text-[#d00000] transition-colors hover:bg-red-50"
         >
-          <LogOut
-            size={20}
-            aria-hidden="true"
-            className="shrink-0 text-gray-400 group-hover:text-red-500 transition-colors"
-          />
-          <span>Sign Out</span>
+          <LogOut size={SIDEBAR_ICON_SIZE_PX} aria-hidden="true" className="shrink-0" />
+          <span>{SIDEBAR_COPY.logOut}</span>
         </button>
       </div>
     </div>
