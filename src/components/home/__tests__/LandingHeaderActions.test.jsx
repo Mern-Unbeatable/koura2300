@@ -36,11 +36,12 @@ const renderActions = (authState = {}) => {
 };
 
 describe('LandingHeaderActions auth slots', () => {
-  it('shows Login linked to /login for guests', () => {
+  it('shows Login for guests and hides Account', () => {
     renderActions();
 
     const loginLink = screen.getByRole('link', { name: LANDING_CONTENT.header.login });
     expect(loginLink).toHaveAttribute('href', ROUTES.LOGIN);
+    expect(screen.queryByRole('link', { name: LANDING_CONTENT.header.account })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: LANDING_CONTENT.header.dashboard })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: LANDING_CONTENT.header.logout })).not.toBeInTheDocument();
   });
@@ -57,9 +58,10 @@ describe('LandingHeaderActions auth slots', () => {
       'href',
       ROUTES.ADMIN_DASHBOARD,
     );
+    expect(screen.getByRole('link', { name: 'Admin' })).toHaveAttribute('href', ROUTES.ACCOUNT);
   });
 
-  it('shows user name, Logout, and never shows Dashboard for customers', () => {
+  it('shows user Account and Logout, and never shows Login or Dashboard for customers', () => {
     renderActions({
       isAuthenticated: true,
       user: { email: 'kamrul@gmail.com', name: 'Kamrul', role: USER_ROLES.USER },

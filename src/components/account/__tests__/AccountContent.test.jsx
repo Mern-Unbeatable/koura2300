@@ -16,6 +16,17 @@ jest.mock('react-hot-toast', () => ({
   error: jest.fn(),
 }));
 
+const authenticatedUser = {
+  isAuthenticated: true,
+  user: {
+    name: 'Md Kamrul',
+    email: 'kamrul@test.com',
+    phone: '555-0199',
+    address: '42 Service Lane',
+    role: 'user',
+  },
+};
+
 const createTestStore = (authOverrides = {}) =>
   configureStore({
     reducer: {
@@ -64,9 +75,9 @@ describe('AccountContent', () => {
   });
 
   it('highlights the Account navbar action on the account route', () => {
-    renderAccountPage();
+    renderAccountPage(ROUTES.ACCOUNT, authenticatedUser);
 
-    const accountLink = screen.getAllByRole('link', { name: 'Account' })[0];
+    const accountLink = screen.getAllByRole('link', { name: 'Md Kamrul' })[0];
     expect(accountLink).toHaveClass('text-brand-orange');
   });
 
@@ -82,16 +93,7 @@ describe('AccountContent', () => {
   });
 
   it('shows the logged-in user details in account settings', () => {
-    renderAccountPage(ROUTES.ACCOUNT, {
-      isAuthenticated: true,
-      user: {
-        name: 'Md Kamrul',
-        email: 'kamrul@test.com',
-        phone: '555-0199',
-        address: '42 Service Lane',
-        role: 'user',
-      },
-    });
+    renderAccountPage(ROUTES.ACCOUNT, authenticatedUser);
 
     expect(screen.getByLabelText(ACCOUNT_CONTENT.accountSetting.fullNameLabel)).toHaveValue(
       'Md Kamrul',
@@ -119,7 +121,7 @@ describe('AccountContent', () => {
 describe('Account navbar integration', () => {
   it('navigates to account settings from the desktop Account action', async () => {
     const user = userEvent.setup();
-    const store = createTestStore();
+    const store = createTestStore(authenticatedUser);
 
     render(
       <Provider store={store}>
@@ -132,7 +134,7 @@ describe('Account navbar integration', () => {
       </Provider>,
     );
 
-    const accountLinks = screen.getAllByRole('link', { name: 'Account' });
+    const accountLinks = screen.getAllByRole('link', { name: 'Md Kamrul' });
     await user.click(accountLinks[0]);
 
     expect(

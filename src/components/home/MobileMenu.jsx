@@ -118,16 +118,18 @@ const MobileMenu = memo(({ isOpen, onClose, onChatClick }) => {
               </button>
             ) : null}
 
-            <Link
-              to={ROUTES.ACCOUNT}
-              onClick={onClose}
-              aria-current={isAccountActive ? 'page' : undefined}
-              className={getTileClass(isAccountActive)}
-              title={accountLabel}
-            >
-              <UserRound size={ACTION_ICON_SIZE} aria-hidden="true" />
-              <span className="max-w-full truncate px-1">{accountLabel}</span>
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                to={ROUTES.ACCOUNT}
+                onClick={onClose}
+                aria-current={isAccountActive ? 'page' : undefined}
+                className={getTileClass(isAccountActive)}
+                title={accountLabel}
+              >
+                <UserRound size={ACTION_ICON_SIZE} aria-hidden="true" />
+                <span className="max-w-full truncate px-1">{accountLabel}</span>
+              </Link>
+            ) : null}
 
             <Link to={ROUTES.ORDERS} onClick={onClose} className={ACTION_TILE_CLASS}>
               <Package size={ACTION_ICON_SIZE} aria-hidden="true" />

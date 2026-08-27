@@ -21,16 +21,19 @@ const isTokenExpired = (token) => {
 const loadAuthState = () => {
   try {
     const token = localStorage.getItem("token");
-    if (!token) return UNAUTHENTICATED;
+    const user = JSON.parse(localStorage.getItem("user") || "null");
 
-    if (isTokenExpired(token)) {
+    if (!user) {
+      return UNAUTHENTICATED;
+    }
+
+    if (token && isTokenExpired(token)) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       return UNAUTHENTICATED;
     }
 
-    const user = JSON.parse(localStorage.getItem("user") || "null");
-    return { user, isAuthenticated: true, token, loading: false };
+    return { user, isAuthenticated: true, token: token || null, loading: false };
   } catch {
     return UNAUTHENTICATED;
   }

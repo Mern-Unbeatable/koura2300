@@ -95,6 +95,17 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+const AuthenticatedRoute = ({ children }) => {
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    return <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -138,7 +149,9 @@ const router = createBrowserRouter(
         path={ROUTES.ACCOUNT}
         element={
           <Suspense fallback={<PageLoader />}>
-            <AccountPage />
+            <AuthenticatedRoute>
+              <AccountPage />
+            </AuthenticatedRoute>
           </Suspense>
         }
       />

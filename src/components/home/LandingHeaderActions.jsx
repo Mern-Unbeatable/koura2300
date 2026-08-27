@@ -89,12 +89,14 @@ const LandingHeaderActions = memo(({ isChatActive = false, onChatClick }) => {
         </button>
       ) : null}
 
-      <HeaderActionLink
-        to={ROUTES.ACCOUNT}
-        label={accountLabel}
-        icon={UserRound}
-        isActive={isAccountActive}
-      />
+      {isAuthenticated ? (
+        <HeaderActionLink
+          to={ROUTES.ACCOUNT}
+          label={accountLabel}
+          icon={UserRound}
+          isActive={isAccountActive}
+        />
+      ) : null}
 
       <HeaderActionLink
         to={ROUTES.ORDERS}
