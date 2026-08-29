@@ -7,8 +7,8 @@ export const CHECKOUT_INPUT_CLASS =
   'h-11 w-full rounded-[2px] border border-[#e4e7e9] bg-[#e9eaea] px-[15px] text-sm text-[#191c1f] placeholder:text-[#77878f] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const CHECKOUT_LAYOUT_CLASS =
   'grid min-w-0 items-start gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]';
-export const CHECKOUT_FORM_COLUMN_CLASS = 'order-2 min-w-0 lg:order-1';
-export const CHECKOUT_SUMMARY_COLUMN_CLASS = 'order-1 min-w-0 lg:order-2';
+export const CHECKOUT_FORM_COLUMN_CLASS = 'min-w-0';
+export const CHECKOUT_SUMMARY_COLUMN_CLASS = 'min-w-0';
 export const CHECKOUT_CARD_CLASS =
   'w-full min-w-0 rounded-[20px] bg-white p-6 shadow-[0px_0px_3.95px_0px_rgba(0,0,0,0.16)] sm:p-9';
 export const CHECKOUT_NESTED_CARD_CLASS =

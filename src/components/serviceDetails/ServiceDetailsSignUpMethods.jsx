@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { UserPlus } from 'lucide-react';
 import useGsapMountEnter from '../../hooks/useGsapMountEnter';
 import { SERVICE_DETAILS_CONTENT } from './serviceDetailsCopy';
 import {
@@ -6,12 +7,23 @@ import {
   MOUNT_ENTER_OFFSET,
   CREATE_ACCOUNT_SECTION_SHADOW_CLASS,
   CREATE_ACCOUNT_SOCIAL_BTN_CLASS,
+  CREATE_ACCOUNT_SOCIAL_ICON_SIZE,
 } from './serviceDetailsData';
 
 const { createAccount } = SERVICE_DETAILS_CONTENT;
 
 const SECTION_CLASS = `w-full min-w-0 overflow-hidden rounded-[20px] bg-white ${CREATE_ACCOUNT_SECTION_SHADOW_CLASS}`;
 const INNER_CLASS = 'flex flex-col gap-4 px-4 py-8 sm:px-14 sm:py-10';
+
+const ManualSignUpIcon = memo(() => (
+  <UserPlus
+    size={CREATE_ACCOUNT_SOCIAL_ICON_SIZE}
+    aria-hidden="true"
+    className="shrink-0 text-black"
+  />
+));
+
+ManualSignUpIcon.displayName = 'ManualSignUpIcon';
 
 const GoogleIcon = memo(() => (
   <svg
@@ -80,7 +92,11 @@ const ServiceDetailsSignUpMethods = memo(({ onManualSignUp }) => {
     >
       <section className={SECTION_CLASS}>
         <div className={INNER_CLASS}>
-          <SignUpMethodButton label={createAccount.manualSignUp} onClick={onManualSignUp} />
+          <SignUpMethodButton
+            label={createAccount.manualSignUp}
+            onClick={onManualSignUp}
+            icon={ManualSignUpIcon}
+          />
           <SignUpMethodButton label={createAccount.continueWithGoogle} icon={GoogleIcon} />
           <SignUpMethodButton label={createAccount.continueWithApple} icon={AppleIcon} />
         </div>

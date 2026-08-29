@@ -60,14 +60,20 @@ describe('CheckoutView Figma layout', () => {
     );
   });
 
-  it('places Review Your Order above Personal Information on mobile and tablet', () => {
+  it('places Personal Information above Review Your Order on mobile and tablet', () => {
     renderCheckout();
 
+    const form = screen.getByRole('form', { name: 'Checkout' });
     const review = screen.getByRole('heading', { name: 'Review Your Order' }).closest('aside');
     const personal = screen.getByRole('heading', { name: 'Personal Information' }).closest('div');
 
-    expect(review).toHaveClass('order-1', 'lg:order-2');
-    expect(personal).toHaveClass('order-2', 'lg:order-1');
+    expect(personal.compareDocumentPosition(review) & Node.DOCUMENT_POSITION_FOLLOWING).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(form.firstElementChild).toContainElement(
+      screen.getByRole('heading', { name: 'Personal Information' }),
+    );
+    expect(form.lastElementChild).toBe(review);
   });
 
   it('keeps Confirm Pay actions inside the review card with compact mobile stacking', () => {
