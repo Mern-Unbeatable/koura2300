@@ -56,20 +56,14 @@ describe('ServicesView', () => {
     ).toBeInTheDocument();
     expect(screen.getByText(`${SERVICES_SEED.length} services`)).toBeInTheDocument();
     expect(screen.getByText(SERVICES_COPY.sortByLabel)).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: SERVICES_COPY.addNewService }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: SERVICES_COPY.addNewService })).toBeInTheDocument();
   });
 
   it('renders landing catalog category and sub-category filters', () => {
     renderServicesView();
 
-    expect(
-      screen.getByLabelText(SERVICES_COPY.categoryFilterLabel),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByLabelText(SERVICES_COPY.subcategoryFilterLabel),
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText(SERVICES_COPY.categoryFilterLabel)).toBeInTheDocument();
+    expect(screen.getByLabelText(SERVICES_COPY.subcategoryFilterLabel)).toBeInTheDocument();
   });
 
   it('keeps the Service Management title on one line', () => {
@@ -91,9 +85,9 @@ describe('ServicesView', () => {
 
     expect(listbox.className).toContain('scrollbar-services-ash');
     expect(listbox.className).toContain('max-h-[220px]');
-    expect(
-      screen.getByRole('option', { name: 'Indoor Lighting' }).className,
-    ).toContain('break-words');
+    expect(screen.getByRole('option', { name: 'Indoor Lighting' }).className).toContain(
+      'break-words',
+    );
   });
 
   it('renders shared landing ServiceCard content for admin services', () => {
@@ -106,19 +100,16 @@ describe('ServicesView', () => {
     expect(within(firstCard).getByText(firstService.title)).toBeInTheDocument();
     expect(within(firstCard).getByText(firstService.catalogTitle)).toBeInTheDocument();
     expect(within(firstCard).getByText(firstService.category)).toBeInTheDocument();
-    expect(
-      within(firstCard).getByText(`Starting at $${firstService.price}`),
-    ).toBeInTheDocument();
+    expect(within(firstCard).getByText(`Starting at $${firstService.price}`)).toBeInTheDocument();
     expect(within(firstCard).getByText(firstService.duration)).toBeInTheDocument();
     expect(within(firstCard).getByText(firstService.rating)).toBeInTheDocument();
     expect(within(firstCard).getByRole('button', { name: SERVICES_COPY.edit })).toBeInTheDocument();
     expect(
       within(firstCard).getByRole('button', { name: SERVICES_COPY.delete }),
     ).toBeInTheDocument();
-    expect(within(firstCard).getByRole('link', { name: `View ${firstService.title}` })).toHaveAttribute(
-      'href',
-      buildAdminServiceDetailsRoute(firstService.id),
-    );
+    expect(
+      within(firstCard).getByRole('link', { name: `View ${firstService.title}` }),
+    ).toHaveAttribute('href', buildAdminServiceDetailsRoute(firstService.id));
   });
 
   it('invokes filter and shared card action callbacks', async () => {
@@ -243,7 +234,7 @@ describe('ServicesView', () => {
     });
     expect(grid.className).toContain('grid-cols-1');
     expect(grid.className).toContain('min-[768px]:grid-cols-2');
-    expect(grid.className).toContain('min-[1020px]:grid-cols-3');
+    expect(grid.className).not.toContain('min-[1020px]:grid-cols-3');
     expect(grid.className).toContain('min-[1440px]:grid-cols-4');
     expect(SERVICES_GRID_CLASS).toContain('min-[1440px]:grid-cols-4');
   });

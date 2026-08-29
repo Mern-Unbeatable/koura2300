@@ -55,9 +55,7 @@ describe('AdsView', () => {
   it('renders Ads Management header, subtitle, and Add new Ads from Figma', () => {
     renderAdsView();
 
-    expect(
-      screen.getByRole('heading', { level: 1, name: ADS_COPY.title }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: ADS_COPY.title })).toBeInTheDocument();
     expect(screen.getByText(ADS_COPY.subtitle)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: ADS_COPY.addNewAd })).toBeInTheDocument();
     expect(screen.getByText(ADS_COPY.sortByLabel)).toBeInTheDocument();
@@ -139,9 +137,7 @@ describe('AdsView', () => {
     expect(dialog).toBeInTheDocument();
     expect(screen.getByTestId('ads-delete-overlay').className).toContain('animate-fade-in');
 
-    await user.click(
-      within(dialog).getByRole('button', { name: ADS_COPY.deleteModal.confirm }),
-    );
+    await user.click(within(dialog).getByRole('button', { name: ADS_COPY.deleteModal.confirm }));
     expect(onConfirmDeleteAd).toHaveBeenCalledTimes(1);
   });
 
@@ -149,6 +145,7 @@ describe('AdsView', () => {
     expect(ADS_VIEWPORT.MOBILE_S).toBe(320);
     expect(ADS_VIEWPORT.LAPTOP).toBe(1020);
     expect(ADS_PAGE_CLASS).toContain('flex');
-    expect(ADS_PAGE_CLASS).toContain('min-[1020px]');
+    expect(ADS_PAGE_CLASS).toContain('min-[1440px]');
+    expect(ADS_PAGE_CLASS).not.toContain('min-[1020px]:gap-10');
   });
 });

@@ -15,9 +15,9 @@ export const SERVICES_FILTER_CHEVRON_SIZE_PX = 16;
 export const SERVICES_ALL_FILTER_ID = ALL_CATEGORIES_VALUE;
 
 export const SERVICES_PAGE_CLASS =
-  'flex min-w-0 flex-col gap-5 max-[425px]:gap-5 min-[426px]:gap-6 min-[768px]:gap-8 min-[1020px]:gap-10';
+  'flex min-w-0 flex-col gap-5 max-[425px]:gap-5 min-[426px]:gap-6 min-[768px]:gap-8 min-[1440px]:gap-10';
 export const SERVICES_HEADER_CLASS =
-  'flex flex-col gap-4 min-[1020px]:flex-row min-[1020px]:items-center min-[1020px]:justify-between min-[1020px]:gap-5';
+  'flex flex-col gap-4 min-[1440px]:flex-row min-[1440px]:items-center min-[1440px]:justify-between min-[1440px]:gap-5';
 export const SERVICES_HEADER_ACTIONS_CLASS =
   'flex w-full flex-col gap-3 min-[768px]:flex-row min-[768px]:items-center min-[768px]:justify-end min-[768px]:gap-5';
 export const SERVICES_TITLE_CLASS =
@@ -47,7 +47,7 @@ export const SERVICES_FILTER_OPTION_ACTIVE_CLASS =
   'bg-[#fff1eb] text-[#fc6f32] hover:bg-[#fff1eb] focus-visible:bg-[#fff1eb]';
 export const SERVICES_FILTER_MENU_MAX_HEIGHT_PX = 220;
 export const SERVICES_GRID_CLASS =
-  'grid grid-cols-1 gap-5 min-[426px]:grid-cols-1 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-3 min-[1440px]:grid-cols-4';
+  'grid grid-cols-1 gap-5 min-[426px]:grid-cols-1 min-[768px]:grid-cols-2 min-[1440px]:grid-cols-4';
 export const SERVICES_EMPTY_CLASS =
   'rounded-2xl bg-white px-4 py-10 text-center text-sm text-[#6b7280] min-[426px]:text-base';
 export {
@@ -66,8 +66,7 @@ export const SERVICES_CATEGORY_OPTIONS = [
   })),
 ];
 
-const uniqueSubcategories = (services) =>
-  [...new Set(services.map((service) => service.category))];
+const uniqueSubcategories = (services) => [...new Set(services.map((service) => service.category))];
 
 export const SERVICES_SUBCATEGORY_OPTIONS = [
   {
