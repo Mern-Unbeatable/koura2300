@@ -52,16 +52,16 @@ const ServiceCatalogContent = memo(
           <section aria-label={content.hero.title} className="mt-8">
             {catalog.isBrowsingServices ? (
               <>
-                <button
-                  type="button"
-                  className={SUBCATEGORY_BACK_BUTTON_CLASS}
-                  onClick={catalog.handleBackToSubcategories}
-                >
-                  <ArrowLeft size={SUBCATEGORY_BACK_ICON_SIZE_PX} aria-hidden="true" />
-                  {subcategoryCopy.backLabel}
-                </button>
+                <div className="flex flex-col gap-4 min-[768px]:flex-row min-[768px]:items-center min-[768px]:justify-between">
+                  <button
+                    type="button"
+                    className={SUBCATEGORY_BACK_BUTTON_CLASS}
+                    onClick={catalog.handleBackToSubcategories}
+                  >
+                    <ArrowLeft size={SUBCATEGORY_BACK_ICON_SIZE_PX} aria-hidden="true" />
+                    {subcategoryCopy.backLabel}
+                  </button>
 
-                <div className="mt-5">
                   <ServiceCatalogFilters
                     priceRanges={priceRanges}
                     selectedPriceRange={catalog.selectedPriceRange}
