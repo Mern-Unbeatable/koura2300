@@ -16,7 +16,11 @@ const createReviewsViewProps = (overrides = {}) => ({
   ratingSummary: REVIEWS_RATING_SUMMARY,
   ratingDistribution: REVIEWS_RATING_DISTRIBUTION,
   reviews: REVIEWS_SEED,
+  deleteReviewerName: '',
+  isDeleteModalOpen: false,
   onDeleteReview: jest.fn(),
+  onCloseDeleteModal: jest.fn(),
+  onConfirmDeleteReview: jest.fn(),
   ...overrides,
 });
 
@@ -70,6 +74,35 @@ describe('ReviewsView', () => {
     );
 
     expect(onDeleteReview).toHaveBeenCalledWith(review.id);
+  });
+
+  it('renders the animated delete confirmation modal when open', async () => {
+    const user = userEvent.setup();
+    const onCloseDeleteModal = jest.fn();
+    const onConfirmDeleteReview = jest.fn();
+    const review = REVIEWS_SEED[0];
+
+    renderReviewsView({
+      isDeleteModalOpen: true,
+      deleteReviewerName: review.name,
+      onCloseDeleteModal,
+      onConfirmDeleteReview,
+    });
+
+    expect(
+      screen.getByRole('dialog', { name: REVIEWS_COPY.deleteModal.regionLabel }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('reviews-delete-overlay').className).toContain('animate-fade-in');
+
+    await user.click(
+      screen.getByRole('button', { name: REVIEWS_COPY.deleteModal.confirm }),
+    );
+    expect(onConfirmDeleteReview).toHaveBeenCalledTimes(1);
+
+    await user.click(
+      screen.getByRole('button', { name: REVIEWS_COPY.deleteModal.cancel }),
+    );
+    expect(onCloseDeleteModal).toHaveBeenCalledTimes(1);
   });
 
   it('keeps responsive page layout tokens for required breakpoints', () => {

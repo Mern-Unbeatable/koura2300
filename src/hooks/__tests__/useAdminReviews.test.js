@@ -25,7 +25,21 @@ describe('useAdminReviews', () => {
     expect(result.current.copy.title).toBe(REVIEWS_COPY.title);
   });
 
-  it('deletes a review and updates moderation subtitle', () => {
+  it('opens the delete confirmation modal instead of deleting immediately', () => {
+    const { result } = renderHook(() => useAdminReviews());
+    const review = result.current.reviews.find((item) => item.awaitingModeration);
+
+    act(() => {
+      result.current.onDeleteReview(review.id);
+    });
+
+    expect(result.current.isDeleteModalOpen).toBe(true);
+    expect(result.current.deleteReviewerName).toBe(review.name);
+    expect(toast.success).not.toHaveBeenCalled();
+    expect(result.current.reviews.some((item) => item.id === review.id)).toBe(true);
+  });
+
+  it('confirms delete, closes the modal, and updates moderation subtitle', () => {
     const { result } = renderHook(() => useAdminReviews());
     const reviewId = result.current.reviews.find((review) => review.awaitingModeration).id;
 
@@ -33,8 +47,30 @@ describe('useAdminReviews', () => {
       result.current.onDeleteReview(reviewId);
     });
 
+    act(() => {
+      result.current.onConfirmDeleteReview();
+    });
+
+    expect(result.current.isDeleteModalOpen).toBe(false);
     expect(result.current.reviews.some((review) => review.id === reviewId)).toBe(false);
     expect(result.current.moderationSubtitle).toBe('0 reviews awaiting moderation');
     expect(toast.success).toHaveBeenCalledWith(REVIEWS_COPY.toasts.deleted);
+  });
+
+  it('closes the delete modal without deleting', () => {
+    const { result } = renderHook(() => useAdminReviews());
+    const reviewId = result.current.reviews[0].id;
+
+    act(() => {
+      result.current.onDeleteReview(reviewId);
+    });
+
+    act(() => {
+      result.current.onCloseDeleteModal();
+    });
+
+    expect(result.current.isDeleteModalOpen).toBe(false);
+    expect(toast.success).not.toHaveBeenCalled();
+    expect(result.current.reviews.some((review) => review.id === reviewId)).toBe(true);
   });
 });

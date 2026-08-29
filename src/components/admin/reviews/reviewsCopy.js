@@ -10,6 +10,15 @@ export const REVIEWS_COPY = {
     metaSeparator: '•',
     deleteLabel: (name) => `Delete review by ${name}`,
   },
+  deleteModal: {
+    regionLabel: 'Delete review',
+    title: 'Delete Review',
+    description: (reviewerName) =>
+      `Are you sure you want to delete the review by "${reviewerName}"? This action cannot be undone.`,
+    closeLabel: 'Close delete confirmation',
+    cancel: 'Cancel',
+    confirm: 'Delete',
+  },
   toasts: {
     deleted: 'Review deleted.',
   },
