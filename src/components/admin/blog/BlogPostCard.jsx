@@ -4,12 +4,11 @@ import {
   ADMIN_BLOG_DELETE_BUTTON_CLASS,
   ADMIN_BLOG_EDIT_BUTTON_CLASS,
 } from './blogData';
-import { formatArticleReadingMeta } from './blogUtils';
 
 const BlogPostCard = ({ copy, post, onEditPost, onDeletePost }) => (
   <ArticleCard
     article={post}
-    readingMeta={formatArticleReadingMeta(post.readTimeLabel, post.author)}
+    readingMeta={post.readTimeLabel}
     testId={`blog-post-card-${post.id}`}
     actions={
       <div className={ADMIN_BLOG_ACTIONS_CLASS}>

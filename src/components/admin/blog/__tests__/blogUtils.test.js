@@ -1,6 +1,5 @@
 import {
   clampPage,
-  formatArticleReadingMeta,
   formatBlogPostsCount,
   formatReadMinutesLabel,
   getPaginationItems,
@@ -22,12 +21,6 @@ describe('admin blogUtils', () => {
   it('formats read time labels as Minutes', () => {
     expect(formatReadMinutesLabel(10)).toBe('10 Minutes');
     expect(formatReadMinutesLabel(1)).toBe('1 Minutes');
-  });
-
-  it('formats Learn Grow reading meta for shared article cards', () => {
-    expect(formatArticleReadingMeta('10 Minutes', 'Ahmed Awad')).toBe(
-      '10 Minutes · Ahmed Awad',
-    );
   });
 
   it('paginates posts with a page size of twelve', () => {

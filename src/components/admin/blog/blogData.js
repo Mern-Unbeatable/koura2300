@@ -12,7 +12,6 @@ export const ADMIN_BLOG_VIEWPORT = {
 
 export const ADMIN_BLOG_PAGE_SIZE = 12;
 export const ADMIN_BLOG_DEFAULT_READ_MINUTES = 10;
-export const ADMIN_BLOG_DEFAULT_AUTHOR = 'Ahmed Awad';
 
 export const ADMIN_BLOG_PAGE_CLASS =
   'flex min-w-0 flex-col gap-6 max-[425px]:gap-5 min-[426px]:gap-6 min-[768px]:gap-8 min-[1020px]:gap-[30px]';
@@ -60,18 +59,8 @@ export const ADMIN_BLOG_PAGINATION_PAGE_ACTIVE_CLASS =
 export const ADMIN_BLOG_PAGINATION_ELLIPSIS_CLASS =
   'inline-flex size-8 items-center justify-center rounded-lg bg-white p-2.5 text-[13px] font-semibold text-[#333]';
 
-const ADMIN_BLOG_AUTHORS_BY_ID = {
-  plumbing: 'Ahmed Awad',
-  electrician: 'Ahmed Awad',
-  repairs: 'Ahmed Awad',
-  shape: 'Ahmed Awad',
-  winter: 'Ahmed Awad',
-  routine: 'Ahmed Awad',
-};
-
 export const ADMIN_BLOG_SEED = ARTICLE_ITEMS.map((article) => ({
   ...article,
-  author: ADMIN_BLOG_AUTHORS_BY_ID[article.id] || ADMIN_BLOG_DEFAULT_AUTHOR,
   readMinutes: ADMIN_BLOG_DEFAULT_READ_MINUTES,
   readTimeLabel: formatReadMinutesLabel(ADMIN_BLOG_DEFAULT_READ_MINUTES),
 }));
