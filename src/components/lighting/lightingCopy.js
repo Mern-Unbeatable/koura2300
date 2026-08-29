@@ -15,6 +15,11 @@ export const LIGHTING_CONTENT = {
     priceLabel: 'Price Range',
     anyPrice: 'Any price',
   },
+  subcategories: {
+    gridLabel: 'Browse lighting subcategories',
+    backLabel: 'Back to subcategories',
+    startingAt: (price) => `Starting at $${price}`,
+  },
   pagination: {
     label: 'Lighting services pages',
     previous: 'Previous page',

@@ -4,13 +4,16 @@ import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import { DEFAULT_SUBCATEGORY_COPY } from '../../catalog/subcategoryData';
 import cartReducer from '../../../store/slices/cartSlice';
+import authReducer from '../../../store/slices/authSlice';
 import FenceContent from '../FenceContent';
 
 const createTestStore = () =>
   configureStore({
     reducer: {
       cart: cartReducer,
+      auth: authReducer,
     },
   });
 
@@ -28,7 +31,13 @@ const renderFencePage = () => {
   return store;
 };
 
-afterEach(cleanup);
+const openSubcategory = async (user, name) => {
+  await user.click(screen.getByRole('button', { name }));
+};
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('Fence page', () => {
   it('renders shared chrome, heading, transition, and active navigation', () => {
@@ -47,72 +56,74 @@ describe('Fence page', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('selects All by default and displays the first twenty services', () => {
+  it('shows subcategory cards instead of pill tabs on the landing view', () => {
     renderFencePage();
 
-    expect(screen.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getAllByRole('article')).toHaveLength(20);
-    expect(screen.getByRole('heading', { level: 3, name: 'Wood Fence' })).toBeVisible();
-    expect(screen.getByRole('heading', { level: 3, name: 'Broken Panels' })).toBeVisible();
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Fence Installation' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Fence Gate Services' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'All' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: 'Price Range' })).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
   });
 
-  it('renders all requested category tabs', () => {
-    renderFencePage();
-
-    [
-      'All',
-      'Fence Installation',
-      'Fence Repair',
-      'Fence Gate Services',
-      'Fence Staining & Painting',
-      'Fence Maintenance',
-    ].forEach((category) => {
-      expect(screen.getByRole('button', { name: category })).toBeInTheDocument();
-    });
-  });
-
-  it('shows only services from the selected category', async () => {
+  it('opens child services when a subcategory card is clicked', async () => {
     const user = userEvent.setup();
     renderFencePage();
 
-    await user.click(screen.getByRole('button', { name: 'Fence Gate Services' }));
+    await openSubcategory(user, 'Fence Gate Services');
 
     expect(screen.getAllByRole('article')).toHaveLength(5);
-    expect(screen.getByRole('heading', { level: 3, name: 'Gate Installation' })).toBeVisible();
+    expect(screen.getByRole('heading', { level: 3, name: 'Gate Installation' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 3, name: 'Wood Fence' })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }),
+    ).toBeInTheDocument();
   });
 
-  it('filters fence services by price range', async () => {
+  it('returns to subcategory cards from the services view', async () => {
     const user = userEvent.setup();
     renderFencePage();
 
+    await openSubcategory(user, 'Fence Gate Services');
+    await user.click(screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }));
+
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
+  });
+
+  it('filters child services by price range after opening a subcategory', async () => {
+    const user = userEvent.setup();
+    renderFencePage();
+
+    await openSubcategory(user, 'Fence Installation');
     await user.selectOptions(screen.getByRole('combobox', { name: 'Price Range' }), '100-200');
 
-    screen.getAllByRole('article').forEach((card) => {
+    const visibleCards = screen.getAllByRole('article');
+    expect(visibleCards.length).toBeGreaterThan(0);
+    visibleCards.forEach((card) => {
       expect(within(card).getByText(/Starting at \$(1\d\d|200)/)).toBeInTheDocument();
     });
   });
 
-  it('adds a fence service to the shared Redux cart', async () => {
+  it('adds a fence service to the shared Redux cart from a subcategory', async () => {
     const user = userEvent.setup();
     const store = renderFencePage();
 
+    await openSubcategory(user, 'Fence Installation');
     await user.click(screen.getByRole('button', { name: 'Add Wood Fence to cart' }));
 
     expect(store.getState().cart.totalItems).toBe(1);
     expect(store.getState().cart.items[0].title).toBe('Wood Fence');
   });
 
-  it('paginates all twenty-two fence services', async () => {
+  it('paginates only while browsing child services that exceed one page', async () => {
     const user = userEvent.setup();
     renderFencePage();
 
-    await user.click(screen.getByRole('button', { name: 'Next page' }));
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
 
-    expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
-    expect(screen.getAllByRole('article')).toHaveLength(2);
+    await openSubcategory(user, 'Fence Installation');
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
   });
 });

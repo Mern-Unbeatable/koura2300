@@ -4,13 +4,16 @@ import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import { DEFAULT_SUBCATEGORY_COPY } from '../../catalog/subcategoryData';
 import cartReducer from '../../../store/slices/cartSlice';
+import authReducer from '../../../store/slices/authSlice';
 import AppliancesContent from '../AppliancesContent';
 
 const createTestStore = () =>
   configureStore({
     reducer: {
       cart: cartReducer,
+      auth: authReducer,
     },
   });
 
@@ -28,7 +31,13 @@ const renderAppliancesPage = () => {
   return store;
 };
 
-afterEach(cleanup);
+const openSubcategory = async (user, name) => {
+  await user.click(screen.getByRole('button', { name }));
+};
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('Appliances page', () => {
   it('renders shared chrome, heading, transition, and active navigation', () => {
@@ -47,72 +56,74 @@ describe('Appliances page', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('selects All by default and displays the first twenty services', () => {
+  it('shows subcategory cards instead of pill tabs on the landing view', () => {
     renderAppliancesPage();
 
-    expect(screen.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getAllByRole('article')).toHaveLength(20);
-    expect(screen.getByRole('heading', { level: 3, name: 'Dishwasher' })).toBeVisible();
-    expect(screen.getByRole('heading', { level: 3, name: 'Fixed' })).toBeVisible();
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Kitchen Appliance Installation' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'TV Mounting' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'All' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: 'Price Range' })).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
   });
 
-  it('renders all requested category tabs', () => {
-    renderAppliancesPage();
-
-    [
-      'All',
-      'Kitchen Appliance Installation',
-      'Laundry Appliance Installation',
-      'TV Mounting',
-      'Smart Home Device Installation',
-      'Appliance Replacement',
-    ].forEach((category) => {
-      expect(screen.getByRole('button', { name: category })).toBeInTheDocument();
-    });
-  });
-
-  it('shows only services from the selected category', async () => {
+  it('opens child services when a subcategory card is clicked', async () => {
     const user = userEvent.setup();
     renderAppliancesPage();
 
-    await user.click(screen.getByRole('button', { name: 'TV Mounting' }));
+    await openSubcategory(user, 'TV Mounting');
 
     expect(screen.getAllByRole('article')).toHaveLength(4);
-    expect(screen.getByRole('heading', { level: 3, name: 'Cable Concealment' })).toBeVisible();
+    expect(screen.getByRole('heading', { level: 3, name: 'Cable Concealment' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 3, name: 'Dishwasher' })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }),
+    ).toBeInTheDocument();
   });
 
-  it('filters appliance services by price range', async () => {
+  it('returns to subcategory cards from the services view', async () => {
     const user = userEvent.setup();
     renderAppliancesPage();
 
+    await openSubcategory(user, 'TV Mounting');
+    await user.click(screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }));
+
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
+  });
+
+  it('filters child services by price range after opening a subcategory', async () => {
+    const user = userEvent.setup();
+    renderAppliancesPage();
+
+    await openSubcategory(user, 'Kitchen Appliance Installation');
     await user.selectOptions(screen.getByRole('combobox', { name: 'Price Range' }), '100-200');
 
-    screen.getAllByRole('article').forEach((card) => {
+    const visibleCards = screen.getAllByRole('article');
+    expect(visibleCards.length).toBeGreaterThan(0);
+    visibleCards.forEach((card) => {
       expect(within(card).getByText(/Starting at \$(1\d\d|200)/)).toBeInTheDocument();
     });
   });
 
-  it('adds an appliance service to the shared Redux cart', async () => {
+  it('adds an appliance service to the shared Redux cart from a subcategory', async () => {
     const user = userEvent.setup();
     const store = renderAppliancesPage();
 
+    await openSubcategory(user, 'Kitchen Appliance Installation');
     await user.click(screen.getByRole('button', { name: 'Add Dishwasher to cart' }));
 
     expect(store.getState().cart.totalItems).toBe(1);
     expect(store.getState().cart.items[0].title).toBe('Dishwasher');
   });
 
-  it('paginates all twenty-two appliance services', async () => {
+  it('paginates only while browsing child services that exceed one page', async () => {
     const user = userEvent.setup();
     renderAppliancesPage();
 
-    await user.click(screen.getByRole('button', { name: 'Next page' }));
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
 
-    expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
-    expect(screen.getAllByRole('article')).toHaveLength(2);
+    await openSubcategory(user, 'Kitchen Appliance Installation');
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
   });
 });

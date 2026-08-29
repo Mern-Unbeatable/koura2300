@@ -4,13 +4,16 @@ import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import { DEFAULT_SUBCATEGORY_COPY } from '../../catalog/subcategoryData';
 import cartReducer from '../../../store/slices/cartSlice';
+import authReducer from '../../../store/slices/authSlice';
 import SecurityContent from '../SecurityContent';
 
 const createTestStore = () =>
   configureStore({
     reducer: {
       cart: cartReducer,
+      auth: authReducer,
     },
   });
 
@@ -28,7 +31,13 @@ const renderSecurityPage = () => {
   return store;
 };
 
-afterEach(cleanup);
+const openSubcategory = async (user, name) => {
+  await user.click(screen.getByRole('button', { name }));
+};
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('Security page', () => {
   it('renders the shared site chrome and page heading', () => {
@@ -38,6 +47,7 @@ describe('Security page', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Professional Security Services' }),
     ).toBeInTheDocument();
+    expect(screen.getByRole('main')).toHaveClass('animate-page-enter');
     expect(
       within(screen.getByRole('navigation', { name: 'Service categories' })).getByRole('link', {
         name: 'Security',
@@ -46,109 +56,78 @@ describe('Security page', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('selects All by default and renders every service category', () => {
+  it('shows subcategory cards instead of pill tabs on the landing view', () => {
     renderSecurityPage();
 
-    expect(screen.getByRole('button', { name: 'All' })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
-    expect(
-      screen.getByRole('heading', { level: 3, name: 'Camera Installation' }),
-    ).toBeVisible();
-    expect(
-      screen.getByRole('heading', { level: 3, name: 'Alarm Installation' }),
-    ).toBeVisible();
-    expect(screen.getByRole('heading', { level: 3, name: 'Smart Locks' })).toBeVisible();
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Security Camera Services' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Video Doorbells' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'All' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: 'Price Range' })).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
   });
 
-  it('renders the supplied category tabs', () => {
-    renderSecurityPage();
-
-    [
-      'All',
-      'Security Camera Services',
-      'Alarm System Services',
-      'Smart Home Security',
-      'Smoke & Carbon Monoxide Detectors',
-      'Video Doorbells',
-    ].forEach((category) => {
-      expect(screen.getByRole('button', { name: category })).toBeInTheDocument();
-    });
-  });
-
-  it('eases the catalogue in on navigation instead of snapping into place', () => {
-    renderSecurityPage();
-
-    expect(screen.getByRole('main')).toHaveClass('animate-page-enter');
-  });
-
-  it('wraps the category tabs onto multiple rows at every breakpoint', () => {
-    renderSecurityPage();
-
-    const tabs = screen.getByRole('group', {
-      name: 'Filter security services by category',
-    });
-
-    expect(tabs).toHaveClass('flex-wrap');
-    expect(tabs).not.toHaveClass('overflow-x-auto');
-  });
-
-  it('renders each category tab on a single line', () => {
-    renderSecurityPage();
-
-    expect(screen.getByRole('button', { name: 'Smoke & Carbon Monoxide Detectors' })).toHaveClass(
-      'whitespace-nowrap',
-    );
-  });
-
-  it('shows only services from the selected category', async () => {
+  it('opens child services when a subcategory card is clicked', async () => {
     const user = userEvent.setup();
     renderSecurityPage();
 
-    await user.click(screen.getByRole('button', { name: 'Video Doorbells' }));
+    await openSubcategory(user, 'Video Doorbells');
 
+    expect(screen.getAllByRole('article')).toHaveLength(4);
     expect(
       screen.getByRole('heading', { level: 3, name: 'Ring Doorbell Installation' }),
-    ).toBeVisible();
+    ).toBeInTheDocument();
     expect(
       screen.queryByRole('heading', { level: 3, name: 'Camera Installation' }),
     ).not.toBeInTheDocument();
-    expect(screen.getAllByRole('article')).toHaveLength(4);
+    expect(
+      screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }),
+    ).toBeInTheDocument();
   });
 
-  it('filters visible services by price range', async () => {
+  it('returns to subcategory cards from the services view', async () => {
     const user = userEvent.setup();
     renderSecurityPage();
 
+    await openSubcategory(user, 'Video Doorbells');
+    await user.click(screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }));
+
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
+  });
+
+  it('filters child services by price range after opening a subcategory', async () => {
+    const user = userEvent.setup();
+    renderSecurityPage();
+
+    await openSubcategory(user, 'Security Camera Services');
     await user.selectOptions(screen.getByRole('combobox', { name: 'Price Range' }), '100-200');
 
-    screen.getAllByRole('article').forEach((card) => {
+    const visibleCards = screen.getAllByRole('article');
+    expect(visibleCards.length).toBeGreaterThan(0);
+    visibleCards.forEach((card) => {
       expect(within(card).getByText(/Starting at \$(1\d\d|200)/)).toBeInTheDocument();
     });
   });
 
-  it('adds a security service to the shared Redux cart', async () => {
+  it('adds a security service to the shared Redux cart from a subcategory', async () => {
     const user = userEvent.setup();
     const store = renderSecurityPage();
 
+    await openSubcategory(user, 'Security Camera Services');
     await user.click(screen.getByRole('button', { name: 'Add Camera Installation to cart' }));
 
     expect(store.getState().cart.totalItems).toBe(1);
     expect(store.getState().cart.items[0].title).toBe('Camera Installation');
   });
 
-  it('paginates the complete Security catalogue', async () => {
+  it('paginates only while browsing child services that exceed one page', async () => {
     const user = userEvent.setup();
     renderSecurityPage();
 
-    expect(screen.getAllByRole('article')).toHaveLength(20);
-    await user.click(screen.getByRole('button', { name: 'Next page' }));
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
 
-    expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
-    expect(screen.getAllByRole('article')).toHaveLength(3);
+    await openSubcategory(user, 'Security Camera Services');
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
   });
 });

@@ -4,13 +4,16 @@ import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import { DEFAULT_SUBCATEGORY_COPY } from '../../catalog/subcategoryData';
 import cartReducer from '../../../store/slices/cartSlice';
+import authReducer from '../../../store/slices/authSlice';
 import GardenContent from '../GardenContent';
 
 const createTestStore = () =>
   configureStore({
     reducer: {
       cart: cartReducer,
+      auth: authReducer,
     },
   });
 
@@ -28,7 +31,13 @@ const renderGardenPage = () => {
   return store;
 };
 
-afterEach(cleanup);
+const openSubcategory = async (user, name) => {
+  await user.click(screen.getByRole('button', { name }));
+};
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('Garden page', () => {
   it('renders shared chrome, heading, transition, and active navigation', () => {
@@ -47,58 +56,61 @@ describe('Garden page', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('selects All by default and displays every garden service on one page', () => {
+  it('shows subcategory cards instead of pill tabs on the landing view', () => {
     renderGardenPage();
 
-    expect(screen.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getAllByRole('article')).toHaveLength(20);
-    expect(screen.getByRole('heading', { level: 3, name: 'Tree Planting' })).toBeVisible();
-    expect(screen.getByRole('heading', { level: 3, name: 'Swing Sets' })).toBeVisible();
-    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Tree & Shrub Planting' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Playground Assembly' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'All' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: 'Price Range' })).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
   });
 
-  it('renders all requested category tabs', () => {
-    renderGardenPage();
-
-    [
-      'All',
-      'Tree & Shrub Planting',
-      'Garden Maintenance',
-      'Mulching',
-      'Landscape Improvements',
-      'Walkway & Paver Repairs',
-      'Playground Assembly',
-    ].forEach((category) => {
-      expect(screen.getByRole('button', { name: category })).toBeInTheDocument();
-    });
-  });
-
-  it('shows only services from the selected category', async () => {
+  it('opens child services when a subcategory card is clicked', async () => {
     const user = userEvent.setup();
     renderGardenPage();
 
-    await user.click(screen.getByRole('button', { name: 'Playground Assembly' }));
+    await openSubcategory(user, 'Playground Assembly');
 
     expect(screen.getAllByRole('article')).toHaveLength(4);
-    expect(screen.getByRole('heading', { level: 3, name: 'Playhouses' })).toBeVisible();
+    expect(screen.getByRole('heading', { level: 3, name: 'Playhouses' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 3, name: 'Tree Planting' })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }),
+    ).toBeInTheDocument();
   });
 
-  it('filters garden services by price range', async () => {
+  it('returns to subcategory cards from the services view', async () => {
     const user = userEvent.setup();
     renderGardenPage();
 
+    await openSubcategory(user, 'Playground Assembly');
+    await user.click(screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }));
+
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
+  });
+
+  it('filters child services by price range after opening a subcategory', async () => {
+    const user = userEvent.setup();
+    renderGardenPage();
+
+    await openSubcategory(user, 'Tree & Shrub Planting');
     await user.selectOptions(screen.getByRole('combobox', { name: 'Price Range' }), '100-200');
 
-    screen.getAllByRole('article').forEach((card) => {
+    const visibleCards = screen.getAllByRole('article');
+    expect(visibleCards.length).toBeGreaterThan(0);
+    visibleCards.forEach((card) => {
       expect(within(card).getByText(/Starting at \$(1\d\d|200)/)).toBeInTheDocument();
     });
   });
 
-  it('adds a garden service to the shared Redux cart', async () => {
+  it('adds a garden service to the shared Redux cart from a subcategory', async () => {
     const user = userEvent.setup();
     const store = renderGardenPage();
 
+    await openSubcategory(user, 'Tree & Shrub Planting');
     await user.click(screen.getByRole('button', { name: 'Add Tree Planting to cart' }));
 
     expect(store.getState().cart.totalItems).toBe(1);

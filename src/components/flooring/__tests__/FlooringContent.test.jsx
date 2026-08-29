@@ -4,13 +4,16 @@ import { cleanup, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import { DEFAULT_SUBCATEGORY_COPY } from '../../catalog/subcategoryData';
 import cartReducer from '../../../store/slices/cartSlice';
+import authReducer from '../../../store/slices/authSlice';
 import FlooringContent from '../FlooringContent';
 
 const createTestStore = () =>
   configureStore({
     reducer: {
       cart: cartReducer,
+      auth: authReducer,
     },
   });
 
@@ -28,7 +31,13 @@ const renderFlooringPage = () => {
   return store;
 };
 
-afterEach(cleanup);
+const openSubcategory = async (user, name) => {
+  await user.click(screen.getByRole('button', { name }));
+};
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('Flooring page', () => {
   it('renders shared chrome, heading, transition, and active navigation', () => {
@@ -47,75 +56,74 @@ describe('Flooring page', () => {
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('selects All by default and displays the first twenty services', () => {
+  it('shows subcategory cards instead of pill tabs on the landing view', () => {
     renderFlooringPage();
 
-    expect(screen.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getAllByRole('article')).toHaveLength(20);
-    expect(screen.getByRole('heading', { level: 3, name: 'Trim Installation' })).toBeVisible();
-    expect(screen.getByRole('heading', { level: 3, name: 'Grouting' })).toBeVisible();
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Hardwood Flooring' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Trim & Baseboards' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'All' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: 'Price Range' })).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
   });
 
-  it('renders all requested category tabs', () => {
-    renderFlooringPage();
-
-    [
-      'All',
-      'Hardwood Flooring',
-      'Laminate Flooring',
-      'Vinyl Flooring',
-      'Tile Flooring',
-      'Carpet Flooring',
-      'Floor Repairs',
-      'Trim & Baseboards',
-    ].forEach((category) => {
-      expect(screen.getByRole('button', { name: category })).toBeInTheDocument();
-    });
-  });
-
-  it('shows only services from the selected category', async () => {
+  it('opens child services when a subcategory card is clicked', async () => {
     const user = userEvent.setup();
     renderFlooringPage();
 
-    await user.click(screen.getByRole('button', { name: 'Trim & Baseboards' }));
+    await openSubcategory(user, 'Trim & Baseboards');
 
     expect(screen.getAllByRole('article')).toHaveLength(4);
-    expect(screen.getByRole('heading', { level: 3, name: 'Quarter Round' })).toBeVisible();
+    expect(screen.getByRole('heading', { level: 3, name: 'Quarter Round' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 3, name: 'Grouting' })).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }),
+    ).toBeInTheDocument();
   });
 
-  it('filters flooring services by price range', async () => {
+  it('returns to subcategory cards from the services view', async () => {
     const user = userEvent.setup();
     renderFlooringPage();
 
+    await openSubcategory(user, 'Trim & Baseboards');
+    await user.click(screen.getByRole('button', { name: DEFAULT_SUBCATEGORY_COPY.backLabel }));
+
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
+  });
+
+  it('filters child services by price range after opening a subcategory', async () => {
+    const user = userEvent.setup();
+    renderFlooringPage();
+
+    await openSubcategory(user, 'Hardwood Flooring');
     await user.selectOptions(screen.getByRole('combobox', { name: 'Price Range' }), '100-200');
 
-    screen.getAllByRole('article').forEach((card) => {
+    const visibleCards = screen.getAllByRole('article');
+    expect(visibleCards.length).toBeGreaterThan(0);
+    visibleCards.forEach((card) => {
       expect(within(card).getByText(/Starting at \$(1\d\d|200)/)).toBeInTheDocument();
     });
   });
 
-  it('adds a flooring service to the shared Redux cart', async () => {
+  it('adds a flooring service to the shared Redux cart from a subcategory', async () => {
     const user = userEvent.setup();
     const store = renderFlooringPage();
 
-    await user.click(screen.getByRole('button', { name: 'Hardwood Flooring' }));
+    await openSubcategory(user, 'Hardwood Flooring');
     await user.click(screen.getByRole('button', { name: 'Add Installation to cart' }));
 
     expect(store.getState().cart.totalItems).toBe(1);
     expect(store.getState().cart.items[0].title).toBe('Installation');
   });
 
-  it('paginates all twenty-six flooring services', async () => {
+  it('paginates only while browsing child services that exceed one page', async () => {
     const user = userEvent.setup();
     renderFlooringPage();
 
-    await user.click(screen.getByRole('button', { name: 'Next page' }));
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
 
-    expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
-    expect(screen.getAllByRole('article')).toHaveLength(6);
+    await openSubcategory(user, 'Hardwood Flooring');
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
   });
 });

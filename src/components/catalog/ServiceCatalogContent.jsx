@@ -1,13 +1,16 @@
 import React, { memo } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import useAddService from '../../hooks/useAddService';
 import useLandingSearch from '../../hooks/useLandingSearch';
 import useScrollToTop from '../../hooks/useScrollToTop';
 import useServiceCatalog from '../../hooks/useServiceCatalog';
 import LandingFooter from '../home/LandingFooter';
 import LandingHeader from '../home/LandingHeader';
+import { DEFAULT_SUBCATEGORY_COPY, SUBCATEGORY_BACK_BUTTON_CLASS, SUBCATEGORY_BACK_ICON_SIZE_PX } from './subcategoryData';
 import ServiceCatalogFilters from './ServiceCatalogFilters';
 import ServiceCatalogGrid from './ServiceCatalogGrid';
 import ServiceCatalogPagination from './ServiceCatalogPagination';
+import ServiceCatalogSubcategoryGrid from './ServiceCatalogSubcategoryGrid';
 
 const ServiceCatalogContent = memo(
   ({ services, categories, priceRanges, allCategory, pageSize, content }) => {
@@ -22,6 +25,15 @@ const ServiceCatalogContent = memo(
       pageSize,
     });
     const handleAddService = useAddService();
+
+    const subcategoryCopy = {
+      ...DEFAULT_SUBCATEGORY_COPY,
+      ...content.subcategories,
+    };
+
+    const serviceFilterCategories = categories.filter(
+      (category) => category !== allCategory,
+    );
 
     return (
       <div className="min-h-screen overflow-x-clip bg-white font-inter text-brand-ink">
@@ -42,37 +54,59 @@ const ServiceCatalogContent = memo(
           </div>
 
           <section aria-label={content.hero.title} className="mt-8">
-            <ServiceCatalogFilters
-              categories={categories}
-              priceRanges={priceRanges}
-              selectedCategory={catalog.selectedCategory}
-              selectedPriceRange={catalog.selectedPriceRange}
-              groupLabel={content.filters.groupLabel}
-              priceLabel={content.filters.priceLabel}
-              onCategoryChange={catalog.handleCategoryChange}
-              onPriceRangeChange={catalog.handlePriceRangeChange}
-            />
+            {catalog.isBrowsingServices ? (
+              <>
+                <button
+                  type="button"
+                  className={SUBCATEGORY_BACK_BUTTON_CLASS}
+                  onClick={catalog.handleBackToSubcategories}
+                >
+                  <ArrowLeft size={SUBCATEGORY_BACK_ICON_SIZE_PX} aria-hidden="true" />
+                  {subcategoryCopy.backLabel}
+                </button>
 
-            <div className="mt-10">
-              <ServiceCatalogGrid
-                services={catalog.visibleServices}
-                emptyState={content.emptyState}
-                onAddService={handleAddService}
-                selectedCategory={catalog.selectedCategory}
+                <div className="mt-5">
+                  <ServiceCatalogFilters
+                    categories={serviceFilterCategories}
+                    priceRanges={priceRanges}
+                    selectedCategory={catalog.selectedCategory}
+                    selectedPriceRange={catalog.selectedPriceRange}
+                    groupLabel={content.filters.groupLabel}
+                    priceLabel={content.filters.priceLabel}
+                    onCategoryChange={catalog.handleCategoryChange}
+                    onPriceRangeChange={catalog.handlePriceRangeChange}
+                  />
+                </div>
+
+                <div className="mt-10">
+                  <ServiceCatalogGrid
+                    services={catalog.visibleServices}
+                    emptyState={content.emptyState}
+                    onAddService={handleAddService}
+                    selectedCategory={catalog.selectedCategory}
+                  />
+                </div>
+
+                {catalog.pageCount > 1 ? (
+                  <div className="mt-16">
+                    <ServiceCatalogPagination
+                      pageIndex={catalog.pageIndex}
+                      pageCount={catalog.pageCount}
+                      labels={content.pagination}
+                      onPrevious={catalog.showPreviousPage}
+                      onNext={catalog.showNextPage}
+                      onSelectPage={catalog.showPage}
+                    />
+                  </div>
+                ) : null}
+              </>
+            ) : (
+              <ServiceCatalogSubcategoryGrid
+                cards={catalog.subcategoryCards}
+                gridLabel={subcategoryCopy.gridLabel}
+                startingAtLabel={subcategoryCopy.startingAt}
+                onSelect={catalog.handleSubcategorySelect}
               />
-            </div>
-
-            {catalog.pageCount > 1 && (
-              <div className="mt-16">
-                <ServiceCatalogPagination
-                  pageIndex={catalog.pageIndex}
-                  pageCount={catalog.pageCount}
-                  labels={content.pagination}
-                  onPrevious={catalog.showPreviousPage}
-                  onNext={catalog.showNextPage}
-                  onSelectPage={catalog.showPage}
-                />
-              </div>
             )}
           </section>
         </main>

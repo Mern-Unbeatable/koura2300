@@ -6,13 +6,15 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { buildServiceDetailsRoute } from '../../../config';
 import cartReducer from '../../../store/slices/cartSlice';
+import authReducer from '../../../store/slices/authSlice';
 import LightingContent from '../LightingContent';
-import { LIGHTING_ALL_CATEGORY } from '../lightingData';
+import { LIGHTING_CONTENT } from '../lightingCopy';
 
 const createTestStore = () =>
   configureStore({
     reducer: {
       cart: cartReducer,
+      auth: authReducer,
     },
   });
 
@@ -28,6 +30,10 @@ const renderLightingPage = () => {
   );
 
   return store;
+};
+
+const openSubcategory = async (user, name) => {
+  await user.click(screen.getByRole('button', { name }));
 };
 
 afterEach(() => {
@@ -60,108 +66,51 @@ describe('Lighting page', () => {
     expect(lightingLink).toHaveAttribute('aria-current', 'page');
   });
 
-  it('does not mark other category links as the current page', () => {
+  it('shows subcategory cards instead of pill tabs on the landing view', () => {
     renderLightingPage();
 
-    expect(
-      within(screen.getByRole('navigation', { name: 'Service categories' })).getByRole('link', {
-        name: 'Kitchen',
-      }),
-    ).not.toHaveAttribute('aria-current');
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Indoor Lighting' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Smart Lighting' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'All' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('combobox', { name: 'Price Range' })).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
   });
 
-  it('renders twenty service cards on the first page', () => {
+  it('opens child services when a subcategory card is clicked', async () => {
+    const user = userEvent.setup();
     renderLightingPage();
 
-    expect(screen.getAllByRole('article')).toHaveLength(20);
+    await openSubcategory(user, 'Indoor Lighting');
+
+    expect(screen.getAllByRole('article')).toHaveLength(8);
     expect(
       screen.getByRole('heading', { level: 3, name: 'Ceiling Light Installation' }),
     ).toBeInTheDocument();
-  });
-
-  it('selects the All tab by default', () => {
-    renderLightingPage();
-
-    expect(screen.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByRole('button', { name: 'Indoor Lighting' })).toHaveAttribute(
-      'aria-pressed',
-      'false',
-    );
-  });
-
-  it('shows services from every category while the All tab is selected', () => {
-    renderLightingPage();
-
-    expect(
-      screen.getByRole('heading', { level: 3, name: 'Ceiling Light Installation' }),
-    ).toBeVisible();
-    expect(screen.getByRole('heading', { level: 3, name: 'Porch Lights' })).toBeVisible();
-    expect(screen.getByRole('heading', { level: 3, name: 'Fixture Installation' })).toBeVisible();
-  });
-
-  it('shows only the chosen category once a category tab is selected', async () => {
-    const user = userEvent.setup();
-    renderLightingPage();
-
-    await user.click(screen.getByRole('button', { name: 'Indoor Lighting' }));
-
-    expect(screen.getAllByRole('article')).toHaveLength(8);
     expect(screen.queryByRole('heading', { level: 3, name: 'Porch Lights' })).not.toBeInTheDocument();
-  });
-
-  it('restores the full catalog when All is selected again', async () => {
-    const user = userEvent.setup();
-    renderLightingPage();
-
-    await user.click(screen.getByRole('button', { name: 'Lighting Repairs' }));
-    await user.click(screen.getByRole('button', { name: 'All' }));
-
-    expect(screen.getAllByRole('article')).toHaveLength(20);
-    expect(screen.getByRole('heading', { level: 3, name: 'Porch Lights' })).toBeVisible();
-  });
-
-  it('renders service images with meaningful alternatives and explicit dimensions', () => {
-    renderLightingPage();
-
-    const image = screen.getAllByRole('img', {
-      name: 'Chrome lighting fixture above a white sink',
-    })[0];
-
-    expect(image).toHaveAttribute('loading', 'lazy');
-    expect(image).toHaveAttribute('width');
-    expect(image).toHaveAttribute('height');
-  });
-
-  it('filters services when a category control is selected', async () => {
-    const user = userEvent.setup();
-    renderLightingPage();
-
-    await user.click(screen.getByRole('button', { name: 'Outdoor Lighting' }));
-
-    expect(screen.getByRole('heading', { level: 3, name: 'Flood Lights' })).toBeVisible();
     expect(
-      screen.queryByRole('heading', { level: 3, name: 'Ceiling Light Installation' }),
-    ).not.toBeInTheDocument();
+      screen.getByRole('button', { name: LIGHTING_CONTENT.subcategories.backLabel }),
+    ).toBeInTheDocument();
   });
 
-  it('marks the selected category control as active', async () => {
+  it('returns to subcategory cards from the services view', async () => {
     const user = userEvent.setup();
     renderLightingPage();
 
-    const outdoorFilter = screen.getByRole('button', { name: 'Outdoor Lighting' });
-    await user.click(outdoorFilter);
-
-    expect(outdoorFilter).toHaveAttribute('aria-pressed', 'true');
-    expect(screen.getByRole('button', { name: 'Indoor Lighting' })).toHaveAttribute(
-      'aria-pressed',
-      'false',
+    await openSubcategory(user, 'Outdoor Lighting');
+    await user.click(
+      screen.getByRole('button', { name: LIGHTING_CONTENT.subcategories.backLabel }),
     );
+
+    expect(screen.getByTestId('subcategory-cards-grid')).toBeInTheDocument();
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
   });
 
-  it('filters services by the selected price range', async () => {
+  it('filters child services by price range after opening a subcategory', async () => {
     const user = userEvent.setup();
     renderLightingPage();
 
+    await openSubcategory(user, 'Indoor Lighting');
     await user.selectOptions(screen.getByRole('combobox', { name: 'Price Range' }), '100-200');
 
     const visibleCards = screen.getAllByRole('article');
@@ -171,10 +120,11 @@ describe('Lighting page', () => {
     });
   });
 
-  it('adds the selected lighting service to the Redux cart', async () => {
+  it('adds the selected lighting service to the Redux cart from a subcategory', async () => {
     const user = userEvent.setup();
     const store = renderLightingPage();
 
+    await openSubcategory(user, 'Indoor Lighting');
     await user.click(
       screen.getByRole('button', { name: 'Add Ceiling Light Installation to cart' }),
     );
@@ -183,46 +133,11 @@ describe('Lighting page', () => {
     expect(store.getState().cart.items[0].title).toBe('Ceiling Light Installation');
   });
 
-  it('moves to the next catalog page and updates pagination state', async () => {
+  it('links each catalog card to its service details page with the subcategory', async () => {
     const user = userEvent.setup();
     renderLightingPage();
 
-    const nextButton = screen.getByRole('button', { name: 'Next page' });
-    await user.click(nextButton);
-
-    expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
-    expect(
-      screen.queryByRole('heading', { level: 3, name: 'Ceiling Light Installation' }),
-    ).not.toBeInTheDocument();
-  });
-
-  it('disables previous-page navigation on the first page', () => {
-    renderLightingPage();
-
-    expect(screen.getByRole('button', { name: 'Previous page' })).toBeDisabled();
-  });
-
-  it('links each catalog card to its service details page', () => {
-    renderLightingPage();
-
-    const card = screen
-      .getByRole('heading', { level: 3, name: 'Ceiling Light Installation' })
-      .closest('article');
-
-    expect(within(card).getByRole('link', { name: 'View Ceiling Light Installation' })).toHaveAttribute(
-      'href',
-      buildServiceDetailsRoute('indoor-lighting-ceiling-light-installation', LIGHTING_ALL_CATEGORY),
-    );
-  });
-
-  it('carries the selected category tab into the service details link', async () => {
-    const user = userEvent.setup();
-    renderLightingPage();
-
-    await user.click(screen.getByRole('button', { name: 'Light Fixture Services' }));
+    await openSubcategory(user, 'Light Fixture Services');
 
     const card = screen
       .getByRole('heading', { level: 3, name: 'Fixture Installation' })
@@ -235,5 +150,15 @@ describe('Lighting page', () => {
         'Light Fixture Services',
       ),
     );
+  });
+
+  it('paginates only while browsing child services that exceed one page', async () => {
+    const user = userEvent.setup();
+    renderLightingPage();
+
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
+
+    await openSubcategory(user, 'Indoor Lighting');
+    expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
   });
 });
