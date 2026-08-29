@@ -20,15 +20,16 @@ export const ADS_DELETE_CLOSE_ICON_SIZE_PX = 18;
 export const ADS_PAGE_CLASS =
   'flex min-w-0 flex-col gap-5 max-[425px]:gap-5 min-[426px]:gap-6 min-[768px]:gap-8 min-[1020px]:gap-10';
 
-export const ADS_HEADER_CLASS = 'flex min-w-0 flex-col gap-5 min-[768px]:gap-[30px]';
+export const ADS_HEADER_CLASS =
+  'flex flex-col gap-4 min-[1020px]:flex-row min-[1020px]:items-center min-[1020px]:justify-between min-[1020px]:gap-5';
 
-export const ADS_HEADER_TOP_CLASS =
-  'flex flex-col gap-4 min-[768px]:flex-row min-[768px]:items-center min-[768px]:justify-between';
+export const ADS_HEADER_TEXT_CLASS = 'flex shrink-0 flex-col gap-1';
 
-export const ADS_HEADER_TEXT_CLASS = 'flex min-w-0 flex-col gap-1';
+export const ADS_HEADER_ACTIONS_CLASS =
+  'flex w-full flex-col gap-3 min-[768px]:flex-row min-[768px]:items-center min-[768px]:justify-end min-[768px]:gap-5';
 
 export const ADS_TITLE_CLASS =
-  'text-2xl font-medium leading-[1.2] text-[#0a0a0a] min-[376px]:text-[28px] min-[768px]:text-[32px]';
+  'whitespace-nowrap text-2xl font-medium leading-[1.2] text-[#0a0a0a] min-[376px]:text-[28px] min-[768px]:text-[32px]';
 
 export const ADS_SUBTITLE_CLASS =
   'text-sm leading-5 text-[#555353] min-[426px]:text-base min-[426px]:leading-6 min-[768px]:text-xl min-[768px]:leading-[1.5]';
@@ -37,17 +38,17 @@ export const ADS_ADD_BUTTON_CLASS =
   'inline-flex w-full shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-6 py-3 text-base font-bold leading-6 text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[768px]:w-auto';
 
 export const ADS_FILTERS_CLASS =
-  'flex w-full flex-col gap-3 min-[426px]:flex-row min-[426px]:items-center min-[426px]:justify-end min-[768px]:gap-3.5';
+  'flex w-full flex-col gap-3 min-[426px]:flex-row min-[426px]:items-center min-[768px]:w-auto min-[768px]:gap-3.5';
 
 export const ADS_SORT_LABEL_CLASS = 'shrink-0 text-sm leading-5 text-black';
 
 export const ADS_FILTER_SELECTS_CLASS =
-  'flex w-full flex-col gap-3 min-[426px]:flex-row min-[426px]:items-center min-[426px]:w-auto min-[768px]:gap-4';
+  'flex w-full flex-col gap-3 min-[426px]:flex-row min-[426px]:items-center min-[768px]:w-auto min-[768px]:gap-3';
 
 export const ADS_FILTER_SELECT_WRAP_CLASS = 'relative w-full min-[426px]:w-auto';
 
 export const ADS_FILTER_TRIGGER_CLASS =
-  'inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-md border border-[#d1d5db] bg-white px-3 text-left text-sm leading-5 text-[#1f2937] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ffd4c2]';
+  'inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-md border border-[#e8ebf0] bg-white px-3 text-left text-sm leading-5 text-[#455163] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ffd4c2]';
 
 export const ADS_FILTER_TRIGGER_LABEL_CLASS = 'min-w-0 flex-1 truncate whitespace-nowrap';
 
@@ -114,7 +115,7 @@ const uniqueSubcategories = (services) =>
 export const ADS_SUBCATEGORY_OPTIONS = [
   {
     id: ADS_ALL_FILTER_ID,
-    label: 'All Subcategories',
+    label: 'All Sub-Categories',
     categoryId: ADS_ALL_FILTER_ID,
   },
   ...CATALOG_COLLECTIONS.flatMap((collection) =>

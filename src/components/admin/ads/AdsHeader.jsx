@@ -13,9 +13,9 @@ import {
   ADS_FILTER_TRIGGER_CLASS,
   ADS_FILTER_TRIGGER_LABEL_CLASS,
   ADS_FILTERS_CLASS,
+  ADS_HEADER_ACTIONS_CLASS,
   ADS_HEADER_CLASS,
   ADS_HEADER_TEXT_CLASS,
-  ADS_HEADER_TOP_CLASS,
   ADS_SORT_LABEL_CLASS,
   ADS_SUBTITLE_CLASS,
   ADS_TITLE_CLASS,
@@ -98,37 +98,37 @@ const AdsHeader = ({
   onAddNewAd,
 }) => (
   <header className={ADS_HEADER_CLASS}>
-    <div className={ADS_HEADER_TOP_CLASS}>
-      <div className={ADS_HEADER_TEXT_CLASS}>
-        <h1 className={ADS_TITLE_CLASS}>{title}</h1>
-        <p className={ADS_SUBTITLE_CLASS}>{subtitle}</p>
+    <div className={ADS_HEADER_TEXT_CLASS}>
+      <h1 className={ADS_TITLE_CLASS}>{title}</h1>
+      <p className={ADS_SUBTITLE_CLASS}>{subtitle}</p>
+    </div>
+
+    <div className={ADS_HEADER_ACTIONS_CLASS}>
+      <div className={ADS_FILTERS_CLASS}>
+        <p className={ADS_SORT_LABEL_CLASS}>{sortByLabel}</p>
+        <div className={ADS_FILTER_SELECTS_CLASS}>
+          <AdsFilterSelect
+            id="ads-category-filter"
+            label={categoryFilterLabel}
+            value={selectedCategoryId}
+            options={categoryOptions}
+            onChange={onCategoryFilterChange}
+            widthClassName={ADS_FILTER_CATEGORY_WIDTH_CLASS}
+          />
+          <AdsFilterSelect
+            id="ads-subcategory-filter"
+            label={subcategoryFilterLabel}
+            value={selectedSubcategoryId}
+            options={subcategoryOptions}
+            onChange={onSubcategoryFilterChange}
+            widthClassName={ADS_FILTER_SUBCATEGORY_WIDTH_CLASS}
+          />
+        </div>
       </div>
 
       <button type="button" className={ADS_ADD_BUTTON_CLASS} onClick={onAddNewAd}>
         {addNewAdLabel}
       </button>
-    </div>
-
-    <div className={ADS_FILTERS_CLASS}>
-      <p className={ADS_SORT_LABEL_CLASS}>{sortByLabel}</p>
-      <div className={ADS_FILTER_SELECTS_CLASS}>
-        <AdsFilterSelect
-          id="ads-category-filter"
-          label={categoryFilterLabel}
-          value={selectedCategoryId}
-          options={categoryOptions}
-          onChange={onCategoryFilterChange}
-          widthClassName={ADS_FILTER_CATEGORY_WIDTH_CLASS}
-        />
-        <AdsFilterSelect
-          id="ads-subcategory-filter"
-          label={subcategoryFilterLabel}
-          value={selectedSubcategoryId}
-          options={subcategoryOptions}
-          onChange={onSubcategoryFilterChange}
-          widthClassName={ADS_FILTER_SUBCATEGORY_WIDTH_CLASS}
-        />
-      </div>
     </div>
   </header>
 );

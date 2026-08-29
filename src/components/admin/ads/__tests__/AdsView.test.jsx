@@ -5,6 +5,7 @@ import AdsView from '../AdsView';
 import { ADS_COPY } from '../adsCopy';
 import {
   ADS_CATEGORY_OPTIONS,
+  ADS_HEADER_ACTIONS_CLASS,
   ADS_PAGE_CLASS,
   ADS_PAGE_SIZE,
   ADS_SEED,
@@ -60,6 +61,8 @@ describe('AdsView', () => {
     expect(screen.getByText(ADS_COPY.subtitle)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: ADS_COPY.addNewAd })).toBeInTheDocument();
     expect(screen.getByText(ADS_COPY.sortByLabel)).toBeInTheDocument();
+    expect(ADS_HEADER_ACTIONS_CLASS).toContain('min-[768px]:flex-row');
+    expect(ADS_HEADER_ACTIONS_CLASS).toContain('min-[768px]:items-center');
   });
 
   it('renders ad cards with category badges, pricing, Edit, and Delete', () => {
