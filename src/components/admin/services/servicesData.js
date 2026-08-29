@@ -50,16 +50,13 @@ export const SERVICES_GRID_CLASS =
   'grid grid-cols-1 gap-5 min-[426px]:grid-cols-1 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-3 min-[1440px]:grid-cols-4';
 export const SERVICES_EMPTY_CLASS =
   'rounded-2xl bg-white px-4 py-10 text-center text-sm text-[#6b7280] min-[426px]:text-base';
-export const SERVICES_PAGINATION_CLASS =
-  'flex flex-wrap items-center justify-center gap-[5px]';
-export const SERVICES_PAGINATION_CONTROL_CLASS =
-  'inline-flex h-8 min-w-8 cursor-pointer items-center justify-center rounded-lg bg-white px-1 text-[13px] font-semibold text-[#333] transition-colors hover:bg-[#f8fafc] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:text-[#ccc] disabled:hover:bg-white';
-export const SERVICES_PAGINATION_PAGE_CLASS =
-  'inline-flex size-8 cursor-pointer items-center justify-center rounded-lg border border-[#f1f1f1] bg-white p-2.5 text-[13px] font-semibold text-[#333] transition-colors hover:bg-[#f8fafc] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
-export const SERVICES_PAGINATION_PAGE_ACTIVE_CLASS =
-  'inline-flex size-8 cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] p-2.5 text-[13px] font-semibold text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
-export const SERVICES_PAGINATION_ELLIPSIS_CLASS =
-  'inline-flex size-8 items-center justify-center rounded-lg bg-white p-2.5 text-[13px] font-semibold text-[#333]';
+export {
+  ADMIN_PAGINATION_CLASS as SERVICES_PAGINATION_CLASS,
+  ADMIN_PAGINATION_CONTROL_CLASS as SERVICES_PAGINATION_CONTROL_CLASS,
+  ADMIN_PAGINATION_PAGE_CLASS as SERVICES_PAGINATION_PAGE_CLASS,
+  ADMIN_PAGINATION_PAGE_ACTIVE_CLASS as SERVICES_PAGINATION_PAGE_ACTIVE_CLASS,
+  ADMIN_PAGINATION_ELLIPSIS_CLASS as SERVICES_PAGINATION_ELLIPSIS_CLASS,
+} from '../shared/adminPaginationData';
 
 export const SERVICES_CATEGORY_OPTIONS = [
   { id: SERVICES_ALL_FILTER_ID, label: 'All Categories' },

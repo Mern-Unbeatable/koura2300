@@ -1,3 +1,4 @@
+import AdminPagination from '../shared/AdminPagination';
 import { REVIEWS_COPY } from './reviewsCopy';
 import { REVIEWS_PAGE_CLASS } from './reviewsData';
 import ReviewsDeleteModal from './ReviewsDeleteModal';
@@ -11,6 +12,7 @@ const ReviewsView = ({
   ratingSummary,
   ratingDistribution,
   reviews,
+  pagination,
   deleteReviewerName = '',
   isDeleteModalOpen = false,
   onDeleteReview,
@@ -25,6 +27,15 @@ const ReviewsView = ({
       ratingDistribution={ratingDistribution}
     />
     <ReviewsFeedbackList copy={copy} reviews={reviews} onDeleteReview={onDeleteReview} />
+
+    {pagination?.isVisible ? (
+      <AdminPagination
+        copy={copy}
+        {...pagination}
+        regionLabel={copy.pagination.regionLabel}
+        testId="reviews-pagination"
+      />
+    ) : null}
 
     {isDeleteModalOpen ? (
       <ReviewsDeleteModal

@@ -8,6 +8,7 @@ export const REVIEWS_VIEWPORT = {
 };
 
 export const REVIEWS_STAR_COUNT = 5;
+export const REVIEWS_PAGE_SIZE = 10;
 export const REVIEWS_SUMMARY_STAR_SIZE_PX = 24;
 export const REVIEWS_DISTRIBUTION_STAR_SIZE_PX = 18;
 export const REVIEWS_FEEDBACK_STAR_SIZE_PX = 16;
@@ -237,6 +238,46 @@ export const REVIEWS_SEED = [
     serviceName: REVIEW_SERVICE,
     rating: 5,
     avatar: REVIEWS_ASSETS.avatars.esther,
+    awaitingModeration: false,
+    comment: REPEATED_COMMENT,
+  },
+  {
+    id: 'review-cameron',
+    name: 'Cameron Williamson',
+    dateLabel: REVIEW_DATE,
+    serviceName: REVIEW_SERVICE,
+    rating: 5,
+    avatar: REVIEWS_ASSETS.avatars.jerome,
+    awaitingModeration: false,
+    comment: REPEATED_COMMENT,
+  },
+  {
+    id: 'review-darlene',
+    name: 'Darlene Robertson',
+    dateLabel: REVIEW_DATE,
+    serviceName: REVIEW_SERVICE,
+    rating: 4,
+    avatar: REVIEWS_ASSETS.avatars.jenny,
+    awaitingModeration: false,
+    comment: REPEATED_COMMENT,
+  },
+  {
+    id: 'review-guy',
+    name: 'Guy Hawkins',
+    dateLabel: REVIEW_DATE,
+    serviceName: REVIEW_SERVICE,
+    rating: 5,
+    avatar: REVIEWS_ASSETS.avatars.ronald,
+    awaitingModeration: false,
+    comment: REPEATED_COMMENT,
+  },
+  {
+    id: 'review-jane',
+    name: 'Jane Cooper',
+    dateLabel: REVIEW_DATE,
+    serviceName: REVIEW_SERVICE,
+    rating: 5,
+    avatar: REVIEWS_ASSETS.avatars.kristin,
     awaitingModeration: false,
     comment: REPEATED_COMMENT,
   },

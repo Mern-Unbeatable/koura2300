@@ -31,7 +31,7 @@ describe('reviewsUtils', () => {
 
     expect(nextReviews).toHaveLength(REVIEWS_SEED.length - 1);
     expect(nextReviews.some((review) => review.id === REVIEWS_SEED[0].id)).toBe(false);
-    expect(REVIEWS_SEED).toHaveLength(8);
+    expect(REVIEWS_SEED).toHaveLength(12);
   });
 
   it('exposes Figma rating summary and distribution seed', () => {

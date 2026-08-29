@@ -76,20 +76,13 @@ export const ADMIN_BLOG_DELETE_CANCEL_CLASS =
 export const ADMIN_BLOG_DELETE_CONFIRM_CLASS =
   'inline-flex h-9 w-full cursor-pointer items-center justify-center rounded-md bg-[#f52e0b] px-4 text-xs text-white shadow-[0px_1px_1.5px_rgba(0,0,0,0.1),0px_1px_1px_rgba(0,0,0,0.1)] transition-colors hover:bg-[#d92809] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[376px]:w-auto';
 
-export const ADMIN_BLOG_PAGINATION_CLASS =
-  'flex flex-wrap items-center justify-center gap-[5px]';
-
-export const ADMIN_BLOG_PAGINATION_CONTROL_CLASS =
-  'inline-flex h-8 min-w-8 cursor-pointer items-center justify-center rounded-lg bg-white px-1 text-[13px] font-semibold text-[#333] transition-colors hover:bg-[#f8fafc] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:text-[#ccc] disabled:hover:bg-white';
-
-export const ADMIN_BLOG_PAGINATION_PAGE_CLASS =
-  'inline-flex size-8 cursor-pointer items-center justify-center rounded-lg border border-[#f1f1f1] bg-white p-2.5 text-[13px] font-semibold text-[#333] transition-colors hover:bg-[#f8fafc] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
-
-export const ADMIN_BLOG_PAGINATION_PAGE_ACTIVE_CLASS =
-  'inline-flex size-8 cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] p-2.5 text-[13px] font-semibold text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
-
-export const ADMIN_BLOG_PAGINATION_ELLIPSIS_CLASS =
-  'inline-flex size-8 items-center justify-center rounded-lg bg-white p-2.5 text-[13px] font-semibold text-[#333]';
+export {
+  ADMIN_PAGINATION_CLASS as ADMIN_BLOG_PAGINATION_CLASS,
+  ADMIN_PAGINATION_CONTROL_CLASS as ADMIN_BLOG_PAGINATION_CONTROL_CLASS,
+  ADMIN_PAGINATION_PAGE_CLASS as ADMIN_BLOG_PAGINATION_PAGE_CLASS,
+  ADMIN_PAGINATION_PAGE_ACTIVE_CLASS as ADMIN_BLOG_PAGINATION_PAGE_ACTIVE_CLASS,
+  ADMIN_PAGINATION_ELLIPSIS_CLASS as ADMIN_BLOG_PAGINATION_ELLIPSIS_CLASS,
+} from '../shared/adminPaginationData';
 
 export const ADMIN_BLOG_SEED = ARTICLE_ITEMS.map((article) => ({
   ...article,

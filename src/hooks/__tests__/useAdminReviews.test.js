@@ -1,7 +1,10 @@
 import { act, renderHook } from '@testing-library/react';
 import toast from 'react-hot-toast';
 import { REVIEWS_COPY } from '../../components/admin/reviews/reviewsCopy';
-import { REVIEWS_SEED } from '../../components/admin/reviews/reviewsData';
+import {
+  REVIEWS_PAGE_SIZE,
+  REVIEWS_SEED,
+} from '../../components/admin/reviews/reviewsData';
 import useAdminReviews from '../useAdminReviews';
 
 jest.mock('react-hot-toast', () => ({
@@ -19,10 +22,12 @@ describe('useAdminReviews', () => {
   it('seeds reviews with rating summary and moderation subtitle', () => {
     const { result } = renderHook(() => useAdminReviews());
 
-    expect(result.current.reviews).toHaveLength(REVIEWS_SEED.length);
+    expect(result.current.reviews).toHaveLength(REVIEWS_PAGE_SIZE);
+    expect(REVIEWS_SEED.length).toBeGreaterThan(REVIEWS_PAGE_SIZE);
     expect(result.current.ratingSummary.score).toBe(4.7);
     expect(result.current.moderationSubtitle).toBe('1 reviews awaiting moderation');
     expect(result.current.copy.title).toBe(REVIEWS_COPY.title);
+    expect(result.current.pagination.isVisible).toBe(true);
   });
 
   it('opens the delete confirmation modal instead of deleting immediately', () => {
@@ -72,5 +77,19 @@ describe('useAdminReviews', () => {
     expect(result.current.isDeleteModalOpen).toBe(false);
     expect(toast.success).not.toHaveBeenCalled();
     expect(result.current.reviews.some((review) => review.id === reviewId)).toBe(true);
+  });
+
+  it('moves through feedback pages of ten reviews', () => {
+    const { result } = renderHook(() => useAdminReviews());
+
+    expect(result.current.pagination.canGoPrevious).toBe(false);
+    expect(result.current.pagination.canGoNext).toBe(true);
+
+    act(() => {
+      result.current.pagination.onNext();
+    });
+
+    expect(result.current.pagination.currentPage).toBe(2);
+    expect(result.current.reviews.length).toBe(REVIEWS_SEED.length - REVIEWS_PAGE_SIZE);
   });
 });

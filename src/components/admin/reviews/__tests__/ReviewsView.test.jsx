@@ -4,18 +4,31 @@ import ReviewsView from '../ReviewsView';
 import { REVIEWS_COPY } from '../reviewsCopy';
 import {
   REVIEWS_PAGE_CLASS,
+  REVIEWS_PAGE_SIZE,
   REVIEWS_RATING_DISTRIBUTION,
   REVIEWS_RATING_SUMMARY,
   REVIEWS_SEED,
   REVIEWS_VIEWPORT,
 } from '../reviewsData';
+import { getPaginationItems, PAGINATION_ELLIPSIS_TOKEN } from '../reviewsUtils';
 
 const createReviewsViewProps = (overrides = {}) => ({
   copy: REVIEWS_COPY,
   moderationSubtitle: '1 reviews awaiting moderation',
   ratingSummary: REVIEWS_RATING_SUMMARY,
   ratingDistribution: REVIEWS_RATING_DISTRIBUTION,
-  reviews: REVIEWS_SEED,
+  reviews: REVIEWS_SEED.slice(0, REVIEWS_PAGE_SIZE),
+  pagination: {
+    isVisible: true,
+    currentPage: 1,
+    totalPages: 2,
+    pageItems: getPaginationItems(1, 2),
+    canGoPrevious: false,
+    canGoNext: true,
+    onPrevious: jest.fn(),
+    onNext: jest.fn(),
+    onPageChange: jest.fn(),
+  },
   deleteReviewerName: '',
   isDeleteModalOpen: false,
   onDeleteReview: jest.fn(),
@@ -76,6 +89,53 @@ describe('ReviewsView', () => {
     expect(onDeleteReview).toHaveBeenCalledWith(review.id);
   });
 
+  it('renders shared Service Management pagination when more than ten reviews', async () => {
+    const user = userEvent.setup();
+    const onNext = jest.fn();
+
+    renderReviewsView({
+      pagination: {
+        isVisible: true,
+        currentPage: 1,
+        totalPages: 2,
+        pageItems: getPaginationItems(1, 2),
+        canGoPrevious: false,
+        canGoNext: true,
+        onPrevious: jest.fn(),
+        onNext,
+        onPageChange: jest.fn(),
+      },
+    });
+
+    const pagination = screen.getByTestId('reviews-pagination');
+    expect(pagination).toHaveAttribute('aria-label', REVIEWS_COPY.pagination.regionLabel);
+    expect(screen.getByRole('button', { name: REVIEWS_COPY.pagination.previous })).toBeDisabled();
+    expect(screen.getByRole('button', { name: REVIEWS_COPY.pagination.next })).toBeEnabled();
+
+    await user.click(screen.getByRole('button', { name: REVIEWS_COPY.pagination.next }));
+    expect(onNext).toHaveBeenCalledTimes(1);
+    expect(getPaginationItems(1, 10)).toContain(PAGINATION_ELLIPSIS_TOKEN);
+  });
+
+  it('hides pagination when feedback fits on one page', () => {
+    renderReviewsView({
+      reviews: REVIEWS_SEED.slice(0, REVIEWS_PAGE_SIZE),
+      pagination: {
+        isVisible: false,
+        currentPage: 1,
+        totalPages: 1,
+        pageItems: [1],
+        canGoPrevious: false,
+        canGoNext: false,
+        onPrevious: jest.fn(),
+        onNext: jest.fn(),
+        onPageChange: jest.fn(),
+      },
+    });
+
+    expect(screen.queryByTestId('reviews-pagination')).not.toBeInTheDocument();
+  });
+
   it('renders the animated delete confirmation modal when open', async () => {
     const user = userEvent.setup();
     const onCloseDeleteModal = jest.fn();
@@ -109,5 +169,6 @@ describe('ReviewsView', () => {
     expect(REVIEWS_VIEWPORT.MOBILE_S).toBe(320);
     expect(REVIEWS_VIEWPORT.LAPTOP).toBe(1020);
     expect(REVIEWS_PAGE_CLASS).toContain('flex');
+    expect(REVIEWS_PAGE_SIZE).toBe(10);
   });
 });

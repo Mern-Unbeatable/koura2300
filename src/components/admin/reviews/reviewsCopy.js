@@ -10,6 +10,13 @@ export const REVIEWS_COPY = {
     metaSeparator: '•',
     deleteLabel: (name) => `Delete review by ${name}`,
   },
+  pagination: {
+    previous: 'Prev',
+    next: 'Next',
+    ellipsis: '...',
+    pageLabel: (page) => `Go to page ${page}`,
+    regionLabel: 'Customer feedback pagination',
+  },
   deleteModal: {
     regionLabel: 'Delete review',
     title: 'Delete Review',
