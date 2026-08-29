@@ -32,7 +32,7 @@ export const ADMIN_BLOG_ADD_BUTTON_CLASS =
   'inline-flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-6 py-3 text-base font-medium leading-6 text-white transition-colors hover:bg-[#e8632b] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:w-auto';
 
 export const ADMIN_BLOG_GRID_CLASS =
-  'grid items-start gap-x-10 gap-y-8 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-3';
+  'grid items-start gap-x-10 gap-y-8 min-[768px]:grid-cols-2 min-[1440px]:grid-cols-3';
 
 export const ADMIN_BLOG_ACTIONS_CLASS = 'flex w-full items-center gap-5';
 
