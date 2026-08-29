@@ -63,7 +63,7 @@ describe('Landing page', () => {
     renderLandingPage();
 
     const serviceImage = screen.getByRole('img', {
-      name: 'A professional repairing a kitchen faucet',
+      name: 'Professional home security camera',
     });
 
     expect(serviceImage).toHaveAttribute('loading', 'lazy');
@@ -88,13 +88,13 @@ describe('Landing page', () => {
     const user = userEvent.setup();
     renderLandingPage();
 
-    await user.type(screen.getAllByRole('searchbox', { name: 'Search services' })[0], 'drain');
+    await user.type(screen.getAllByRole('searchbox', { name: 'Search services' })[0], 'chandelier');
     await user.click(screen.getAllByRole('button', { name: 'Submit service search' })[0]);
 
     const servicesRegion = screen.getByRole('region', { name: 'Top-rated services' });
-    expect(within(servicesRegion).getByText('Drain Cleaning')).toBeInTheDocument();
+    expect(within(servicesRegion).getByText('Chandelier Installation')).toBeInTheDocument();
     expect(
-      within(servicesRegion).queryByText('Faucet Repair & Replacement'),
+      within(servicesRegion).queryByText('Ceiling Light Installation'),
     ).not.toBeInTheDocument();
   });
 
@@ -102,22 +102,28 @@ describe('Landing page', () => {
     const user = userEvent.setup();
     const store = renderLandingPage();
 
-    await user.click(screen.getByRole('button', { name: 'Add Drain Cleaning to cart' }));
+    await user.click(
+      screen.getByRole('button', { name: 'Add Ceiling Light Installation to cart' }),
+    );
 
     expect(store.getState().cart.totalItems).toBe(1);
-    expect(store.getState().cart.items[0].title).toBe('Drain Cleaning');
+    expect(store.getState().cart.items[0].title).toBe('Ceiling Light Installation');
   });
 
-  it('sends a Top-rated service card click to the services page', async () => {
+  it('sends a Top-rated service card click to the service details page', async () => {
     const user = userEvent.setup();
     renderLandingPage();
 
     const servicesRegion = screen.getByRole('region', { name: 'Top-rated services' });
     await user.click(
-      within(servicesRegion).getByRole('link', { name: 'View Faucet Repair & Replacement' }),
+      within(servicesRegion).getByRole('link', {
+        name: 'View Ceiling Light Installation',
+      }),
     );
 
-    expect(screen.getByTestId('current-path')).toHaveTextContent('/services');
+    expect(screen.getByTestId('current-path')).toHaveTextContent(
+      '/service/indoor-lighting-ceiling-light-installation',
+    );
   });
 
   it('sends View all from Top-rated services to the services page', async () => {

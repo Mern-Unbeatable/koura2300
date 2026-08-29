@@ -2,7 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { ROUTES } from '../../config';
+import { buildServiceDetailsRoute, ROUTES } from '../../config';
 import { addToCart } from '../../store/slices/cartSlice';
 import { LANDING_CONTENT } from './landingContent';
 import ServiceCard from './ServiceCard';
@@ -55,7 +55,7 @@ const TopServices = memo(({ services }) => {
                 key={service.id}
                 service={service}
                 onAdd={handleAddService}
-                detailsPath={ROUTES.SERVICES}
+                detailsPath={buildServiceDetailsRoute(service.id, service.category)}
               />
             ))}
           </div>

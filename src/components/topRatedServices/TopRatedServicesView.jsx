@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { buildServiceDetailsRoute } from '../../config';
 import ServiceCard from '../home/ServiceCard';
 import TopRatedServicesPagination from './TopRatedServicesPagination';
 import { TOP_RATED_SERVICES_CONTENT } from './topRatedServicesCopy';
@@ -30,7 +31,12 @@ const TopRatedServicesGrid = memo(({ services, emptyState, onAddService }) => {
   return (
     <div className={TOP_RATED_GRID_CLASS}>
       {services.map((service) => (
-        <ServiceCard key={service.id} service={service} onAdd={onAddService} />
+        <ServiceCard
+          key={service.id}
+          service={service}
+          onAdd={onAddService}
+          detailsPath={buildServiceDetailsRoute(service.id, service.category)}
+        />
       ))}
     </div>
   );

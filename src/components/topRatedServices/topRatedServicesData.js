@@ -1,4 +1,4 @@
-import { SERVICE_ITEMS } from '../home/landingData';
+import { ALL_CATALOG_SERVICES } from '../catalog/catalogRegistry';
 
 export const TOP_RATED_PAGE_SIZE = 12;
 export const TOP_RATED_PAGE_COUNT = 3;
@@ -26,21 +26,10 @@ export const TOP_RATED_PAGINATION_PAGE_IDLE =
 export const TOP_RATED_PAGINATION_PAGE_ACTIVE =
   'flex size-8 cursor-pointer items-center justify-center rounded border border-brand-orange bg-brand-orange text-sm font-bold text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
-const createTopRatedServiceCopy = (service, copyIndex) => ({
-  ...service,
-  id: `${service.id}-${copyIndex + 1}`,
-});
-
 export const buildTopRatedServices = (
-  baseServices = SERVICE_ITEMS,
+  baseServices = ALL_CATALOG_SERVICES,
   pageSize = TOP_RATED_PAGE_SIZE,
   pageCount = TOP_RATED_PAGE_COUNT,
-) => {
-  const totalItems = pageSize * pageCount;
-
-  return Array.from({ length: totalItems }, (_, index) =>
-    createTopRatedServiceCopy(baseServices[index % baseServices.length], index),
-  );
-};
+) => baseServices.slice(0, pageSize * pageCount);
 
 export const TOP_RATED_SERVICES = buildTopRatedServices();

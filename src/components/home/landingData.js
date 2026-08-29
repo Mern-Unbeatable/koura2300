@@ -1,5 +1,6 @@
 import { Armchair, Droplets, Hammer, LampCeiling, ShieldCheck, Wrench, Zap } from 'lucide-react';
 import { ROUTES } from '../../config';
+import { ALL_CATALOG_SERVICES } from '../catalog/catalogRegistry';
 
 export const LANDING_ASSET_PATH = '/assets/landing';
 
@@ -134,56 +135,16 @@ export const CATEGORY_ROUTES = Object.fromEntries(
   CATEGORY_ITEMS.map(({ title, path }) => [title, path]),
 );
 
-export const SERVICE_ITEMS = [
-  {
-    id: 'faucet-repair',
-    category: 'Plumbing',
-    title: 'Faucet Repair & Replacement',
-    description:
-      'Expert faucet repair or full replacement for kitchen and bathroom fixtures.',
-    duration: '1–2 hrs',
-    imageAlt: 'A professional repairing a kitchen faucet',
-    image: `${LANDING_ASSET_PATH}/service-faucet.png`,
-    price: 75,
-    rating: '4.9 (312)',
-  },
-  {
-    id: 'drain-cleaning',
-    category: 'Plumbing',
-    title: 'Drain Cleaning',
-    description:
-      'Professional drain cleaning to clear clogs in sinks, tubs, and floor drains fast.',
-    duration: '1 hr',
-    imageAlt: 'A professional cleaning a blocked drain',
-    image: `${LANDING_ASSET_PATH}/service-drain.png`,
-    price: 75,
-    rating: '4.8 (204)',
-  },
-  {
-    id: 'outlet-replacement',
-    category: 'Electrical',
-    title: 'Outlet & Switch Replacement',
-    description:
-      'Safe replacement of standard outlets, USB outlets, and light switches.',
-    duration: '45 min',
-    imageAlt: 'An electrician replacing a wall outlet',
-    image: `${LANDING_ASSET_PATH}/service-electrical.png`,
-    price: 75,
-    rating: '4.8 (204)',
-  },
-  {
-    id: 'ceiling-fan',
-    category: 'Electrical',
-    title: 'Ceiling Fan Installation',
-    description:
-      'Complete ceiling fan installation including wiring, mounting, and remote pairing.',
-    duration: '1.5–2 hrs',
-    imageAlt: 'An electrician installing a ceiling fan',
-    image: `${LANDING_ASSET_PATH}/service-electrical.png`,
-    price: 75,
-    rating: '4.8 (204)',
-  },
+const LANDING_TOP_SERVICE_IDS = [
+  'indoor-lighting-ceiling-light-installation',
+  'indoor-lighting-chandelier-installation',
+  'security-camera-services-camera-installation',
+  'outdoor-lighting-porch-lights',
 ];
+
+export const SERVICE_ITEMS = LANDING_TOP_SERVICE_IDS.map((serviceId) =>
+  ALL_CATALOG_SERVICES.find((service) => service.id === serviceId),
+).filter(Boolean);
 
 export const SERVICE_CAPABILITIES = [
   { id: 'plumbing', label: 'Wet / Plumbing Services', icon: Droplets },

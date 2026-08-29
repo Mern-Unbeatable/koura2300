@@ -4,7 +4,8 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { ROUTES } from '../../../config';
+import { buildServiceDetailsRoute, ROUTES } from '../../../config';
+import authReducer from '../../../store/slices/authSlice';
 import cartReducer from '../../../store/slices/cartSlice';
 import TopRatedServicesContent from '../TopRatedServicesContent';
 import {
@@ -15,6 +16,7 @@ import {
 const createTestStore = () =>
   configureStore({
     reducer: {
+      auth: authReducer,
       cart: cartReducer,
     },
   });
@@ -68,6 +70,17 @@ describe('TopRatedServicesContent', () => {
     );
   });
 
+  it('links each card to the same service details route as category catalog cards', () => {
+    renderTopRatedPage();
+
+    const firstService = TOP_RATED_SERVICES[0];
+    const region = screen.getByRole('region', { name: 'Top-rated services' });
+
+    expect(
+      within(region).getByRole('link', { name: `View ${firstService.title}` }),
+    ).toHaveAttribute('href', buildServiceDetailsRoute(firstService.id, firstService.category));
+  });
+
   it('paginates through top-rated services and highlights the active page', async () => {
     const user = userEvent.setup();
     const store = renderTopRatedPage();
@@ -107,11 +120,11 @@ describe('TopRatedServicesContent', () => {
     const user = userEvent.setup();
     renderTopRatedPage();
 
-    await user.type(screen.getAllByRole('searchbox', { name: 'Search services' })[0], 'drain');
+    await user.type(screen.getAllByRole('searchbox', { name: 'Search services' })[0], 'chandelier');
     await user.click(screen.getAllByRole('button', { name: 'Submit service search' })[0]);
 
     const region = screen.getByRole('region', { name: 'Top-rated services' });
-    expect(within(region).getAllByText('Drain Cleaning').length).toBeGreaterThan(0);
-    expect(within(region).queryByText('Faucet Repair & Replacement')).not.toBeInTheDocument();
+    expect(within(region).getAllByText('Chandelier Installation').length).toBeGreaterThan(0);
+    expect(within(region).queryByText('Camera Installation')).not.toBeInTheDocument();
   });
 });
