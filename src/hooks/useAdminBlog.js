@@ -1,5 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { buildAdminBlogNewRoute } from '../config';
 import { ADMIN_BLOG_COPY } from '../components/admin/blog/blogCopy';
 import { ADMIN_BLOG_PAGE_SIZE, ADMIN_BLOG_SEED } from '../components/admin/blog/blogData';
 import {
@@ -13,6 +15,7 @@ import {
 } from '../components/admin/blog/blogUtils';
 
 const useAdminBlog = () => {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState(ADMIN_BLOG_SEED);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -52,10 +55,10 @@ const useAdminBlog = () => {
   );
 
   const handleAddBlog = useCallback(() => {
-    toast.success(ADMIN_BLOG_COPY.toasts.added);
-  }, []);
+    navigate(buildAdminBlogNewRoute());
+  }, [navigate]);
 
-  const handleEditPost = useCallback((postId) => {
+  const handleEditPost = useCallback(() => {
     toast.success(ADMIN_BLOG_COPY.toasts.edited);
   }, []);
 

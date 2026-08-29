@@ -59,6 +59,7 @@ const Orders = lazy(() => import('../pages/admin/Orders'));
 const MarketplaceOrders = lazy(() => import('../pages/admin/MarketplaceOrders'));
 const CaseStudies = lazy(() => import('../pages/admin/CaseStudies'));
 const Blog = lazy(() => import('../pages/admin/Blog'));
+const BlogForm = lazy(() => import('../pages/admin/BlogForm'));
 const Jobs = lazy(() => import('../pages/admin/Jobs'));
 const Pricing = lazy(() => import('../pages/admin/Pricing'));
 const AdminMessages = lazy(() => import('../pages/admin/Messages'));
@@ -365,6 +366,7 @@ const router = createBrowserRouter(
         <Route path={seg(ROUTES.ADMIN_MARKETPLACE_ORDERS)} element={<MarketplaceOrders />} />
         <Route path={seg(ROUTES.ADMIN_CASE_STUDIES)} element={<CaseStudies />} />
         <Route path={seg(ROUTES.ADMIN_BLOG)} element={<Blog />} />
+        <Route path={seg(ROUTES.ADMIN_BLOG_NEW)} element={<BlogForm />} />
         <Route path={seg(ROUTES.ADMIN_JOBS)} element={<Jobs />} />
         <Route path={seg(ROUTES.ADMIN_PRICING)} element={<Pricing />} />
         <Route path={seg(ROUTES.ADMIN_MESSAGES)} element={<AdminMessages />} />

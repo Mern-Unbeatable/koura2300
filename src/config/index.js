@@ -49,6 +49,7 @@ export const ROUTES = {
   ADMIN_MARKETPLACE_ORDERS: '/admin/marketplace-orders',
   ADMIN_CASE_STUDIES: '/admin/case-studies',
   ADMIN_BLOG: '/admin/blog',
+  ADMIN_BLOG_NEW: '/admin/blog/new',
   ADMIN_JOBS: '/admin/jobs',
   ADMIN_PRICING: '/admin/pricing',
   ADMIN_MESSAGES: '/admin/messages',
@@ -69,6 +70,8 @@ export const buildAdminServiceDetailsRoute = (serviceId) => `/admin/services/${s
 export const buildAdminServiceNewRoute = () => ROUTES.ADMIN_SERVICE_NEW;
 
 export const buildAdminServiceEditRoute = (serviceId) => `/admin/services/${serviceId}/edit`;
+
+export const buildAdminBlogNewRoute = () => ROUTES.ADMIN_BLOG_NEW;
 
 export const buildServiceDetailsRoute = (serviceId, category = CATALOG_ALL_CATEGORY) => {
   const searchParams = new URLSearchParams({
