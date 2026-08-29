@@ -11,6 +11,7 @@ import {
   CHECKOUT_CALENDAR_MONTH_CLASS,
   CHECKOUT_CALENDAR_PANEL_CLASS,
   CHECKOUT_CALENDAR_TRIGGER_CLASS,
+  CHECKOUT_CALENDAR_MONTH_LABEL_CLASS,
   CHECKOUT_CALENDAR_WEEKDAY_CLASS,
   CHECKOUT_CALENDAR_WEEKDAY_ROW_CLASS,
   CHECKOUT_CALENDAR_WEEKDAYS,
@@ -96,8 +97,8 @@ export const CheckoutCalendarTrigger = memo(({ copy, viewMonthYear, isOpen, onTo
     className={CHECKOUT_CALENDAR_TRIGGER_CLASS}
     onClick={onToggle}
   >
-    <Calendar size={CHECKOUT_CALENDAR_ICON_SIZE} aria-hidden="true" className="text-brand-orange" />
-    <span>{viewMonthYear}</span>
+    <Calendar size={CHECKOUT_CALENDAR_ICON_SIZE} aria-hidden="true" className="shrink-0 text-brand-orange" />
+    <span className={CHECKOUT_CALENDAR_MONTH_LABEL_CLASS}>{viewMonthYear}</span>
   </button>
 ));
 

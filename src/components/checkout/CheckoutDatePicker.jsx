@@ -7,6 +7,7 @@ import {
   CHECKOUT_DATE_BUTTON_ACTIVE,
   CHECKOUT_DATE_BUTTON_IDLE,
   CHECKOUT_DATE_DAY_CLASS,
+  CHECKOUT_DATE_HEADER_CLASS,
   CHECKOUT_DATE_HEADING_CLASS,
   CHECKOUT_DATE_NAV_BUTTON_CLASS,
   CHECKOUT_CALENDAR_WRAPPER_CLASS,
@@ -40,7 +41,7 @@ const CheckoutDatePicker = memo(({ copy, dates, selectedDateId, monthYearLabel, 
 
   return (
     <div>
-      <div className="mb-3 flex items-center justify-between gap-4">
+      <div className={CHECKOUT_DATE_HEADER_CLASS}>
         <p className={CHECKOUT_DATE_HEADING_CLASS}>{copy.chooseDate}</p>
         <div className={CHECKOUT_DATE_NAV_GROUP_CLASS}>
           <button

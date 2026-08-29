@@ -29,18 +29,23 @@ export const CHECKOUT_CONTACT_CHECK_SIZE = 16;
 export const CHECKOUT_UPLOAD_ICON_SIZE = 36;
 export const CHECKOUT_PACKAGE_ID_SUFFIX = /-(standard|premium)$/;
 export const CHECKOUT_SECTION_TITLE_CLASS = 'text-2xl font-medium text-[#191c1f]';
-export const CHECKOUT_DATE_HEADING_CLASS = 'text-lg font-bold leading-[27px] text-[#0b1e3d]';
+export const CHECKOUT_DATE_HEADER_CLASS =
+  'mb-3 flex min-w-0 items-center justify-between gap-2 max-[360px]:gap-1';
+export const CHECKOUT_DATE_HEADING_CLASS =
+  'min-w-0 shrink text-lg font-bold leading-[27px] text-[#0b1e3d] max-[360px]:text-xs max-[360px]:leading-4';
 export const CHECKOUT_DATE_SCROLL_EDGE_OFFSET = 4;
 export const CHECKOUT_DATE_SCROLL_STEP = 14;
 export const CHECKOUT_DATE_DRAG_THRESHOLD = 5;
 export const CHECKOUT_DATE_GAP_PX = 8;
 export const CHECKOUT_DATE_NAV_ICON_SIZE = 18;
 export const CHECKOUT_DATE_NAV_BUTTON_CLASS =
-  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md p-1 text-brand-orange transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-40';
-export const CHECKOUT_DATE_NAV_GROUP_CLASS = 'relative flex items-center gap-1';
-export const CHECKOUT_CALENDAR_WRAPPER_CLASS = 'relative';
+  'inline-flex shrink-0 cursor-pointer items-center justify-center rounded-md p-1 text-brand-orange transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-40 max-[360px]:p-0.5 [&_svg]:max-[360px]:size-3.5';
+export const CHECKOUT_DATE_NAV_GROUP_CLASS =
+  'relative flex shrink-0 items-center gap-1 max-[360px]:gap-0.5';
+export const CHECKOUT_CALENDAR_WRAPPER_CLASS = 'relative shrink-0';
 export const CHECKOUT_CALENDAR_TRIGGER_CLASS =
-  'inline-flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-lg font-bold leading-[27px] text-[#0b1e3d] transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-lg font-bold leading-[27px] text-[#0b1e3d] transition-colors hover:bg-brand-orange/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange max-[360px]:gap-1 max-[360px]:px-0.5 max-[360px]:py-0.5 max-[360px]:text-xs max-[360px]:leading-4 [&_svg]:max-[360px]:size-3.5';
+export const CHECKOUT_CALENDAR_MONTH_LABEL_CLASS = 'whitespace-nowrap';
 export const CHECKOUT_CALENDAR_ICON_SIZE = 18;
 export const CHECKOUT_CALENDAR_PANEL_CLASS =
   'absolute right-0 top-full z-20 mt-2 w-[min(320px,calc(100vw-2rem))] rounded-2xl border border-[#e5e7eb] bg-white p-4 shadow-lg';

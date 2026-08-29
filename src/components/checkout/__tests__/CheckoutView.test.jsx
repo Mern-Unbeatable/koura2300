@@ -113,6 +113,19 @@ describe('CheckoutView Figma layout', () => {
     expect(screen.getByRole('button', { name: 'Email' })).toBeInTheDocument();
   });
 
+  it('shrinks Choose a Date header text on Mobile S so the month label stays visible', () => {
+    renderCheckout();
+
+    const heading = screen.getByText('Choose a Date *');
+    const header = heading.parentElement;
+    const calendarTrigger = screen.getByRole('button', { name: 'Open calendar' });
+
+    expect(header).toHaveClass('max-[360px]:gap-1');
+    expect(heading).toHaveClass('max-[360px]:text-xs');
+    expect(calendarTrigger).toHaveClass('max-[360px]:text-xs');
+    expect(calendarTrigger.querySelector('span')).toHaveClass('whitespace-nowrap');
+  });
+
   it('shows the current month and year beside Choose a Date with a hidden-scrollbar strip', () => {
     renderCheckout();
 
