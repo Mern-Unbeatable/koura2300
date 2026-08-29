@@ -1,4 +1,4 @@
-import { ARTICLE_ITEMS, LANDING_ASSET_PATH } from '../../home/landingData';
+import { ARTICLE_ITEMS } from '../../home/landingData';
 import { formatReadMinutesLabel } from './blogUtils';
 
 export const ADMIN_BLOG_VIEWPORT = {
@@ -11,9 +11,6 @@ export const ADMIN_BLOG_VIEWPORT = {
 };
 
 export const ADMIN_BLOG_PAGE_SIZE = 6;
-export const ADMIN_BLOG_THUMB_WIDTH_PX = 170;
-export const ADMIN_BLOG_THUMB_HEIGHT_PX = 200;
-export const ADMIN_BLOG_META_DIVIDER_WIDTH_PX = 14;
 export const ADMIN_BLOG_DEFAULT_READ_MINUTES = 10;
 export const ADMIN_BLOG_DEFAULT_AUTHOR = 'Ahmed Awad';
 
@@ -35,30 +32,7 @@ export const ADMIN_BLOG_ADD_BUTTON_CLASS =
   'inline-flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-6 py-3 text-base font-medium leading-6 text-white transition-colors hover:bg-[#e8632b] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[426px]:w-auto';
 
 export const ADMIN_BLOG_GRID_CLASS =
-  'grid grid-cols-1 gap-y-[30px] gap-x-6 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-3';
-
-export const ADMIN_BLOG_CARD_CLASS =
-  'flex min-w-0 flex-col gap-3.5 min-[426px]:flex-row min-[426px]:items-stretch';
-
-export const ADMIN_BLOG_THUMB_CLASS =
-  'h-[200px] w-full shrink-0 overflow-hidden rounded object-cover min-[426px]:w-[170px]';
-
-export const ADMIN_BLOG_CARD_BODY_CLASS =
-  'flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-4';
-
-export const ADMIN_BLOG_CARD_COPY_CLASS = 'flex min-w-0 flex-col gap-2 text-[#202124]';
-
-export const ADMIN_BLOG_CARD_TITLE_CLASS =
-  'text-base leading-[1.5] min-[376px]:text-lg min-[376px]:leading-[27px]';
-
-export const ADMIN_BLOG_CARD_EXCERPT_CLASS =
-  'text-sm font-light leading-[21px] text-[#202124]';
-
-export const ADMIN_BLOG_META_CLASS =
-  'flex flex-wrap items-center gap-[11px] text-xs leading-[1.2] text-[#202124]';
-
-export const ADMIN_BLOG_META_DIVIDER_CLASS =
-  'h-px w-[14px] shrink-0 bg-[rgba(32,33,36,0.5)]';
+  'grid items-start gap-x-10 gap-y-8 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-3';
 
 export const ADMIN_BLOG_ACTIONS_CLASS = 'flex w-full items-center gap-5';
 
@@ -96,11 +70,7 @@ const ADMIN_BLOG_AUTHORS_BY_ID = {
 };
 
 export const ADMIN_BLOG_SEED = ARTICLE_ITEMS.map((article) => ({
-  id: article.id,
-  title: article.title,
-  excerpt: article.body,
-  image: article.image || `${LANDING_ASSET_PATH}/article-plumbing.png`,
-  imageAlt: article.imageAlt,
+  ...article,
   author: ADMIN_BLOG_AUTHORS_BY_ID[article.id] || ADMIN_BLOG_DEFAULT_AUTHOR,
   readMinutes: ADMIN_BLOG_DEFAULT_READ_MINUTES,
   readTimeLabel: formatReadMinutesLabel(ADMIN_BLOG_DEFAULT_READ_MINUTES),

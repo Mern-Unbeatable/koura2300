@@ -9,6 +9,9 @@ export const formatBlogPostsCount = (count) =>
 
 export const formatReadMinutesLabel = (minutes) => `${minutes} Minutes`;
 
+export const formatArticleReadingMeta = (readTimeLabel, author) =>
+  `${readTimeLabel} · ${author}`;
+
 export const getTotalPages = (totalItems, pageSize) =>
   Math.max(1, Math.ceil(totalItems / pageSize));
 

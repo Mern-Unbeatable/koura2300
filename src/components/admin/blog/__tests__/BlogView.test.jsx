@@ -57,9 +57,10 @@ describe('BlogView', () => {
       firstPost.image,
     );
     expect(within(card).getByText(firstPost.title)).toBeInTheDocument();
-    expect(within(card).getByText(firstPost.excerpt)).toBeInTheDocument();
-    expect(within(card).getByText(firstPost.readTimeLabel)).toBeInTheDocument();
-    expect(within(card).getByText(firstPost.author)).toBeInTheDocument();
+    expect(within(card).getByText(firstPost.body)).toBeInTheDocument();
+    expect(
+      within(card).getByText(`${firstPost.readTimeLabel} · ${firstPost.author}`),
+    ).toBeInTheDocument();
     expect(
       within(card).getByRole('button', { name: ADMIN_BLOG_COPY.editLabel(firstPost.title) }),
     ).toBeInTheDocument();
