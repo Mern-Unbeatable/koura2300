@@ -20,12 +20,13 @@ const TITLE_CLASS =
   'min-w-0 pr-2 text-xl font-semibold leading-tight text-[#0c0c0c] max-[320px]:text-lg sm:text-[40px] sm:leading-none';
 const FORM_CLASS = 'flex flex-col gap-4';
 const LABEL_CLASS = 'block text-base font-medium text-[#373737]';
-const INPUT_CLASS = `block w-full rounded-lg ${CREATE_ACCOUNT_FIELD_BG_CLASS} ${CREATE_ACCOUNT_FIELD_HEIGHT_CLASS} px-[14px] text-sm text-[#0c0c0c] placeholder:text-[#8c8c8c] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0160f2]`;
+const INPUT_CLASS = `box-border block w-full rounded-lg border-2 border-transparent ${CREATE_ACCOUNT_FIELD_BG_CLASS} ${CREATE_ACCOUNT_FIELD_HEIGHT_CLASS} px-[14px] text-sm text-[#0c0c0c] placeholder:text-[#8c8c8c] focus:outline-none focus:border-[#0160f2]`;
 const DIVIDER_LINE_CLASS = 'h-px flex-1 bg-gray-200';
 const ALREADY_ROW_CLASS = 'flex items-center justify-center gap-1 text-base';
 const HEADER_CLASS = 'flex items-start justify-between';
 const ANIMATED_FIELDS_CLASS =
-  'overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out';
+  'transition-[max-height,opacity] duration-500 ease-in-out';
+const ANIMATED_FIELDS_COLLAPSED_CLASS = 'overflow-hidden';
 
 const GoogleIcon = memo(() => (
   <svg
@@ -187,7 +188,7 @@ const ServiceDetailsCreateAccount = memo(({ onClose, onComplete }) => {
             {/* Sign-up-only fields — animated collapse on login mode */}
             <div
               ref={signUpFieldsRef}
-              className={ANIMATED_FIELDS_CLASS}
+              className={`${ANIMATED_FIELDS_CLASS} ${isLoginMode ? ANIMATED_FIELDS_COLLAPSED_CLASS : ''}`}
               style={{ maxHeight: isLoginMode ? '0px' : '600px', opacity: isLoginMode ? 0 : 1 }}
               aria-hidden={isLoginMode}
             >
