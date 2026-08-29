@@ -57,9 +57,8 @@ export const SIDEBAR_NAV_GROUPS = [
       { name: 'Blog Post', path: ROUTES.ADMIN_BLOG, icon: FileText },
       {
         name: 'Ads Management',
-        path: null,
+        path: ROUTES.ADMIN_ADS,
         icon: Megaphone,
-        comingSoon: true,
       },
     ],
   },

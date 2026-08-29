@@ -63,6 +63,14 @@ describe('Sidebar Figma navigation', () => {
     expect(reviewsLink.className).toContain('bg-[#fff1eb]');
   });
 
+  it('includes Ads Management in MANAGEMENT with an active route', () => {
+    renderSidebar(ROUTES.ADMIN_ADS);
+
+    const adsLink = screen.getByRole('link', { name: /Ads Management/i });
+    expect(adsLink).toHaveAttribute('href', ROUTES.ADMIN_ADS);
+    expect(adsLink.className).toContain('bg-[#fff1eb]');
+  });
+
   it('exposes the Figma management items in nav config', () => {
     const management = SIDEBAR_NAV_GROUPS.find((group) => group.id === 'management');
     const names = management.items.map((item) => item.name);

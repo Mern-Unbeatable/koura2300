@@ -51,6 +51,7 @@ export const ROUTES = {
   ADMIN_BLOG: '/admin/blog',
   ADMIN_BLOG_NEW: '/admin/blog/new',
   ADMIN_BLOG_EDIT: '/admin/blog/:blogId/edit',
+  ADMIN_ADS: '/admin/ads',
   ADMIN_JOBS: '/admin/jobs',
   ADMIN_PRICING: '/admin/pricing',
   ADMIN_MESSAGES: '/admin/messages',
