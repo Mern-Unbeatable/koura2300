@@ -18,6 +18,7 @@ const useAdminBlog = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState(ADMIN_BLOG_SEED);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pendingDeletePostId, setPendingDeletePostId] = useState(null);
 
   const totalPages = useMemo(
     () => getTotalPages(posts.length, ADMIN_BLOG_PAGE_SIZE),
@@ -37,6 +38,11 @@ const useAdminBlog = () => {
   const postsCountLabel = useMemo(
     () => formatBlogPostsCount(posts.length),
     [posts.length],
+  );
+
+  const pendingDeletePost = useMemo(
+    () => posts.find((post) => post.id === pendingDeletePostId) ?? null,
+    [pendingDeletePostId, posts],
   );
 
   const pagination = useMemo(
@@ -66,18 +72,35 @@ const useAdminBlog = () => {
   );
 
   const handleDeletePost = useCallback((postId) => {
-    setPosts((currentPosts) => removePostById(currentPosts, postId));
-    toast.success(ADMIN_BLOG_COPY.toasts.deleted);
+    setPendingDeletePostId(postId);
   }, []);
+
+  const handleCloseDeleteModal = useCallback(() => {
+    setPendingDeletePostId(null);
+  }, []);
+
+  const handleConfirmDeletePost = useCallback(() => {
+    if (!pendingDeletePostId) {
+      return;
+    }
+
+    setPosts((currentPosts) => removePostById(currentPosts, pendingDeletePostId));
+    setPendingDeletePostId(null);
+    toast.success(ADMIN_BLOG_COPY.toasts.deleted);
+  }, [pendingDeletePostId]);
 
   return {
     copy: ADMIN_BLOG_COPY,
     postsCountLabel,
     posts: paginatedPosts,
     pagination,
+    deletePostTitle: pendingDeletePost?.title ?? '',
+    isDeleteModalOpen: Boolean(pendingDeletePostId),
     onAddBlog: handleAddBlog,
     onEditPost: handleEditPost,
     onDeletePost: handleDeletePost,
+    onCloseDeleteModal: handleCloseDeleteModal,
+    onConfirmDeletePost: handleConfirmDeletePost,
   };
 };
 

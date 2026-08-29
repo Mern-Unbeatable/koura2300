@@ -51,7 +51,21 @@ describe('useAdminBlog', () => {
     expect(mockNavigate).toHaveBeenCalledWith(buildAdminBlogEditRoute(postId));
   });
 
-  it('deletes a post and shows a success toast', () => {
+  it('opens the delete confirmation modal instead of deleting immediately', () => {
+    const { result } = renderUseAdminBlog();
+    const post = ADMIN_BLOG_SEED[0];
+
+    act(() => {
+      result.current.onDeletePost(post.id);
+    });
+
+    expect(result.current.isDeleteModalOpen).toBe(true);
+    expect(result.current.deletePostTitle).toBe(post.title);
+    expect(toast.success).not.toHaveBeenCalled();
+    expect(result.current.posts.some((item) => item.id === post.id)).toBe(true);
+  });
+
+  it('confirms delete, closes the modal, and shows a success toast', () => {
     const { result } = renderUseAdminBlog();
     const postId = ADMIN_BLOG_SEED[0].id;
 
@@ -59,7 +73,29 @@ describe('useAdminBlog', () => {
       result.current.onDeletePost(postId);
     });
 
+    act(() => {
+      result.current.onConfirmDeletePost();
+    });
+
+    expect(result.current.isDeleteModalOpen).toBe(false);
     expect(toast.success).toHaveBeenCalledWith(ADMIN_BLOG_COPY.toasts.deleted);
     expect(result.current.posts.every((post) => post.id !== postId)).toBe(true);
+  });
+
+  it('closes the delete modal without deleting', () => {
+    const { result } = renderUseAdminBlog();
+    const postId = ADMIN_BLOG_SEED[0].id;
+
+    act(() => {
+      result.current.onDeletePost(postId);
+    });
+
+    act(() => {
+      result.current.onCloseDeleteModal();
+    });
+
+    expect(result.current.isDeleteModalOpen).toBe(false);
+    expect(toast.success).not.toHaveBeenCalled();
+    expect(result.current.posts.some((post) => post.id === postId)).toBe(true);
   });
 });

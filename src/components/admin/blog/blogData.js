@@ -44,6 +44,38 @@ export const ADMIN_BLOG_DELETE_BUTTON_CLASS =
 export const ADMIN_BLOG_EMPTY_CLASS =
   'rounded-2xl bg-white px-4 py-10 text-center text-sm text-[#6b7280]';
 
+export const ADMIN_BLOG_DELETE_CLOSE_ICON_SIZE_PX = 18;
+
+export const ADMIN_BLOG_DELETE_OVERLAY_CLASS =
+  'animate-fade-in fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(0,0,0,0.7)] backdrop-blur-[17.4px] p-3 min-[376px]:p-4';
+
+export const ADMIN_BLOG_DELETE_DIALOG_CLASS =
+  'animate-page-enter flex w-full max-w-[470px] flex-col overflow-hidden rounded-xl bg-white shadow-[0px_75px_88.5px_0px_rgba(14,20,35,0.25)]';
+
+export const ADMIN_BLOG_DELETE_HEADER_CLASS =
+  'flex items-start justify-between gap-3 border-b border-[#edf0f3] px-4 py-4 min-[376px]:px-6 min-[376px]:pb-[21px] min-[376px]:pt-5';
+
+export const ADMIN_BLOG_DELETE_TITLE_CLASS =
+  'pt-1 text-lg font-bold leading-7 tracking-[-0.5px] text-[#202838] min-[376px]:text-xl';
+
+export const ADMIN_BLOG_DELETE_CLOSE_CLASS =
+  'cursor-pointer rounded-full p-1 text-[#536070] transition-colors hover:text-[#202838] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+
+export const ADMIN_BLOG_DELETE_BODY_CLASS =
+  'flex flex-col gap-4 px-4 py-4 min-[376px]:gap-6 min-[376px]:px-6 min-[376px]:py-5';
+
+export const ADMIN_BLOG_DELETE_DESCRIPTION_CLASS =
+  'text-sm leading-5 text-[#455163] min-[376px]:text-base min-[376px]:leading-6';
+
+export const ADMIN_BLOG_DELETE_ACTIONS_CLASS =
+  'flex flex-col-reverse gap-2 min-[376px]:flex-row min-[376px]:items-center min-[376px]:justify-end';
+
+export const ADMIN_BLOG_DELETE_CANCEL_CLASS =
+  'inline-flex h-9 w-full cursor-pointer items-center justify-center rounded-md border border-[#dfe4ea] px-4 text-xs text-[#536070] transition-colors hover:bg-[#f8fafc] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[376px]:w-auto';
+
+export const ADMIN_BLOG_DELETE_CONFIRM_CLASS =
+  'inline-flex h-9 w-full cursor-pointer items-center justify-center rounded-md bg-[#f52e0b] px-4 text-xs text-white shadow-[0px_1px_1.5px_rgba(0,0,0,0.1),0px_1px_1px_rgba(0,0,0,0.1)] transition-colors hover:bg-[#d92809] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[376px]:w-auto';
+
 export const ADMIN_BLOG_PAGINATION_CLASS =
   'flex flex-wrap items-center justify-center gap-[5px]';
 

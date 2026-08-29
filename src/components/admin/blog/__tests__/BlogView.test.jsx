@@ -26,9 +26,13 @@ const createBlogViewProps = (overrides = {}) => ({
     onNext: jest.fn(),
     onPageChange: jest.fn(),
   },
+  deletePostTitle: '',
+  isDeleteModalOpen: false,
   onAddBlog: jest.fn(),
   onEditPost: jest.fn(),
   onDeletePost: jest.fn(),
+  onCloseDeleteModal: jest.fn(),
+  onConfirmDeletePost: jest.fn(),
   ...overrides,
 });
 
@@ -90,6 +94,35 @@ describe('BlogView', () => {
     expect(onAddBlog).toHaveBeenCalledTimes(1);
     expect(onEditPost).toHaveBeenCalledWith(post.id);
     expect(onDeletePost).toHaveBeenCalledWith(post.id);
+  });
+
+  it('renders the animated delete confirmation modal when open', async () => {
+    const user = userEvent.setup();
+    const onCloseDeleteModal = jest.fn();
+    const onConfirmDeletePost = jest.fn();
+    const post = ADMIN_BLOG_SEED[0];
+
+    renderBlogView({
+      isDeleteModalOpen: true,
+      deletePostTitle: post.title,
+      onCloseDeleteModal,
+      onConfirmDeletePost,
+    });
+
+    expect(
+      screen.getByRole('dialog', { name: ADMIN_BLOG_COPY.deleteModal.regionLabel }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('blog-delete-overlay').className).toContain('animate-fade-in');
+
+    await user.click(
+      screen.getByRole('button', { name: ADMIN_BLOG_COPY.deleteModal.confirm }),
+    );
+    expect(onConfirmDeletePost).toHaveBeenCalledTimes(1);
+
+    await user.click(
+      screen.getByRole('button', { name: ADMIN_BLOG_COPY.deleteModal.cancel }),
+    );
+    expect(onCloseDeleteModal).toHaveBeenCalledTimes(1);
   });
 
   it('renders Figma numbered pagination with Prev, Next, and ellipsis', async () => {
