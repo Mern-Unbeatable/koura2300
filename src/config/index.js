@@ -50,6 +50,7 @@ export const ROUTES = {
   ADMIN_CASE_STUDIES: '/admin/case-studies',
   ADMIN_BLOG: '/admin/blog',
   ADMIN_BLOG_NEW: '/admin/blog/new',
+  ADMIN_BLOG_EDIT: '/admin/blog/:blogId/edit',
   ADMIN_JOBS: '/admin/jobs',
   ADMIN_PRICING: '/admin/pricing',
   ADMIN_MESSAGES: '/admin/messages',
@@ -72,6 +73,8 @@ export const buildAdminServiceNewRoute = () => ROUTES.ADMIN_SERVICE_NEW;
 export const buildAdminServiceEditRoute = (serviceId) => `/admin/services/${serviceId}/edit`;
 
 export const buildAdminBlogNewRoute = () => ROUTES.ADMIN_BLOG_NEW;
+
+export const buildAdminBlogEditRoute = (blogId) => `/admin/blog/${blogId}/edit`;
 
 export const buildServiceDetailsRoute = (serviceId, category = CATALOG_ALL_CATEGORY) => {
   const searchParams = new URLSearchParams({

@@ -1,17 +1,22 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { ROUTES } from '../config';
 import { ADMIN_BLOG_FORM_COPY } from '../components/admin/blogForm/blogFormCopy';
 import {
   ADMIN_BLOG_FORM_EMPTY_VALUES,
   ADMIN_BLOG_FORM_FIELDS,
+  ADMIN_BLOG_FORM_MODE,
 } from '../components/admin/blogForm/blogFormData';
 import {
   assertBlogBannerFileLimit,
   createBlogBannerImageFromFile,
   createBlogFormValues,
+  getAdminBlogFormPostById,
+  getAdminBlogFormSeo,
+  getAdminBlogFormTitle,
   isBlogFormReady,
+  resolveAdminBlogFormMode,
   revokeBlogBannerPreview,
   validateBlogForm,
 } from '../components/admin/blogForm/blogFormUtils';
@@ -19,10 +24,33 @@ import { filterAcceptedImageFiles, toFileArray } from '../components/admin/servi
 
 const useAdminBlogForm = () => {
   const navigate = useNavigate();
-  const [values, setValues] = useState(createBlogFormValues);
+  const { blogId } = useParams();
+  const mode = resolveAdminBlogFormMode(blogId);
+  const isEditMode = mode === ADMIN_BLOG_FORM_MODE.EDIT;
+
+  const post = useMemo(
+    () => (isEditMode ? getAdminBlogFormPostById(blogId) : null),
+    [blogId, isEditMode],
+  );
+
+  const isNotFound = isEditMode && !post;
+
+  const [values, setValues] = useState(() =>
+    isEditMode && post ? createBlogFormValues(post) : createBlogFormValues(),
+  );
   const [errors, setErrors] = useState({});
   const valuesRef = useRef(values);
   valuesRef.current = values;
+
+  useEffect(() => {
+    if (!isEditMode || !post) {
+      return undefined;
+    }
+
+    setValues(createBlogFormValues(post));
+    setErrors({});
+    return undefined;
+  }, [blogId, isEditMode, post]);
 
   useEffect(
     () => () => {
@@ -103,19 +131,26 @@ const useAdminBlogForm = () => {
         return;
       }
 
-      toast.success(ADMIN_BLOG_FORM_COPY.toasts.created);
+      toast.success(
+        isEditMode
+          ? ADMIN_BLOG_FORM_COPY.toasts.updated
+          : ADMIN_BLOG_FORM_COPY.toasts.created,
+      );
       revokeBlogBannerPreview(values[ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE]);
       setValues({ ...ADMIN_BLOG_FORM_EMPTY_VALUES });
       navigate(ROUTES.ADMIN_BLOG, { replace: true });
     },
-    [navigate, values],
+    [isEditMode, navigate, values],
   );
 
   return {
     copy: ADMIN_BLOG_FORM_COPY,
-    seo: ADMIN_BLOG_FORM_COPY.seo,
+    seo: getAdminBlogFormSeo(mode),
+    pageTitle: getAdminBlogFormTitle(mode),
+    mode,
     values,
     errors,
+    isNotFound,
     isSubmitDisabled,
     onFieldChange: handleFieldChange,
     onBannerFilesSelected: handleBannerFilesSelected,

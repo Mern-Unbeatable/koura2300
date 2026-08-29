@@ -1,13 +1,18 @@
+import { ADMIN_BLOG_SEED } from '../../blog/blogData';
 import {
   ADMIN_BLOG_FORM_EMPTY_VALUES,
   ADMIN_BLOG_FORM_FIELDS,
+  ADMIN_BLOG_FORM_MODE,
   ADMIN_BLOG_FORM_PAGE_CLASS,
   ADMIN_BLOG_FORM_VIEWPORT,
 } from '../blogFormData';
 import {
   createBlogBannerImageFromFile,
   createBlogFormValues,
+  getAdminBlogFormPostById,
+  getAdminBlogFormTitle,
   isBlogFormReady,
+  resolveAdminBlogFormMode,
   validateBlogForm,
 } from '../blogFormUtils';
 import { ADMIN_BLOG_FORM_COPY } from '../blogFormCopy';
@@ -15,6 +20,36 @@ import { ADMIN_BLOG_FORM_COPY } from '../blogFormCopy';
 describe('blogFormUtils', () => {
   it('creates empty form values for a new blog', () => {
     expect(createBlogFormValues()).toEqual(ADMIN_BLOG_FORM_EMPTY_VALUES);
+  });
+
+  it('prefills form values from an existing blog card', () => {
+    const post = ADMIN_BLOG_SEED[0];
+    const values = createBlogFormValues(post);
+
+    expect(values[ADMIN_BLOG_FORM_FIELDS.TITLE]).toBe(post.title);
+    expect(values[ADMIN_BLOG_FORM_FIELDS.SHORT_DESCRIPTION]).toBe(post.body);
+    expect(values[ADMIN_BLOG_FORM_FIELDS.LONG_DESCRIPTION]).toBe(post.body);
+    expect(values[ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE]).toEqual({
+      id: `existing-blog-banner-${post.id}`,
+      name: 'banner',
+      previewUrl: post.image,
+      isExisting: true,
+    });
+  });
+
+  it('resolves create vs edit mode and page title', () => {
+    expect(resolveAdminBlogFormMode(undefined)).toBe(ADMIN_BLOG_FORM_MODE.CREATE);
+    expect(resolveAdminBlogFormMode('plumbing')).toBe(ADMIN_BLOG_FORM_MODE.EDIT);
+    expect(getAdminBlogFormTitle(ADMIN_BLOG_FORM_MODE.CREATE)).toBe(
+      ADMIN_BLOG_FORM_COPY.titles.create,
+    );
+    expect(getAdminBlogFormTitle(ADMIN_BLOG_FORM_MODE.EDIT)).toBe(
+      ADMIN_BLOG_FORM_COPY.titles.edit,
+    );
+    expect(getAdminBlogFormPostById('plumbing')).toEqual(
+      expect.objectContaining({ id: 'plumbing' }),
+    );
+    expect(getAdminBlogFormPostById('missing')).toBeNull();
   });
 
   it('creates a banner preview from a file as a data URL', async () => {

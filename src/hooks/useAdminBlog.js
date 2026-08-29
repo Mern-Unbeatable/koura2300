@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { buildAdminBlogNewRoute } from '../config';
+import { buildAdminBlogEditRoute, buildAdminBlogNewRoute } from '../config';
 import { ADMIN_BLOG_COPY } from '../components/admin/blog/blogCopy';
 import { ADMIN_BLOG_PAGE_SIZE, ADMIN_BLOG_SEED } from '../components/admin/blog/blogData';
 import {
@@ -58,9 +58,12 @@ const useAdminBlog = () => {
     navigate(buildAdminBlogNewRoute());
   }, [navigate]);
 
-  const handleEditPost = useCallback(() => {
-    toast.success(ADMIN_BLOG_COPY.toasts.edited);
-  }, []);
+  const handleEditPost = useCallback(
+    (postId) => {
+      navigate(buildAdminBlogEditRoute(postId));
+    },
+    [navigate],
+  );
 
   const handleDeletePost = useCallback((postId) => {
     setPosts((currentPosts) => removePostById(currentPosts, postId));

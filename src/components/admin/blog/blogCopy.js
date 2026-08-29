@@ -16,7 +16,6 @@ export const ADMIN_BLOG_COPY = {
   },
   toasts: {
     added: 'Blog post draft created.',
-    edited: 'Opening blog post editor.',
     deleted: 'Blog post deleted.',
   },
 };

@@ -367,6 +367,7 @@ const router = createBrowserRouter(
         <Route path={seg(ROUTES.ADMIN_CASE_STUDIES)} element={<CaseStudies />} />
         <Route path={seg(ROUTES.ADMIN_BLOG)} element={<Blog />} />
         <Route path={seg(ROUTES.ADMIN_BLOG_NEW)} element={<BlogForm />} />
+        <Route path={seg(ROUTES.ADMIN_BLOG_EDIT)} element={<BlogForm />} />
         <Route path={seg(ROUTES.ADMIN_JOBS)} element={<Jobs />} />
         <Route path={seg(ROUTES.ADMIN_PRICING)} element={<Pricing />} />
         <Route path={seg(ROUTES.ADMIN_MESSAGES)} element={<AdminMessages />} />

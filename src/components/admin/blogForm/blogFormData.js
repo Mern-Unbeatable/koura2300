@@ -14,6 +14,11 @@ export const ADMIN_BLOG_FORM_FIELDS = {
   BANNER_IMAGE: 'bannerImage',
 };
 
+export const ADMIN_BLOG_FORM_MODE = {
+  CREATE: 'create',
+  EDIT: 'edit',
+};
+
 export const ADMIN_BLOG_FORM_BANNER_MAX_FILES = 1;
 export const ADMIN_BLOG_FORM_BACK_ICON_SIZE = 24;
 export const ADMIN_BLOG_FORM_ACCEPT = 'image/jpeg,image/png';
@@ -61,3 +66,6 @@ export const ADMIN_BLOG_FORM_ERROR_TEXT_CLASS = 'text-xs text-[#f31d2c]';
 
 export const ADMIN_BLOG_FORM_SUBMIT_CLASS =
   'inline-flex h-12 w-full cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-6 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-[#f7c3ad] disabled:hover:bg-[#f7c3ad] min-[426px]:w-auto';
+
+export const ADMIN_BLOG_FORM_NOT_FOUND_CLASS =
+  'rounded-2xl border border-[#e8ebf0] bg-white px-6 py-10 text-center';

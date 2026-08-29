@@ -11,8 +11,10 @@ import { ROUTES } from '../../../../config';
 
 const createBlogFormViewProps = (overrides = {}) => ({
   copy: ADMIN_BLOG_FORM_COPY,
+  pageTitle: ADMIN_BLOG_FORM_COPY.titles.create,
   values: { ...ADMIN_BLOG_FORM_EMPTY_VALUES },
   errors: {},
+  isNotFound: false,
   isSubmitDisabled: true,
   onFieldChange: jest.fn(() => jest.fn()),
   onBannerFilesSelected: jest.fn(),
@@ -32,7 +34,10 @@ describe('BlogFormView', () => {
     renderBlogFormView();
 
     expect(
-      screen.getByRole('heading', { level: 1, name: ADMIN_BLOG_FORM_COPY.title }),
+      screen.getByRole('heading', {
+        level: 1,
+        name: ADMIN_BLOG_FORM_COPY.titles.create,
+      }),
     ).toBeInTheDocument();
     expect(screen.getByText(ADMIN_BLOG_FORM_COPY.subtitle)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: ADMIN_BLOG_FORM_COPY.actions.back })).toHaveAttribute(
@@ -68,6 +73,51 @@ describe('BlogFormView', () => {
     expect(
       screen.getByPlaceholderText(ADMIN_BLOG_FORM_COPY.placeholders.longDescription),
     ).toBeInTheDocument();
+  });
+
+  it('prefills card details when editing an existing post', () => {
+    const postTitle = '5 Signs Your Home Needs a Plumbing Repair';
+    const postBody = 'Learn how to spot common plumbing problems early.';
+
+    renderBlogFormView({
+      pageTitle: ADMIN_BLOG_FORM_COPY.titles.edit,
+      isSubmitDisabled: false,
+      values: {
+        ...ADMIN_BLOG_FORM_EMPTY_VALUES,
+        [ADMIN_BLOG_FORM_FIELDS.TITLE]: postTitle,
+        [ADMIN_BLOG_FORM_FIELDS.SHORT_DESCRIPTION]: postBody,
+        [ADMIN_BLOG_FORM_FIELDS.LONG_DESCRIPTION]: postBody,
+        [ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE]: {
+          id: 'existing-banner',
+          previewUrl: '/assets/landing/article-plumbing.png',
+          isExisting: true,
+        },
+      },
+    });
+
+    expect(screen.getByLabelText(ADMIN_BLOG_FORM_COPY.fields.title)).toHaveValue(postTitle);
+    expect(screen.getByLabelText(ADMIN_BLOG_FORM_COPY.fields.shortDescription)).toHaveValue(
+      postBody,
+    );
+    expect(screen.getByLabelText(ADMIN_BLOG_FORM_COPY.fields.longDescription)).toHaveValue(
+      postBody,
+    );
+    expect(screen.getByRole('presentation')).toHaveAttribute(
+      'src',
+      '/assets/landing/article-plumbing.png',
+    );
+  });
+
+  it('shows not-found state when the edit target is missing', () => {
+    renderBlogFormView({ isNotFound: true });
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: ADMIN_BLOG_FORM_COPY.notFound.title }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(ADMIN_BLOG_FORM_COPY.notFound.description)).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: ADMIN_BLOG_FORM_COPY.notFound.backLabel }),
+    ).toHaveAttribute('href', ROUTES.ADMIN_BLOG);
   });
 
   it('keeps the submit button disabled until the form is ready', () => {

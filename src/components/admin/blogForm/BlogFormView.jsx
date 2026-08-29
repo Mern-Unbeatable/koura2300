@@ -7,6 +7,7 @@ import {
   ADMIN_BLOG_FORM_BACK_LINK_CLASS,
   ADMIN_BLOG_FORM_BODY_CLASS,
   ADMIN_BLOG_FORM_FIELDS,
+  ADMIN_BLOG_FORM_NOT_FOUND_CLASS,
   ADMIN_BLOG_FORM_PAGE_CLASS,
   ADMIN_BLOG_FORM_SUBMIT_CLASS,
   ADMIN_BLOG_FORM_SUBTITLE_CLASS,
@@ -14,15 +15,34 @@ import {
 } from './blogFormData';
 import BlogFormFields from './BlogFormFields';
 
+const BlogFormNotFound = ({ copy }) => (
+  <div className={ADMIN_BLOG_FORM_NOT_FOUND_CLASS}>
+    <h1 className="text-2xl font-bold text-[#0f172b]">{copy.notFound.title}</h1>
+    <p className="mt-2 text-sm text-[#62748e]">{copy.notFound.description}</p>
+    <Link
+      to={ROUTES.ADMIN_BLOG}
+      className="mt-6 inline-flex rounded-xl bg-[#0f172b] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1e293b] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
+    >
+      {copy.notFound.backLabel}
+    </Link>
+  </div>
+);
+
 const BlogFormView = ({
   copy,
+  pageTitle,
   values,
   errors,
+  isNotFound,
   isSubmitDisabled,
   onFieldChange,
   onBannerFilesSelected,
   onSubmit,
 }) => {
+  if (isNotFound) {
+    return <BlogFormNotFound copy={copy} />;
+  }
+
   const bannerPreview = values[ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE];
 
   return (
@@ -33,7 +53,7 @@ const BlogFormView = ({
       </Link>
 
       <header className="flex min-w-0 flex-col gap-1">
-        <h1 className={ADMIN_BLOG_FORM_TITLE_CLASS}>{copy.title}</h1>
+        <h1 className={ADMIN_BLOG_FORM_TITLE_CLASS}>{pageTitle}</h1>
         <p className={ADMIN_BLOG_FORM_SUBTITLE_CLASS}>{copy.subtitle}</p>
       </header>
 

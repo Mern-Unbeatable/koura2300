@@ -1,12 +1,52 @@
+import { ADMIN_BLOG_SEED } from '../blog/blogData';
 import { ADMIN_BLOG_FORM_COPY } from './blogFormCopy';
 import {
   ADMIN_BLOG_FORM_BANNER_MAX_FILES,
   ADMIN_BLOG_FORM_EMPTY_VALUES,
   ADMIN_BLOG_FORM_FIELDS,
+  ADMIN_BLOG_FORM_MODE,
 } from './blogFormData';
 import { readFileAsDataUrl } from '../serviceForm/adminServiceFormUtils';
 
-export const createBlogFormValues = () => ({ ...ADMIN_BLOG_FORM_EMPTY_VALUES });
+export const resolveAdminBlogFormMode = (blogId) =>
+  blogId ? ADMIN_BLOG_FORM_MODE.EDIT : ADMIN_BLOG_FORM_MODE.CREATE;
+
+export const getAdminBlogFormTitle = (mode) =>
+  mode === ADMIN_BLOG_FORM_MODE.EDIT
+    ? ADMIN_BLOG_FORM_COPY.titles.edit
+    : ADMIN_BLOG_FORM_COPY.titles.create;
+
+export const getAdminBlogFormSeo = (mode) =>
+  mode === ADMIN_BLOG_FORM_MODE.EDIT
+    ? ADMIN_BLOG_FORM_COPY.seo.edit
+    : ADMIN_BLOG_FORM_COPY.seo.create;
+
+export const getAdminBlogFormPostById = (blogId) =>
+  ADMIN_BLOG_SEED.find((post) => post.id === blogId) ?? null;
+
+export const createBlogFormValues = (post) => {
+  if (!post) {
+    return { ...ADMIN_BLOG_FORM_EMPTY_VALUES };
+  }
+
+  const shortDescription = post.body ?? '';
+  const longDescription = post.longDescription ?? shortDescription;
+
+  return {
+    ...ADMIN_BLOG_FORM_EMPTY_VALUES,
+    [ADMIN_BLOG_FORM_FIELDS.TITLE]: post.title ?? '',
+    [ADMIN_BLOG_FORM_FIELDS.SHORT_DESCRIPTION]: shortDescription,
+    [ADMIN_BLOG_FORM_FIELDS.LONG_DESCRIPTION]: longDescription,
+    [ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE]: post.image
+      ? {
+          id: `existing-blog-banner-${post.id}`,
+          name: 'banner',
+          previewUrl: post.image,
+          isExisting: true,
+        }
+      : null,
+  };
+};
 
 const hasText = (value) => String(value || '').trim().length > 0;
 
@@ -57,11 +97,15 @@ export const createBlogBannerImageFromFile = async (file) => {
     name: file.name,
     previewUrl,
     file,
+    isExisting: false,
   };
 };
 
 export const revokeBlogBannerPreview = (bannerImage) => {
-  if (bannerImage?.previewUrl?.startsWith('blob:')) {
+  if (
+    bannerImage?.previewUrl?.startsWith('blob:') &&
+    !bannerImage.isExisting
+  ) {
     URL.revokeObjectURL(bannerImage.previewUrl);
   }
 };
