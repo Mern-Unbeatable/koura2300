@@ -51,4 +51,20 @@ describe('useServiceCatalog subcategory browse flow', () => {
     expect(result.current.selectedCategory).toBeNull();
     expect(result.current.visibleServices).toHaveLength(0);
   });
+
+  it('scrolls to the top when opening or leaving a subcategory', () => {
+    const { result } = renderCatalog();
+
+    act(() => {
+      result.current.handleSubcategorySelect('Indoor Lighting');
+    });
+    expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
+
+    window.scrollTo.mockClear();
+
+    act(() => {
+      result.current.handleBackToSubcategories();
+    });
+    expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
+  });
 });

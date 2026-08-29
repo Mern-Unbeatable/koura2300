@@ -6,7 +6,11 @@ import useScrollToTop from '../../hooks/useScrollToTop';
 import useServiceCatalog from '../../hooks/useServiceCatalog';
 import LandingFooter from '../home/LandingFooter';
 import LandingHeader from '../home/LandingHeader';
-import { DEFAULT_SUBCATEGORY_COPY, SUBCATEGORY_BACK_BUTTON_CLASS, SUBCATEGORY_BACK_ICON_SIZE_PX } from './subcategoryData';
+import {
+  DEFAULT_SUBCATEGORY_COPY,
+  SUBCATEGORY_BACK_BUTTON_CLASS,
+  SUBCATEGORY_BACK_ICON_SIZE_PX,
+} from './subcategoryData';
 import ServiceCatalogFilters from './ServiceCatalogFilters';
 import ServiceCatalogGrid from './ServiceCatalogGrid';
 import ServiceCatalogPagination from './ServiceCatalogPagination';
@@ -41,9 +45,7 @@ const ServiceCatalogContent = memo(
 
         <main className="animate-page-enter mx-auto max-w-screen-2xl px-4 pb-24 pt-12 sm:px-6 sm:pt-14 lg:px-8 lg:pb-28">
           <div className="max-w-4xl">
-            <h1 className="text-3xl font-bold text-brand-ink sm:text-4xl">
-              {content.hero.title}
-            </h1>
+            <h1 className="text-3xl font-bold text-brand-ink sm:text-4xl">{content.hero.title}</h1>
             <p className="mt-3 text-sm leading-6 text-gray-500 sm:text-base">
               {content.hero.description}
             </p>

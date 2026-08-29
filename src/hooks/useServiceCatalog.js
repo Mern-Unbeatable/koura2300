@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { FIRST_PAGE_INDEX, paginateItems } from '../components/catalog/catalogData';
 import { buildSubcategoryCards } from '../components/catalog/subcategoryData';
+import { scrollPageToTop } from './useScrollToTop';
 
 const findPriceRange = (priceRanges, selectedValue) =>
   priceRanges.find(({ value }) => value === selectedValue) ?? priceRanges[0];
@@ -56,17 +57,20 @@ const useServiceCatalog = ({ services, allCategory, priceRanges, pageSize }) => 
   const handleSubcategorySelect = useCallback((category) => {
     setSelectedCategory(category);
     setPageIndex(FIRST_PAGE_INDEX);
+    scrollPageToTop();
   }, []);
 
   const handleBackToSubcategories = useCallback(() => {
     setSelectedCategory(null);
     setSelectedPriceRange(priceRanges[0].value);
     setPageIndex(FIRST_PAGE_INDEX);
+    scrollPageToTop();
   }, [priceRanges]);
 
   const handleCategoryChange = useCallback((category) => {
     setSelectedCategory(category);
     setPageIndex(FIRST_PAGE_INDEX);
+    scrollPageToTop();
   }, []);
 
   const handlePriceRangeChange = useCallback((priceRange) => {

@@ -31,11 +31,9 @@ export const SUBCATEGORY_CARD_TITLE_CLASS =
 export const SUBCATEGORY_CARD_PRICE_CLASS =
   'mt-1 text-base font-medium leading-7 text-white min-[768px]:text-lg min-[1440px]:text-xl';
 
-export const SUBCATEGORY_CARD_RATING_CLASS =
-  'mt-0.5 flex items-center gap-1 text-brand-orange';
+export const SUBCATEGORY_CARD_RATING_CLASS = 'mt-0.5 flex items-center gap-1 text-brand-orange';
 
-export const SUBCATEGORY_CARD_RATING_TEXT_CLASS =
-  'text-xs leading-4 text-white';
+export const SUBCATEGORY_CARD_RATING_TEXT_CLASS = 'text-xs leading-4 text-white';
 
 export const SUBCATEGORY_BACK_BUTTON_CLASS =
   'inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-brand-ink transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
