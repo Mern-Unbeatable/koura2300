@@ -30,15 +30,13 @@ describe('admin blogUtils', () => {
     );
   });
 
-  it('paginates posts with a page size of six', () => {
+  it('paginates posts with a page size of twelve', () => {
     const pageOne = paginatePosts(ADMIN_BLOG_SEED, 1, ADMIN_BLOG_PAGE_SIZE);
-    const pageTwo = paginatePosts(ADMIN_BLOG_SEED, 2, ADMIN_BLOG_PAGE_SIZE);
-    const totalPages = getTotalPages(ADMIN_BLOG_SEED.length, ADMIN_BLOG_PAGE_SIZE);
 
-    expect(pageOne).toHaveLength(ADMIN_BLOG_PAGE_SIZE);
-    expect(pageTwo.length).toBeGreaterThan(0);
-    expect(totalPages).toBeGreaterThan(1);
-    expect(pageOne[0].id).not.toBe(pageTwo[0].id);
+    expect(ADMIN_BLOG_PAGE_SIZE).toBe(12);
+    expect(pageOne).toHaveLength(Math.min(ADMIN_BLOG_SEED.length, ADMIN_BLOG_PAGE_SIZE));
+    expect(getTotalPages(ADMIN_BLOG_SEED.length, ADMIN_BLOG_PAGE_SIZE)).toBe(1);
+    expect(getTotalPages(13, ADMIN_BLOG_PAGE_SIZE)).toBe(2);
   });
 
   it('builds Figma pagination items with ellipsis for ten pages', () => {
@@ -47,12 +45,12 @@ describe('admin blogUtils', () => {
     expect(getPaginationItems(10, 10)).toEqual([1, PAGINATION_ELLIPSIS_TOKEN, 8, 9, 10]);
   });
 
-  it('clamps pages and toggles pagination visibility', () => {
+  it('clamps pages and shows pagination only when posts exceed twelve', () => {
     expect(clampPage(0, 3)).toBe(1);
     expect(clampPage(9, 3)).toBe(3);
     expect(shouldShowBlogPagination(0, ADMIN_BLOG_PAGE_SIZE)).toBe(false);
-    expect(shouldShowBlogPagination(6, ADMIN_BLOG_PAGE_SIZE)).toBe(false);
-    expect(shouldShowBlogPagination(7, ADMIN_BLOG_PAGE_SIZE)).toBe(true);
+    expect(shouldShowBlogPagination(12, ADMIN_BLOG_PAGE_SIZE)).toBe(false);
+    expect(shouldShowBlogPagination(13, ADMIN_BLOG_PAGE_SIZE)).toBe(true);
   });
 
   it('removes a post by id without mutating the source list', () => {

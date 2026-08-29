@@ -10,7 +10,7 @@ export const ADMIN_BLOG_VIEWPORT = {
   DESKTOP: 1440,
 };
 
-export const ADMIN_BLOG_PAGE_SIZE = 6;
+export const ADMIN_BLOG_PAGE_SIZE = 12;
 export const ADMIN_BLOG_DEFAULT_READ_MINUTES = 10;
 export const ADMIN_BLOG_DEFAULT_AUTHOR = 'Ahmed Awad';
 
