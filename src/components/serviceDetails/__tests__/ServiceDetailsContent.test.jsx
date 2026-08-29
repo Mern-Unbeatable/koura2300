@@ -26,7 +26,7 @@ const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
 const reachContactMethodStep = async (user) => {
-  await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
+  await user.click(screen.getByRole('button', { name: 'Confirmed Material' }));
   await waitFor(() => {
     expect(screen.getByRole('button', { name: 'Apply' })).toBeInTheDocument();
   });
@@ -236,7 +236,7 @@ describe('Service details page', () => {
     expect(screen.getByRole('checkbox', { name: 'Recycle old materials' })).toHaveClass(
       'hover:border-brand-orange',
     );
-    expect(screen.getByRole('button', { name: 'Confirmed Job' })).toHaveClass(
+    expect(screen.getByRole('button', { name: 'Confirmed Material' })).toHaveClass(
       'rounded-2xl',
       'hover:bg-brand-orange-dark',
     );
@@ -247,6 +247,8 @@ describe('Service details page', () => {
       'aria-pressed',
       'true',
     );
+    expect(screen.getByRole('button', { name: 'Confirmed Job' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Confirmed Material' })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('checkbox', { name: 'Recycle old materials' }));
 
@@ -326,14 +328,14 @@ describe('Service details page', () => {
     expect(screen.queryByText(/Assembly/)).not.toBeInTheDocument();
   });
 
-  it('opens the zip form below Confirmed Job and applies without a zip condition', async () => {
+  it('opens the zip form below the confirm button and applies without a zip condition', async () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
-    await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
+    await user.click(screen.getByRole('button', { name: 'Confirmed Material' }));
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Confirmed Job' })).toHaveAttribute(
+    expect(screen.getByRole('button', { name: 'Confirmed Material' })).toHaveAttribute(
       'aria-expanded',
       'true',
     );
@@ -364,7 +366,7 @@ describe('Service details page', () => {
       screen.queryByRole('region', { name: 'Preferred Contact Method' }),
     ).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Confirmed Job' }));
+    await user.click(screen.getByRole('button', { name: 'Confirmed Material' }));
     await user.type(screen.getByLabelText('US zip code'), '94107');
     await user.click(screen.getByRole('button', { name: 'Apply' }));
 

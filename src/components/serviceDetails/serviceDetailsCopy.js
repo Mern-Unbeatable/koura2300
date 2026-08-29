@@ -15,7 +15,8 @@ export const SERVICE_DETAILS_CONTENT = {
     needMaterials: 'I Need Materials',
     haveMaterials: 'I Have Materials',
     recycle: 'Recycle old materials',
-    confirm: 'Confirmed Job',
+    confirmMaterial: 'Confirmed Material',
+    confirmJob: 'Confirmed Job',
     success: 'Your job has been confirmed.',
   },
   zipPanel: {

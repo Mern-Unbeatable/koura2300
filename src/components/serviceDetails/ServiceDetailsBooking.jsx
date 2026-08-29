@@ -21,6 +21,11 @@ const RECYCLE_ICON_CLASS = 'text-brand-orange transition-colors group-hover:text
 const CONFIRM_BUTTON_CLASS =
   'w-full cursor-pointer rounded-2xl bg-brand-orange py-4 text-base font-bold text-white transition-all hover:bg-brand-orange-dark hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange focus-visible:ring-offset-2';
 
+const CONFIRM_LABELS = {
+  true: booking.confirmMaterial,
+  false: booking.confirmJob,
+};
+
 const getToggleStyle = (isActive) =>
   isActive ? TOGGLE_BUTTON_STYLES.active : TOGGLE_BUTTON_STYLES.idle;
 
@@ -79,7 +84,7 @@ const ServiceDetailsBooking = memo(
         aria-expanded={isZipPanelOpen}
         className={CONFIRM_BUTTON_CLASS}
       >
-        {booking.confirm}
+        {CONFIRM_LABELS[String(needsMaterials)]}
       </button>
     </div>
   ),
