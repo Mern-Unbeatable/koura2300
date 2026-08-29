@@ -94,6 +94,8 @@ export const SERVICE_DETAILS_CONTENT = {
     logIn: 'Log In',
     continueWithGoogle: 'Continue with Google',
     continueWithApple: 'Continue with Apple',
+    manualSignUp: 'Manual Sign-Up',
+    signUpMethodsRegionLabel: 'Sign-up methods',
     showPassword: 'Show password',
     hidePassword: 'Hide password',
     loginTitle: 'Welcome Back',

@@ -24,9 +24,13 @@ const BOOKING_ACTION = {
   SELECT_CONTACT_METHOD: 'SELECT_CONTACT_METHOD',
   CLOSE_CHAT: 'CLOSE_CHAT',
   OPEN_ACCOUNT: 'OPEN_ACCOUNT',
+  OPEN_MANUAL_SIGN_UP: 'OPEN_MANUAL_SIGN_UP',
   CLOSE_ACCOUNT: 'CLOSE_ACCOUNT',
   COMPLETE_CONFIRMATION: 'COMPLETE_CONFIRMATION',
 };
+
+const isSignUpContactMethod = (contactMethod) =>
+  contactMethod === CONTACT_METHODS.PHONE || contactMethod === CONTACT_METHODS.EMAIL;
 
 const createBookingState = () => ({
   selectedPackageId: SERVICE_PACKAGES.STANDARD,
@@ -36,6 +40,7 @@ const createBookingState = () => ({
   zipCode: '',
   isContactMethodVisible: false,
   isChatOpen: false,
+  isSignUpMethodsOpen: false,
   isAccountOpen: false,
   selectedContactMethod: UNSELECTED_CONTACT_METHOD,
 });
@@ -50,6 +55,7 @@ const bookingReducer = (state, action) => {
           ...state,
           needsMaterials: true,
           isAccountOpen: false,
+          isSignUpMethodsOpen: false,
         };
       }
 
@@ -59,13 +65,14 @@ const bookingReducer = (state, action) => {
         isZipPanelOpen: false,
         isContactMethodVisible: false,
         isChatOpen: false,
+        isSignUpMethodsOpen: false,
         isAccountOpen: false,
         selectedContactMethod: UNSELECTED_CONTACT_METHOD,
       };
     case BOOKING_ACTION.TOGGLE_RECYCLE:
       return { ...state, recycleOldMaterials: !state.recycleOldMaterials };
     case BOOKING_ACTION.OPEN_ZIP_PANEL:
-      return { ...state, isZipPanelOpen: true, isAccountOpen: false };
+      return { ...state, isZipPanelOpen: true, isAccountOpen: false, isSignUpMethodsOpen: false };
     case BOOKING_ACTION.CLOSE_ZIP_PANEL:
       return { ...state, isZipPanelOpen: false };
     case BOOKING_ACTION.CHANGE_ZIP_CODE:
@@ -75,9 +82,8 @@ const bookingReducer = (state, action) => {
         ...state,
         selectedContactMethod: action.contactMethod,
         isChatOpen: action.contactMethod === CONTACT_METHODS.CHAT,
-        isAccountOpen:
-          action.contactMethod === CONTACT_METHODS.PHONE ||
-          action.contactMethod === CONTACT_METHODS.EMAIL,
+        isSignUpMethodsOpen: isSignUpContactMethod(action.contactMethod),
+        isAccountOpen: false,
       };
     case BOOKING_ACTION.CLOSE_CHAT:
       return {
@@ -89,13 +95,21 @@ const bookingReducer = (state, action) => {
       return {
         ...state,
         isAccountOpen: true,
+        isSignUpMethodsOpen: false,
         isZipPanelOpen: false,
         isChatOpen: false,
+      };
+    case BOOKING_ACTION.OPEN_MANUAL_SIGN_UP:
+      return {
+        ...state,
+        isAccountOpen: true,
+        isSignUpMethodsOpen: false,
       };
     case BOOKING_ACTION.CLOSE_ACCOUNT:
       return {
         ...state,
         isAccountOpen: false,
+        isSignUpMethodsOpen: false,
         selectedContactMethod: UNSELECTED_CONTACT_METHOD,
       };
     case BOOKING_ACTION.COMPLETE_CONFIRMATION:
@@ -187,6 +201,10 @@ const useServiceBooking = (service, packages) => {
     dispatch({ type: BOOKING_ACTION.CLOSE_ACCOUNT });
   }, []);
 
+  const handleManualSignUp = useCallback(() => {
+    dispatch({ type: BOOKING_ACTION.OPEN_MANUAL_SIGN_UP });
+  }, []);
+
   const handleAccountComplete = useCallback(
     (fields) => {
       dispatchAuth(
@@ -225,6 +243,7 @@ const useServiceBooking = (service, packages) => {
     zipCode: state.zipCode,
     isContactMethodVisible: state.isContactMethodVisible,
     isChatOpen: state.isChatOpen,
+    isSignUpMethodsOpen: state.isSignUpMethodsOpen,
     isAccountOpen: state.isAccountOpen,
     selectedContactMethod: state.selectedContactMethod,
     handleSelectPackage,
@@ -238,6 +257,7 @@ const useServiceBooking = (service, packages) => {
     handleSelectContactMethod,
     handleCloseChat,
     handleCloseAccount,
+    handleManualSignUp,
     handleAccountComplete,
   };
 };

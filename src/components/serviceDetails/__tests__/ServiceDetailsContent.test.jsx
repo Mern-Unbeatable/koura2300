@@ -44,6 +44,22 @@ const openServiceChat = async (user) => {
   });
 };
 
+const openSignUpMethods = async (user, contactMethod = 'Phone / SMS') => {
+  await reachContactMethodStep(user);
+  await user.click(screen.getByRole('radio', { name: contactMethod }));
+  await waitFor(() => {
+    expect(screen.getByRole('region', { name: 'Sign-up methods' })).toBeInTheDocument();
+  });
+};
+
+const openCreateAccountForm = async (user, contactMethod = 'Phone / SMS') => {
+  await openSignUpMethods(user, contactMethod);
+  await user.click(screen.getByRole('button', { name: 'Manual Sign-Up' }));
+  await waitFor(() => {
+    expect(screen.getByRole('region', { name: 'Create your account' })).toBeInTheDocument();
+  });
+};
+
 const UNAUTHENTICATED_AUTH = {
   user: null,
   isAuthenticated: false,
@@ -590,11 +606,7 @@ describe('Service details chat', () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
-    await reachContactMethodStep(user);
-    await user.click(screen.getByRole('radio', { name: 'Phone / SMS' }));
-    await waitFor(() => {
-      expect(screen.getByRole('region', { name: 'Create your account' })).toBeInTheDocument();
-    });
+    await openCreateAccountForm(user);
 
     await user.click(screen.getByRole('button', { name: 'I Have Materials' }));
 
@@ -604,6 +616,7 @@ describe('Service details chat', () => {
     expect(
       screen.queryByRole('region', { name: 'Create your account' }),
     ).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Sign-up methods' })).not.toBeInTheDocument();
   });
 
   it('closes chat when Phone or Email is selected instead of Chat', async () => {
@@ -655,7 +668,7 @@ describe('Service details chat', () => {
 });
 
 describe('Service details create account', () => {
-  it('keeps Create Account hidden until Phone/SMS or Email is selected after Apply', async () => {
+  it('keeps Create Account hidden until Manual Sign-Up after Phone/SMS or Email', async () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
@@ -668,24 +681,41 @@ describe('Service details create account', () => {
     expect(
       screen.queryByRole('region', { name: 'Create your account' }),
     ).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Sign-up methods' })).not.toBeInTheDocument();
   });
 
-  it('opens Create Account below Preferred Contact Method when Phone / SMS is selected', async () => {
+  it('shows Sign-up methods below Preferred Contact Method when Phone / SMS is selected', async () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
-    await reachContactMethodStep(user);
-    await user.click(screen.getByRole('radio', { name: 'Phone / SMS' }));
-    await waitFor(() => {
-      expect(
-        screen.getByRole('region', { name: 'Create your account' }),
-      ).toBeInTheDocument();
-    });
+    await openSignUpMethods(user);
+
+    const contactRegion = screen.getByRole('region', { name: 'Preferred Contact Method' });
+    const signUpMethodsRegion = screen.getByRole('region', { name: 'Sign-up methods' });
+
+    expect(screen.getByRole('button', { name: 'Manual Sign-Up' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continue with Google' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continue with Apple' })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('region', { name: 'Create your account' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveAttribute('aria-checked', 'true');
+    expect(
+      contactRegion.compareDocumentPosition(signUpMethodsRegion) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+
+  it('opens Create Account when Manual Sign-Up is clicked after Phone / SMS', async () => {
+    const user = userEvent.setup();
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    await openCreateAccountForm(user);
 
     const contactRegion = screen.getByRole('region', { name: 'Preferred Contact Method' });
     const accountRegion = screen.getByRole('region', { name: 'Create your account' });
     const includedHeading = screen.getByRole('heading', { name: "What's Included" });
 
+    expect(screen.queryByRole('region', { name: 'Sign-up methods' })).not.toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'Create your Account' })).toBeInTheDocument();
     expect(screen.getByLabelText('Full Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
@@ -705,23 +735,17 @@ describe('Service details create account', () => {
     ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
-  it('opens Create Account below Preferred Contact Method when Email is selected', async () => {
+  it('opens Create Account when Manual Sign-Up is clicked after Email', async () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
-    await reachContactMethodStep(user);
-    await user.click(screen.getByRole('radio', { name: 'Email' }));
-    await waitFor(() => {
-      expect(
-        screen.getByRole('region', { name: 'Create your account' }),
-      ).toBeInTheDocument();
-    });
+    await openCreateAccountForm(user, 'Email');
 
     expect(screen.getByRole('heading', { level: 2, name: 'Create your Account' })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'Email' })).toHaveAttribute('aria-checked', 'true');
   });
 
-  it('does NOT open Create Account when Chat is selected', async () => {
+  it('does NOT open Create Account or Sign-up methods when Chat is selected', async () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
@@ -730,6 +754,7 @@ describe('Service details create account', () => {
     expect(
       screen.queryByRole('region', { name: 'Create your account' }),
     ).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Sign-up methods' })).not.toBeInTheDocument();
     expect(screen.getByRole('region', { name: 'Service pro chat' })).toBeInTheDocument();
   });
 
@@ -737,19 +762,14 @@ describe('Service details create account', () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
-    await reachContactMethodStep(user);
-    await user.click(screen.getByRole('radio', { name: 'Phone / SMS' }));
-    await waitFor(() => {
-      expect(
-        screen.getByRole('region', { name: 'Create your account' }),
-      ).toBeInTheDocument();
-    });
+    await openCreateAccountForm(user);
 
     await user.click(screen.getByRole('button', { name: 'Close sign up form' }));
 
     expect(
       screen.queryByRole('region', { name: 'Create your account' }),
     ).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Sign-up methods' })).not.toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'Phone / SMS' })).toHaveAttribute('aria-checked', 'false');
   });
 
@@ -757,19 +777,14 @@ describe('Service details create account', () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
-    await reachContactMethodStep(user);
-    await user.click(screen.getByRole('radio', { name: 'Email' }));
-    await waitFor(() => {
-      expect(
-        screen.getByRole('region', { name: 'Create your account' }),
-      ).toBeInTheDocument();
-    });
+    await openCreateAccountForm(user, 'Email');
 
     await user.click(screen.getByRole('radio', { name: 'Chat' }));
 
     expect(
       screen.queryByRole('region', { name: 'Create your account' }),
     ).not.toBeInTheDocument();
+    expect(screen.queryByRole('region', { name: 'Sign-up methods' })).not.toBeInTheDocument();
     await waitFor(() => {
       expect(screen.getByRole('region', { name: 'Service pro chat' })).toBeInTheDocument();
     });
@@ -779,13 +794,7 @@ describe('Service details create account', () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
-    await reachContactMethodStep(user);
-    await user.click(screen.getByRole('radio', { name: 'Phone / SMS' }));
-    await waitFor(() => {
-      expect(
-        screen.getByRole('region', { name: 'Create your account' }),
-      ).toBeInTheDocument();
-    });
+    await openCreateAccountForm(user);
 
     const passwordInput = screen.getByLabelText('Password');
     expect(passwordInput).toHaveAttribute('type', 'password');
@@ -801,13 +810,7 @@ describe('Service details create account', () => {
     const user = userEvent.setup();
     renderServiceDetails(LIGHTING_SERVICE_ID);
 
-    await reachContactMethodStep(user);
-    await user.click(screen.getByRole('radio', { name: 'Phone / SMS' }));
-    await waitFor(() => {
-      expect(
-        screen.getByRole('region', { name: 'Create your account' }),
-      ).toBeInTheDocument();
-    });
+    await openCreateAccountForm(user);
 
     expect(screen.getByRole('button', { name: 'Sign UP' })).toBeDisabled();
 

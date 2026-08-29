@@ -10,6 +10,7 @@ import ServiceDetailsGallery from './ServiceDetailsGallery';
 import ServiceDetailsInclusions from './ServiceDetailsInclusions';
 import ServiceDetailsPackages from './ServiceDetailsPackages';
 import ServiceDetailsRelated from './ServiceDetailsRelated';
+import ServiceDetailsSignUpMethods from './ServiceDetailsSignUpMethods';
 import ServiceDetailsSummary from './ServiceDetailsSummary';
 import ServiceZipPanel from './ServiceZipPanel';
 import { DETAILS_SPLIT_GRID_CLASS, ZIP_PANEL_GRID_CELL_CLASS } from './serviceDetailsData';
@@ -87,6 +88,10 @@ const ServiceDetailsView = memo(
               selectedPackage={booking.selectedPackage}
               onClose={booking.handleCloseChat}
             />
+          ) : null}
+
+          {booking.isSignUpMethodsOpen ? (
+            <ServiceDetailsSignUpMethods onManualSignUp={booking.handleManualSignUp} />
           ) : null}
 
           {booking.isAccountOpen ? (
