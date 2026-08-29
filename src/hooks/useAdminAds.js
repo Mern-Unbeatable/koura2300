@@ -1,5 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { buildAdminAdsEditRoute, buildAdminAdsNewRoute } from '../config';
 import { ADS_COPY } from '../components/admin/ads/adsCopy';
 import {
   ADS_ALL_FILTER_ID,
@@ -20,6 +22,7 @@ import {
 } from '../components/admin/ads/adsUtils';
 
 const useAdminAds = () => {
+  const navigate = useNavigate();
   const [ads, setAds] = useState(ADS_SEED);
   const [selectedCategoryId, setSelectedCategoryId] = useState(ADS_ALL_FILTER_ID);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(ADS_ALL_FILTER_ID);
@@ -83,12 +86,15 @@ const useAdminAds = () => {
   }, []);
 
   const handleAddNewAd = useCallback(() => {
-    toast.success(ADS_COPY.toasts.addAd);
-  }, []);
+    navigate(buildAdminAdsNewRoute());
+  }, [navigate]);
 
-  const handleEditAd = useCallback(() => {
-    toast.success(ADS_COPY.toasts.editAd);
-  }, []);
+  const handleEditAd = useCallback(
+    (adId) => {
+      navigate(buildAdminAdsEditRoute(adId));
+    },
+    [navigate],
+  );
 
   const handleDeleteAd = useCallback((adId) => {
     setPendingDeleteAdId(adId);

@@ -28,8 +28,6 @@ export const ADS_COPY = {
     confirm: 'Delete',
   },
   toasts: {
-    addAd: 'Ad draft created.',
-    editAd: 'Opening ad editor.',
     deleted: 'Ad deleted.',
   },
 };

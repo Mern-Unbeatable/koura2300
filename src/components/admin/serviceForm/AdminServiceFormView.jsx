@@ -18,12 +18,12 @@ import AdminServiceFormUploadZone, {
   PREVIEW_LAYOUT,
 } from './AdminServiceFormUploadZone';
 
-const AdminServiceFormNotFound = ({ copy }) => (
+const AdminServiceFormNotFound = ({ copy, listRoute }) => (
   <div className={ADMIN_SERVICE_FORM_NOT_FOUND_CLASS}>
     <h1 className="text-2xl font-bold text-[#0f172b]">{copy.notFound.title}</h1>
     <p className="mt-2 text-sm text-[#62748e]">{copy.notFound.description}</p>
     <Link
-      to={ROUTES.ADMIN_SERVICES}
+      to={listRoute}
       className="mt-6 inline-flex rounded-xl bg-[#0f172b] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#1e293b] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange"
     >
       {copy.notFound.backLabel}
@@ -34,6 +34,7 @@ const AdminServiceFormNotFound = ({ copy }) => (
 const AdminServiceFormView = ({
   copy,
   pageTitle,
+  listRoute = ROUTES.ADMIN_SERVICES,
   values,
   errors,
   categoryOptions,
@@ -44,7 +45,7 @@ const AdminServiceFormView = ({
   onSubmit,
 }) => {
   if (isNotFound) {
-    return <AdminServiceFormNotFound copy={copy} />;
+    return <AdminServiceFormNotFound copy={copy} listRoute={listRoute} />;
   }
 
   const bannerPreview = values[ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE];
@@ -52,7 +53,7 @@ const AdminServiceFormView = ({
 
   return (
     <div className={ADMIN_SERVICE_FORM_PAGE_CLASS}>
-      <Link to={ROUTES.ADMIN_SERVICES} className={ADMIN_SERVICE_FORM_BACK_LINK_CLASS}>
+      <Link to={listRoute} className={ADMIN_SERVICE_FORM_BACK_LINK_CLASS}>
         <ArrowLeft size={ADMIN_SERVICE_FORM_BACK_ICON_SIZE} aria-hidden="true" />
         {copy.actions.back}
       </Link>

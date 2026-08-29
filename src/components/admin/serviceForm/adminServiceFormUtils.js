@@ -123,9 +123,12 @@ const validatePriceField = (value, requiredMessage, invalidMessage) => {
   return null;
 };
 
-export const validateAdminServiceForm = (formValues, { requireBanner }) => {
+export const validateAdminServiceForm = (
+  formValues,
+  { requireBanner, errorCopy = ADMIN_SERVICE_FORM_COPY.errors },
+) => {
   const errors = {};
-  const { errors: copyErrors } = ADMIN_SERVICE_FORM_COPY;
+  const copyErrors = errorCopy;
 
   if (isBlank(formValues[ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID])) {
     errors[ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID] = copyErrors.categoryRequired;
@@ -241,9 +244,12 @@ export const createOtherImagesFromFiles = async (files) => {
   return previews;
 };
 
-export const assertBannerFileLimit = (files) => {
+export const assertBannerFileLimit = (
+  files,
+  tooManyMessage = ADMIN_SERVICE_FORM_COPY.errors.bannerTooMany,
+) => {
   if (toFileArray(files).length > ADMIN_SERVICE_FORM_BANNER_MAX_FILES) {
-    return ADMIN_SERVICE_FORM_COPY.errors.bannerTooMany;
+    return tooManyMessage;
   }
 
   return null;
