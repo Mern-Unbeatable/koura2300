@@ -56,7 +56,7 @@ describe('BlogFormView', () => {
     expect(screen.getByText(ADMIN_BLOG_FORM_COPY.upload.maxBanner)).toBeInTheDocument();
   });
 
-  it('shows Figma placeholders for text fields', () => {
+  it('shows professional blog placeholders for text fields', () => {
     renderBlogFormView();
 
     expect(
@@ -89,12 +89,12 @@ describe('BlogFormView', () => {
       onSubmit,
       values: {
         ...ADMIN_BLOG_FORM_EMPTY_VALUES,
-        [ADMIN_BLOG_FORM_FIELDS.TITLE]: 'Portland Cement Quick Set',
+        [ADMIN_BLOG_FORM_FIELDS.TITLE]: '5 Signs Your Home Needs a Plumbing Repair',
       },
     });
 
     const titleInput = screen.getByLabelText(ADMIN_BLOG_FORM_COPY.fields.title);
-    expect(titleInput).toHaveValue('Portland Cement Quick Set');
+    expect(titleInput).toHaveValue('5 Signs Your Home Needs a Plumbing Repair');
 
     await user.type(titleInput, '!');
     expect(onFieldChange).toHaveBeenCalledWith(ADMIN_BLOG_FORM_FIELDS.TITLE);

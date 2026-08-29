@@ -46,13 +46,13 @@ export const ADMIN_BLOG_FORM_LABEL_CLASS =
   'text-sm leading-5 text-[#2d3036] min-[376px]:text-base';
 
 export const ADMIN_BLOG_FORM_CONTROL_CLASS =
-  'h-10 w-full rounded border border-[rgba(0,0,0,0.2)] bg-white px-2.5 text-sm leading-4 text-[#3b3f46] placeholder:text-[#697076] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'h-10 w-full rounded border border-[rgba(0,0,0,0.2)] bg-white px-2.5 text-sm leading-4 text-[#3b3f46] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 export const ADMIN_BLOG_FORM_TEXTAREA_SHORT_CLASS =
-  'min-h-[122px] w-full resize-y rounded border border-[rgba(0,0,0,0.2)] bg-white px-4 py-4 text-sm leading-[1.6] text-[#3b3f46] placeholder:text-[#3b3f46] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'min-h-[122px] w-full resize-y rounded border border-[rgba(0,0,0,0.2)] bg-white px-4 py-4 text-sm leading-[1.6] text-[#3b3f46] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 export const ADMIN_BLOG_FORM_TEXTAREA_LONG_CLASS =
-  'min-h-[210px] w-full resize-y rounded border border-[rgba(0,0,0,0.2)] bg-white px-4 py-4 text-sm leading-[1.6] text-[#3b3f46] placeholder:text-[#3b3f46] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+  'min-h-[210px] w-full resize-y rounded border border-[rgba(0,0,0,0.2)] bg-white px-4 py-4 text-sm leading-[1.6] text-[#3b3f46] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 
 export const ADMIN_BLOG_FORM_CONTROL_ERROR_CLASS =
   'border-[#f31d2c] focus-visible:ring-[#f31d2c]';

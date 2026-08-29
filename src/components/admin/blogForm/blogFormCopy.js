@@ -16,11 +16,11 @@ export const ADMIN_BLOG_FORM_COPY = {
     bannerImage: 'Banner Image',
   },
   placeholders: {
-    title: 'Portland Cement Quick Set',
+    title: 'e.g. 5 Signs Your Home Needs a Plumbing Repair',
     shortDescription:
-      'Portland Cement is a high-quality, versatile construction material designed for strong, durable, and long-lasting structures. It is widely used for concrete, mortar, plastering, and other construction applications, ensuring excellent bonding and superior performance.',
+      'Write a short summary readers will see on the blog card (1–2 sentences).',
     longDescription:
-      'Portland Cement is a high-quality, versatile construction material designed for strong, durable, and long-lasting structures. It is widely used for concrete, mortar, plastering, and other construction applications, ensuring excellent bonding and superior performance. With its fine composition and consistent quality, this cement provides smooth workability and reliable strength development. It is suitable for residential, commercial, and industrial projects, making it an essential material for builders and contractors. Its advanced formulation ensures high compressive strength, resistance to cracks, and long-term durability. Whether used for foundations, walls, or finishing work, Portland Cement delivers dependable results for all types of construction needs.',
+      'Write the full article body. Cover the problem, practical tips, and when to call a professional.',
   },
   upload: {
     dropTitle: 'Drag and drop photos here',

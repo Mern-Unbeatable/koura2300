@@ -38,7 +38,7 @@ describe('blogFormUtils', () => {
 
     expect(
       isBlogFormReady({
-        [ADMIN_BLOG_FORM_FIELDS.TITLE]: 'Portland Cement Quick Set',
+        [ADMIN_BLOG_FORM_FIELDS.TITLE]: '5 Signs Your Home Needs a Plumbing Repair',
         [ADMIN_BLOG_FORM_FIELDS.SHORT_DESCRIPTION]: 'Short copy',
         [ADMIN_BLOG_FORM_FIELDS.LONG_DESCRIPTION]: 'Long copy',
         [ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE]: {
