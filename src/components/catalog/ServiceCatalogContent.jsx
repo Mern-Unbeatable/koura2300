@@ -31,10 +31,6 @@ const ServiceCatalogContent = memo(
       ...content.subcategories,
     };
 
-    const serviceFilterCategories = categories.filter(
-      (category) => category !== allCategory,
-    );
-
     return (
       <div className="min-h-screen overflow-x-clip bg-white font-inter text-brand-ink">
         <LandingHeader
@@ -67,13 +63,10 @@ const ServiceCatalogContent = memo(
 
                 <div className="mt-5">
                   <ServiceCatalogFilters
-                    categories={serviceFilterCategories}
                     priceRanges={priceRanges}
-                    selectedCategory={catalog.selectedCategory}
                     selectedPriceRange={catalog.selectedPriceRange}
-                    groupLabel={content.filters.groupLabel}
                     priceLabel={content.filters.priceLabel}
-                    onCategoryChange={catalog.handleCategoryChange}
+                    showCategoryTabs={false}
                     onPriceRangeChange={catalog.handlePriceRangeChange}
                   />
                 </div>

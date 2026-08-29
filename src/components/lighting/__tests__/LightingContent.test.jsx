@@ -91,6 +91,8 @@ describe('Lighting page', () => {
     expect(
       screen.getByRole('button', { name: LIGHTING_CONTENT.subcategories.backLabel }),
     ).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Outdoor Lighting' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('group', { name: /Filter lighting/i })).not.toBeInTheDocument();
   });
 
   it('returns to subcategory cards from the services view', async () => {

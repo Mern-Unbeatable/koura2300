@@ -17,10 +17,8 @@ const CATEGORY_BADGE_CLASS =
   'rounded-full bg-brand-blue px-3 py-1 text-xs font-semibold text-white';
 const SUBCATEGORY_BADGE_CLASS =
   'rounded-full bg-[#4f6589] px-3 py-1 text-xs font-semibold text-white';
-const ADMIN_EDIT_BUTTON_CLASS =
-  `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 cursor-pointer items-center justify-center rounded-full bg-brand-orange px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`;
-const ADMIN_DELETE_BUTTON_CLASS =
-  `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 cursor-pointer items-center justify-center rounded-full bg-[#f52e0b] px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-[#d6280a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f52e0b]`;
+const ADMIN_EDIT_BUTTON_CLASS = `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 cursor-pointer items-center justify-center rounded-full bg-brand-orange px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`;
+const ADMIN_DELETE_BUTTON_CLASS = `${CARD_ACTION_LAYER_CLASS} inline-flex flex-1 cursor-pointer items-center justify-center rounded-full bg-[#f52e0b] px-2.5 py-1.5 text-base font-semibold text-white transition-colors hover:bg-[#d6280a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f52e0b]`;
 
 export const SERVICE_CARD_VARIANTS = {
   DEFAULT: 'default',
@@ -109,38 +107,36 @@ const ServiceCardCartAction = memo(({ service, onAdd, buttonClassName }) => {
 
 ServiceCardCartAction.displayName = 'ServiceCardCartAction';
 
-const ServiceCardAdminActions = memo(
-  ({ service, onEdit, onDelete, editLabel, deleteLabel }) => {
-    const handleEdit = useCallback(
-      (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        onEdit(service.id);
-      },
-      [onEdit, service.id],
-    );
+const ServiceCardAdminActions = memo(({ service, onEdit, onDelete, editLabel, deleteLabel }) => {
+  const handleEdit = useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      onEdit(service.id);
+    },
+    [onEdit, service.id],
+  );
 
-    const handleDelete = useCallback(
-      (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        onDelete(service.id);
-      },
-      [onDelete, service.id],
-    );
+  const handleDelete = useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      onDelete(service.id);
+    },
+    [onDelete, service.id],
+  );
 
-    return (
-      <div className="mt-2 flex w-full gap-5">
-        <button type="button" className={ADMIN_EDIT_BUTTON_CLASS} onClick={handleEdit}>
-          {editLabel}
-        </button>
-        <button type="button" className={ADMIN_DELETE_BUTTON_CLASS} onClick={handleDelete}>
-          {deleteLabel}
-        </button>
-      </div>
-    );
-  },
-);
+  return (
+    <div className="mt-2 flex w-full gap-5">
+      <button type="button" className={ADMIN_EDIT_BUTTON_CLASS} onClick={handleEdit}>
+        {editLabel}
+      </button>
+      <button type="button" className={ADMIN_DELETE_BUTTON_CLASS} onClick={handleDelete}>
+        {deleteLabel}
+      </button>
+    </div>
+  );
+});
 
 ServiceCardAdminActions.displayName = 'ServiceCardAdminActions';
 
@@ -174,11 +170,7 @@ const ServiceCard = memo(
           />
         ) : null}
 
-        <ServiceCardMedia
-          service={service}
-          variantStyles={variantStyles}
-          isAdmin={isAdmin}
-        />
+        <ServiceCardMedia service={service} variantStyles={variantStyles} isAdmin={isAdmin} />
 
         <div className="flex flex-1 flex-col gap-2 p-4">
           <h3 className="font-semibold text-brand-blue">{service.title}</h3>

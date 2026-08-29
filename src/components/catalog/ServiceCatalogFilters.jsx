@@ -33,12 +33,13 @@ CategoryButton.displayName = 'CategoryButton';
 
 const ServiceCatalogFilters = memo(
   ({
-    categories,
+    categories = [],
     priceRanges,
     selectedCategory,
     selectedPriceRange,
     groupLabel,
     priceLabel,
+    showCategoryTabs = true,
     onCategoryChange,
     onPriceRangeChange,
   }) => {
@@ -49,22 +50,30 @@ const ServiceCatalogFilters = memo(
       [onPriceRangeChange],
     );
 
+    const shouldShowCategoryTabs = showCategoryTabs && categories.length > 0;
+
     return (
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
-        <div
-          role="group"
-          aria-label={groupLabel}
-          className="flex min-w-0 flex-wrap gap-2.5 lg:flex-1"
-        >
-          {categories.map((category) => (
-            <CategoryButton
-              key={category}
-              category={category}
-              isSelected={category === selectedCategory}
-              onSelect={onCategoryChange}
-            />
-          ))}
-        </div>
+      <div
+        className={`flex flex-col gap-5 lg:flex-row lg:items-center ${
+          shouldShowCategoryTabs ? 'lg:justify-between lg:gap-6' : 'lg:justify-end'
+        }`}
+      >
+        {shouldShowCategoryTabs ? (
+          <div
+            role="group"
+            aria-label={groupLabel}
+            className="flex min-w-0 flex-wrap gap-2.5 lg:flex-1"
+          >
+            {categories.map((category) => (
+              <CategoryButton
+                key={category}
+                category={category}
+                isSelected={category === selectedCategory}
+                onSelect={onCategoryChange}
+              />
+            ))}
+          </div>
+        ) : null}
 
         <label className="flex shrink-0 items-center gap-3 text-sm font-medium text-brand-ink">
           <span className="whitespace-nowrap text-brand-muted">{priceLabel}:</span>
