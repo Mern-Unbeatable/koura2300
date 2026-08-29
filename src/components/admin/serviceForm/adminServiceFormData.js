@@ -118,8 +118,12 @@ export const ADMIN_SERVICE_FORM_UPLOAD_META_CLASS =
 export const ADMIN_SERVICE_FORM_UPLOAD_META_ITEM_CLASS =
   'inline-flex items-center gap-1';
 export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_COLUMNS = 5;
+export const ADMIN_SERVICE_FORM_BANNER_PREVIEW_WIDTH_PX = 367;
+export const ADMIN_SERVICE_FORM_BANNER_PREVIEW_HEIGHT_PX = 208;
 export const ADMIN_SERVICE_FORM_PREVIEW_CLASS =
   'mt-3 h-40 w-full overflow-hidden rounded-lg border border-[rgba(0,0,0,0.2)] object-cover';
+export const ADMIN_SERVICE_FORM_BANNER_PREVIEW_CLASS =
+  'mt-3 mx-auto block h-52 w-full max-w-[367px] overflow-hidden rounded-2xl border border-gray-200 object-cover shadow-sm';
 export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS =
   'mt-3 grid min-w-0 grid-cols-5 gap-2 min-[768px]:gap-3';
 export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS =

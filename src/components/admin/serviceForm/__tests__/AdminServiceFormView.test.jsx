@@ -3,6 +3,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ADMIN_SERVICE_FORM_COPY } from '../adminServiceFormCopy';
 import {
+  ADMIN_SERVICE_FORM_BANNER_PREVIEW_CLASS,
+  ADMIN_SERVICE_FORM_BANNER_PREVIEW_HEIGHT_PX,
+  ADMIN_SERVICE_FORM_BANNER_PREVIEW_WIDTH_PX,
   ADMIN_SERVICE_FORM_CONTROL_CLASS,
   ADMIN_SERVICE_FORM_EMPTY_VALUES,
   ADMIN_SERVICE_FORM_FIELDS,
@@ -105,5 +108,27 @@ describe('AdminServiceFormView', () => {
     });
 
     expect(screen.getByText(ADMIN_SERVICE_FORM_COPY.errors.titleRequired)).toBeInTheDocument();
+  });
+
+  it('renders Product Banner Image preview at Service Card media size', () => {
+    renderForm({
+      values: {
+        ...ADMIN_SERVICE_FORM_EMPTY_VALUES,
+        [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: {
+          id: 'existing-banner',
+          previewUrl: '/assets/landing/service-plumbing.png',
+          isExisting: true,
+        },
+      },
+    });
+
+    const previewImage = screen.getByRole('presentation');
+    expect(previewImage).toHaveAttribute('src', '/assets/landing/service-plumbing.png');
+    expect(previewImage).toHaveClass('mx-auto', 'h-52', 'max-w-[367px]', 'rounded-2xl');
+    expect(previewImage).not.toHaveClass('h-40');
+    expect(ADMIN_SERVICE_FORM_BANNER_PREVIEW_WIDTH_PX).toBe(367);
+    expect(ADMIN_SERVICE_FORM_BANNER_PREVIEW_HEIGHT_PX).toBe(208);
+    expect(ADMIN_SERVICE_FORM_BANNER_PREVIEW_CLASS).toContain('h-52');
+    expect(ADMIN_SERVICE_FORM_BANNER_PREVIEW_CLASS).toContain('max-w-[367px]');
   });
 });

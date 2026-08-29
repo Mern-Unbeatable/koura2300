@@ -4,6 +4,7 @@ import { ROUTES } from '../../../config';
 import {
   ADMIN_SERVICE_FORM_BACK_ICON_SIZE,
   ADMIN_SERVICE_FORM_BACK_LINK_CLASS,
+  ADMIN_SERVICE_FORM_BANNER_PREVIEW_CLASS,
   ADMIN_SERVICE_FORM_BODY_CLASS,
   ADMIN_SERVICE_FORM_FIELDS,
   ADMIN_SERVICE_FORM_NOT_FOUND_CLASS,
@@ -78,6 +79,7 @@ const AdminServiceFormView = ({
           metaLabels={[copy.upload.formats, copy.upload.maxBanner, copy.upload.resolution]}
           error={errors[ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]}
           previews={bannerPreview ? [bannerPreview] : []}
+          previewImageClassName={ADMIN_SERVICE_FORM_BANNER_PREVIEW_CLASS}
           onFilesSelected={onBannerFilesSelected}
         />
 
