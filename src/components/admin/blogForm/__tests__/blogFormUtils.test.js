@@ -5,6 +5,7 @@ import {
   ADMIN_BLOG_FORM_VIEWPORT,
 } from '../blogFormData';
 import {
+  createBlogBannerImageFromFile,
   createBlogFormValues,
   isBlogFormReady,
   validateBlogForm,
@@ -14,6 +15,14 @@ import { ADMIN_BLOG_FORM_COPY } from '../blogFormCopy';
 describe('blogFormUtils', () => {
   it('creates empty form values for a new blog', () => {
     expect(createBlogFormValues()).toEqual(ADMIN_BLOG_FORM_EMPTY_VALUES);
+  });
+
+  it('creates a banner preview from a file as a data URL', async () => {
+    const file = new File(['banner'], 'banner.png', { type: 'image/png' });
+    const banner = await createBlogBannerImageFromFile(file);
+
+    expect(banner.name).toBe('banner.png');
+    expect(banner.previewUrl).toMatch(/^data:image\/png;base64,/);
   });
 
   it('requires title, short description, long description, and banner image', () => {

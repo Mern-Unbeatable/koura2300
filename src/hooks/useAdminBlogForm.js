@@ -55,7 +55,7 @@ const useAdminBlogForm = () => {
     [],
   );
 
-  const handleBannerFilesSelected = useCallback((fileList) => {
+  const handleBannerFilesSelected = useCallback(async (fileList) => {
     const files = filterAcceptedImageFiles(toFileArray(fileList));
     const limitError = assertBlogBannerFileLimit(files.length);
 
@@ -71,11 +71,13 @@ const useAdminBlogForm = () => {
       return;
     }
 
+    const bannerImage = await createBlogBannerImageFromFile(files[0]);
+
     setValues((current) => {
       revokeBlogBannerPreview(current[ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE]);
       return {
         ...current,
-        [ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE]: createBlogBannerImageFromFile(files[0]),
+        [ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE]: bannerImage,
       };
     });
 

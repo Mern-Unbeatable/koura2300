@@ -4,6 +4,7 @@ import {
   ADMIN_BLOG_FORM_EMPTY_VALUES,
   ADMIN_BLOG_FORM_FIELDS,
 } from './blogFormData';
+import { readFileAsDataUrl } from '../serviceForm/adminServiceFormUtils';
 
 export const createBlogFormValues = () => ({ ...ADMIN_BLOG_FORM_EMPTY_VALUES });
 
@@ -44,12 +45,20 @@ export const assertBlogBannerFileLimit = (fileCount) => {
   return null;
 };
 
-export const createBlogBannerImageFromFile = (file) => ({
-  id: `blog-banner-${file.name}-${file.lastModified}`,
-  name: file.name,
-  previewUrl: URL.createObjectURL(file),
-  file,
-});
+export const createBlogBannerImageFromFile = async (file) => {
+  if (!file) {
+    return null;
+  }
+
+  const previewUrl = await readFileAsDataUrl(file);
+
+  return {
+    id: `blog-banner-${file.name}-${file.lastModified}-${previewUrl.length}`,
+    name: file.name,
+    previewUrl,
+    file,
+  };
+};
 
 export const revokeBlogBannerPreview = (bannerImage) => {
   if (bannerImage?.previewUrl?.startsWith('blob:')) {
