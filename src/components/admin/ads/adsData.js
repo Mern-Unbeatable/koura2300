@@ -35,7 +35,7 @@ export const ADS_SUBTITLE_CLASS =
   'text-sm leading-5 text-[#555353] min-[426px]:text-base min-[426px]:leading-6 min-[768px]:text-xl min-[768px]:leading-[1.5]';
 
 export const ADS_ADD_BUTTON_CLASS =
-  'inline-flex w-full shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-6 py-3 text-base font-bold leading-6 text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[768px]:w-auto';
+  'inline-flex h-10 w-full shrink-0 cursor-pointer items-center justify-center rounded-md bg-[#fc6f32] px-3 text-sm font-bold leading-5 text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[768px]:w-auto';
 
 export const ADS_FILTERS_CLASS =
   'flex w-full flex-col gap-3 min-[426px]:flex-row min-[426px]:items-center min-[768px]:w-auto min-[768px]:gap-3.5';
