@@ -69,3 +69,6 @@ export const ADMIN_BLOG_FORM_SUBMIT_CLASS =
 
 export const ADMIN_BLOG_FORM_NOT_FOUND_CLASS =
   'rounded-2xl border border-[#e8ebf0] bg-white px-6 py-10 text-center';
+
+export const ADMIN_BLOG_FORM_BANNER_PREVIEW_CLASS =
+  'mt-3 mx-auto block h-40 w-30 shrink-0 overflow-hidden rounded object-cover sm:h-44 sm:w-36';

@@ -34,7 +34,7 @@ const UploadMetaItem = memo(({ label }) => (
 
 UploadMetaItem.displayName = 'UploadMetaItem';
 
-const UploadPreviewList = memo(({ previews, layout }) => {
+const UploadPreviewList = memo(({ previews, layout, previewImageClassName }) => {
   if (previews.length === 0) {
     return null;
   }
@@ -59,7 +59,7 @@ const UploadPreviewList = memo(({ previews, layout }) => {
       key={preview.id}
       src={preview.previewUrl}
       alt=""
-      className={ADMIN_SERVICE_FORM_PREVIEW_CLASS}
+      className={previewImageClassName}
     />
   ));
 });
@@ -75,6 +75,7 @@ const AdminServiceFormUploadZone = memo(
     metaLabels,
     multiple = false,
     previewLayout = PREVIEW_LAYOUT.STACK,
+    previewImageClassName = ADMIN_SERVICE_FORM_PREVIEW_CLASS,
     error,
     previews = [],
     onFilesSelected,
@@ -151,7 +152,11 @@ const AdminServiceFormUploadZone = memo(
           />
         </label>
         {error ? <p className={ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS}>{error}</p> : null}
-        <UploadPreviewList previews={previews} layout={previewLayout} />
+        <UploadPreviewList
+          previews={previews}
+          layout={previewLayout}
+          previewImageClassName={previewImageClassName}
+        />
       </div>
     );
   },

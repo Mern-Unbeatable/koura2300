@@ -5,6 +5,7 @@ import AdminServiceFormUploadZone from '../serviceForm/AdminServiceFormUploadZon
 import {
   ADMIN_BLOG_FORM_BACK_ICON_SIZE,
   ADMIN_BLOG_FORM_BACK_LINK_CLASS,
+  ADMIN_BLOG_FORM_BANNER_PREVIEW_CLASS,
   ADMIN_BLOG_FORM_BODY_CLASS,
   ADMIN_BLOG_FORM_FIELDS,
   ADMIN_BLOG_FORM_NOT_FOUND_CLASS,
@@ -73,6 +74,7 @@ const BlogFormView = ({
           metaLabels={[copy.upload.formats, copy.upload.maxBanner, copy.upload.resolution]}
           error={errors[ADMIN_BLOG_FORM_FIELDS.BANNER_IMAGE]}
           previews={bannerPreview ? [bannerPreview] : []}
+          previewImageClassName={ADMIN_BLOG_FORM_BANNER_PREVIEW_CLASS}
           onFilesSelected={onBannerFilesSelected}
         />
 

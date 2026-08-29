@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import BlogFormView from '../BlogFormView';
 import { ADMIN_BLOG_FORM_COPY } from '../blogFormCopy';
 import {
+  ADMIN_BLOG_FORM_BANNER_PREVIEW_CLASS,
   ADMIN_BLOG_FORM_EMPTY_VALUES,
   ADMIN_BLOG_FORM_FIELDS,
 } from '../blogFormData';
@@ -108,10 +109,21 @@ describe('BlogFormView', () => {
     expect(screen.getByLabelText(ADMIN_BLOG_FORM_COPY.fields.longDescription)).toHaveValue(
       postBody,
     );
-    expect(screen.getByRole('presentation')).toHaveAttribute(
+    const previewImage = screen.getByRole('presentation');
+    expect(previewImage).toHaveAttribute(
       'src',
       '/assets/landing/article-plumbing.png',
     );
+    expect(previewImage).toHaveClass(
+      'mx-auto',
+      'h-40',
+      'w-30',
+      'sm:h-44',
+      'sm:w-36',
+      'rounded',
+    );
+    expect(previewImage).not.toHaveClass('w-full');
+    expect(ADMIN_BLOG_FORM_BANNER_PREVIEW_CLASS).toContain('w-30');
   });
 
   it('shows not-found state when the edit target is missing', () => {
