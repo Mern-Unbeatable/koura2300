@@ -150,8 +150,10 @@ describe('BlogView', () => {
     expect(ADMIN_BLOG_VIEWPORT.DESKTOP).toBe(1440);
     expect(ADMIN_BLOG_PAGE_CLASS).toContain('flex');
     expect(ADMIN_BLOG_PAGE_CLASS).toContain('min-[1020px]');
+    expect(ADMIN_BLOG_GRID_CLASS).toContain('items-start');
     expect(ADMIN_BLOG_GRID_CLASS).toContain('min-[768px]:grid-cols-2');
     expect(ADMIN_BLOG_GRID_CLASS).toContain('min-[1440px]:grid-cols-3');
     expect(ADMIN_BLOG_GRID_CLASS).not.toContain('min-[1020px]:grid-cols-3');
+    expect(ADMIN_BLOG_GRID_CLASS).not.toContain('items-stretch');
   });
 });
