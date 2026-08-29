@@ -95,6 +95,12 @@ describe('BlogFormView', () => {
       },
     });
 
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: ADMIN_BLOG_FORM_COPY.titles.edit,
+      }),
+    ).toBeInTheDocument();
     expect(screen.getByLabelText(ADMIN_BLOG_FORM_COPY.fields.title)).toHaveValue(postTitle);
     expect(screen.getByLabelText(ADMIN_BLOG_FORM_COPY.fields.shortDescription)).toHaveValue(
       postBody,

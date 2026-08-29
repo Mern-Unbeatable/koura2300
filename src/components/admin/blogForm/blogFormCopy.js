@@ -5,13 +5,13 @@ export const ADMIN_BLOG_FORM_COPY = {
       description: 'Create a new blog post with title, descriptions, and banner image.',
     },
     edit: {
-      title: 'Edit Blog | Admin',
+      title: 'Update Blog | Admin',
       description: 'Update an existing blog post title, descriptions, and banner image.',
     },
   },
   titles: {
     create: 'Add New Blog',
-    edit: 'Add New Blog',
+    edit: 'Update Blog',
   },
   subtitle: 'Step-by-step wizard progress is kept as you move between steps',
   actions: {
