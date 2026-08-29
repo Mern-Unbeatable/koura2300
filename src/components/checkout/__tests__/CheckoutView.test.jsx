@@ -113,16 +113,20 @@ describe('CheckoutView Figma layout', () => {
     expect(screen.getByRole('button', { name: 'Email' })).toBeInTheDocument();
   });
 
-  it('shrinks Choose a Date header text on Mobile S so the month label stays visible', () => {
+  it('keeps Choose a Date on one line for mobile like laptop/desktop', () => {
     renderCheckout();
 
     const heading = screen.getByText('Choose a Date *');
     const header = heading.parentElement;
+    const navGroup = screen.getByRole('button', { name: 'Show previous dates' }).parentElement;
     const calendarTrigger = screen.getByRole('button', { name: 'Open calendar' });
 
-    expect(header).toHaveClass('max-[360px]:gap-1');
-    expect(heading).toHaveClass('max-[360px]:text-xs');
-    expect(calendarTrigger).toHaveClass('max-[360px]:text-xs');
+    expect(header).toHaveClass('items-center', 'justify-between');
+    expect(header).not.toHaveClass('flex-col');
+    expect(heading).toHaveClass('whitespace-nowrap', 'text-[11px]', 'sm:text-lg');
+    expect(navGroup).toHaveClass('shrink-0');
+    expect(navGroup).not.toHaveClass('w-full');
+    expect(calendarTrigger).toHaveClass('text-[11px]', 'sm:text-lg');
     expect(calendarTrigger.querySelector('span')).toHaveClass('whitespace-nowrap');
   });
 
