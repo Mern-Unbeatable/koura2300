@@ -248,14 +248,14 @@ const ChatPanel = memo(({ className = '', style, mode = 'user' }) => {
               placeholder="Type a message…"
               aria-label="Type a message"
               disabled={!activeRoomId}
-              className="h-13 flex-1 rounded-full bg-white px-5 text-sm tracking-[0.5px] text-slate-800 placeholder-gray-400 shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] outline-none transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 disabled:opacity-50"
+              className="h-13 flex-1 rounded-full bg-white px-5 text-sm tracking-[0.5px] text-slate-800 shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] outline-none placeholder-gray-400 transition-shadow focus:outline-none focus:ring-2 focus:ring-brand-orange disabled:opacity-50"
             />
             <button
               type="button"
               onClick={handleSend}
               disabled={!inputValue.trim() || !activeRoomId}
               aria-label="Send message"
-              className="shrink-0 flex flex-col items-center justify-center size-13 bg-white rounded-full shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] text-gray-400 hover:text-orange-500 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+              className="flex size-13 shrink-0 cursor-pointer flex-col items-center justify-center rounded-full bg-white text-gray-400 shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-40"
             >
               <Send size={18} aria-hidden="true" />
               <span className="text-[10px] font-semibold tracking-[0.5px] leading-none mt-0.5 select-none">
