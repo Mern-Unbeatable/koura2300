@@ -5,6 +5,7 @@ import {
   SETTINGS_INVITE_CARD_CLASS,
   SETTINGS_INVITE_DESCRIPTION_CLASS,
   SETTINGS_INVITE_FIELD_CLASS,
+  SETTINGS_INVITE_FIELD_WRAP_CLASS,
   SETTINGS_INVITE_FORM_CLASS,
   SETTINGS_INVITE_TITLE_CLASS,
 } from './settingsData';
@@ -28,7 +29,7 @@ const SettingsInviteCard = memo(
       </div>
 
       <form className={SETTINGS_INVITE_FORM_CLASS} onSubmit={onSendInvite} noValidate>
-        <div className="flex max-w-full flex-col gap-1">
+        <div className={SETTINGS_INVITE_FIELD_WRAP_CLASS}>
           <label className="sr-only" htmlFor="settings-invite-email">
             {copy.invite.emailLabel}
           </label>

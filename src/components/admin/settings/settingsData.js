@@ -21,11 +21,14 @@ export const SETTINGS_INVITE_DESCRIPTION_CLASS =
 export const SETTINGS_INVITE_FORM_CLASS =
   'flex w-full flex-row flex-wrap items-center gap-3';
 
+export const SETTINGS_INVITE_FIELD_WRAP_CLASS =
+  'flex min-w-0 w-full max-w-[22rem] flex-1 flex-col gap-1';
+
 export const SETTINGS_INVITE_FIELD_CLASS =
-  'box-border min-w-0 w-[min(100%,17.5rem)] shrink rounded-lg border-0 bg-[#fef5e7] px-2.5 py-2 text-sm font-normal leading-5 text-[#161d24] placeholder:text-[#979797] outline-none focus:ring-2 focus:ring-[#f59e0b]';
+  'box-border w-full min-w-0 rounded-lg border-0 bg-[#fef5e7] px-2.5 py-2 text-sm font-normal leading-5 text-[#161d24] placeholder:text-[#979797] outline-none focus:ring-2 focus:ring-[#f59e0b]';
 
 export const SETTINGS_INVITE_BUTTON_CLASS =
-  'box-border inline-flex shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 bg-[#f59e0b] px-2.5 py-2 text-sm font-normal leading-5 text-[#fef5e7] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
+  'box-border inline-flex shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 bg-[#f59e0b] px-4 py-2 text-sm font-normal leading-5 text-[#fef5e7] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
 
 export const SETTINGS_MATRIX_PANEL_CLASS =
   'box-border h-auto w-full shrink-0 rounded-lg bg-[#fefaf6] pb-1';
