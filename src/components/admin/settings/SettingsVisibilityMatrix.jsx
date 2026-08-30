@@ -5,19 +5,21 @@ import {
   SETTINGS_DOWNLOAD_BUTTON_CLASS,
   SETTINGS_DOWNLOAD_ICON_SIZE_PX,
   SETTINGS_MATRIX_HEADER_BAR_CLASS,
-  SETTINGS_MATRIX_MODERATOR_CELL_CLASS,
-  SETTINGS_MATRIX_MODULE_CELL_CLASS,
+  SETTINGS_MATRIX_HEADER_CELL_CLASS,
+  SETTINGS_MATRIX_MODULE_CELL_VISIBILITY_CLASS,
   SETTINGS_MATRIX_PANEL_CLASS,
   SETTINGS_MATRIX_ROW_CLASS,
+  SETTINGS_MATRIX_SCROLL_CLASS,
+  SETTINGS_MATRIX_TITLE_ROW_CLASS,
+  SETTINGS_MATRIX_TITLE_VISIBILITY_CLASS,
+  SETTINGS_MATRIX_VISIBILITY_STATUS_CLASS,
   getVisibilityLabel,
 } from './settingsData';
 
 const VisibilityMatrixRow = memo(({ row, copy }) => (
   <div className={SETTINGS_MATRIX_ROW_CLASS}>
-    <div className={`${SETTINGS_MATRIX_MODULE_CELL_CLASS} text-[#1f2933]`}>{row.name}</div>
-    <div
-      className={`${SETTINGS_MATRIX_MODERATOR_CELL_CLASS} text-sm font-normal leading-6 text-[#1f2933] sm:text-base`}
-    >
+    <div className={SETTINGS_MATRIX_MODULE_CELL_VISIBILITY_CLASS}>{row.name}</div>
+    <div className={SETTINGS_MATRIX_VISIBILITY_STATUS_CLASS}>
       {getVisibilityLabel(row.visibility, copy)}
     </div>
   </div>
@@ -33,10 +35,10 @@ const SettingsVisibilityMatrix = memo(
       aria-label={copy.visibilityMatrix.title}
       role="region"
     >
-      <div className="flex flex-col gap-3 px-4 pb-2 pt-5 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:pt-5 lg:px-7">
+      <div className={SETTINGS_MATRIX_TITLE_ROW_CLASS}>
         <h2
           id="settings-visibility-matrix-title"
-          className="text-xl font-bold text-[#1f2933] sm:text-2xl"
+          className={SETTINGS_MATRIX_TITLE_VISIBILITY_CLASS}
         >
           {copy.visibilityMatrix.title}
         </h2>
@@ -50,14 +52,12 @@ const SettingsVisibilityMatrix = memo(
         </button>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className={SETTINGS_MATRIX_SCROLL_CLASS}>
         <div className={SETTINGS_MATRIX_HEADER_BAR_CLASS} role="row">
-          <div className={`${SETTINGS_MATRIX_MODULE_CELL_CLASS} py-3 font-normal text-[#697076]`}>
+          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[221px]`}>
             {copy.visibilityMatrix.moduleColumn}
           </div>
-          <div
-            className={`${SETTINGS_MATRIX_MODERATOR_CELL_CLASS} py-3 text-sm text-[#697076] sm:text-base`}
-          >
+          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[180px]`}>
             {copy.visibilityMatrix.moderatorColumn}
           </div>
         </div>

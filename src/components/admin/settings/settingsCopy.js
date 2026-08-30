@@ -19,6 +19,8 @@ export const SETTINGS_COPY = {
     emailLabel: 'Email Address',
     emailPlaceholder: 'Email Address',
     roleLabel: 'Role',
+    /** Matches Figma label spelling on Setting Page node 352:8307. */
+    roleModeratorLabel: 'Moderetor',
     sendLabel: 'Send Invite',
     emailRequired: 'Enter an email address.',
     emailInvalid: 'Please enter a valid email address.',

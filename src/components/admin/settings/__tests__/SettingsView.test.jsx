@@ -47,7 +47,7 @@ describe('SettingsView', () => {
     expect(screen.getByLabelText(SETTINGS_COPY.invite.emailLabel)).toBeInTheDocument();
     expect(screen.getByLabelText(SETTINGS_COPY.invite.roleLabel)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: SETTINGS_COPY.invite.sendLabel })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Moderator' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: SETTINGS_COPY.invite.roleModeratorLabel })).toBeInTheDocument();
   });
 
   it('shows an inline invite email error when provided', () => {

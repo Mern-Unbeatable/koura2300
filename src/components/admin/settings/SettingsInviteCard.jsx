@@ -3,7 +3,9 @@ import { SETTINGS_COPY } from './settingsCopy';
 import {
   SETTINGS_INVITE_BUTTON_CLASS,
   SETTINGS_INVITE_CARD_CLASS,
+  SETTINGS_INVITE_DESCRIPTION_CLASS,
   SETTINGS_INVITE_FIELD_CLASS,
+  SETTINGS_INVITE_FORM_CLASS,
   SETTINGS_INVITE_SELECT_CLASS,
   SETTINGS_INVITE_TITLE_CLASS,
   SETTINGS_ROLE_OPTIONS,
@@ -24,17 +26,14 @@ const SettingsInviteCard = memo(
       <h2 id="settings-invite-title" className={SETTINGS_INVITE_TITLE_CLASS}>
         {copy.invite.title}
       </h2>
-      <div className="text-sm leading-6 text-[#4c545c] sm:text-base">
-        <p>{copy.invite.descriptionLineOne}</p>
-        <p>{copy.invite.descriptionLineTwo}</p>
+
+      <div className={SETTINGS_INVITE_DESCRIPTION_CLASS}>
+        <p className="mb-0 leading-6">{copy.invite.descriptionLineOne}</p>
+        <p className="leading-6">{copy.invite.descriptionLineTwo}</p>
       </div>
 
-      <form
-        className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start"
-        onSubmit={onSendInvite}
-        noValidate
-      >
-        <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-none">
+      <form className={SETTINGS_INVITE_FORM_CLASS} onSubmit={onSendInvite} noValidate>
+        <div className="flex max-w-full flex-col gap-1">
           <label className="sr-only" htmlFor="settings-invite-email">
             {copy.invite.emailLabel}
           </label>
@@ -57,24 +56,22 @@ const SettingsInviteCard = memo(
           ) : null}
         </div>
 
-        <div className="flex min-w-0 flex-col gap-1 sm:flex-none">
-          <label className="sr-only" htmlFor="settings-invite-role">
-            {copy.invite.roleLabel}
-          </label>
-          <select
-            id="settings-invite-role"
-            name="role"
-            value={inviteRole}
-            onChange={onInviteRoleChange}
-            className={SETTINGS_INVITE_SELECT_CLASS}
-          >
-            {roleOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        <label className="sr-only" htmlFor="settings-invite-role">
+          {copy.invite.roleLabel}
+        </label>
+        <select
+          id="settings-invite-role"
+          name="role"
+          value={inviteRole}
+          onChange={onInviteRoleChange}
+          className={SETTINGS_INVITE_SELECT_CLASS}
+        >
+          {roleOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
 
         <button type="submit" className={SETTINGS_INVITE_BUTTON_CLASS}>
           {copy.invite.sendLabel}

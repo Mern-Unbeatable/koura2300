@@ -6,10 +6,14 @@ import {
   SETTINGS_DELETE_ICON_SIZE_PX,
   SETTINGS_MATRIX_ACTION_CELL_CLASS,
   SETTINGS_MATRIX_HEADER_BAR_CLASS,
+  SETTINGS_MATRIX_HEADER_CELL_CLASS,
   SETTINGS_MATRIX_MODERATOR_CELL_CLASS,
   SETTINGS_MATRIX_MODULE_CELL_CLASS,
   SETTINGS_MATRIX_PANEL_CLASS,
   SETTINGS_MATRIX_ROW_CLASS,
+  SETTINGS_MATRIX_SCROLL_CLASS,
+  SETTINGS_MATRIX_TITLE_CLASS,
+  SETTINGS_MATRIX_TITLE_ROW_CLASS,
 } from './settingsData';
 import SettingsToggle from './SettingsToggle';
 
@@ -56,28 +60,21 @@ const SettingsEditMatrix = memo(
     onRemoveEditModule,
   }) => (
     <section className={SETTINGS_MATRIX_PANEL_CLASS} aria-labelledby="settings-edit-matrix-title">
-      <div className="flex items-center justify-between px-4 pb-2 pt-5 sm:px-5 sm:pt-5">
-        <h2
-          id="settings-edit-matrix-title"
-          className="text-xl font-bold text-[#161d24] sm:text-2xl"
-        >
+      <div className={SETTINGS_MATRIX_TITLE_ROW_CLASS}>
+        <h2 id="settings-edit-matrix-title" className={SETTINGS_MATRIX_TITLE_CLASS}>
           {copy.editMatrix.title}
         </h2>
       </div>
 
-      <div className="overflow-x-auto">
+      <div className={SETTINGS_MATRIX_SCROLL_CLASS}>
         <div className={SETTINGS_MATRIX_HEADER_BAR_CLASS} role="row">
-          <div className={`${SETTINGS_MATRIX_MODULE_CELL_CLASS} py-3 font-normal text-[#697076]`}>
+          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[221px]`}>
             {copy.editMatrix.moduleColumn}
           </div>
-          <div
-            className={`${SETTINGS_MATRIX_MODERATOR_CELL_CLASS} py-3 text-sm text-[#697076] sm:text-base`}
-          >
+          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[180px]`}>
             {copy.editMatrix.moderatorColumn}
           </div>
-          <div
-            className={`${SETTINGS_MATRIX_ACTION_CELL_CLASS} py-3 text-sm text-[#697076] sm:text-base`}
-          >
+          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[160px]`}>
             {copy.editMatrix.actionColumn}
           </div>
         </div>
