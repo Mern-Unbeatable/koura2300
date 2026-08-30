@@ -34,7 +34,7 @@ const Avatar = memo(({ src, name, size = 'md', online }) => {
 });
 Avatar.displayName = 'Avatar';
 
-const ConversationItem = memo(({ room, isActive, onClick }) => {
+const ConversationItem = memo(({ room, isActive, onClick, showOnline }) => {
   const handleClick = useCallback(() => onClick(room.id), [room.id, onClick]);
   return (
     <button
@@ -45,7 +45,11 @@ const ConversationItem = memo(({ room, isActive, onClick }) => {
       }`}
       aria-pressed={isActive}
     >
-      <Avatar src={room.otherUser.avatar} name={room.otherUser.name} online={room.online} />
+      <Avatar
+        src={room.otherUser.avatar}
+        name={room.otherUser.name}
+        online={showOnline ? room.online : undefined}
+      />
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         <div className="flex items-center justify-between gap-2">
           <span className="font-semibold text-[16px] text-gray-900 tracking-[0.286px] truncate leading-normal">
@@ -164,6 +168,7 @@ const ChatPanel = memo(({ className = '', style, mode = 'user' }) => {
                   room={room}
                   isActive={room.id === activeRoomId}
                   onClick={handleSelectRoom}
+                  showOnline={!isAdmin}
                 />
               </div>
             ))
@@ -191,16 +196,22 @@ const ChatPanel = memo(({ className = '', style, mode = 'user' }) => {
                 src={activeRoom.otherUser.avatar}
                 name={activeRoom.otherUser.name}
                 size="sm"
-                online={activeRoom.online}
+                online={isAdmin ? undefined : activeRoom.online}
               />
               <div className="flex flex-col">
                 <span className="font-medium text-lg sm:text-xl text-gray-900 tracking-[0.44px] leading-none">
                   {activeRoom.otherUser.name}
                 </span>
-                {(isOtherTyping || activeRoom.online) && (
-                  <span className="text-xs text-gray-400 mt-0.5">
-                    {isOtherTyping ? 'Typing…' : 'Online'}
+                {isAdmin ? (
+                  <span className="mt-0.5 text-xs text-gray-400">
+                    {isOtherTyping ? 'Typing…' : 'User'}
                   </span>
+                ) : (
+                  (isOtherTyping || activeRoom.online) && (
+                    <span className="mt-0.5 text-xs text-gray-400">
+                      {isOtherTyping ? 'Typing…' : 'Online'}
+                    </span>
+                  )
                 )}
               </div>
             </>
