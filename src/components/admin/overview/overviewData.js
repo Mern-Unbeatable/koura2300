@@ -7,9 +7,10 @@ export const OVERVIEW_STATS_GRID_CLASS =
   'grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4';
 export const OVERVIEW_MIDDLE_GRID_CLASS =
   'grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,2.75fr)_minmax(0,0.85fr)]';
-export const OVERVIEW_BOTTOM_GRID_CLASS = 'grid grid-cols-1 gap-6 lg:grid-cols-2';
+export const OVERVIEW_BOTTOM_GRID_CLASS =
+  'grid grid-cols-1 items-start gap-6 lg:grid-cols-2';
 export const OVERVIEW_CARD_CLASS =
-  'rounded-2xl border border-[#ececec] bg-white p-6 shadow-sm';
+  'h-auto self-start rounded-2xl border border-[#ececec] bg-white p-6 shadow-sm';
 export const OVERVIEW_CARD_TITLE_CLASS = 'text-lg font-semibold leading-7 text-[#1a1a2e]';
 export const OVERVIEW_CARD_SUBTITLE_CLASS = 'text-sm leading-5 text-[#6b7280]';
 export const OVERVIEW_VIEW_ALL_CLASS =

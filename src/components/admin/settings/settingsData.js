@@ -12,8 +12,7 @@ export const SETTINGS_VISIBILITY_VISIBLE = 'visible';
 export const SETTINGS_VISIBILITY_HIDDEN = 'hidden';
 
 /** Figma 352:8292 — page stack gap 30px */
-export const SETTINGS_PAGE_CLASS =
-  'flex h-auto w-full min-w-0 flex-col gap-[30px]';
+export const SETTINGS_PAGE_CLASS = 'flex w-full min-w-0 flex-col gap-[30px]';
 
 /** Figma 352:8300 — Invite your team card */
 export const SETTINGS_INVITE_CARD_CLASS =
@@ -37,11 +36,8 @@ export const SETTINGS_INVITE_SELECT_CLASS =
 export const SETTINGS_INVITE_BUTTON_CLASS =
   'box-border inline-flex shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 bg-[#f59e0b] px-2.5 py-2 text-sm font-normal leading-5 text-[#fef5e7] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
 
-/** Explicit bottom spacer after the last matrix row (≈ one row / Figma breathing room). */
-export const SETTINGS_MATRIX_BOTTOM_SPACER_CLASS = 'h-[64px] w-full shrink-0';
-
 export const SETTINGS_MATRIX_PANEL_CLASS =
-  'box-border h-auto w-full shrink-0 rounded-lg bg-[#fefaf6]';
+  'box-border h-auto w-full shrink-0 rounded-lg bg-[#fefaf6] pb-1';
 
 export const SETTINGS_MATRIX_TITLE_ROW_CLASS =
   'flex w-full items-center justify-between px-5 pt-5 pb-0';
@@ -59,7 +55,7 @@ export const SETTINGS_MATRIX_HEADER_BAR_CLASS =
   'flex w-full min-w-[640px] items-center justify-between bg-[#fef5e7] px-4';
 
 export const SETTINGS_MATRIX_ROW_CLASS =
-  'flex w-full min-w-[640px] items-center justify-between border-b border-solid border-[#efefef] px-4';
+  'flex w-full min-w-[640px] items-center justify-between border-b border-solid border-[#efefef] px-4 last:border-b-0';
 
 export const SETTINGS_MATRIX_HEADER_CELL_CLASS =
   'shrink-0 px-2.5 py-3 text-base font-normal leading-normal text-[#697076]';

@@ -133,7 +133,6 @@ describe('SettingsView', () => {
     expect(
       screen.getByRole('button', { name: SETTINGS_COPY.visibilityMatrix.downloadLabel }),
     ).toBeInTheDocument();
-    expect(screen.getByTestId('settings-visibility-matrix').className).toContain('pb-[64px]');
   });
 
   it('wires visibility download handler', async () => {

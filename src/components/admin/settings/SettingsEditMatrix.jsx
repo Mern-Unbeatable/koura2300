@@ -60,7 +60,7 @@ const SettingsEditMatrix = memo(
     onRemoveEditModule,
   }) => (
     <section
-      className={`${SETTINGS_MATRIX_PANEL_CLASS} pb-[64px]`}
+      className={SETTINGS_MATRIX_PANEL_CLASS}
       aria-labelledby="settings-edit-matrix-title"
       data-testid="settings-edit-matrix"
     >

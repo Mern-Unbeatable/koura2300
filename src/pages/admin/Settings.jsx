@@ -4,11 +4,7 @@ import useAdminSettings from '../../hooks/useAdminSettings';
 const Settings = () => {
   const settingsProps = useAdminSettings();
 
-  return (
-    <div className="h-auto w-full shrink-0">
-      <SettingsView {...settingsProps} />
-    </div>
-  );
+  return <SettingsView {...settingsProps} />;
 };
 
 export default Settings;
