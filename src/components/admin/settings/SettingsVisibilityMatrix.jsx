@@ -8,6 +8,8 @@ import {
   SETTINGS_MATRIX_HEADER_CELL_CLASS,
   SETTINGS_MATRIX_HEADER_MODERATOR_WIDTH_CLASS,
   SETTINGS_MATRIX_HEADER_MODULE_WIDTH_CLASS,
+  SETTINGS_MATRIX_LIST_CLASS,
+  SETTINGS_MATRIX_MOBILE_LABEL_CLASS,
   SETTINGS_MATRIX_MODULE_CELL_VISIBILITY_CLASS,
   SETTINGS_MATRIX_PANEL_CLASS,
   SETTINGS_MATRIX_ROW_CLASS,
@@ -19,9 +21,15 @@ import {
 } from './settingsData';
 
 const VisibilityMatrixRow = memo(({ row, copy }) => (
-  <div className={SETTINGS_MATRIX_ROW_CLASS}>
-    <div className={SETTINGS_MATRIX_MODULE_CELL_VISIBILITY_CLASS}>{row.name}</div>
+  <div className={SETTINGS_MATRIX_ROW_CLASS} role="listitem">
+    <div className={SETTINGS_MATRIX_MODULE_CELL_VISIBILITY_CLASS}>
+      <span className={SETTINGS_MATRIX_MOBILE_LABEL_CLASS}>{copy.visibilityMatrix.moduleColumn}</span>
+      {row.name}
+    </div>
     <div className={SETTINGS_MATRIX_VISIBILITY_STATUS_CLASS}>
+      <span className={SETTINGS_MATRIX_MOBILE_LABEL_CLASS}>
+        {copy.visibilityMatrix.moderatorColumn}
+      </span>
       {getVisibilityLabel(row.visibility, copy)}
     </div>
   </div>
@@ -67,7 +75,11 @@ const SettingsVisibilityMatrix = memo(
           </div>
         </div>
 
-        <div role="list" aria-label={copy.visibilityMatrix.title}>
+        <div
+          className={SETTINGS_MATRIX_LIST_CLASS}
+          role="list"
+          aria-label={copy.visibilityMatrix.title}
+        >
           {visibilityRows.map((row) => (
             <VisibilityMatrixRow key={row.id} row={row} copy={copy} />
           ))}

@@ -10,6 +10,8 @@ import {
   SETTINGS_MATRIX_HEADER_CELL_CLASS,
   SETTINGS_MATRIX_HEADER_MODERATOR_WIDTH_CLASS,
   SETTINGS_MATRIX_HEADER_MODULE_WIDTH_CLASS,
+  SETTINGS_MATRIX_LIST_CLASS,
+  SETTINGS_MATRIX_MOBILE_LABEL_CLASS,
   SETTINGS_MATRIX_MODERATOR_CELL_CLASS,
   SETTINGS_MATRIX_MODULE_CELL_CLASS,
   SETTINGS_MATRIX_PANEL_CLASS,
@@ -30,9 +32,13 @@ const EditMatrixRow = memo(({ module, copy, onToggleEditPermission, onRemoveEdit
   }, [module.id, onRemoveEditModule]);
 
   return (
-    <div className={SETTINGS_MATRIX_ROW_CLASS}>
-      <div className={SETTINGS_MATRIX_MODULE_CELL_CLASS}>{module.name}</div>
+    <div className={SETTINGS_MATRIX_ROW_CLASS} role="listitem">
+      <div className={SETTINGS_MATRIX_MODULE_CELL_CLASS}>
+        <span className={SETTINGS_MATRIX_MOBILE_LABEL_CLASS}>{copy.editMatrix.moduleColumn}</span>
+        {module.name}
+      </div>
       <div className={SETTINGS_MATRIX_MODERATOR_CELL_CLASS}>
+        <span className={SETTINGS_MATRIX_MOBILE_LABEL_CLASS}>{copy.editMatrix.moderatorColumn}</span>
         <SettingsToggle
           checked={module.canEdit}
           label={copy.editMatrix.toggleLabel(module.name, module.canEdit)}
@@ -40,6 +46,7 @@ const EditMatrixRow = memo(({ module, copy, onToggleEditPermission, onRemoveEdit
         />
       </div>
       <div className={SETTINGS_MATRIX_ACTION_CELL_CLASS}>
+        <span className={SETTINGS_MATRIX_MOBILE_LABEL_CLASS}>{copy.editMatrix.actionColumn}</span>
         <button
           type="button"
           onClick={handleRemove}
@@ -83,7 +90,7 @@ const SettingsEditMatrix = memo(
           </div>
         </div>
 
-        <div role="list" aria-label={copy.editMatrix.title}>
+        <div className={SETTINGS_MATRIX_LIST_CLASS} role="list" aria-label={copy.editMatrix.title}>
           {editModules.map((module) => (
             <EditMatrixRow
               key={module.id}

@@ -29,51 +29,69 @@ export const SETTINGS_INVITE_FIELD_CLASS =
 export const SETTINGS_INVITE_BUTTON_CLASS =
   'box-border inline-flex shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 bg-[#f59e0b] px-3 py-1.5 text-sm font-normal leading-5 text-[#fef5e7] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
 
-/** Matrix cards — same desktop UI; mobile gets card chrome + wrap/scroll. */
+export const SETTINGS_VIEWPORT = {
+  MOBILE_S: 320,
+  MOBILE_M: 375,
+  MOBILE_L: 425,
+};
+
+/**
+ * Matrix outer card.
+ * Mobile S/M/L (≤425): card shell + stacked row cards.
+ * ≥426: unchanged Figma table layout.
+ */
 export const SETTINGS_MATRIX_PANEL_CLASS =
-  'box-border h-auto w-full min-w-0 shrink-0 overflow-hidden rounded-lg border border-solid border-[#e8e4df] bg-[#fefaf6] pb-1';
+  'box-border h-auto w-full min-w-0 shrink-0 overflow-hidden rounded-lg border border-solid border-[#e8e4df] bg-[#fefaf6] pb-1 max-[425px]:rounded-xl max-[425px]:pb-3';
 
 export const SETTINGS_MATRIX_TITLE_ROW_CLASS =
-  'flex w-full min-w-0 flex-wrap items-center justify-between gap-3 px-3 pt-4 pb-0 sm:gap-4 sm:px-5 sm:pt-5';
+  'flex w-full min-w-0 flex-wrap items-center justify-between gap-3 px-3 pt-4 pb-0 max-[320px]:gap-2 max-[320px]:px-2.5 max-[320px]:pt-3 min-[376px]:px-3.5 max-[425px]:flex-col max-[425px]:items-stretch min-[426px]:flex-row min-[426px]:items-center min-[426px]:gap-4 min-[426px]:px-5 min-[426px]:pt-5';
 
 export const SETTINGS_MATRIX_TITLE_CLASS =
-  'min-w-0 text-xl font-bold leading-normal text-[#161d24] sm:text-2xl';
+  'min-w-0 text-xl font-bold leading-normal text-[#161d24] max-[320px]:text-lg min-[426px]:text-2xl';
 
 export const SETTINGS_MATRIX_TITLE_VISIBILITY_CLASS =
-  'min-w-0 text-xl font-bold leading-normal text-[#1f2933] sm:text-2xl';
+  'min-w-0 text-xl font-bold leading-normal text-[#1f2933] max-[320px]:text-lg min-[426px]:text-2xl';
 
 export const SETTINGS_MATRIX_SCROLL_CLASS =
-  'mt-4 w-full min-w-0 overflow-x-auto overscroll-x-contain sm:mt-5';
+  'mt-4 w-full min-w-0 max-[425px]:mt-3 max-[425px]:flex max-[425px]:flex-col max-[425px]:gap-3 max-[425px]:overflow-visible max-[425px]:px-3 max-[425px]:pb-0 max-[320px]:gap-2.5 max-[320px]:px-2.5 min-[376px]:max-[425px]:px-3.5 min-[426px]:mt-5 min-[426px]:overflow-x-auto min-[426px]:overscroll-x-contain min-[426px]:px-0';
 
-/** Full-width rows so justify-between matches Figma; min-w enables mobile scroll. */
+export const SETTINGS_MATRIX_LIST_CLASS =
+  'flex w-full min-w-0 flex-col max-[425px]:gap-3 max-[320px]:gap-2.5 min-[426px]:gap-0';
+
+/** Table header — desktop only */
 export const SETTINGS_MATRIX_HEADER_BAR_CLASS =
-  'flex w-full min-w-[560px] items-center justify-between bg-[#fef5e7] px-3 sm:min-w-[640px] sm:px-4';
+  'hidden w-full min-w-[640px] items-center justify-between bg-[#fef5e7] px-4 min-[426px]:flex';
 
+/**
+ * Row: card stack on Mobile S/M/L; table row from 426px up.
+ */
 export const SETTINGS_MATRIX_ROW_CLASS =
-  'flex w-full min-w-[560px] items-center justify-between border-b border-solid border-[#efefef] px-3 last:border-b-0 sm:min-w-[640px] sm:px-4';
+  'flex w-full min-w-0 flex-col gap-3 rounded-lg border border-solid border-[#efefef] bg-white p-3 max-[320px]:gap-2.5 max-[320px]:p-2.5 min-[376px]:max-[425px]:p-3.5 min-[426px]:min-w-[640px] min-[426px]:flex-row min-[426px]:items-center min-[426px]:justify-between min-[426px]:gap-0 min-[426px]:rounded-none min-[426px]:border-0 min-[426px]:border-b min-[426px]:border-[#efefef] min-[426px]:bg-transparent min-[426px]:p-0 min-[426px]:px-4 last:min-[426px]:border-b-0';
+
+export const SETTINGS_MATRIX_MOBILE_LABEL_CLASS =
+  'mb-1 block text-xs font-normal leading-normal text-[#697076] min-[426px]:hidden';
 
 export const SETTINGS_MATRIX_HEADER_CELL_CLASS =
-  'shrink-0 px-2 py-2.5 text-sm font-normal leading-normal text-[#697076] sm:px-2.5 sm:py-3 sm:text-base';
+  'shrink-0 px-2.5 py-3 text-base font-normal leading-normal text-[#697076]';
 
-export const SETTINGS_MATRIX_HEADER_MODULE_WIDTH_CLASS = 'w-[180px] sm:w-[221px]';
-export const SETTINGS_MATRIX_HEADER_MODERATOR_WIDTH_CLASS = 'w-[140px] sm:w-[180px]';
-export const SETTINGS_MATRIX_HEADER_ACTION_WIDTH_CLASS = 'w-[120px] sm:w-[160px]';
+export const SETTINGS_MATRIX_HEADER_MODULE_WIDTH_CLASS = 'w-[221px]';
+export const SETTINGS_MATRIX_HEADER_MODERATOR_WIDTH_CLASS = 'w-[180px]';
+export const SETTINGS_MATRIX_HEADER_ACTION_WIDTH_CLASS = 'w-[160px]';
 
-/** Figma row cells use py-6 on desktop */
 export const SETTINGS_MATRIX_MODULE_CELL_CLASS =
-  'w-[180px] shrink-0 px-2 py-4 text-sm font-medium leading-normal text-[#161d24] sm:w-[221px] sm:px-2.5 sm:py-6 sm:text-base';
+  'flex w-full min-w-0 flex-col px-0 py-0 text-sm font-medium leading-normal text-[#161d24] min-[426px]:w-[221px] min-[426px]:shrink-0 min-[426px]:px-2.5 min-[426px]:py-6 min-[426px]:text-base';
 
 export const SETTINGS_MATRIX_MODULE_CELL_VISIBILITY_CLASS =
-  'w-[180px] shrink-0 px-2 py-4 text-sm font-medium leading-normal text-[#1f2933] sm:w-[221px] sm:px-2.5 sm:py-6 sm:text-base';
+  'flex w-full min-w-0 flex-col px-0 py-0 text-sm font-medium leading-normal text-[#1f2933] min-[426px]:w-[221px] min-[426px]:shrink-0 min-[426px]:px-2.5 min-[426px]:py-6 min-[426px]:text-base';
 
 export const SETTINGS_MATRIX_MODERATOR_CELL_CLASS =
-  'flex w-[140px] shrink-0 items-center px-2 py-4 sm:w-[180px] sm:px-2.5 sm:py-6';
+  'flex w-full min-w-0 flex-col items-start px-0 py-0 min-[426px]:w-[180px] min-[426px]:shrink-0 min-[426px]:flex-row min-[426px]:items-center min-[426px]:px-2.5 min-[426px]:py-6';
 
 export const SETTINGS_MATRIX_ACTION_CELL_CLASS =
-  'flex w-[120px] shrink-0 items-center px-2 py-4 sm:w-[160px] sm:px-2.5 sm:py-6';
+  'flex w-full min-w-0 flex-col items-start px-0 py-0 min-[426px]:w-[160px] min-[426px]:shrink-0 min-[426px]:flex-row min-[426px]:items-center min-[426px]:px-2.5 min-[426px]:py-6';
 
 export const SETTINGS_MATRIX_VISIBILITY_STATUS_CLASS =
-  'w-[140px] shrink-0 px-2 py-4 text-sm font-normal leading-6 text-[#1f2933] sm:w-[180px] sm:px-2.5 sm:py-6 sm:text-base';
+  'flex w-full min-w-0 flex-col px-0 py-0 text-sm font-normal leading-6 text-[#1f2933] min-[426px]:w-[180px] min-[426px]:shrink-0 min-[426px]:px-2.5 min-[426px]:py-6 min-[426px]:text-base';
 
 export const SETTINGS_TOGGLE_TRACK_CLASS =
   'relative h-[22px] w-10 shrink-0 rounded-full transition-colors';
@@ -88,7 +106,7 @@ export const SETTINGS_TOGGLE_THUMB_ON_LEFT = 'left-5';
 export const SETTINGS_TOGGLE_THUMB_OFF_LEFT = 'left-0.5';
 
 export const SETTINGS_DOWNLOAD_BUTTON_CLASS =
-  'inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-[#f59e0b] px-3 py-2 text-sm font-medium leading-normal text-[#f0eae1] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 sm:gap-3.5 sm:px-5 sm:py-2.5 sm:text-lg';
+  'inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#f59e0b] px-3 py-2 text-sm font-medium leading-normal text-[#f0eae1] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 max-[425px]:w-full min-[426px]:gap-3.5 min-[426px]:px-5 min-[426px]:py-2.5 min-[426px]:text-lg';
 
 export const SETTINGS_DELETE_ICON_SIZE_PX = 24;
 export const SETTINGS_DOWNLOAD_ICON_SIZE_PX = 24;
