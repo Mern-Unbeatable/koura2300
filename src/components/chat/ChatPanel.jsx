@@ -248,7 +248,7 @@ const ChatPanel = memo(({ className = '', style, mode = 'user' }) => {
               placeholder="Type a message…"
               aria-label="Type a message"
               disabled={!activeRoomId}
-              className="flex-1 h-13 bg-white rounded-full px-5 text-sm text-slate-800 placeholder-gray-400 tracking-[0.5px] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] focus:outline-none focus:ring-2 focus:ring-orange-400 transition-shadow disabled:opacity-50"
+              className="h-13 flex-1 rounded-full bg-white px-5 text-sm tracking-[0.5px] text-slate-800 placeholder-gray-400 shadow-[0px_2px_8px_0px_rgba(0,0,0,0.14)] outline-none transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 disabled:opacity-50"
             />
             <button
               type="button"
