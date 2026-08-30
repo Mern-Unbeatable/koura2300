@@ -31,5 +31,6 @@ describe('adminChatMockData', () => {
       'Kwasia',
       'You dey hung dier you kai say house dey',
     ]);
+    expect(messages[0].createdAt).toBe('2026-01-04T18:21:00.000Z');
   });
 });

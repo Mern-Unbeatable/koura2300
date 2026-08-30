@@ -5,7 +5,11 @@ import {
   getInitials,
   formatSidebarTime,
   getBubbleCorners,
+  CONVERSATION_DAY_TYPE,
 } from './chatUtils';
+
+const CONVERSATION_DAY_CLASS =
+  'flex flex-wrap items-center justify-center gap-2 py-2 text-xs font-medium tracking-[0.5px] text-gray-400 sm:gap-3 sm:text-base';
 
 const Avatar = memo(({ src, name, size = 'md', online }) => {
   const sizeClass = size === 'sm' ? 'size-9' : 'size-12';
@@ -110,6 +114,17 @@ const SentGroup = memo(({ messages }) => (
   </div>
 ));
 SentGroup.displayName = 'SentGroup';
+
+const ConversationDayStamp = memo(({ dateLabel, timeLabel }) => (
+  <div className="flex w-full justify-center" role="separator" aria-label={`${dateLabel}, ${timeLabel}`}>
+    <div className={CONVERSATION_DAY_CLASS}>
+      <span className="whitespace-nowrap">{dateLabel}</span>
+      <span className="size-1.5 shrink-0 rounded-full bg-gray-400" aria-hidden="true" />
+      <span className="whitespace-nowrap">{timeLabel}</span>
+    </div>
+  </div>
+));
+ConversationDayStamp.displayName = 'ConversationDayStamp';
 
 const ChatPanel = memo(({ className = '', style, mode = 'user' }) => {
   const {
@@ -237,13 +252,22 @@ const ChatPanel = memo(({ className = '', style, mode = 'user' }) => {
           ) : messageGroups.length === 0 ? (
             <p className="text-center text-gray-400 py-10 text-sm">No messages yet. Say hello!</p>
           ) : (
-            messageGroups.map((group, gi) =>
-              group.type === 'received' ? (
+            messageGroups.map((group, gi) => {
+              if (group.type === CONVERSATION_DAY_TYPE) {
+                return (
+                  <ConversationDayStamp
+                    key={group.id ?? `day-${gi}`}
+                    dateLabel={group.dateLabel}
+                    timeLabel={group.timeLabel}
+                  />
+                );
+              }
+              return group.type === 'received' ? (
                 <ReceivedGroup key={gi} messages={group.messages} />
               ) : (
                 <SentGroup key={gi} messages={group.messages} />
-              ),
-            )
+              );
+            })
           )}
           <div ref={messagesEndRef} aria-hidden="true" />
         </div>

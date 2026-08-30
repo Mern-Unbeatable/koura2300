@@ -1,3 +1,5 @@
+import { formatMsgTime } from './chatUtils';
+
 const AVATAR_BASE = '/assets/admin/service-details';
 
 const createRoom = ({
@@ -21,11 +23,12 @@ const createRoom = ({
   online,
 });
 
-const createMessage = (id, type, text, time) => ({
+const createMessage = (id, type, text, createdAt) => ({
   id,
   type,
   text,
-  time,
+  time: formatMsgTime(createdAt),
+  createdAt,
   senderId: type === 'sent' ? 'admin' : 'user',
   isRead: true,
 });
@@ -133,14 +136,14 @@ const LOREM_PREVIEW =
 /** Figma thread copy keyed by room id (existing ChatPanel message shape). */
 export const ADMIN_CHAT_MOCK_MESSAGES_BY_ROOM_ID = {
   'techprint-hub': [
-    createMessage('tp-1', 'received', 'Yo mandem', '6:21 PM'),
-    createMessage('tp-2', 'received', 'Cho dey house?', '6:21 PM'),
-    createMessage('tp-3', 'sent', 'Kwasia', '6:22 PM'),
+    createMessage('tp-1', 'received', 'Yo mandem', '2026-01-04T18:21:00.000Z'),
+    createMessage('tp-2', 'received', 'Cho dey house?', '2026-01-04T18:21:00.000Z'),
+    createMessage('tp-3', 'sent', 'Kwasia', '2026-01-04T18:22:00.000Z'),
     createMessage(
       'tp-4',
       'sent',
       'You dey hung dier you kai say house dey',
-      '6:22 PM',
+      '2026-01-04T18:22:00.000Z',
     ),
   ],
   '3d-maker-store': [
@@ -148,7 +151,7 @@ export const ADMIN_CHAT_MOCK_MESSAGES_BY_ROOM_ID = {
       'ms-1',
       'received',
       'Are you coming to class tomorrow? we have test.',
-      '4:12 PM',
+      '2026-01-04T16:12:00.000Z',
     ),
   ],
   'printify-zone': [
@@ -156,21 +159,26 @@ export const ADMIN_CHAT_MOCK_MESSAGES_BY_ROOM_ID = {
       'pz-1',
       'received',
       'I miss you dear, when are you coming to see me.',
-      '3:27 PM',
+      '2026-01-04T15:27:00.000Z',
     ),
   ],
   gadgetforge: [
-    createMessage('gf-1', 'received', 'Baba what sup na, you still de Lagos?', '4:00 PM'),
+    createMessage(
+      'gf-1',
+      'received',
+      'Baba what sup na, you still de Lagos?',
+      '2026-01-04T16:00:00.000Z',
+    ),
   ],
   'megatech-mart': [
-    createMessage('mm-1', 'received', 'Have you called them?', '3:00 PM'),
+    createMessage('mm-1', 'received', 'Have you called them?', '2026-01-04T15:00:00.000Z'),
   ],
   'printlab-pro': [
     createMessage(
       'pl-1',
       'received',
       'By brother is the best, na my helper be that oh.',
-      '1:02 PM',
+      '2026-01-04T13:02:00.000Z',
     ),
   ],
   'makers-market': [
@@ -178,14 +186,24 @@ export const ADMIN_CHAT_MOCK_MESSAGES_BY_ROOM_ID = {
       'mk-1',
       'received',
       'Landlady called a meeting by 3pm today, she wants to talk about the light issues. Be there!',
-      '11:22 AM',
+      '2026-01-04T11:22:00.000Z',
     ),
   ],
-  '3d-print-world-1': [createMessage('pw1-1', 'received', LOREM_PREVIEW, '11:22 AM')],
-  '3d-print-world-2': [createMessage('pw2-1', 'received', LOREM_PREVIEW, '11:22 AM')],
-  '3d-print-world-3': [createMessage('pw3-1', 'received', LOREM_PREVIEW, '11:22 AM')],
-  '3d-print-world-4': [createMessage('pw4-1', 'received', LOREM_PREVIEW, '11:22 AM')],
-  '3d-print-world-5': [createMessage('pw5-1', 'received', LOREM_PREVIEW, '11:22 AM')],
+  '3d-print-world-1': [
+    createMessage('pw1-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+  ],
+  '3d-print-world-2': [
+    createMessage('pw2-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+  ],
+  '3d-print-world-3': [
+    createMessage('pw3-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+  ],
+  '3d-print-world-4': [
+    createMessage('pw4-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+  ],
+  '3d-print-world-5': [
+    createMessage('pw5-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+  ],
 };
 
 export const getAdminChatMockMessages = (roomId) =>

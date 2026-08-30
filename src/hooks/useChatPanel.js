@@ -318,12 +318,14 @@ export function useChatPanel(mode = 'user') {
     const text = inputValue.trim();
     if (!text || !activeRoomId) return;
 
+    const createdAt = new Date().toISOString();
     const tempId = `temp-${Date.now()}`;
     const optimistic = {
       id: tempId,
       type: 'sent',
       text,
-      time: formatMsgTime(new Date().toISOString()),
+      time: formatMsgTime(createdAt),
+      createdAt,
       senderId: currentUserId,
       isRead: false,
     };
@@ -339,7 +341,7 @@ export function useChatPanel(mode = 'user') {
           ? {
               ...r,
               lastMessage: text,
-              lastMessageTime: new Date().toISOString(),
+              lastMessageTime: createdAt,
             }
           : r,
       ),

@@ -59,9 +59,37 @@ export const normalizeMessage = (msg, currentUserId) => ({
   type: String(msg.sender?.id) === String(currentUserId) ? 'sent' : 'received',
   text: msg.content,
   time: formatMsgTime(msg.createdAt),
+  createdAt: msg.createdAt ?? null,
   senderId: msg.sender?.id,
   isRead: msg.isRead,
 });
+
+export const CONVERSATION_DAY_TYPE = 'day';
+
+export const formatConversationTimestamp = (iso) => {
+  if (!iso) return null;
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return null;
+
+  return {
+    dateLabel: date.toLocaleDateString([], {
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric',
+    }),
+    timeLabel: date.toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit',
+    }),
+  };
+};
+
+const conversationDayKey = (iso) => {
+  if (!iso) return null;
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toDateString();
+};
 
 export const computePositions = (messages) =>
   messages.map((msg, i) => {
@@ -98,11 +126,29 @@ export const getBubbleCorners = (type, position) => {
   return 'rounded-tl-[32px] rounded-tr-[4px] rounded-br-[32px] rounded-bl-[32px]';
 };
 
+/** Groups consecutive bubbles; inserts a centered day stamp when the calendar day changes. */
 export const groupMessages = (messages) => {
   const positioned = computePositions(messages);
   const groups = [];
   let current = null;
+  let lastDayKey = null;
+
   for (const msg of positioned) {
+    const msgDayKey = conversationDayKey(msg.createdAt);
+    if (msgDayKey && msgDayKey !== lastDayKey) {
+      const stamp = formatConversationTimestamp(msg.createdAt);
+      if (stamp) {
+        groups.push({
+          type: CONVERSATION_DAY_TYPE,
+          id: `day-${msgDayKey}`,
+          dateLabel: stamp.dateLabel,
+          timeLabel: stamp.timeLabel,
+        });
+        current = null;
+      }
+      lastDayKey = msgDayKey;
+    }
+
     if (!current || current.type !== msg.type) {
       current = { type: msg.type, messages: [msg] };
       groups.push(current);
