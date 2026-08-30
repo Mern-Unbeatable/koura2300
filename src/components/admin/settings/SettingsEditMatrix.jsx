@@ -5,8 +5,11 @@ import {
   SETTINGS_DELETE_BUTTON_CLASS,
   SETTINGS_DELETE_ICON_SIZE_PX,
   SETTINGS_MATRIX_ACTION_CELL_CLASS,
+  SETTINGS_MATRIX_HEADER_ACTION_WIDTH_CLASS,
   SETTINGS_MATRIX_HEADER_BAR_CLASS,
   SETTINGS_MATRIX_HEADER_CELL_CLASS,
+  SETTINGS_MATRIX_HEADER_MODERATOR_WIDTH_CLASS,
+  SETTINGS_MATRIX_HEADER_MODULE_WIDTH_CLASS,
   SETTINGS_MATRIX_MODERATOR_CELL_CLASS,
   SETTINGS_MATRIX_MODULE_CELL_CLASS,
   SETTINGS_MATRIX_PANEL_CLASS,
@@ -53,12 +56,7 @@ const EditMatrixRow = memo(({ module, copy, onToggleEditPermission, onRemoveEdit
 EditMatrixRow.displayName = 'EditMatrixRow';
 
 const SettingsEditMatrix = memo(
-  ({
-    copy = SETTINGS_COPY,
-    editModules,
-    onToggleEditPermission,
-    onRemoveEditModule,
-  }) => (
+  ({ copy = SETTINGS_COPY, editModules, onToggleEditPermission, onRemoveEditModule }) => (
     <section
       className={SETTINGS_MATRIX_PANEL_CLASS}
       aria-labelledby="settings-edit-matrix-title"
@@ -70,15 +68,17 @@ const SettingsEditMatrix = memo(
         </h2>
       </div>
 
-      <div className={SETTINGS_MATRIX_SCROLL_CLASS}>
+      <div className={SETTINGS_MATRIX_SCROLL_CLASS} data-lenis-prevent>
         <div className={SETTINGS_MATRIX_HEADER_BAR_CLASS} role="row">
-          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[221px]`}>
+          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} ${SETTINGS_MATRIX_HEADER_MODULE_WIDTH_CLASS}`}>
             {copy.editMatrix.moduleColumn}
           </div>
-          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[180px]`}>
+          <div
+            className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} ${SETTINGS_MATRIX_HEADER_MODERATOR_WIDTH_CLASS}`}
+          >
             {copy.editMatrix.moderatorColumn}
           </div>
-          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[160px]`}>
+          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} ${SETTINGS_MATRIX_HEADER_ACTION_WIDTH_CLASS}`}>
             {copy.editMatrix.actionColumn}
           </div>
         </div>

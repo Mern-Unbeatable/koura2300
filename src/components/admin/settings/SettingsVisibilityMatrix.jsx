@@ -6,6 +6,8 @@ import {
   SETTINGS_DOWNLOAD_ICON_SIZE_PX,
   SETTINGS_MATRIX_HEADER_BAR_CLASS,
   SETTINGS_MATRIX_HEADER_CELL_CLASS,
+  SETTINGS_MATRIX_HEADER_MODERATOR_WIDTH_CLASS,
+  SETTINGS_MATRIX_HEADER_MODULE_WIDTH_CLASS,
   SETTINGS_MATRIX_MODULE_CELL_VISIBILITY_CLASS,
   SETTINGS_MATRIX_PANEL_CLASS,
   SETTINGS_MATRIX_ROW_CLASS,
@@ -53,12 +55,14 @@ const SettingsVisibilityMatrix = memo(
         </button>
       </div>
 
-      <div className={SETTINGS_MATRIX_SCROLL_CLASS}>
+      <div className={SETTINGS_MATRIX_SCROLL_CLASS} data-lenis-prevent>
         <div className={SETTINGS_MATRIX_HEADER_BAR_CLASS} role="row">
-          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[221px]`}>
+          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} ${SETTINGS_MATRIX_HEADER_MODULE_WIDTH_CLASS}`}>
             {copy.visibilityMatrix.moduleColumn}
           </div>
-          <div className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} w-[180px]`}>
+          <div
+            className={`${SETTINGS_MATRIX_HEADER_CELL_CLASS} ${SETTINGS_MATRIX_HEADER_MODERATOR_WIDTH_CLASS}`}
+          >
             {copy.visibilityMatrix.moderatorColumn}
           </div>
         </div>

@@ -29,45 +29,51 @@ export const SETTINGS_INVITE_FIELD_CLASS =
 export const SETTINGS_INVITE_BUTTON_CLASS =
   'box-border inline-flex shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 bg-[#f59e0b] px-3 py-1.5 text-sm font-normal leading-5 text-[#fef5e7] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
 
+/** Matrix cards — same desktop UI; mobile gets card chrome + wrap/scroll. */
 export const SETTINGS_MATRIX_PANEL_CLASS =
-  'box-border h-auto w-full shrink-0 rounded-lg bg-[#fefaf6] pb-1';
+  'box-border h-auto w-full min-w-0 shrink-0 overflow-hidden rounded-lg border border-solid border-[#e8e4df] bg-[#fefaf6] pb-1';
 
 export const SETTINGS_MATRIX_TITLE_ROW_CLASS =
-  'flex w-full items-center justify-between px-5 pt-5 pb-0';
+  'flex w-full min-w-0 flex-wrap items-center justify-between gap-3 px-3 pt-4 pb-0 sm:gap-4 sm:px-5 sm:pt-5';
 
 export const SETTINGS_MATRIX_TITLE_CLASS =
-  'text-2xl font-bold leading-normal text-[#161d24]';
+  'min-w-0 text-xl font-bold leading-normal text-[#161d24] sm:text-2xl';
 
 export const SETTINGS_MATRIX_TITLE_VISIBILITY_CLASS =
-  'text-2xl font-bold leading-normal text-[#1f2933]';
+  'min-w-0 text-xl font-bold leading-normal text-[#1f2933] sm:text-2xl';
 
-export const SETTINGS_MATRIX_SCROLL_CLASS = 'mt-5 w-full overflow-x-auto';
+export const SETTINGS_MATRIX_SCROLL_CLASS =
+  'mt-4 w-full min-w-0 overflow-x-auto overscroll-x-contain sm:mt-5';
 
-/** Full-width rows so justify-between matches Figma column spread */
+/** Full-width rows so justify-between matches Figma; min-w enables mobile scroll. */
 export const SETTINGS_MATRIX_HEADER_BAR_CLASS =
-  'flex w-full min-w-[640px] items-center justify-between bg-[#fef5e7] px-4';
+  'flex w-full min-w-[560px] items-center justify-between bg-[#fef5e7] px-3 sm:min-w-[640px] sm:px-4';
 
 export const SETTINGS_MATRIX_ROW_CLASS =
-  'flex w-full min-w-[640px] items-center justify-between border-b border-solid border-[#efefef] px-4 last:border-b-0';
+  'flex w-full min-w-[560px] items-center justify-between border-b border-solid border-[#efefef] px-3 last:border-b-0 sm:min-w-[640px] sm:px-4';
 
 export const SETTINGS_MATRIX_HEADER_CELL_CLASS =
-  'shrink-0 px-2.5 py-3 text-base font-normal leading-normal text-[#697076]';
+  'shrink-0 px-2 py-2.5 text-sm font-normal leading-normal text-[#697076] sm:px-2.5 sm:py-3 sm:text-base';
 
-/** Figma row cells use py-[24px] */
+export const SETTINGS_MATRIX_HEADER_MODULE_WIDTH_CLASS = 'w-[180px] sm:w-[221px]';
+export const SETTINGS_MATRIX_HEADER_MODERATOR_WIDTH_CLASS = 'w-[140px] sm:w-[180px]';
+export const SETTINGS_MATRIX_HEADER_ACTION_WIDTH_CLASS = 'w-[120px] sm:w-[160px]';
+
+/** Figma row cells use py-6 on desktop */
 export const SETTINGS_MATRIX_MODULE_CELL_CLASS =
-  'w-[221px] shrink-0 px-2.5 py-6 text-base font-medium leading-normal text-[#161d24]';
+  'w-[180px] shrink-0 px-2 py-4 text-sm font-medium leading-normal text-[#161d24] sm:w-[221px] sm:px-2.5 sm:py-6 sm:text-base';
 
 export const SETTINGS_MATRIX_MODULE_CELL_VISIBILITY_CLASS =
-  'w-[221px] shrink-0 px-2.5 py-6 text-base font-medium leading-normal text-[#1f2933]';
+  'w-[180px] shrink-0 px-2 py-4 text-sm font-medium leading-normal text-[#1f2933] sm:w-[221px] sm:px-2.5 sm:py-6 sm:text-base';
 
 export const SETTINGS_MATRIX_MODERATOR_CELL_CLASS =
-  'flex w-[180px] shrink-0 items-center px-2.5 py-6';
+  'flex w-[140px] shrink-0 items-center px-2 py-4 sm:w-[180px] sm:px-2.5 sm:py-6';
 
 export const SETTINGS_MATRIX_ACTION_CELL_CLASS =
-  'flex w-[160px] shrink-0 items-center px-2.5 py-6';
+  'flex w-[120px] shrink-0 items-center px-2 py-4 sm:w-[160px] sm:px-2.5 sm:py-6';
 
 export const SETTINGS_MATRIX_VISIBILITY_STATUS_CLASS =
-  'w-[180px] shrink-0 px-2.5 py-6 text-base font-normal leading-6 text-[#1f2933]';
+  'w-[140px] shrink-0 px-2 py-4 text-sm font-normal leading-6 text-[#1f2933] sm:w-[180px] sm:px-2.5 sm:py-6 sm:text-base';
 
 export const SETTINGS_TOGGLE_TRACK_CLASS =
   'relative h-[22px] w-10 shrink-0 rounded-full transition-colors';
@@ -82,7 +88,7 @@ export const SETTINGS_TOGGLE_THUMB_ON_LEFT = 'left-5';
 export const SETTINGS_TOGGLE_THUMB_OFF_LEFT = 'left-0.5';
 
 export const SETTINGS_DOWNLOAD_BUTTON_CLASS =
-  'inline-flex cursor-pointer items-center gap-3.5 rounded-lg bg-[#f59e0b] px-5 py-2.5 text-lg font-medium leading-normal text-[#f0eae1] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2';
+  'inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-[#f59e0b] px-3 py-2 text-sm font-medium leading-normal text-[#f0eae1] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 sm:gap-3.5 sm:px-5 sm:py-2.5 sm:text-lg';
 
 export const SETTINGS_DELETE_ICON_SIZE_PX = 24;
 export const SETTINGS_DOWNLOAD_ICON_SIZE_PX = 24;
@@ -90,8 +96,7 @@ export const SETTINGS_DOWNLOAD_ICON_SIZE_PX = 24;
 export const SETTINGS_HEADER_TITLE_CLASS =
   'text-[36px] font-semibold leading-normal text-[#050609] max-[768px]:text-3xl max-[425px]:text-2xl';
 
-export const SETTINGS_HEADER_SUBTITLE_CLASS =
-  'text-base font-normal leading-normal text-[#464646]';
+export const SETTINGS_HEADER_SUBTITLE_CLASS = 'text-base font-normal leading-normal text-[#464646]';
 
 export const SETTINGS_DELETE_BUTTON_CLASS =
   'inline-flex cursor-pointer items-center justify-center rounded-md p-0 text-[#d00000] transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500';
