@@ -130,25 +130,26 @@ const ChatPanel = memo(({ className = '', style, mode = 'user' }) => {
 
   return (
     <div
-      className={`flex overflow-hidden rounded-xl shadow-sm border border-gray-200 bg-gray-50 ${className}`}
+      className={`flex min-h-0 overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-sm ${className}`}
       style={style}
     >
       <aside
         className={`${
           showSidebar ? 'flex' : 'hidden'
-        } lg:flex flex-col w-full lg:w-76.5 shrink-0 border-r border-gray-200`}
+        } min-h-0 w-full shrink-0 flex-col border-r border-gray-200 lg:flex lg:w-76.5`}
         aria-label="Conversations"
       >
-        <div className="flex items-center px-4 h-20 bg-gray-200 shrink-0">
-          <span className="font-medium text-base text-gray-900 tracking-[0.352px] leading-normal">
+        <div className="flex h-20 shrink-0 items-center bg-gray-200 px-4">
+          <span className="text-base font-medium leading-normal tracking-[0.352px] text-gray-900">
             {isAdmin ? 'All Conversations' : 'Messages'}
           </span>
         </div>
 
         <div
-          className="flex-1 overflow-y-auto scrollbar-light"
+          className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain scrollbar-light"
           role="list"
           aria-label="Conversations"
+          data-lenis-prevent
         >
           {loadingRooms ? (
             <p className="text-center text-gray-400 py-10 text-sm" role="status">
@@ -171,10 +172,10 @@ const ChatPanel = memo(({ className = '', style, mode = 'user' }) => {
       </aside>
 
       <section
-        className={`${!showSidebar ? 'flex' : 'hidden'} lg:flex flex-col flex-1 min-w-0`}
+        className={`${!showSidebar ? 'flex' : 'hidden'} min-h-0 min-w-0 flex-1 flex-col lg:flex`}
         aria-label={`Conversation with ${activeRoom?.otherUser?.name ?? ''}`}
       >
-        <div className="flex items-center gap-3 px-4 h-20 bg-gray-200 shrink-0 border-b border-gray-200">
+        <div className="flex h-20 shrink-0 items-center gap-3 border-b border-gray-200 bg-gray-200 px-4">
           <button
             type="button"
             onClick={handleBackToSidebar}
@@ -209,9 +210,10 @@ const ChatPanel = memo(({ className = '', style, mode = 'user' }) => {
         </div>
 
         <div
-          className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 flex flex-col gap-3"
+          className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overscroll-y-contain px-4 py-4 scrollbar-light sm:px-6"
           aria-live="polite"
           aria-label="Messages"
+          data-lenis-prevent
         >
           {loadingMsgs ? (
             <p className="text-center text-gray-400 py-10 text-sm" role="status">

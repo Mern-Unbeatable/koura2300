@@ -98,7 +98,7 @@ const Layout = () => {
           className="scrollbar-services-ash min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
           data-lenis-prevent
         >
-          <div className="w-full min-h-full px-6 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8 flex flex-col">
+          <div className="flex h-full min-h-full w-full flex-col px-6 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
             <Outlet />
           </div>
         </div>

@@ -7,17 +7,21 @@ import { httpMethods } from '../services/httpMethods';
 import API_ENDPOINTS from '../services/httpEndpoint';
 import {
   MESSAGE_POLL_MS,
-  ROOM_POLL_MS,
   TYPING_STOP_MS,
   formatMsgTime,
   normalizeRoom,
   normalizeMessage,
   groupMessages,
 } from '../components/chat/chatUtils';
+import {
+  ADMIN_CHAT_MOCK_ROOMS,
+  getAdminChatMockMessages,
+} from '../components/chat/adminChatMockData';
 
 /**
  * Orchestrates chat rooms, messages, polling, and socket events.
  * Keeps ChatPanel focused on presentation.
+ * Admin Support / Messages uses Figma mock data (no API) until live rooms ship.
  */
 export function useChatPanel(mode = 'user') {
   const currentUser = useSelector((state) => state.auth.user);
@@ -52,6 +56,13 @@ export function useChatPanel(mode = 'user') {
   );
 
   useEffect(() => {
+    if (isAdmin) {
+      setRooms(ADMIN_CHAT_MOCK_ROOMS);
+      setActiveRoomId(ADMIN_CHAT_MOCK_ROOMS[0]?.id ?? null);
+      setLoadingRooms(false);
+      return undefined;
+    }
+
     if (!currentUser) return undefined;
 
     const requestId = ++roomsRequestRef.current;
@@ -60,37 +71,16 @@ export function useChatPanel(mode = 'user') {
     const load = async () => {
       setLoadingRooms(true);
 
-      if (isAdmin) {
-        const { data, error } = await httpMethods.get(API_ENDPOINTS.CHAT.ROOMS);
-        if (cancelled || requestId !== roomsRequestRef.current) return;
+      const { data, error } = await httpMethods.post(API_ENDPOINTS.CHAT.ROOM, {});
+      if (cancelled || requestId !== roomsRequestRef.current) return;
 
-        if (error) {
-          toast.error(
-            error?.data?.message || error?.message || 'Failed to load conversations.',
-          );
-        } else {
-          const list = data?.data ?? [];
-          const normalized = list.map(toRoom);
-          setRooms(normalized);
-          if (normalized.length > 0) setActiveRoomId(normalized[0].id);
-
-          normalized.forEach((r) => {
-            adminRoomIdsRef.current.add(String(r.id));
-            socket.emit('conversation:join', String(r.id));
-          });
-        }
+      if (error) {
+        toast.error(error?.data?.message || error?.message || 'Failed to open chat.');
       } else {
-        const { data, error } = await httpMethods.post(API_ENDPOINTS.CHAT.ROOM, {});
-        if (cancelled || requestId !== roomsRequestRef.current) return;
-
-        if (error) {
-          toast.error(error?.data?.message || error?.message || 'Failed to open chat.');
-        } else {
-          const room = data?.data;
-          if (room) {
-            setRooms([toRoom(room)]);
-            setActiveRoomId(room.id);
-          }
+        const room = data?.data;
+        if (room) {
+          setRooms([toRoom(room)]);
+          setActiveRoomId(room.id);
         }
       }
 
@@ -132,6 +122,14 @@ export function useChatPanel(mode = 'user') {
 
   useEffect(() => {
     if (!activeRoomId) return undefined;
+
+    if (isAdmin) {
+      justLoadedRef.current = true;
+      setMessages(getAdminChatMockMessages(activeRoomId));
+      setLoadingMsgs(false);
+      setIsOtherTyping(false);
+      return undefined;
+    }
 
     const requestId = ++activeRoomRequestRef.current;
     let cancelled = false;
@@ -182,7 +180,7 @@ export function useChatPanel(mode = 'user') {
     return () => {
       cancelled = true;
     };
-  }, [activeRoomId, toMessage]);
+  }, [activeRoomId, isAdmin, toMessage]);
 
   useEffect(() => {
     if (!messagesEndRef.current || messages.length === 0) return;
@@ -194,7 +192,7 @@ export function useChatPanel(mode = 'user') {
   useEffect(() => () => clearTimeout(typingTimeoutRef.current), []);
 
   useEffect(() => {
-    if (!activeRoomId) return undefined;
+    if (!activeRoomId || isAdmin) return undefined;
     let inFlight = false;
     const poll = setInterval(async () => {
       if (inFlight) return;
@@ -215,30 +213,7 @@ export function useChatPanel(mode = 'user') {
       }
     }, MESSAGE_POLL_MS);
     return () => clearInterval(poll);
-  }, [activeRoomId, toMessage]);
-
-  useEffect(() => {
-    if (!isAdmin) return undefined;
-    let inFlight = false;
-    const poll = setInterval(async () => {
-      if (inFlight) return;
-      inFlight = true;
-      try {
-        const { data } = await httpMethods.get(API_ENDPOINTS.CHAT.ROOMS);
-        if (!data) return;
-        const incoming = (data?.data ?? []).map(toRoom);
-        setRooms((prev) =>
-          incoming.map((r) => {
-            const existing = prev.find((p) => p.id === r.id);
-            return existing ? { ...r, online: existing.online } : r;
-          }),
-        );
-      } finally {
-        inFlight = false;
-      }
-    }, ROOM_POLL_MS);
-    return () => clearInterval(poll);
-  }, [isAdmin, toRoom]);
+  }, [activeRoomId, isAdmin, toMessage]);
 
   const handleSocketMessage = useCallback(
     (payload) => {
@@ -358,6 +333,22 @@ export function useChatPanel(mode = 'user') {
     sendTyping(false);
     clearTimeout(typingTimeoutRef.current);
 
+    setRooms((prev) =>
+      prev.map((r) =>
+        r.id === activeRoomId
+          ? {
+              ...r,
+              lastMessage: text,
+              lastMessageTime: new Date().toISOString(),
+            }
+          : r,
+      ),
+    );
+
+    if (isAdmin) {
+      return;
+    }
+
     const { data, error } = await httpMethods.post(
       API_ENDPOINTS.CHAT.SEND_MESSAGE(activeRoomId),
       { content: text },
@@ -385,7 +376,7 @@ export function useChatPanel(mode = 'user') {
           : r,
       ),
     );
-  }, [inputValue, activeRoomId, currentUserId, sendTyping, toMessage]);
+  }, [inputValue, activeRoomId, currentUserId, isAdmin, sendTyping, toMessage]);
 
   const handleKeyDown = useCallback(
     (e) => {
