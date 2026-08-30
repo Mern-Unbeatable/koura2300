@@ -41,7 +41,7 @@ export const ADMIN_CHAT_MOCK_ROOMS = [
     avatar: `${AVATAR_BASE}/avatar-1.png`,
     lastMessage:
       "Gee, its been good news all day. i met someone special today. she's really pretty.",
-    lastMessageTime: '2026-01-04T16:27:00.000Z',
+    lastMessageTime: '2026-01-04T16:27:00',
     online: true,
   }),
   createRoom({
@@ -49,7 +49,7 @@ export const ADMIN_CHAT_MOCK_ROOMS = [
     name: '3D Maker Store',
     avatar: `${AVATAR_BASE}/avatar-2.png`,
     lastMessage: 'Are you coming to class tomorrow? we have test.',
-    lastMessageTime: '2026-01-04T16:12:00.000Z',
+    lastMessageTime: '2026-01-04T16:12:00',
     online: true,
   }),
   createRoom({
@@ -57,28 +57,28 @@ export const ADMIN_CHAT_MOCK_ROOMS = [
     name: 'Printify Zone',
     avatar: `${AVATAR_BASE}/avatar-3.png`,
     lastMessage: 'I miss you dear, when are you coming to see me.',
-    lastMessageTime: '2026-01-04T15:27:00.000Z',
+    lastMessageTime: '2026-01-04T15:27:00',
   }),
   createRoom({
     id: 'gadgetforge',
     name: 'GadgetForge',
     avatar: `${AVATAR_BASE}/avatar-4.png`,
     lastMessage: 'Baba what sup na, you still de Lagos?',
-    lastMessageTime: '2026-01-04T16:00:00.000Z',
+    lastMessageTime: '2026-01-04T16:00:00',
   }),
   createRoom({
     id: 'megatech-mart',
     name: 'MegaTech Mart',
     avatar: `${AVATAR_BASE}/avatar-darrell.png`,
     lastMessage: 'Have you called them?',
-    lastMessageTime: '2026-01-04T15:00:00.000Z',
+    lastMessageTime: '2026-01-04T15:00:00',
   }),
   createRoom({
     id: 'printlab-pro',
     name: 'PrintLab Pro',
     avatar: `${AVATAR_BASE}/avatar-kathryn.png`,
     lastMessage: 'By brother is the best, na my helper be that oh.',
-    lastMessageTime: '2026-01-04T13:02:00.000Z',
+    lastMessageTime: '2026-01-04T13:02:00',
   }),
   createRoom({
     id: 'makers-market',
@@ -86,7 +86,7 @@ export const ADMIN_CHAT_MOCK_ROOMS = [
     avatar: `${AVATAR_BASE}/avatar-1.png`,
     lastMessage:
       'Landlady called a meeting by 3pm today, she wants to talk about the light issues. Be there!',
-    lastMessageTime: '2026-01-04T11:22:00.000Z',
+    lastMessageTime: '2026-01-04T11:22:00',
   }),
   createRoom({
     id: '3d-print-world-1',
@@ -94,7 +94,7 @@ export const ADMIN_CHAT_MOCK_ROOMS = [
     avatar: `${AVATAR_BASE}/avatar-2.png`,
     lastMessage:
       'Lorem ipsum dolor sit amet consectetur. Eleifend condimentum mauris consequat tellus turpis vitae.',
-    lastMessageTime: '2026-01-04T11:22:00.000Z',
+    lastMessageTime: '2026-01-04T11:22:00',
   }),
   createRoom({
     id: '3d-print-world-2',
@@ -102,7 +102,7 @@ export const ADMIN_CHAT_MOCK_ROOMS = [
     avatar: `${AVATAR_BASE}/avatar-3.png`,
     lastMessage:
       'Lorem ipsum dolor sit amet consectetur. Eleifend condimentum mauris consequat tellus turpis vitae.',
-    lastMessageTime: '2026-01-04T11:22:00.000Z',
+    lastMessageTime: '2026-01-04T11:22:00',
   }),
   createRoom({
     id: '3d-print-world-3',
@@ -110,7 +110,7 @@ export const ADMIN_CHAT_MOCK_ROOMS = [
     avatar: `${AVATAR_BASE}/avatar-4.png`,
     lastMessage:
       'Lorem ipsum dolor sit amet consectetur. Eleifend condimentum mauris consequat tellus turpis vitae.',
-    lastMessageTime: '2026-01-04T11:22:00.000Z',
+    lastMessageTime: '2026-01-04T11:22:00',
   }),
   createRoom({
     id: '3d-print-world-4',
@@ -118,7 +118,7 @@ export const ADMIN_CHAT_MOCK_ROOMS = [
     avatar: `${AVATAR_BASE}/avatar-darrell.png`,
     lastMessage:
       'Lorem ipsum dolor sit amet consectetur. Eleifend condimentum mauris consequat tellus turpis vitae.',
-    lastMessageTime: '2026-01-04T11:22:00.000Z',
+    lastMessageTime: '2026-01-04T11:22:00',
   }),
   createRoom({
     id: '3d-print-world-5',
@@ -126,7 +126,7 @@ export const ADMIN_CHAT_MOCK_ROOMS = [
     avatar: `${AVATAR_BASE}/avatar-kathryn.png`,
     lastMessage:
       'Lorem ipsum dolor sit amet consectetur. Eleifend condimentum mauris consequat tellus turpis vitae.',
-    lastMessageTime: '2026-01-04T11:22:00.000Z',
+    lastMessageTime: '2026-01-04T11:22:00',
   }),
 ];
 
@@ -136,14 +136,14 @@ const LOREM_PREVIEW =
 /** Figma thread copy keyed by room id (existing ChatPanel message shape). */
 export const ADMIN_CHAT_MOCK_MESSAGES_BY_ROOM_ID = {
   'techprint-hub': [
-    createMessage('tp-1', 'received', 'Yo mandem', '2026-01-04T18:21:00.000Z'),
-    createMessage('tp-2', 'received', 'Cho dey house?', '2026-01-04T18:21:00.000Z'),
-    createMessage('tp-3', 'sent', 'Kwasia', '2026-01-04T18:22:00.000Z'),
+    createMessage('tp-1', 'received', 'Yo mandem', '2026-01-04T18:21:00'),
+    createMessage('tp-2', 'received', 'Cho dey house?', '2026-01-04T18:21:00'),
+    createMessage('tp-3', 'sent', 'Kwasia', '2026-01-04T18:22:00'),
     createMessage(
       'tp-4',
       'sent',
       'You dey hung dier you kai say house dey',
-      '2026-01-04T18:22:00.000Z',
+      '2026-01-04T18:22:00',
     ),
   ],
   '3d-maker-store': [
@@ -151,7 +151,7 @@ export const ADMIN_CHAT_MOCK_MESSAGES_BY_ROOM_ID = {
       'ms-1',
       'received',
       'Are you coming to class tomorrow? we have test.',
-      '2026-01-04T16:12:00.000Z',
+      '2026-01-04T16:12:00',
     ),
   ],
   'printify-zone': [
@@ -159,7 +159,7 @@ export const ADMIN_CHAT_MOCK_MESSAGES_BY_ROOM_ID = {
       'pz-1',
       'received',
       'I miss you dear, when are you coming to see me.',
-      '2026-01-04T15:27:00.000Z',
+      '2026-01-04T15:27:00',
     ),
   ],
   gadgetforge: [
@@ -167,18 +167,18 @@ export const ADMIN_CHAT_MOCK_MESSAGES_BY_ROOM_ID = {
       'gf-1',
       'received',
       'Baba what sup na, you still de Lagos?',
-      '2026-01-04T16:00:00.000Z',
+      '2026-01-04T16:00:00',
     ),
   ],
   'megatech-mart': [
-    createMessage('mm-1', 'received', 'Have you called them?', '2026-01-04T15:00:00.000Z'),
+    createMessage('mm-1', 'received', 'Have you called them?', '2026-01-04T15:00:00'),
   ],
   'printlab-pro': [
     createMessage(
       'pl-1',
       'received',
       'By brother is the best, na my helper be that oh.',
-      '2026-01-04T13:02:00.000Z',
+      '2026-01-04T13:02:00',
     ),
   ],
   'makers-market': [
@@ -186,23 +186,23 @@ export const ADMIN_CHAT_MOCK_MESSAGES_BY_ROOM_ID = {
       'mk-1',
       'received',
       'Landlady called a meeting by 3pm today, she wants to talk about the light issues. Be there!',
-      '2026-01-04T11:22:00.000Z',
+      '2026-01-04T11:22:00',
     ),
   ],
   '3d-print-world-1': [
-    createMessage('pw1-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+    createMessage('pw1-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00'),
   ],
   '3d-print-world-2': [
-    createMessage('pw2-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+    createMessage('pw2-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00'),
   ],
   '3d-print-world-3': [
-    createMessage('pw3-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+    createMessage('pw3-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00'),
   ],
   '3d-print-world-4': [
-    createMessage('pw4-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+    createMessage('pw4-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00'),
   ],
   '3d-print-world-5': [
-    createMessage('pw5-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00.000Z'),
+    createMessage('pw5-1', 'received', LOREM_PREVIEW, '2026-01-04T11:22:00'),
   ],
 };
 
