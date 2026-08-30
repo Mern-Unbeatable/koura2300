@@ -71,6 +71,14 @@ describe('Sidebar Figma navigation', () => {
     expect(adsLink.className).toContain('bg-[#fff1eb]');
   });
 
+  it('includes Settings in OTHER with an active route', () => {
+    renderSidebar(ROUTES.ADMIN_SETTINGS);
+
+    const settingsLink = screen.getByRole('link', { name: /Settings/i });
+    expect(settingsLink).toHaveAttribute('href', ROUTES.ADMIN_SETTINGS);
+    expect(settingsLink.className).toContain('bg-[#fff1eb]');
+  });
+
   it('exposes the Figma management items in nav config', () => {
     const management = SIDEBAR_NAV_GROUPS.find((group) => group.id === 'management');
     const names = management.items.map((item) => item.name);

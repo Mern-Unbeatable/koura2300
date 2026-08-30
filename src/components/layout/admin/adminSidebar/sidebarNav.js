@@ -73,9 +73,8 @@ export const SIDEBAR_NAV_GROUPS = [
       },
       {
         name: 'Settings',
-        path: null,
+        path: ROUTES.ADMIN_SETTINGS,
         icon: Settings,
-        comingSoon: true,
       },
     ],
   },
