@@ -2,12 +2,6 @@ import { SETTINGS_COPY } from './settingsCopy';
 
 export const SETTINGS_EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export const SETTINGS_ROLE_MODERATOR = 'moderator';
-
-export const SETTINGS_ROLE_OPTIONS = [
-  { value: SETTINGS_ROLE_MODERATOR, label: SETTINGS_COPY.invite.roleModeratorLabel },
-];
-
 export const SETTINGS_VISIBILITY_VISIBLE = 'visible';
 export const SETTINGS_VISIBILITY_HIDDEN = 'hidden';
 
@@ -29,9 +23,6 @@ export const SETTINGS_INVITE_FORM_CLASS =
 
 export const SETTINGS_INVITE_FIELD_CLASS =
   'box-border w-[289px] max-w-full shrink-0 rounded-lg border-0 bg-[#fef5e7] px-2.5 py-2 text-sm font-normal leading-5 text-[#161d24] placeholder:text-[#979797] outline-none focus:ring-2 focus:ring-[#f59e0b]';
-
-export const SETTINGS_INVITE_SELECT_CLASS =
-  'box-border shrink-0 cursor-pointer appearance-none rounded-lg border-0 bg-[#fef5e7] px-2.5 py-2 text-sm font-normal leading-5 text-[#f59e0b] outline-none focus:ring-2 focus:ring-[#f59e0b]';
 
 export const SETTINGS_INVITE_BUTTON_CLASS =
   'box-border inline-flex shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 bg-[#f59e0b] px-2.5 py-2 text-sm font-normal leading-5 text-[#fef5e7] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';

@@ -6,20 +6,15 @@ import {
   SETTINGS_INVITE_DESCRIPTION_CLASS,
   SETTINGS_INVITE_FIELD_CLASS,
   SETTINGS_INVITE_FORM_CLASS,
-  SETTINGS_INVITE_SELECT_CLASS,
   SETTINGS_INVITE_TITLE_CLASS,
-  SETTINGS_ROLE_OPTIONS,
 } from './settingsData';
 
 const SettingsInviteCard = memo(
   ({
     copy = SETTINGS_COPY,
     inviteEmail,
-    inviteRole,
     inviteEmailError,
-    roleOptions = SETTINGS_ROLE_OPTIONS,
     onInviteEmailChange,
-    onInviteRoleChange,
     onSendInvite,
   }) => (
     <section className={SETTINGS_INVITE_CARD_CLASS} aria-labelledby="settings-invite-title">
@@ -55,23 +50,6 @@ const SettingsInviteCard = memo(
             </p>
           ) : null}
         </div>
-
-        <label className="sr-only" htmlFor="settings-invite-role">
-          {copy.invite.roleLabel}
-        </label>
-        <select
-          id="settings-invite-role"
-          name="role"
-          value={inviteRole}
-          onChange={onInviteRoleChange}
-          className={SETTINGS_INVITE_SELECT_CLASS}
-        >
-          {roleOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
 
         <button type="submit" className={SETTINGS_INVITE_BUTTON_CLASS}>
           {copy.invite.sendLabel}

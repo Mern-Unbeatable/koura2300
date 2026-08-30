@@ -5,21 +5,16 @@ import { SETTINGS_COPY } from '../settingsCopy';
 import {
   SETTINGS_EDIT_MATRIX_SEED,
   SETTINGS_PAGE_CLASS,
-  SETTINGS_ROLE_MODERATOR,
-  SETTINGS_ROLE_OPTIONS,
   SETTINGS_VISIBILITY_MATRIX_SEED,
 } from '../settingsData';
 
 const createSettingsViewProps = (overrides = {}) => ({
   copy: SETTINGS_COPY,
   inviteEmail: '',
-  inviteRole: SETTINGS_ROLE_MODERATOR,
   inviteEmailError: '',
-  roleOptions: SETTINGS_ROLE_OPTIONS,
   editModules: SETTINGS_EDIT_MATRIX_SEED,
   visibilityRows: SETTINGS_VISIBILITY_MATRIX_SEED,
   onInviteEmailChange: jest.fn(),
-  onInviteRoleChange: jest.fn(),
   onSendInvite: jest.fn((event) => event.preventDefault()),
   onToggleEditPermission: jest.fn(),
   onRemoveEditModule: jest.fn(),
@@ -40,14 +35,13 @@ describe('SettingsView', () => {
     expect(container.firstChild).toHaveClass(...SETTINGS_PAGE_CLASS.split(' '));
   });
 
-  it('renders the invite team card with email, role, and send controls', () => {
+  it('renders the invite team card with email and send controls', () => {
     renderSettingsView();
 
     expect(screen.getByRole('heading', { level: 2, name: SETTINGS_COPY.invite.title })).toBeInTheDocument();
     expect(screen.getByLabelText(SETTINGS_COPY.invite.emailLabel)).toBeInTheDocument();
-    expect(screen.getByLabelText(SETTINGS_COPY.invite.roleLabel)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: SETTINGS_COPY.invite.sendLabel })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: SETTINGS_COPY.invite.roleModeratorLabel })).toBeInTheDocument();
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
   });
 
   it('shows an inline invite email error when provided', () => {
@@ -59,16 +53,12 @@ describe('SettingsView', () => {
   it('wires invite form handlers', async () => {
     const user = userEvent.setup();
     const onInviteEmailChange = jest.fn();
-    const onInviteRoleChange = jest.fn();
     const onSendInvite = jest.fn((event) => event.preventDefault());
 
-    renderSettingsView({ onInviteEmailChange, onInviteRoleChange, onSendInvite });
+    renderSettingsView({ onInviteEmailChange, onSendInvite });
 
     await user.type(screen.getByLabelText(SETTINGS_COPY.invite.emailLabel), 'a@b.com');
     expect(onInviteEmailChange).toHaveBeenCalled();
-
-    await user.selectOptions(screen.getByLabelText(SETTINGS_COPY.invite.roleLabel), 'moderator');
-    expect(onInviteRoleChange).toHaveBeenCalled();
 
     await user.click(screen.getByRole('button', { name: SETTINGS_COPY.invite.sendLabel }));
     expect(onSendInvite).toHaveBeenCalled();

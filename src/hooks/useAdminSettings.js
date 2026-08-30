@@ -3,8 +3,6 @@ import toast from 'react-hot-toast';
 import { SETTINGS_COPY } from '../components/admin/settings/settingsCopy';
 import {
   SETTINGS_EDIT_MATRIX_SEED,
-  SETTINGS_ROLE_MODERATOR,
-  SETTINGS_ROLE_OPTIONS,
   SETTINGS_VISIBILITY_MATRIX_SEED,
 } from '../components/admin/settings/settingsData';
 import {
@@ -16,7 +14,6 @@ import {
 
 const useAdminSettings = () => {
   const [inviteEmail, setInviteEmail] = useState('');
-  const [inviteRole, setInviteRole] = useState(SETTINGS_ROLE_MODERATOR);
   const [inviteEmailError, setInviteEmailError] = useState('');
   const [editModules, setEditModules] = useState(SETTINGS_EDIT_MATRIX_SEED);
   const [visibilityRows] = useState(SETTINGS_VISIBILITY_MATRIX_SEED);
@@ -24,10 +21,6 @@ const useAdminSettings = () => {
   const handleInviteEmailChange = useCallback((event) => {
     setInviteEmail(event.target.value);
     setInviteEmailError('');
-  }, []);
-
-  const handleInviteRoleChange = useCallback((event) => {
-    setInviteRole(event.target.value);
   }, []);
 
   const handleSendInvite = useCallback(
@@ -63,13 +56,10 @@ const useAdminSettings = () => {
   return {
     copy: SETTINGS_COPY,
     inviteEmail,
-    inviteRole,
     inviteEmailError,
-    roleOptions: SETTINGS_ROLE_OPTIONS,
     editModules,
     visibilityRows,
     onInviteEmailChange: handleInviteEmailChange,
-    onInviteRoleChange: handleInviteRoleChange,
     onSendInvite: handleSendInvite,
     onToggleEditPermission: handleToggleEditPermission,
     onRemoveEditModule: handleRemoveEditModule,
