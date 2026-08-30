@@ -8,21 +8,21 @@ export const SETTINGS_VISIBILITY_HIDDEN = 'hidden';
 /** Figma 352:8292 — page stack gap 30px */
 export const SETTINGS_PAGE_CLASS = 'flex w-full min-w-0 flex-col gap-[30px]';
 
-/** Figma 352:8300 — Invite your team card */
+/** Invite card sized to email + send (no role select). */
 export const SETTINGS_INVITE_CARD_CLASS =
-  'flex w-full max-w-[717px] flex-col items-start justify-center gap-3 overflow-hidden rounded-2xl border border-solid border-[#e5e5e5] bg-white p-6';
+  'flex w-full max-w-[560px] flex-col items-start justify-center gap-3 overflow-hidden rounded-2xl border border-solid border-[#e5e5e5] bg-white p-6';
 
 export const SETTINGS_INVITE_TITLE_CLASS =
-  'whitespace-nowrap text-[32px] font-normal leading-10 text-[#f59e0b] max-[425px]:whitespace-normal max-[425px]:text-[28px] max-[425px]:leading-9';
+  'text-[32px] font-normal leading-10 text-[#f59e0b] max-[425px]:text-[28px] max-[425px]:leading-9';
 
 export const SETTINGS_INVITE_DESCRIPTION_CLASS =
-  'w-full text-base font-normal text-[#4c545c]';
+  'w-full text-base font-normal leading-6 text-[#4c545c]';
 
 export const SETTINGS_INVITE_FORM_CLASS =
-  'flex flex-row flex-wrap items-center gap-3';
+  'flex w-full flex-row flex-wrap items-center gap-3';
 
 export const SETTINGS_INVITE_FIELD_CLASS =
-  'box-border w-[289px] max-w-full shrink-0 rounded-lg border-0 bg-[#fef5e7] px-2.5 py-2 text-sm font-normal leading-5 text-[#161d24] placeholder:text-[#979797] outline-none focus:ring-2 focus:ring-[#f59e0b]';
+  'box-border min-w-0 w-[min(100%,17.5rem)] shrink rounded-lg border-0 bg-[#fef5e7] px-2.5 py-2 text-sm font-normal leading-5 text-[#161d24] placeholder:text-[#979797] outline-none focus:ring-2 focus:ring-[#f59e0b]';
 
 export const SETTINGS_INVITE_BUTTON_CLASS =
   'box-border inline-flex shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 bg-[#f59e0b] px-2.5 py-2 text-sm font-normal leading-5 text-[#fef5e7] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
