@@ -30,10 +30,11 @@ VisibilityMatrixRow.displayName = 'VisibilityMatrixRow';
 const SettingsVisibilityMatrix = memo(
   ({ copy = SETTINGS_COPY, visibilityRows, onDownloadVisibility }) => (
     <section
-      className={SETTINGS_MATRIX_PANEL_CLASS}
+      className={`${SETTINGS_MATRIX_PANEL_CLASS} pb-[64px]`}
       aria-labelledby="settings-visibility-matrix-title"
       aria-label={copy.visibilityMatrix.title}
       role="region"
+      data-testid="settings-visibility-matrix"
     >
       <div className={SETTINGS_MATRIX_TITLE_ROW_CLASS}>
         <h2

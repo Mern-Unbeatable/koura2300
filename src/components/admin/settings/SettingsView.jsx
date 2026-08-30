@@ -22,7 +22,7 @@ const SettingsView = memo(
     onRemoveEditModule,
     onDownloadVisibility,
   }) => (
-    <div className={SETTINGS_PAGE_CLASS} role="region" aria-label={copy.regionLabel}>
+    <div className={`${SETTINGS_PAGE_CLASS} h-auto`} role="region" aria-label={copy.regionLabel}>
       <SettingsHeader copy={copy} />
       <SettingsInviteCard
         copy={copy}

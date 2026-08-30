@@ -59,7 +59,11 @@ const SettingsEditMatrix = memo(
     onToggleEditPermission,
     onRemoveEditModule,
   }) => (
-    <section className={SETTINGS_MATRIX_PANEL_CLASS} aria-labelledby="settings-edit-matrix-title">
+    <section
+      className={`${SETTINGS_MATRIX_PANEL_CLASS} pb-[64px]`}
+      aria-labelledby="settings-edit-matrix-title"
+      data-testid="settings-edit-matrix"
+    >
       <div className={SETTINGS_MATRIX_TITLE_ROW_CLASS}>
         <h2 id="settings-edit-matrix-title" className={SETTINGS_MATRIX_TITLE_CLASS}>
           {copy.editMatrix.title}
