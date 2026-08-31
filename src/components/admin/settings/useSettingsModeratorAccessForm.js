@@ -14,7 +14,7 @@ const useSettingsModeratorAccessForm = ({ moderator, onSave }) => {
     const draft = buildModeratorAccessDraft(moderator);
     setPermissionIds(draft.permissionIds);
     setStatus(draft.status);
-  }, [moderator]);
+  }, [moderator.id, moderator.access, moderator.status]);
 
   const handleTogglePermission = useCallback((permissionId) => {
     setPermissionIds((currentIds) => togglePermissionId(currentIds, permissionId));

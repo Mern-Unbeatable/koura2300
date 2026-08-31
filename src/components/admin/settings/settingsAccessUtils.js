@@ -2,6 +2,7 @@ import {
   SETTINGS_MODERATOR_ACCESS_LABEL_ALIASES,
   SETTINGS_MODERATOR_ACCESS_PERMISSION_OVERVIEW,
   SETTINGS_MODERATOR_ACCESS_PERMISSIONS,
+  SETTINGS_MODERATOR_ACCESS_SEED_OVERVIEW_LABEL,
 } from './settingsAccessData';
 
 export const getSelectedPermissionIds = (accessLabel) => {
@@ -33,7 +34,7 @@ export const getPrimaryAccessLabel = (permissionIds) => {
   }
 
   if (matchedPermission.id === SETTINGS_MODERATOR_ACCESS_PERMISSION_OVERVIEW) {
-    return 'Dashboard/ Overview';
+    return SETTINGS_MODERATOR_ACCESS_SEED_OVERVIEW_LABEL;
   }
 
   return matchedPermission.label;
