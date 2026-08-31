@@ -15,12 +15,12 @@ export const PROFILE_CAMERA_BADGE_SIZE_PX = 24;
 export const PROFILE_CAMERA_ICON_SIZE_PX = 16;
 export const PROFILE_PASSWORD_ICON_SIZE_PX = 24;
 
-/** Figma 313:12180 seed values */
+/** Admin profile seed values */
 export const PROFILE_SEED = {
-  displayName: 'Chowdhury Group Of Industries',
-  displayEmail: 'chowdhury@gmail.com',
-  name: 'John Industries',
-  email: 'admin@johnindustries.com',
+  displayName: 'Admin',
+  displayEmail: 'admin@gmail.com',
+  name: 'Admin',
+  email: 'admin@gmail.com',
 };
 
 export const PROFILE_PAGE_CLASS =
@@ -71,7 +71,7 @@ export const PROFILE_FIELD_CLASS = 'flex w-full min-w-0 flex-1 flex-col gap-3';
 export const PROFILE_LABEL_CLASS = 'text-sm font-normal leading-[1.5] text-[#464646]';
 
 export const PROFILE_INPUT_CLASS =
-  'box-border w-full min-w-0 rounded-lg border border-[rgba(0,0,0,0.4)] bg-white px-4 py-3.5 text-sm font-normal leading-[1.5] text-[#1d1d1d] outline-none placeholder:text-[#989da1] focus:ring-2 focus:ring-[#fc6f32]';
+  'box-border w-full min-w-0 rounded-lg border border-[rgba(0,0,0,0.15)] bg-white px-4 py-3.5 text-sm font-normal leading-[1.5] text-[#1d1d1d] outline-none placeholder:text-[#989da1] focus:ring-2 focus:ring-[#fc6f32]';
 
 export const PROFILE_PASSWORD_INPUT_CLASS = `${PROFILE_INPUT_CLASS} pr-12`;
 
