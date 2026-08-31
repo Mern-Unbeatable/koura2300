@@ -31,15 +31,16 @@ export const SETTINGS_INVITE_DESCRIPTION_CLASS =
   'w-full text-base font-normal leading-6 text-[#4c545c]';
 
 export const SETTINGS_INVITE_FORM_CLASS =
-  'flex w-full flex-row flex-wrap items-center gap-5 max-[425px]:flex-col max-[425px]:items-stretch';
+  'flex w-full flex-row flex-wrap items-start gap-5 max-[425px]:flex-col max-[425px]:items-stretch';
 
-export const SETTINGS_INVITE_FIELD_WRAP_CLASS = 'flex min-w-0 flex-1 flex-col gap-1 max-[425px]:w-full';
+export const SETTINGS_INVITE_FIELD_WRAP_CLASS =
+  'flex w-[475px] max-w-full shrink-0 flex-col gap-1 max-[425px]:w-full';
 
 export const SETTINGS_INVITE_FIELD_CLASS =
   'box-border w-full min-w-0 rounded-lg border-0 bg-[#fef5e7] px-2.5 py-2 text-sm font-normal leading-5 text-[#161d24] placeholder:text-[#979797] outline-none focus:ring-2 focus:ring-[#f59e0b]';
 
 export const SETTINGS_INVITE_BUTTON_CLASS =
-  'box-border inline-flex shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 bg-[#f59e0b] px-2.5 py-2 text-sm font-normal leading-5 text-[#fef5e7] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-[425px]:w-full';
+  'box-border inline-flex shrink-0 cursor-pointer items-center justify-center self-start rounded-lg border-0 bg-[#f59e0b] px-2.5 py-2 text-sm font-normal leading-5 text-[#fef5e7] transition hover:bg-[#e08e09] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-[425px]:w-full';
 
 export const SETTINGS_HEADER_TITLE_CLASS =
   'text-[36px] font-semibold leading-normal text-[#050609] max-[768px]:text-3xl max-[425px]:text-2xl';
