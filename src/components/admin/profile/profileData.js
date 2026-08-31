@@ -33,7 +33,7 @@ export const PROFILE_HEADER_SUBTITLE_CLASS =
   'text-sm font-normal leading-[1.5] text-[#464646] min-[426px]:text-base';
 
 export const PROFILE_CARD_CLASS =
-  'flex w-full min-w-0 flex-col gap-5 overflow-hidden rounded-[20px] border border-[rgba(0,0,0,0.2)] bg-white px-4 py-6 max-[320px]:px-3 max-[320px]:py-5 min-[376px]:px-5 min-[426px]:px-6 min-[426px]:py-8 min-[768px]:px-8 min-[768px]:py-10 min-[1020px]:px-[41px] min-[1020px]:py-[54px]';
+  'flex w-full min-w-0 flex-col gap-5 overflow-hidden rounded-[20px] border border-[rgba(0,0,0,0.08)] bg-white px-4 py-6 max-[320px]:px-3 max-[320px]:py-5 min-[376px]:px-5 min-[426px]:px-6 min-[426px]:py-8 min-[768px]:px-8 min-[768px]:py-10 min-[1020px]:px-[41px] min-[1020px]:py-[54px]';
 
 /** Figma 313:12181 — 44px stack between identity and account */
 export const PROFILE_TOP_STACK_CLASS = 'flex w-full min-w-0 flex-col gap-11';
@@ -71,7 +71,7 @@ export const PROFILE_FIELD_CLASS = 'flex w-full min-w-0 flex-1 flex-col gap-3';
 export const PROFILE_LABEL_CLASS = 'text-sm font-normal leading-[1.5] text-[#464646]';
 
 export const PROFILE_INPUT_CLASS =
-  'box-border w-full min-w-0 rounded-lg border border-[rgba(0,0,0,0.15)] bg-white px-4 py-3.5 text-sm font-normal leading-[1.5] text-[#1d1d1d] outline-none placeholder:text-[#989da1] focus:ring-2 focus:ring-[#fc6f32]';
+  'box-border w-full min-w-0 rounded-lg border border-[rgba(0,0,0,0.08)] bg-white px-4 py-3.5 text-sm font-normal leading-[1.5] text-[#1d1d1d] outline-none placeholder:text-[#989da1] focus:ring-2 focus:ring-[#fc6f32]';
 
 export const PROFILE_PASSWORD_INPUT_CLASS = `${PROFILE_INPUT_CLASS} pr-12`;
 
