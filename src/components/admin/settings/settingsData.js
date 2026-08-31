@@ -17,6 +17,11 @@ export const SETTINGS_MODERATOR_STATUS_DISABLED = 'disabled';
 
 export const SETTINGS_MODERATOR_EDIT_ICON_SIZE_PX = 24;
 
+/** Cards for mobile → laptop; table only from desktop width. */
+export const SETTINGS_MODERATORS_CARDS_MAX_WIDTH_PX = SETTINGS_VIEWPORT.DESKTOP - 1;
+
+export const SETTINGS_MODERATORS_TABLE_MIN_WIDTH_PX = 1109;
+
 /** Figma 352:8292 — page stack gap 30px */
 export const SETTINGS_PAGE_CLASS = 'flex w-full min-w-0 flex-col gap-[30px]';
 
@@ -49,23 +54,24 @@ export const SETTINGS_HEADER_SUBTITLE_CLASS = 'text-base font-normal leading-nor
 
 /** Figma 678:1184 — Moderator Management section */
 export const SETTINGS_MODERATORS_SECTION_CLASS =
-  'flex w-full min-w-0 flex-col gap-9 max-[425px]:gap-6';
+  'flex w-full min-w-0 flex-col gap-6 min-[768px]:gap-8 min-[1020px]:gap-9 max-[425px]:gap-6';
 
 export const SETTINGS_MODERATORS_HEADER_CLASS = 'flex w-full min-w-0 flex-col gap-1';
 
 export const SETTINGS_MODERATORS_TITLE_CLASS =
-  'text-[32px] font-medium leading-[1.2] text-[#0a0a0a] max-[768px]:text-[28px] max-[425px]:text-2xl';
+  'text-2xl font-medium leading-[1.2] text-[#0a0a0a] min-[376px]:text-[28px] min-[768px]:text-[32px]';
 
 export const SETTINGS_MODERATORS_COUNT_CLASS =
-  'text-xl font-normal leading-[1.5] text-[#555353] max-[425px]:text-base';
+  'text-sm font-normal leading-5 text-[#555353] min-[426px]:text-base min-[426px]:leading-6 min-[768px]:text-xl min-[768px]:leading-[1.5]';
 
 export const SETTINGS_MODERATORS_TABLE_CARD_CLASS =
-  'min-w-0 w-full overflow-hidden rounded-xl bg-white max-[425px]:rounded-lg';
+  'min-w-0 w-full overflow-hidden rounded-lg bg-white shadow-sm min-[768px]:rounded-xl';
 
 export const SETTINGS_MODERATORS_TABLE_SCROLL_CLASS =
-  'w-full touch-pan-x overflow-x-auto overscroll-x-contain scrollbar-chart min-[426px]:block max-[425px]:hidden';
+  'w-full touch-pan-x overflow-x-auto overscroll-x-contain scrollbar-chart';
 
-export const SETTINGS_MODERATORS_TABLE_CLASS = 'min-w-[1109px] w-full table-fixed text-left';
+export const SETTINGS_MODERATORS_TABLE_CLASS =
+  'min-w-[1109px] w-full table-fixed text-left';
 
 export const SETTINGS_MODERATORS_TABLE_COLUMN_WIDTHS = [
   '180px',
@@ -116,37 +122,37 @@ export const SETTINGS_MODERATORS_STATUS_DISABLED_CLASS =
   `${SETTINGS_MODERATORS_STATUS_BADGE_BASE_CLASS} bg-[#cfcfcf] text-[#474747]`;
 
 export const SETTINGS_MODERATORS_CARDS_CLASS =
-  'hidden flex-col gap-3 p-3 max-[425px]:flex max-[320px]:gap-2.5 max-[320px]:p-2.5';
+  'flex flex-col gap-3 p-3 min-[376px]:gap-4 min-[376px]:p-4 min-[768px]:gap-5 min-[768px]:p-5';
 
 export const SETTINGS_MODERATORS_CARD_CLASS =
-  'rounded-lg border border-[#e4e4e4] bg-white p-3 max-[320px]:p-2.5';
+  'rounded-lg border border-[#e4e4e4] bg-white p-3 min-[376px]:p-4 min-[768px]:rounded-xl min-[768px]:p-5';
 
 export const SETTINGS_MODERATORS_CARD_HEADER_CLASS =
   'flex items-start justify-between gap-3 border-b border-[#f0f0f0] pb-3';
 
 export const SETTINGS_MODERATORS_CARD_NAME_CLASS =
-  'text-base font-normal leading-6 text-[#0c0c0c] max-[320px]:text-sm';
+  'text-sm font-normal leading-5 text-[#0c0c0c] min-[426px]:text-base min-[426px]:leading-6';
 
-export const SETTINGS_MODERATORS_CARD_BODY_CLASS = 'mt-3 flex flex-col gap-2.5 max-[320px]:gap-2';
+export const SETTINGS_MODERATORS_CARD_BODY_CLASS = 'mt-3 flex flex-col gap-2.5 min-[376px]:gap-3';
 
 export const SETTINGS_MODERATORS_CARD_ROW_CLASS =
-  'flex items-start justify-between gap-3 text-sm leading-6 max-[320px]:text-xs max-[320px]:leading-5';
+  'flex items-start justify-between gap-3 text-sm leading-5 min-[426px]:text-base min-[426px]:leading-6 max-[320px]:text-xs max-[320px]:leading-5';
 
 export const SETTINGS_MODERATORS_CARD_LABEL_CLASS = 'shrink-0 text-[#697076]';
 
 export const SETTINGS_MODERATORS_CARD_VALUE_CLASS = 'min-w-0 text-right text-[#0c0c0c]';
 
 export const SETTINGS_MODERATORS_FOOTER_CLASS =
-  'flex flex-col gap-3 border-t border-[#e4e4e4] px-4 py-6 max-[425px]:items-stretch max-[425px]:px-3 max-[425px]:py-4 min-[426px]:flex-row min-[426px]:items-center min-[426px]:justify-between min-[768px]:px-4';
+  'flex flex-col gap-3 border-t border-[#e4e4e4] px-3 py-4 max-[425px]:items-stretch min-[426px]:gap-4 min-[426px]:px-4 min-[426px]:py-5 min-[768px]:flex-row min-[768px]:items-center min-[768px]:justify-between min-[768px]:py-6 min-[1020px]:px-6';
 
 export const SETTINGS_MODERATORS_RESULTS_CLASS =
-  'text-center text-base text-brand-orange max-[425px]:text-sm min-[768px]:text-left';
+  'text-center text-sm text-brand-orange min-[426px]:text-base min-[768px]:text-left';
 
 export const SETTINGS_MODERATORS_PAGINATION_CLASS =
   'flex items-center justify-center gap-2 min-[768px]:justify-end';
 
 export const SETTINGS_MODERATORS_PAGINATION_BUTTON_CLASS =
-  'cursor-pointer rounded-xl border border-brand-orange px-4 py-2 text-base font-medium capitalize text-brand-orange transition-colors hover:bg-[#fff1eb] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-50 max-[320px]:px-3 max-[320px]:py-1.5 max-[320px]:text-sm';
+  'cursor-pointer rounded-xl border border-brand-orange px-3 py-1.5 text-sm font-medium capitalize text-brand-orange transition-colors hover:bg-[#fff1eb] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-50 min-[376px]:px-3.5 min-[426px]:px-4 min-[426px]:py-2 min-[426px]:text-base';
 
 /** Figma Moderator Management seed rows */
 export const SETTINGS_MODERATORS_SEED = [

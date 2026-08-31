@@ -11,6 +11,7 @@ import {
 import SettingsModeratorCards from './SettingsModeratorCards';
 import SettingsModeratorPagination from './SettingsModeratorPagination';
 import SettingsModeratorTable from './SettingsModeratorTable';
+import useSettingsModeratorCompactLayout from './useSettingsModeratorCompactLayout';
 
 const SettingsModeratorManagement = memo(
   ({
@@ -21,7 +22,10 @@ const SettingsModeratorManagement = memo(
     onEditModerator,
     onPreviousPage,
     onNextPage,
-  }) => (
+  }) => {
+    const isCompactLayout = useSettingsModeratorCompactLayout();
+
+    return (
     <section
       className={SETTINGS_MODERATORS_SECTION_CLASS}
       aria-labelledby="settings-moderator-management-title"
@@ -34,20 +38,26 @@ const SettingsModeratorManagement = memo(
         <p className={SETTINGS_MODERATORS_COUNT_CLASS}>{moderatorCountLabel}</p>
       </div>
 
-      <div className={SETTINGS_MODERATORS_TABLE_CARD_CLASS}>
-        <div className={SETTINGS_MODERATORS_TABLE_SCROLL_CLASS} data-lenis-prevent>
-          <SettingsModeratorTable
+      <div className={SETTINGS_MODERATORS_TABLE_CARD_CLASS} data-testid="settings-moderator-table-card">
+        {isCompactLayout ? (
+          <SettingsModeratorCards
             copy={copy}
             moderators={moderators}
             onEditModerator={onEditModerator}
           />
-        </div>
-
-        <SettingsModeratorCards
-          copy={copy}
-          moderators={moderators}
-          onEditModerator={onEditModerator}
-        />
+        ) : (
+          <div
+            className={SETTINGS_MODERATORS_TABLE_SCROLL_CLASS}
+            data-testid="settings-moderator-table-scroll"
+            data-lenis-prevent
+          >
+            <SettingsModeratorTable
+              copy={copy}
+              moderators={moderators}
+              onEditModerator={onEditModerator}
+            />
+          </div>
+        )}
 
         <SettingsModeratorPagination
           copy={copy}
@@ -59,7 +69,8 @@ const SettingsModeratorManagement = memo(
         />
       </div>
     </section>
-  ),
+    );
+  },
 );
 
 SettingsModeratorManagement.displayName = 'SettingsModeratorManagement';

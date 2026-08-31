@@ -4,8 +4,28 @@ import SettingsView from '../SettingsView';
 import { SETTINGS_COPY } from '../settingsCopy';
 import {
   SETTINGS_MODERATORS_SEED,
+  SETTINGS_MODERATORS_TABLE_CARD_CLASS,
+  SETTINGS_MODERATORS_TABLE_MIN_WIDTH_PX,
   SETTINGS_PAGE_CLASS,
+  SETTINGS_VIEWPORT,
 } from '../settingsData';
+import { SETTINGS_MODERATORS_CARDS_MEDIA_QUERY } from '../useSettingsModeratorCompactLayout';
+
+const mockMatchMedia = (matchesCompactLayout) => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: (query) => ({
+      matches: matchesCompactLayout && query === SETTINGS_MODERATORS_CARDS_MEDIA_QUERY,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }),
+  });
+};
 
 const createSettingsViewProps = (overrides = {}) => ({
   copy: SETTINGS_COPY,
@@ -30,6 +50,10 @@ const renderSettingsView = (overrides = {}) =>
   render(<SettingsView {...createSettingsViewProps(overrides)} />);
 
 describe('SettingsView', () => {
+  beforeEach(() => {
+    mockMatchMedia(false);
+  });
+
   it('renders the Role & Permission Strategy header from Figma', () => {
     const { container } = renderSettingsView();
 
@@ -90,11 +114,54 @@ describe('SettingsView', () => {
     expect(within(table).getByText('Disabled')).toBeInTheDocument();
   });
 
-  it('renders mobile moderator cards for small viewports via CSS classes', () => {
+  it('renders moderator cards for laptop tablet and mobile viewports', () => {
+    mockMatchMedia(true);
     renderSettingsView();
 
-    expect(screen.getByTestId('settings-moderator-cards')).toBeInTheDocument();
-    expect(screen.getByTestId('settings-moderator-card-albert-flores')).toBeInTheDocument();
+    expect(SETTINGS_VIEWPORT).toEqual({
+      MOBILE_S: 320,
+      MOBILE_M: 375,
+      MOBILE_L: 425,
+      TABLET: 768,
+      LAPTOP: 1020,
+      DESKTOP: 1440,
+    });
+    expect(SETTINGS_MODERATORS_TABLE_MIN_WIDTH_PX).toBe(1109);
+    expect(
+      screen.queryByRole('table', { name: SETTINGS_COPY.moderators.title }),
+    ).not.toBeInTheDocument();
+
+    const cards = screen.getByTestId('settings-moderator-cards');
+    const firstCard = screen.getByTestId('settings-moderator-card-albert-flores');
+
+    expect(cards).toBeInTheDocument();
+    expect(firstCard).toHaveTextContent('Albert Flores');
+    expect(firstCard).toHaveTextContent('(239) 555-0108');
+    expect(firstCard).toHaveTextContent('curtis.weaver@example.com');
+    expect(firstCard).toHaveTextContent('Dashboard/ Overview');
+    expect(within(firstCard).getByText('Active')).toBeInTheDocument();
+    expect(
+      within(firstCard).getByRole('button', {
+        name: SETTINGS_COPY.moderators.editLabel('Albert Flores'),
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('uses Figma viewport breakpoints for the moderator table card', () => {
+    renderSettingsView();
+
+    const tableCard = screen.getByTestId('settings-moderator-table-card');
+    const table = screen.getByRole('table', { name: SETTINGS_COPY.moderators.title });
+    const footer = screen.getByText('Showing 1 to 7 of 7 results').closest('footer');
+    const nextButton = screen.getByRole('button', { name: SETTINGS_COPY.moderators.pagination.next });
+
+    expect(tableCard.className).toContain('min-[768px]:rounded-xl');
+    expect(table.className).toContain(`min-w-[${SETTINGS_MODERATORS_TABLE_MIN_WIDTH_PX}px]`);
+    expect(table.className).toContain('table-fixed');
+    expect(footer.className).toContain('min-[768px]:flex-row');
+    expect(footer.className).toContain('min-[1020px]:px-6');
+    expect(nextButton.className).toContain('min-[426px]:text-base');
+    expect(SETTINGS_MODERATORS_TABLE_CARD_CLASS).toContain('min-[768px]:rounded-xl');
   });
 
   it('wires moderator edit and pagination handlers', async () => {
