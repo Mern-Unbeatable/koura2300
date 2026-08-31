@@ -7,6 +7,7 @@ import {
   MessageCircle,
   Settings,
   Star,
+  UserRound,
   UsersRound,
   Wrench,
 } from 'lucide-react';
@@ -22,6 +23,7 @@ export const SIDEBAR_COPY = {
   logOut: 'Log Out',
   adminRole: 'Admin',
   comingSoon: 'Coming soon',
+  profile: 'Profile',
 };
 
 export const SIDEBAR_NAV_GROUPS = [
@@ -76,6 +78,11 @@ export const SIDEBAR_NAV_GROUPS = [
         path: ROUTES.ADMIN_SETTINGS,
         icon: Settings,
       },
+      {
+        name: SIDEBAR_COPY.profile,
+        path: ROUTES.ADMIN_PROFILE,
+        icon: UserRound,
+      },
     ],
   },
 ];
@@ -90,7 +97,7 @@ export const SIDEBAR_LOGO_HEIGHT_PX = 40;
 export const SIDEBAR_LOGO_DISPLAY_HEIGHT_CLASS = 'h-10';
 
 export const SIDEBAR_NAV_BASE_CLASS =
-  'group flex w-full items-center gap-[11px] rounded-[9px] border-l-4 px-2.5 py-3 text-base font-medium transition-colors duration-200';
+  'group flex w-full items-center gap-[11px] rounded-[9px] border-l-4 px-2.5 py-[11px] text-base font-medium transition-colors duration-200';
 
 export const SIDEBAR_NAV_ACTIVE_CLASS =
   'border-[#fc6f32] bg-[#fff1eb] text-[#fc6f32]';
@@ -103,4 +110,11 @@ export const SIDEBAR_SECTION_LABEL_CLASS =
 
 export const SIDEBAR_GROUP_CLASS = 'flex flex-col gap-1';
 
-export const SIDEBAR_GROUPS_CLASS = 'flex flex-col gap-[19px]';
+export const SIDEBAR_GROUPS_CLASS = 'flex flex-col gap-4';
+
+export const SIDEBAR_NAV_LIST_CLASS = 'space-y-1';
+
+export const SIDEBAR_NAV_SCROLL_CLASS = 'flex-1 overflow-y-auto px-3 py-4';
+
+export const SIDEBAR_FOOTER_CLASS =
+  'shrink-0 space-y-3.5 border-t border-[#e4e4e4] px-3 pb-3 pt-5';

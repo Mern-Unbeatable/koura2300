@@ -58,6 +58,7 @@ export const ROUTES = {
   ADMIN_PRICING: '/admin/pricing',
   ADMIN_MESSAGES: '/admin/messages',
   ADMIN_SETTINGS: '/admin/settings',
+  ADMIN_PROFILE: '/admin/profile',
 };
 
 export const SERVICE_DETAILS_PREFIX = '/service/';

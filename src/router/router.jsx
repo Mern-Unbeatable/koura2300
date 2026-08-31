@@ -66,6 +66,7 @@ const Jobs = lazy(() => import('../pages/admin/Jobs'));
 const Pricing = lazy(() => import('../pages/admin/Pricing'));
 const AdminMessages = lazy(() => import('../pages/admin/Messages'));
 const AdminSettings = lazy(() => import('../pages/admin/Settings'));
+const AdminProfile = lazy(() => import('../pages/admin/Profile'));
 
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen">
@@ -378,6 +379,7 @@ const router = createBrowserRouter(
         <Route path={seg(ROUTES.ADMIN_PRICING)} element={<Pricing />} />
         <Route path={seg(ROUTES.ADMIN_MESSAGES)} element={<AdminMessages />} />
         <Route path={seg(ROUTES.ADMIN_SETTINGS)} element={<AdminSettings />} />
+        <Route path={seg(ROUTES.ADMIN_PROFILE)} element={<AdminProfile />} />
       </Route>
 
       <Route path="*" element={<NotFound />} />

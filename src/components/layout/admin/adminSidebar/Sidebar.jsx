@@ -7,6 +7,7 @@ import { logout, selectUser } from '../../../../store/slices/authSlice';
 import {
   SIDEBAR_CHEVRON_SIZE_PX,
   SIDEBAR_COPY,
+  SIDEBAR_FOOTER_CLASS,
   SIDEBAR_GROUP_CLASS,
   SIDEBAR_GROUPS_CLASS,
   SIDEBAR_ICON_SIZE_PX,
@@ -19,6 +20,8 @@ import {
   SIDEBAR_NAV_BASE_CLASS,
   SIDEBAR_NAV_GROUPS,
   SIDEBAR_NAV_INACTIVE_CLASS,
+  SIDEBAR_NAV_LIST_CLASS,
+  SIDEBAR_NAV_SCROLL_CLASS,
   SIDEBAR_SECTION_LABEL_CLASS,
 } from './sidebarNav';
 
@@ -183,12 +186,12 @@ const Sidebar = ({
         </button>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-5" aria-label="Main navigation">
+      <nav className={SIDEBAR_NAV_SCROLL_CLASS} aria-label="Main navigation">
         <div className={SIDEBAR_GROUPS_CLASS}>
           {SIDEBAR_NAV_GROUPS.map((group) => (
             <div key={group.id} className={SIDEBAR_GROUP_CLASS}>
               <p className={SIDEBAR_SECTION_LABEL_CLASS}>{group.label}</p>
-              <ul className="space-y-1">
+              <ul className={SIDEBAR_NAV_LIST_CLASS}>
                 {group.items.map((item) => (
                   <li key={item.name}>
                     <SidebarNavItem
@@ -203,7 +206,7 @@ const Sidebar = ({
         </div>
       </nav>
 
-      <div className="shrink-0 space-y-4 border-t border-[#e4e4e4] px-3 pb-3 pt-6">
+      <div className={SIDEBAR_FOOTER_CLASS}>
         <div className="flex items-center gap-5 rounded-lg bg-[#f6f6f6] p-2.5">
           <div className="flex size-[50px] shrink-0 items-center justify-center rounded-full bg-linear-to-br from-orange-400 to-orange-600 text-base font-bold text-white select-none">
             {(user?.name || 'A').charAt(0).toUpperCase()}
