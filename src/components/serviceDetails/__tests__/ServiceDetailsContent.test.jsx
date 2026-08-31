@@ -22,6 +22,7 @@ jest.mock('react-hot-toast', () => ({
 
 const LIGHTING_SERVICE_ID = 'indoor-lighting-ceiling-light-installation';
 const FENCE_SERVICE_ID = 'fence-installation-wood-fence';
+const FLOORING_SERVICE_ID = 'hardwood-flooring-installation';
 const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
@@ -136,6 +137,17 @@ describe('Service details page', () => {
       'href',
       ROUTES.LIGHTING,
     );
+    expect(screen.queryByTestId('flooring-calculator')).not.toBeInTheDocument();
+  });
+
+  it('renders the Flooring Calculator on every Flooring service details page', () => {
+    renderServiceDetails(FLOORING_SERVICE_ID);
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Installation' })).toBeInTheDocument();
+    expect(screen.getByTestId('flooring-calculator')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Flooring Calculator' }),
+    ).toBeInTheDocument();
   });
 
   it('keeps the parent catalog link current in the category navigation', () => {
