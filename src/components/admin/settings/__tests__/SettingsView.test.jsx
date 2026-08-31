@@ -2,10 +2,12 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SettingsView from '../SettingsView';
 import { SETTINGS_COPY } from '../settingsCopy';
+import { SETTINGS_MODERATOR_ACCESS_COPY } from '../settingsAccessCopy';
 import {
   SETTINGS_MODERATORS_SEED,
   SETTINGS_MODERATORS_TABLE_CARD_CLASS,
   SETTINGS_MODERATORS_TABLE_MIN_WIDTH_PX,
+  SETTINGS_MODERATOR_STATUS_ACTIVE,
   SETTINGS_PAGE_CLASS,
   SETTINGS_VIEWPORT,
 } from '../settingsData';
@@ -43,6 +45,10 @@ const createSettingsViewProps = (overrides = {}) => ({
   onEditModerator: jest.fn(),
   onPreviousPage: jest.fn(),
   onNextPage: jest.fn(),
+  isAccessModalOpen: false,
+  accessModerator: null,
+  onCloseAccessModal: jest.fn(),
+  onSaveModeratorAccess: jest.fn(),
   ...overrides,
 });
 
@@ -205,5 +211,20 @@ describe('SettingsView', () => {
     expect(screen.getByText('Showing 1 to 7 of 7 results')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: SETTINGS_COPY.moderators.pagination.previous })).toBeDisabled();
     expect(screen.getByRole('button', { name: SETTINGS_COPY.moderators.pagination.next })).toBeDisabled();
+  });
+
+  it('opens the Moderator access modal when accessModerator is provided', () => {
+    renderSettingsView({
+      isAccessModalOpen: true,
+      accessModerator: {
+        ...SETTINGS_MODERATORS_SEED[0],
+        status: SETTINGS_MODERATOR_STATUS_ACTIVE,
+      },
+    });
+
+    expect(
+      screen.getByRole('dialog', { name: SETTINGS_MODERATOR_ACCESS_COPY.regionLabel }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(SETTINGS_MODERATOR_ACCESS_COPY.title)).toBeInTheDocument();
   });
 });

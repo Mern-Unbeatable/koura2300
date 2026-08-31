@@ -3,6 +3,7 @@ import { SETTINGS_COPY } from './settingsCopy';
 import { SETTINGS_PAGE_CLASS } from './settingsData';
 import SettingsHeader from './SettingsHeader';
 import SettingsInviteCard from './SettingsInviteCard';
+import SettingsModeratorAccessModal from './SettingsModeratorAccessModal';
 import SettingsModeratorManagement from './SettingsModeratorManagement';
 
 const SettingsView = memo(
@@ -18,6 +19,10 @@ const SettingsView = memo(
     onEditModerator,
     onPreviousPage,
     onNextPage,
+    isAccessModalOpen = false,
+    accessModerator = null,
+    onCloseAccessModal,
+    onSaveModeratorAccess,
   }) => (
     <div className={SETTINGS_PAGE_CLASS} role="region" aria-label={copy.regionLabel}>
       <SettingsHeader copy={copy} />
@@ -37,6 +42,13 @@ const SettingsView = memo(
         onPreviousPage={onPreviousPage}
         onNextPage={onNextPage}
       />
+      {isAccessModalOpen && accessModerator ? (
+        <SettingsModeratorAccessModal
+          moderator={accessModerator}
+          onClose={onCloseAccessModal}
+          onSave={onSaveModeratorAccess}
+        />
+      ) : null}
     </div>
   ),
 );

@@ -5,6 +5,7 @@ import {
   SETTINGS_MODERATOR_PAGE_SIZE,
   SETTINGS_MODERATORS_SEED,
 } from '../components/admin/settings/settingsData';
+import { updateModeratorAccess } from '../components/admin/settings/settingsAccessUtils';
 import {
   getModeratorCountLabel,
   getPaginationRangeLabel,
@@ -16,8 +17,9 @@ import {
 const useAdminSettings = () => {
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteEmailError, setInviteEmailError] = useState('');
-  const [moderators] = useState(SETTINGS_MODERATORS_SEED);
+  const [moderators, setModerators] = useState(SETTINGS_MODERATORS_SEED);
   const [currentPage, setCurrentPage] = useState(1);
+  const [accessModeratorId, setAccessModeratorId] = useState(null);
 
   const totalPages = useMemo(
     () => getTotalPages(moderators.length, SETTINGS_MODERATOR_PAGE_SIZE),
@@ -45,6 +47,11 @@ const useAdminSettings = () => {
       canGoNext: currentPage < totalPages,
     }),
     [currentPage, moderators.length, totalPages],
+  );
+
+  const accessModerator = useMemo(
+    () => moderators.find((moderator) => moderator.id === accessModeratorId) || null,
+    [accessModeratorId, moderators],
   );
 
   const handleInviteEmailChange = useCallback((event) => {
@@ -77,12 +84,18 @@ const useAdminSettings = () => {
   }, [totalPages]);
 
   const handleEditModerator = useCallback((moderatorId) => {
-    const moderator = moderators.find((item) => item.id === moderatorId);
-    if (!moderator) {
-      return;
-    }
-    toast.success(SETTINGS_COPY.toasts.editModerator);
-  }, [moderators]);
+    setAccessModeratorId(moderatorId);
+  }, []);
+
+  const handleCloseAccessModal = useCallback(() => {
+    setAccessModeratorId(null);
+  }, []);
+
+  const handleSaveModeratorAccess = useCallback((payload) => {
+    setModerators((currentModerators) => updateModeratorAccess(currentModerators, payload));
+    setAccessModeratorId(null);
+    toast.success(SETTINGS_COPY.toasts.accessSaved);
+  }, []);
 
   return {
     copy: SETTINGS_COPY,
@@ -96,6 +109,10 @@ const useAdminSettings = () => {
     onPreviousPage: handlePreviousPage,
     onNextPage: handleNextPage,
     onEditModerator: handleEditModerator,
+    isAccessModalOpen: Boolean(accessModerator),
+    accessModerator,
+    onCloseAccessModal: handleCloseAccessModal,
+    onSaveModeratorAccess: handleSaveModeratorAccess,
   };
 };
 

@@ -46,6 +46,6 @@ export const SETTINGS_COPY = {
   },
   toasts: {
     inviteSent: 'Invite sent successfully.',
-    editModerator: 'Moderator settings opened.',
+    accessSaved: 'Moderator access saved successfully.',
   },
 };

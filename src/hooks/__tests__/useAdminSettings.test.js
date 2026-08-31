@@ -56,13 +56,54 @@ describe('useAdminSettings', () => {
     expect(toast.success).toHaveBeenCalledWith(SETTINGS_COPY.toasts.inviteSent);
   });
 
-  it('toasts when a moderator edit action is triggered', () => {
+  it('opens the Moderator access modal from the Action icon', () => {
     const { result } = renderHook(() => useAdminSettings());
 
     act(() => {
       result.current.onEditModerator('albert-flores');
     });
 
-    expect(toast.success).toHaveBeenCalledWith(SETTINGS_COPY.toasts.editModerator);
+    expect(result.current.isAccessModalOpen).toBe(true);
+    expect(result.current.accessModerator.id).toBe('albert-flores');
+    expect(toast.success).not.toHaveBeenCalled();
+  });
+
+  it('saves moderator access, closes the modal, and toasts success', () => {
+    const { result } = renderHook(() => useAdminSettings());
+
+    act(() => {
+      result.current.onEditModerator('albert-flores');
+    });
+
+    act(() => {
+      result.current.onSaveModeratorAccess({
+        moderatorId: 'albert-flores',
+        permissionIds: ['bookings', 'reviews'],
+        status: 'disabled',
+      });
+    });
+
+    expect(result.current.isAccessModalOpen).toBe(false);
+    expect(result.current.accessModerator).toBeNull();
+    expect(result.current.moderators.find((item) => item.id === 'albert-flores')).toMatchObject({
+      access: 'Bookings',
+      status: 'disabled',
+    });
+    expect(toast.success).toHaveBeenCalledWith(SETTINGS_COPY.toasts.accessSaved);
+  });
+
+  it('closes the Moderator access modal without saving', () => {
+    const { result } = renderHook(() => useAdminSettings());
+
+    act(() => {
+      result.current.onEditModerator('albert-flores');
+    });
+    act(() => {
+      result.current.onCloseAccessModal();
+    });
+
+    expect(result.current.isAccessModalOpen).toBe(false);
+    expect(result.current.accessModerator).toBeNull();
+    expect(toast.success).not.toHaveBeenCalled();
   });
 });
