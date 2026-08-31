@@ -1,11 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import toast from 'react-hot-toast';
 import { SETTINGS_COPY } from '../../components/admin/settings/settingsCopy';
-import {
-  SETTINGS_EDIT_MATRIX_SEED,
-  SETTINGS_VISIBILITY_MATRIX_SEED,
-} from '../../components/admin/settings/settingsData';
-import * as settingsUtils from '../../components/admin/settings/settingsUtils';
+import { SETTINGS_MODERATORS_SEED } from '../../components/admin/settings/settingsData';
 import useAdminSettings from '../useAdminSettings';
 
 jest.mock('react-hot-toast', () => ({
@@ -20,14 +16,15 @@ describe('useAdminSettings', () => {
     jest.clearAllMocks();
   });
 
-  it('seeds edit and visibility matrices from Figma data', () => {
+  it('seeds moderators from Figma data', () => {
     const { result } = renderHook(() => useAdminSettings());
 
     expect(result.current.copy.title).toBe(SETTINGS_COPY.title);
-    expect(result.current.editModules).toHaveLength(SETTINGS_EDIT_MATRIX_SEED.length);
-    expect(result.current.visibilityRows).toHaveLength(SETTINGS_VISIBILITY_MATRIX_SEED.length);
+    expect(result.current.moderators).toHaveLength(SETTINGS_MODERATORS_SEED.length);
+    expect(result.current.moderatorCountLabel).toBe('7 moderator');
     expect(result.current.inviteEmail).toBe('');
     expect(result.current.inviteEmailError).toBe('');
+    expect(result.current.pagination.rangeLabel).toBe('Showing 1 to 7 of 7 results');
   });
 
   it('shows an inline error and does not toast when invite email is invalid', () => {
@@ -59,44 +56,13 @@ describe('useAdminSettings', () => {
     expect(toast.success).toHaveBeenCalledWith(SETTINGS_COPY.toasts.inviteSent);
   });
 
-  it('toggles edit permission for a module', () => {
-    const { result } = renderHook(() => useAdminSettings());
-    const before = result.current.editModules.find((module) => module.id === 'services');
-
-    act(() => {
-      result.current.onToggleEditPermission('services');
-    });
-
-    const after = result.current.editModules.find((module) => module.id === 'services');
-    expect(after.canEdit).toBe(!before.canEdit);
-  });
-
-  it('removes a module from the edit matrix and toasts', () => {
+  it('toasts when a moderator edit action is triggered', () => {
     const { result } = renderHook(() => useAdminSettings());
 
     act(() => {
-      result.current.onRemoveEditModule('blog');
+      result.current.onEditModerator('albert-flores');
     });
 
-    expect(result.current.editModules.some((module) => module.id === 'blog')).toBe(false);
-    expect(toast.success).toHaveBeenCalledWith(SETTINGS_COPY.toasts.moduleRemoved);
-  });
-
-  it('downloads the visibility matrix CSV', () => {
-    const downloadSpy = jest
-      .spyOn(settingsUtils, 'downloadVisibilityCsv')
-      .mockImplementation(() => undefined);
-    const { result } = renderHook(() => useAdminSettings());
-
-    act(() => {
-      result.current.onDownloadVisibility();
-    });
-
-    expect(downloadSpy).toHaveBeenCalledWith(
-      SETTINGS_VISIBILITY_MATRIX_SEED,
-      SETTINGS_COPY,
-    );
-    expect(toast.success).toHaveBeenCalledWith(SETTINGS_COPY.toasts.downloadReady);
-    downloadSpy.mockRestore();
+    expect(toast.success).toHaveBeenCalledWith(SETTINGS_COPY.toasts.editModerator);
   });
 });

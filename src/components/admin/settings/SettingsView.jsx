@@ -1,23 +1,23 @@
 import { memo } from 'react';
 import { SETTINGS_COPY } from './settingsCopy';
 import { SETTINGS_PAGE_CLASS } from './settingsData';
-import SettingsEditMatrix from './SettingsEditMatrix';
 import SettingsHeader from './SettingsHeader';
 import SettingsInviteCard from './SettingsInviteCard';
-import SettingsVisibilityMatrix from './SettingsVisibilityMatrix';
+import SettingsModeratorManagement from './SettingsModeratorManagement';
 
 const SettingsView = memo(
   ({
     copy = SETTINGS_COPY,
     inviteEmail,
     inviteEmailError,
-    editModules,
-    visibilityRows,
+    moderators,
+    moderatorCountLabel,
+    pagination,
     onInviteEmailChange,
     onSendInvite,
-    onToggleEditPermission,
-    onRemoveEditModule,
-    onDownloadVisibility,
+    onEditModerator,
+    onPreviousPage,
+    onNextPage,
   }) => (
     <div className={SETTINGS_PAGE_CLASS} role="region" aria-label={copy.regionLabel}>
       <SettingsHeader copy={copy} />
@@ -28,16 +28,14 @@ const SettingsView = memo(
         onInviteEmailChange={onInviteEmailChange}
         onSendInvite={onSendInvite}
       />
-      <SettingsEditMatrix
+      <SettingsModeratorManagement
         copy={copy}
-        editModules={editModules}
-        onToggleEditPermission={onToggleEditPermission}
-        onRemoveEditModule={onRemoveEditModule}
-      />
-      <SettingsVisibilityMatrix
-        copy={copy}
-        visibilityRows={visibilityRows}
-        onDownloadVisibility={onDownloadVisibility}
+        moderators={moderators}
+        moderatorCountLabel={moderatorCountLabel}
+        pagination={pagination}
+        onEditModerator={onEditModerator}
+        onPreviousPage={onPreviousPage}
+        onNextPage={onNextPage}
       />
     </div>
   ),

@@ -1,9 +1,5 @@
 import { SETTINGS_COPY } from './settingsCopy';
-import {
-  SETTINGS_EMAIL_REGEX,
-  SETTINGS_VISIBILITY_CSV_FILENAME,
-  getVisibilityLabel,
-} from './settingsData';
+import { SETTINGS_EMAIL_REGEX } from './settingsData';
 
 export const validateInviteEmail = (email, copy = SETTINGS_COPY) => {
   const trimmed = email.trim();
@@ -16,40 +12,24 @@ export const validateInviteEmail = (email, copy = SETTINGS_COPY) => {
   return '';
 };
 
-export const toggleEditPermission = (modules, moduleId) =>
-  modules.map((module) =>
-    module.id === moduleId ? { ...module, canEdit: !module.canEdit } : module,
-  );
+export const getTotalPages = (totalItems, pageSize) =>
+  Math.max(1, Math.ceil(totalItems / pageSize));
 
-export const removeEditModule = (modules, moduleId) =>
-  modules.filter((module) => module.id !== moduleId);
-
-export const buildVisibilityCsv = (rows, copy = SETTINGS_COPY) => {
-  const header = `${copy.visibilityMatrix.moduleColumn},${copy.visibilityMatrix.moderatorColumn}`;
-  const body = rows
-    .map((row) => `${escapeCsvValue(row.name)},${escapeCsvValue(getVisibilityLabel(row.visibility, copy))}`)
-    .join('\n');
-  return `${header}\n${body}\n`;
+export const paginateModerators = (moderators, currentPage, pageSize) => {
+  const startIndex = (currentPage - 1) * pageSize;
+  return moderators.slice(startIndex, startIndex + pageSize);
 };
 
-const escapeCsvValue = (value) => {
-  const text = String(value ?? '');
-  if (text.includes(',') || text.includes('"') || text.includes('\n')) {
-    return `"${text.replaceAll('"', '""')}"`;
+export const getPaginationRangeLabel = (currentPage, pageSize, totalItems) => {
+  if (totalItems === 0) {
+    return 'Showing 0 to 0 of 0 results';
   }
-  return text;
+
+  const start = (currentPage - 1) * pageSize + 1;
+  const end = Math.min(currentPage * pageSize, totalItems);
+
+  return `Showing ${start} to ${end} of ${totalItems} results`;
 };
 
-export const downloadVisibilityCsv = (rows, copy = SETTINGS_COPY) => {
-  const csv = buildVisibilityCsv(rows, copy);
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = SETTINGS_VISIBILITY_CSV_FILENAME;
-  link.rel = 'noopener';
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-};
+export const getModeratorCountLabel = (count, copy = SETTINGS_COPY) =>
+  copy.moderators.countLabel(count);

@@ -1,13 +1,14 @@
 import {
-  buildVisibilityCsv,
-  removeEditModule,
-  toggleEditPermission,
+  getModeratorCountLabel,
+  getPaginationRangeLabel,
+  getTotalPages,
+  paginateModerators,
   validateInviteEmail,
 } from '../settingsUtils';
 import { SETTINGS_COPY } from '../settingsCopy';
 import {
-  SETTINGS_EDIT_MATRIX_SEED,
-  SETTINGS_VISIBILITY_MATRIX_SEED,
+  SETTINGS_MODERATOR_PAGE_SIZE,
+  SETTINGS_MODERATORS_SEED,
 } from '../settingsData';
 
 describe('settingsUtils', () => {
@@ -24,30 +25,29 @@ describe('settingsUtils', () => {
     expect(validateInviteEmail('moderator@example.com')).toBe('');
   });
 
-  it('toggles moderator edit permission for a module', () => {
-    const next = toggleEditPermission(SETTINGS_EDIT_MATRIX_SEED, 'bookings');
-    const bookings = next.find((module) => module.id === 'bookings');
+  it('builds the moderator count label from Figma copy', () => {
+    expect(getModeratorCountLabel(7)).toBe('7 moderator');
+  });
 
-    expect(bookings.canEdit).toBe(false);
-    expect(SETTINGS_EDIT_MATRIX_SEED.find((module) => module.id === 'bookings').canEdit).toBe(
-      true,
+  it('paginates moderators without mutating the seed', () => {
+    const pageOne = paginateModerators(SETTINGS_MODERATORS_SEED, 1, SETTINGS_MODERATOR_PAGE_SIZE);
+
+    expect(pageOne).toHaveLength(SETTINGS_MODERATOR_PAGE_SIZE);
+    expect(pageOne[0].name).toBe('Albert Flores');
+    expect(SETTINGS_MODERATORS_SEED).toHaveLength(7);
+  });
+
+  it('builds the pagination range label', () => {
+    expect(getPaginationRangeLabel(1, SETTINGS_MODERATOR_PAGE_SIZE, 7)).toBe(
+      'Showing 1 to 7 of 7 results',
+    );
+    expect(getPaginationRangeLabel(1, SETTINGS_MODERATOR_PAGE_SIZE, 0)).toBe(
+      'Showing 0 to 0 of 0 results',
     );
   });
 
-  it('removes a module from the edit matrix without mutating the seed', () => {
-    const next = removeEditModule(SETTINGS_EDIT_MATRIX_SEED, 'reviews');
-
-    expect(next).toHaveLength(SETTINGS_EDIT_MATRIX_SEED.length - 1);
-    expect(next.some((module) => module.id === 'reviews')).toBe(false);
-    expect(SETTINGS_EDIT_MATRIX_SEED).toHaveLength(9);
-  });
-
-  it('builds a CSV matching the Visibility Matrix columns', () => {
-    const csv = buildVisibilityCsv(SETTINGS_VISIBILITY_MATRIX_SEED);
-
-    expect(csv).toContain('Module / Page,Moderator');
-    expect(csv).toContain('Bookings,Visible');
-    expect(csv).toContain('Reviews,Hidden');
-    expect(csv).toContain('Overview / Analytics,Hidden');
+  it('calculates total pages', () => {
+    expect(getTotalPages(7, SETTINGS_MODERATOR_PAGE_SIZE)).toBe(1);
+    expect(getTotalPages(8, SETTINGS_MODERATOR_PAGE_SIZE)).toBe(2);
   });
 });

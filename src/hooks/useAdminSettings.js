@@ -1,22 +1,51 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { SETTINGS_COPY } from '../components/admin/settings/settingsCopy';
 import {
-  SETTINGS_EDIT_MATRIX_SEED,
-  SETTINGS_VISIBILITY_MATRIX_SEED,
+  SETTINGS_MODERATOR_PAGE_SIZE,
+  SETTINGS_MODERATORS_SEED,
 } from '../components/admin/settings/settingsData';
 import {
-  downloadVisibilityCsv,
-  removeEditModule,
-  toggleEditPermission,
+  getModeratorCountLabel,
+  getPaginationRangeLabel,
+  getTotalPages,
+  paginateModerators,
   validateInviteEmail,
 } from '../components/admin/settings/settingsUtils';
 
 const useAdminSettings = () => {
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteEmailError, setInviteEmailError] = useState('');
-  const [editModules, setEditModules] = useState(SETTINGS_EDIT_MATRIX_SEED);
-  const [visibilityRows] = useState(SETTINGS_VISIBILITY_MATRIX_SEED);
+  const [moderators] = useState(SETTINGS_MODERATORS_SEED);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = useMemo(
+    () => getTotalPages(moderators.length, SETTINGS_MODERATOR_PAGE_SIZE),
+    [moderators.length],
+  );
+
+  const paginatedModerators = useMemo(
+    () => paginateModerators(moderators, currentPage, SETTINGS_MODERATOR_PAGE_SIZE),
+    [moderators, currentPage],
+  );
+
+  const moderatorCountLabel = useMemo(
+    () => getModeratorCountLabel(moderators.length, SETTINGS_COPY),
+    [moderators.length],
+  );
+
+  const pagination = useMemo(
+    () => ({
+      rangeLabel: getPaginationRangeLabel(
+        currentPage,
+        SETTINGS_MODERATOR_PAGE_SIZE,
+        moderators.length,
+      ),
+      canGoPrevious: currentPage > 1,
+      canGoNext: currentPage < totalPages,
+    }),
+    [currentPage, moderators.length, totalPages],
+  );
 
   const handleInviteEmailChange = useCallback((event) => {
     setInviteEmail(event.target.value);
@@ -39,31 +68,34 @@ const useAdminSettings = () => {
     [inviteEmail],
   );
 
-  const handleToggleEditPermission = useCallback((moduleId) => {
-    setEditModules((current) => toggleEditPermission(current, moduleId));
+  const handlePreviousPage = useCallback(() => {
+    setCurrentPage((page) => Math.max(1, page - 1));
   }, []);
 
-  const handleRemoveEditModule = useCallback((moduleId) => {
-    setEditModules((current) => removeEditModule(current, moduleId));
-    toast.success(SETTINGS_COPY.toasts.moduleRemoved);
-  }, []);
+  const handleNextPage = useCallback(() => {
+    setCurrentPage((page) => Math.min(totalPages, page + 1));
+  }, [totalPages]);
 
-  const handleDownloadVisibility = useCallback(() => {
-    downloadVisibilityCsv(visibilityRows, SETTINGS_COPY);
-    toast.success(SETTINGS_COPY.toasts.downloadReady);
-  }, [visibilityRows]);
+  const handleEditModerator = useCallback((moderatorId) => {
+    const moderator = moderators.find((item) => item.id === moderatorId);
+    if (!moderator) {
+      return;
+    }
+    toast.success(SETTINGS_COPY.toasts.editModerator);
+  }, [moderators]);
 
   return {
     copy: SETTINGS_COPY,
     inviteEmail,
     inviteEmailError,
-    editModules,
-    visibilityRows,
+    moderators: paginatedModerators,
+    moderatorCountLabel,
+    pagination,
     onInviteEmailChange: handleInviteEmailChange,
     onSendInvite: handleSendInvite,
-    onToggleEditPermission: handleToggleEditPermission,
-    onRemoveEditModule: handleRemoveEditModule,
-    onDownloadVisibility: handleDownloadVisibility,
+    onPreviousPage: handlePreviousPage,
+    onNextPage: handleNextPage,
+    onEditModerator: handleEditModerator,
   };
 };
 

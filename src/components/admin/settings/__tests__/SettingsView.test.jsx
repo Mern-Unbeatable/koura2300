@@ -3,22 +3,26 @@ import userEvent from '@testing-library/user-event';
 import SettingsView from '../SettingsView';
 import { SETTINGS_COPY } from '../settingsCopy';
 import {
-  SETTINGS_EDIT_MATRIX_SEED,
+  SETTINGS_MODERATORS_SEED,
   SETTINGS_PAGE_CLASS,
-  SETTINGS_VISIBILITY_MATRIX_SEED,
 } from '../settingsData';
 
 const createSettingsViewProps = (overrides = {}) => ({
   copy: SETTINGS_COPY,
   inviteEmail: '',
   inviteEmailError: '',
-  editModules: SETTINGS_EDIT_MATRIX_SEED,
-  visibilityRows: SETTINGS_VISIBILITY_MATRIX_SEED,
+  moderators: SETTINGS_MODERATORS_SEED,
+  moderatorCountLabel: SETTINGS_COPY.moderators.countLabel(SETTINGS_MODERATORS_SEED.length),
+  pagination: {
+    rangeLabel: 'Showing 1 to 7 of 7 results',
+    canGoPrevious: false,
+    canGoNext: false,
+  },
   onInviteEmailChange: jest.fn(),
   onSendInvite: jest.fn((event) => event.preventDefault()),
-  onToggleEditPermission: jest.fn(),
-  onRemoveEditModule: jest.fn(),
-  onDownloadVisibility: jest.fn(),
+  onEditModerator: jest.fn(),
+  onPreviousPage: jest.fn(),
+  onNextPage: jest.fn(),
   ...overrides,
 });
 
@@ -41,7 +45,6 @@ describe('SettingsView', () => {
     expect(screen.getByRole('heading', { level: 2, name: SETTINGS_COPY.invite.title })).toBeInTheDocument();
     expect(screen.getByLabelText(SETTINGS_COPY.invite.emailLabel)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: SETTINGS_COPY.invite.sendLabel })).toBeInTheDocument();
-    expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
   });
 
   it('shows an inline invite email error when provided', () => {
@@ -64,76 +67,76 @@ describe('SettingsView', () => {
     expect(onSendInvite).toHaveBeenCalled();
   });
 
-  it('renders Edit Matrix rows with toggles and delete actions', () => {
-    renderSettingsView();
-
-    expect(screen.getByRole('heading', { level: 2, name: SETTINGS_COPY.editMatrix.title })).toBeInTheDocument();
-    expect(screen.getByText('Dashboard/ Overview')).toBeInTheDocument();
-
-    const editList = screen.getByRole('list', { name: SETTINGS_COPY.editMatrix.title });
-    expect(within(editList).getByText('Categories Management')).toBeInTheDocument();
-
-    const bookingsToggle = screen.getByRole('switch', {
-      name: SETTINGS_COPY.editMatrix.toggleLabel('Bookings', true),
-    });
-    expect(bookingsToggle).toHaveAttribute('aria-checked', 'true');
-
-    expect(
-      screen.getByRole('button', {
-        name: SETTINGS_COPY.editMatrix.deleteLabel('Bookings'),
-      }),
-    ).toBeInTheDocument();
-  });
-
-  it('wires edit matrix toggle and delete handlers', async () => {
-    const user = userEvent.setup();
-    const onToggleEditPermission = jest.fn();
-    const onRemoveEditModule = jest.fn();
-
-    renderSettingsView({ onToggleEditPermission, onRemoveEditModule });
-
-    await user.click(
-      screen.getByRole('switch', {
-        name: SETTINGS_COPY.editMatrix.toggleLabel('Services', true),
-      }),
-    );
-    expect(onToggleEditPermission).toHaveBeenCalledWith('services');
-
-    await user.click(
-      screen.getByRole('button', {
-        name: SETTINGS_COPY.editMatrix.deleteLabel('Messages'),
-      }),
-    );
-    expect(onRemoveEditModule).toHaveBeenCalledWith('messages');
-  });
-
-  it('renders Visibility Matrix statuses and download action', () => {
+  it('renders Moderator Management table columns and rows from Figma', () => {
     renderSettingsView();
 
     expect(
-      screen.getByRole('heading', { level: 2, name: SETTINGS_COPY.visibilityMatrix.title }),
+      screen.getByRole('heading', { level: 2, name: SETTINGS_COPY.moderators.title }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Overview / Analytics')).toBeInTheDocument();
+    expect(screen.getByText('7 moderator')).toBeInTheDocument();
 
-    const visibilityRegion = screen.getByRole('region', {
-      name: SETTINGS_COPY.visibilityMatrix.title,
-    });
-    expect(within(visibilityRegion).getAllByText('Visible').length).toBeGreaterThanOrEqual(4);
-    expect(within(visibilityRegion).getAllByText('Hidden').length).toBeGreaterThanOrEqual(4);
-    expect(
-      screen.getByRole('button', { name: SETTINGS_COPY.visibilityMatrix.downloadLabel }),
-    ).toBeInTheDocument();
+    const table = screen.getByRole('table', { name: SETTINGS_COPY.moderators.title });
+
+    expect(within(table).getByRole('columnheader', { name: SETTINGS_COPY.moderators.columns.name })).toBeInTheDocument();
+    expect(within(table).getByRole('columnheader', { name: SETTINGS_COPY.moderators.columns.phone })).toBeInTheDocument();
+    expect(within(table).getByRole('columnheader', { name: SETTINGS_COPY.moderators.columns.email })).toBeInTheDocument();
+    expect(within(table).getByRole('columnheader', { name: SETTINGS_COPY.moderators.columns.access })).toBeInTheDocument();
+    expect(within(table).getByRole('columnheader', { name: SETTINGS_COPY.moderators.columns.status })).toBeInTheDocument();
+    expect(within(table).getByRole('columnheader', { name: SETTINGS_COPY.moderators.columns.action })).toBeInTheDocument();
+
+    expect(within(table).getByText('Albert Flores')).toBeInTheDocument();
+    expect(within(table).getByText('Brooklyn Simmons')).toBeInTheDocument();
+    expect(within(table).getAllByText('Active').length).toBeGreaterThanOrEqual(6);
+    expect(within(table).getByText('Disabled')).toBeInTheDocument();
   });
 
-  it('wires visibility download handler', async () => {
-    const user = userEvent.setup();
-    const onDownloadVisibility = jest.fn();
+  it('renders mobile moderator cards for small viewports via CSS classes', () => {
+    renderSettingsView();
 
-    renderSettingsView({ onDownloadVisibility });
+    expect(screen.getByTestId('settings-moderator-cards')).toBeInTheDocument();
+    expect(screen.getByTestId('settings-moderator-card-albert-flores')).toBeInTheDocument();
+  });
+
+  it('wires moderator edit and pagination handlers', async () => {
+    const user = userEvent.setup();
+    const onEditModerator = jest.fn();
+    const onPreviousPage = jest.fn();
+    const onNextPage = jest.fn();
+
+    renderSettingsView({
+      onEditModerator,
+      onPreviousPage,
+      onNextPage,
+      pagination: {
+        rangeLabel: 'Showing 1 to 7 of 7 results',
+        canGoPrevious: true,
+        canGoNext: true,
+      },
+    });
 
     await user.click(
-      screen.getByRole('button', { name: SETTINGS_COPY.visibilityMatrix.downloadLabel }),
+      within(screen.getByRole('table', { name: SETTINGS_COPY.moderators.title })).getByRole(
+        'button',
+        {
+          name: SETTINGS_COPY.moderators.editLabel('Albert Flores'),
+        },
+      ),
     );
-    expect(onDownloadVisibility).toHaveBeenCalled();
+    expect(onEditModerator).toHaveBeenCalledWith('albert-flores');
+
+    const pagination = screen.getByTestId('settings-moderator-pagination');
+    await user.click(within(pagination).getByRole('button', { name: SETTINGS_COPY.moderators.pagination.previous }));
+    expect(onPreviousPage).toHaveBeenCalled();
+
+    await user.click(within(pagination).getByRole('button', { name: SETTINGS_COPY.moderators.pagination.next }));
+    expect(onNextPage).toHaveBeenCalled();
+  });
+
+  it('renders pagination summary from Figma', () => {
+    renderSettingsView();
+
+    expect(screen.getByText('Showing 1 to 7 of 7 results')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: SETTINGS_COPY.moderators.pagination.previous })).toBeDisabled();
+    expect(screen.getByRole('button', { name: SETTINGS_COPY.moderators.pagination.next })).toBeDisabled();
   });
 });
