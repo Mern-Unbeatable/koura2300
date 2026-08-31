@@ -22,16 +22,16 @@ export const SETTINGS_PAGE_CLASS = 'flex w-full min-w-0 flex-col gap-[30px]';
 
 /** Figma 352:8300 — Invite your team card */
 export const SETTINGS_INVITE_CARD_CLASS =
-  'flex w-full max-w-[717px] flex-col items-start justify-center gap-3 overflow-hidden rounded-2xl border border-solid border-[#e5e5e5] bg-white p-6 max-[425px]:max-w-full max-[425px]:p-4 max-[320px]:p-3';
+  'flex w-fit max-w-full flex-col items-start justify-center gap-3 overflow-hidden rounded-2xl border border-solid border-[#e5e5e5] bg-white p-6 max-[425px]:w-full max-[425px]:p-4 max-[320px]:p-3';
 
 export const SETTINGS_INVITE_TITLE_CLASS =
   'text-[32px] font-normal leading-10 text-[#f59e0b] max-[425px]:text-[28px] max-[425px]:leading-9';
 
 export const SETTINGS_INVITE_DESCRIPTION_CLASS =
-  'w-full text-base font-normal leading-6 text-[#4c545c]';
+  'max-w-[593px] text-base font-normal leading-6 text-[#4c545c]';
 
 export const SETTINGS_INVITE_FORM_CLASS =
-  'flex w-full flex-row flex-wrap items-start gap-5 max-[425px]:flex-col max-[425px]:items-stretch';
+  'flex w-fit max-w-full flex-row flex-wrap items-start gap-5 max-[425px]:w-full max-[425px]:flex-col max-[425px]:items-stretch';
 
 export const SETTINGS_INVITE_FIELD_WRAP_CLASS =
   'flex w-[475px] max-w-full shrink-0 flex-col gap-1 max-[425px]:w-full';
@@ -101,8 +101,7 @@ export const SETTINGS_MODERATORS_ACCESS_CELL_CLASS =
 export const SETTINGS_MODERATORS_STATUS_CELL_CLASS =
   `${SETTINGS_MODERATORS_TABLE_CELL_CLASS} whitespace-nowrap`;
 
-export const SETTINGS_MODERATORS_ACTION_CELL_CLASS =
-  `${SETTINGS_MODERATORS_TABLE_CELL_CLASS} text-center`;
+export const SETTINGS_MODERATORS_ACTION_CELL_CLASS = SETTINGS_MODERATORS_TABLE_CELL_CLASS;
 
 export const SETTINGS_MODERATORS_EDIT_BUTTON_CLASS =
   'inline-flex cursor-pointer items-center justify-center rounded-md text-[#373737] transition-colors hover:bg-[#f5f6f7] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
