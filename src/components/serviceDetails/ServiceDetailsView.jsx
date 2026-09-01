@@ -3,6 +3,8 @@ import useAddService from '../../hooks/useAddService';
 import useServiceBooking from '../../hooks/useServiceBooking';
 import FlooringCalculator from './flooringCalculator/FlooringCalculator';
 import { hasFlooringCalculator } from './flooringCalculator/flooringCalculatorUtils';
+import CountertopCalculator from './countertopCalculator/CountertopCalculator';
+import { hasCountertopCalculator } from './countertopCalculator/countertopCalculatorUtils';
 import ServiceDetailsBooking from './ServiceDetailsBooking';
 import ServiceDetailsBreadcrumb from './ServiceDetailsBreadcrumb';
 import ServiceDetailsChat from './ServiceDetailsChat';
@@ -30,6 +32,7 @@ const ServiceDetailsView = memo(
     const booking = useServiceBooking(service, packages);
     const handleAddService = useAddService();
     const showFlooringCalculator = hasFlooringCalculator(service);
+    const showCountertopCalculator = hasCountertopCalculator(service);
 
     return (
       <main className="animate-page-enter mx-auto min-w-0 max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28">
@@ -50,6 +53,7 @@ const ServiceDetailsView = memo(
                 rating={service.rating}
               />
               {showFlooringCalculator ? <FlooringCalculator /> : null}
+              {showCountertopCalculator ? <CountertopCalculator /> : null}
               <div className="flex min-h-0 flex-1 flex-col">
                 <ServiceDetailsPackages
                   packages={packages}

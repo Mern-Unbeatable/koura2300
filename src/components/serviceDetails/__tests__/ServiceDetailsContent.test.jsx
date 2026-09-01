@@ -23,6 +23,7 @@ jest.mock('react-hot-toast', () => ({
 const LIGHTING_SERVICE_ID = 'indoor-lighting-ceiling-light-installation';
 const FENCE_SERVICE_ID = 'fence-installation-wood-fence';
 const FLOORING_SERVICE_ID = 'hardwood-flooring-installation';
+const COUNTERTOP_SERVICE_ID = 'countertop-services-installation';
 const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
@@ -148,6 +149,18 @@ describe('Service details page', () => {
     expect(
       screen.getByRole('heading', { level: 2, name: 'Flooring Calculator' }),
     ).toBeInTheDocument();
+    expect(screen.queryByTestId('countertop-calculator')).not.toBeInTheDocument();
+  });
+
+  it('renders the Countertop Calculator on Kitchen Countertop Services details pages', () => {
+    renderServiceDetails(COUNTERTOP_SERVICE_ID);
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Installation' })).toBeInTheDocument();
+    expect(screen.getByTestId('countertop-calculator')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Countertop Calculator' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId('flooring-calculator')).not.toBeInTheDocument();
   });
 
   it('keeps the parent catalog link current in the category navigation', () => {
