@@ -25,6 +25,7 @@ const FENCE_SERVICE_ID = 'fence-installation-wood-fence';
 const FLOORING_SERVICE_ID = 'hardwood-flooring-installation';
 const COUNTERTOP_SERVICE_ID = 'countertop-services-installation';
 const BACKSPLASH_SERVICE_ID = 'backsplash-tile-services-installation';
+const BATHROOM_TILE_SERVICE_ID = 'tile-grout-services-wall-tile';
 const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
@@ -175,6 +176,20 @@ describe('Service details page', () => {
     ).toBeInTheDocument();
     expect(screen.queryByTestId('flooring-calculator')).not.toBeInTheDocument();
     expect(screen.queryByTestId('countertop-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('bathroom-tile-calculator')).not.toBeInTheDocument();
+  });
+
+  it('renders the Bathroom Tile Calculator on Bathroom Tile & Grout Services details pages', () => {
+    renderServiceDetails(BATHROOM_TILE_SERVICE_ID);
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Wall Tile' })).toBeInTheDocument();
+    expect(screen.getByTestId('bathroom-tile-calculator')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Bathroom Tile & Grout Calculator' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId('flooring-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('countertop-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('backsplash-calculator')).not.toBeInTheDocument();
   });
 
   it('keeps the parent catalog link current in the category navigation', () => {
