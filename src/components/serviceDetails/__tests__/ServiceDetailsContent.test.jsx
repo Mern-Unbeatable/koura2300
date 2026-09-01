@@ -24,6 +24,7 @@ const LIGHTING_SERVICE_ID = 'indoor-lighting-ceiling-light-installation';
 const FENCE_SERVICE_ID = 'fence-installation-wood-fence';
 const FLOORING_SERVICE_ID = 'hardwood-flooring-installation';
 const COUNTERTOP_SERVICE_ID = 'countertop-services-installation';
+const BACKSPLASH_SERVICE_ID = 'backsplash-tile-services-installation';
 const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
@@ -161,6 +162,19 @@ describe('Service details page', () => {
       screen.getByRole('heading', { level: 2, name: 'Countertop Calculator' }),
     ).toBeInTheDocument();
     expect(screen.queryByTestId('flooring-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('backsplash-calculator')).not.toBeInTheDocument();
+  });
+
+  it('renders the Backsplash Calculator on Kitchen Backsplash & Tile Services details pages', () => {
+    renderServiceDetails(BACKSPLASH_SERVICE_ID);
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Installation' })).toBeInTheDocument();
+    expect(screen.getByTestId('backsplash-calculator')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Backsplash & Tile Calculator' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId('flooring-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('countertop-calculator')).not.toBeInTheDocument();
   });
 
   it('keeps the parent catalog link current in the category navigation', () => {
