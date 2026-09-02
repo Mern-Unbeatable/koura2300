@@ -11,6 +11,8 @@ import BathroomTileCalculator from './bathroomTileCalculator/BathroomTileCalcula
 import { hasBathroomTileCalculator } from './bathroomTileCalculator/bathroomTileCalculatorUtils';
 import PaintingCalculator from './paintingCalculator/PaintingCalculator';
 import { hasPaintingCalculator } from './paintingCalculator/paintingCalculatorUtils';
+import DrywallCalculator from './drywallCalculator/DrywallCalculator';
+import { hasDrywallCalculator } from './drywallCalculator/drywallCalculatorUtils';
 import ServiceDetailsBooking from './ServiceDetailsBooking';
 import ServiceDetailsBreadcrumb from './ServiceDetailsBreadcrumb';
 import ServiceDetailsChat from './ServiceDetailsChat';
@@ -42,6 +44,7 @@ const ServiceDetailsView = memo(
     const showBacksplashCalculator = hasBacksplashCalculator(service);
     const showBathroomTileCalculator = hasBathroomTileCalculator(service);
     const showPaintingCalculator = hasPaintingCalculator(service);
+    const showDrywallCalculator = hasDrywallCalculator(service);
 
     return (
       <main className="animate-page-enter mx-auto min-w-0 max-w-screen-2xl px-4 pb-24 pt-8 sm:px-6 sm:pt-10 lg:px-8 lg:pb-28">
@@ -66,6 +69,7 @@ const ServiceDetailsView = memo(
               {showBacksplashCalculator ? <BacksplashCalculator /> : null}
               {showBathroomTileCalculator ? <BathroomTileCalculator /> : null}
               {showPaintingCalculator ? <PaintingCalculator /> : null}
+              {showDrywallCalculator ? <DrywallCalculator /> : null}
               <div className="flex min-h-0 flex-1 flex-col">
                 <ServiceDetailsPackages
                   packages={packages}

@@ -27,6 +27,7 @@ const COUNTERTOP_SERVICE_ID = 'countertop-services-installation';
 const BACKSPLASH_SERVICE_ID = 'backsplash-tile-services-installation';
 const BATHROOM_TILE_SERVICE_ID = 'tile-grout-services-wall-tile';
 const PAINTING_SERVICE_ID = 'painting-interior';
+const DRYWALL_SERVICE_ID = 'drywall-services-installation';
 const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
@@ -204,6 +205,19 @@ describe('Service details page', () => {
     ).toBeInTheDocument();
     expect(screen.queryByTestId('flooring-calculator')).not.toBeInTheDocument();
     expect(screen.queryByTestId('bathroom-tile-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('drywall-calculator')).not.toBeInTheDocument();
+  });
+
+  it('renders the Drywall Calculator on Walls & Ceilings Drywall Services details pages', () => {
+    renderServiceDetails(DRYWALL_SERVICE_ID);
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Installation' })).toBeInTheDocument();
+    expect(screen.getByTestId('drywall-calculator')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Drywall Calculator' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId('painting-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('flooring-calculator')).not.toBeInTheDocument();
   });
 
   it('keeps the parent catalog link current in the category navigation', () => {
