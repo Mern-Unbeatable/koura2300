@@ -29,6 +29,7 @@ const BATHROOM_TILE_SERVICE_ID = 'tile-grout-services-wall-tile';
 const PAINTING_SERVICE_ID = 'painting-interior';
 const DRYWALL_SERVICE_ID = 'drywall-services-installation';
 const INSULATION_SERVICE_ID = 'insulation-wall';
+const FRAMING_SERVICE_ID = 'framing-non-load-bearing-walls';
 const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
@@ -232,6 +233,21 @@ describe('Service details page', () => {
     ).toBeInTheDocument();
     expect(screen.queryByTestId('drywall-calculator')).not.toBeInTheDocument();
     expect(screen.queryByTestId('painting-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('framing-calculator')).not.toBeInTheDocument();
+  });
+
+  it('renders the Framing Calculator on Walls & Ceilings Framing details pages', () => {
+    renderServiceDetails(FRAMING_SERVICE_ID);
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Non-Load-Bearing Walls' }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('framing-calculator')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Framing calculator' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId('insulation-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('drywall-calculator')).not.toBeInTheDocument();
   });
 
   it('keeps the parent catalog link current in the category navigation', () => {
