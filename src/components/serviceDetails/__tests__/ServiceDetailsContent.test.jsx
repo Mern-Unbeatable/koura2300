@@ -28,6 +28,7 @@ const BACKSPLASH_SERVICE_ID = 'backsplash-tile-services-installation';
 const BATHROOM_TILE_SERVICE_ID = 'tile-grout-services-wall-tile';
 const PAINTING_SERVICE_ID = 'painting-interior';
 const DRYWALL_SERVICE_ID = 'drywall-services-installation';
+const INSULATION_SERVICE_ID = 'insulation-wall';
 const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
@@ -218,6 +219,19 @@ describe('Service details page', () => {
     ).toBeInTheDocument();
     expect(screen.queryByTestId('painting-calculator')).not.toBeInTheDocument();
     expect(screen.queryByTestId('flooring-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('insulation-calculator')).not.toBeInTheDocument();
+  });
+
+  it('renders the Insulation Calculator on Walls & Ceilings Insulation details pages', () => {
+    renderServiceDetails(INSULATION_SERVICE_ID);
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Wall' })).toBeInTheDocument();
+    expect(screen.getByTestId('insulation-calculator')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Insulation Calculator' }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId('drywall-calculator')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('painting-calculator')).not.toBeInTheDocument();
   });
 
   it('keeps the parent catalog link current in the category navigation', () => {
