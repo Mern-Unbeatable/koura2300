@@ -12,13 +12,12 @@ import {
 } from '../components/login/loginUtils';
 import { API_ENDPOINTS } from '../services/httpEndpoint';
 import { httpMethods } from '../services/httpMethods';
+import { isMockAuthEnabled } from '../config/authConfig';
 import {
   loginSuccess,
   selectIsAuthenticated,
   selectUser,
 } from '../store/slices/authSlice';
-
-const isMockAuthEnabled = () => process.env.REACT_APP_DEV_MOCK_AUTH === 'true';
 
 const DEV_LOGIN_EMAIL = process.env.REACT_APP_DEV_DEFAULT_EMAIL || '';
 const DEV_LOGIN_PASSWORD = process.env.REACT_APP_DEV_DEFAULT_PASSWORD || '';
