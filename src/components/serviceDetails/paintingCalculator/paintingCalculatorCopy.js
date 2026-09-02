@@ -1,0 +1,23 @@
+export const PAINTING_CALCULATOR_COPY = {
+  regionLabel: 'Painting calculator',
+  title: 'Painting calculator',
+  subtitle: 'Estimate paintable wall area and project cost',
+  startingEstLabel: 'STARTING EST.',
+  lengthLabel: 'Room Length (ft)',
+  widthLabel: 'Room Width (ft)',
+  heightLabel: 'Ceiling Height (ft)',
+  unitSuffix: 'ft',
+  lengthPlaceholder: '0',
+  widthPlaceholder: '0',
+  heightPlaceholder: '0',
+  calculate: 'Calculate',
+  clear: 'Clear',
+  errors: {
+    lengthRequired: 'Enter the room length in feet.',
+    lengthInvalid: 'Enter a valid room length greater than zero.',
+    widthRequired: 'Enter the room width in feet.',
+    widthInvalid: 'Enter a valid room width greater than zero.',
+    heightRequired: 'Enter the ceiling height in feet.',
+    heightInvalid: 'Enter a valid ceiling height greater than zero.',
+  },
+};
