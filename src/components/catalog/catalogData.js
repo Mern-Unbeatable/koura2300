@@ -23,7 +23,7 @@ export const DEFAULT_CATALOG_PRICE_RANGES = [
 const BASE_PRICE = 75;
 const PRICE_STEP = 25;
 const PRICE_TIER_COUNT = 6;
-const SERVICE_DURATION = '1–2 hrs';
+const SERVICE_DURATION = '1-2 hrs';
 const SERVICE_RATING = '4.9 (312)';
 
 const toSlug = (value) => value.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-');

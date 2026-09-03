@@ -36,7 +36,7 @@ export const ADMIN_SERVICE_FORM_COPY = {
   placeholders: {
     category: 'Select a category',
     subcategory: 'Select a subcategory',
-    duration: 'e.g. 1–2 hours',
+    duration: 'e.g. 1-2 hours',
     price: '$0.00',
     featured: 'Enter a package feature',
     title: 'Enter service title',

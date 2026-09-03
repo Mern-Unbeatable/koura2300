@@ -27,7 +27,7 @@ export const ADMIN_BLOG_FORM_COPY = {
   placeholders: {
     title: 'e.g. 5 Signs Your Home Needs a Plumbing Repair',
     shortDescription:
-      'Write a short summary readers will see on the blog card (1–2 sentences).',
+      'Write a short summary readers will see on the blog card (1-2 sentences).',
     longDescription:
       'Write the full article body. Cover the problem, practical tips, and when to call a professional.',
   },

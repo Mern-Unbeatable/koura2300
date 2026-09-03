@@ -79,7 +79,7 @@ describe('useAdminAdForm', () => {
         target: { value: 'Indoor Lighting' },
       });
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.DURATION)({
-        target: { value: '1–2 hrs' },
+        target: { value: '1-2 hrs' },
       });
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.STANDARD_PRICE)({
         target: { value: '$75.00' },
