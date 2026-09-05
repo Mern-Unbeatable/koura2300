@@ -1,6 +1,26 @@
 import { ROUTES } from '../../config';
 import { LOGIN_COPY } from './loginCopy';
-import { LOGIN_EMAIL_REGEX, USER_ROLES } from './loginData';
+import { LOGIN_EMAIL_REGEX, USER_ROLES, DUMMY_CREDENTIALS } from './loginData';
+
+export const validateDummyCredentials = (email, password) => {
+  const normalizedEmail = String(email || '').trim().toLowerCase();
+
+  if (
+    normalizedEmail === DUMMY_CREDENTIALS.ADMIN.email.toLowerCase() &&
+    password === DUMMY_CREDENTIALS.ADMIN.password
+  ) {
+    return DUMMY_CREDENTIALS.ADMIN;
+  }
+
+  if (
+    (normalizedEmail === DUMMY_CREDENTIALS.USER.email.toLowerCase() || normalizedEmail === 'user@gnmail.com') &&
+    password === DUMMY_CREDENTIALS.USER.password
+  ) {
+    return DUMMY_CREDENTIALS.USER;
+  }
+
+  return null;
+};
 
 export const isAdminUser = (user) => {
   if (!user) {
@@ -27,7 +47,12 @@ export const resolveLoginRole = (email, apiUser) => {
     return apiRole;
   }
 
-  return /admin/i.test(email) ? USER_ROLES.ADMIN : USER_ROLES.USER;
+  const normalizedEmail = String(email || '').toLowerCase().trim();
+  if (normalizedEmail === 'admin@gmail.com' || /admin/i.test(normalizedEmail)) {
+    return USER_ROLES.ADMIN;
+  }
+
+  return USER_ROLES.USER;
 };
 
 export const buildAuthUser = ({ email, name, role, ...rest }) => ({

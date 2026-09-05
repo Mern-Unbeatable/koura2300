@@ -278,11 +278,11 @@ const LoginFormPanel = ({
           <p className={LOGIN_FORM_SUBTITLE_CLASS}>{subtitle}</p>
         </div>
 
-        {errors.form ? (
+        {/* {errors.form ? (
           <div role="alert" className={`${LOGIN_FORM_ERROR_CLASS} mt-6`}>
             {errors.form}
           </div>
-        ) : null}
+        ) : null} */}
 
         <form onSubmit={onSubmit} noValidate className="mt-8">
           <LoginCreateAccountFields

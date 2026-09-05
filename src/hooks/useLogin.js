@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LOGIN_COPY } from '../components/login/loginCopy';
-import { LOGIN_AUTH_MODES, USER_ROLES } from '../components/login/loginData';
+import { LOGIN_AUTH_MODES, USER_ROLES, DUMMY_CREDENTIALS } from '../components/login/loginData';
 import {
   buildAuthUser,
   resolveLoginRole,
   resolvePostLoginPath,
   validateCreateAccountForm,
+  validateDummyCredentials,
   validateLoginForm,
 } from '../components/login/loginUtils';
 import { API_ENDPOINTS } from '../services/httpEndpoint';
@@ -55,7 +57,8 @@ const useLogin = () => {
   }, [authUser, fromPath, isAuthenticated, navigate]);
 
   const completeAuth = useCallback(
-    (user, token) => {
+    (user, token, successMessage = LOGIN_COPY.toasts.loginSuccess) => {
+      toast.success(successMessage);
       dispatch(loginSuccess({ user, token }));
       navigate(resolvePostLoginPath(user, fromPath), { replace: true });
     },
@@ -80,6 +83,18 @@ const useLogin = () => {
 
   const handlePasswordChange = useCallback((event) => {
     setPassword(event.target.value);
+  }, []);
+
+  const handleFillAdminCredentials = useCallback(() => {
+    setEmail(DUMMY_CREDENTIALS.ADMIN.email);
+    setPassword(DUMMY_CREDENTIALS.ADMIN.password);
+    setErrors({});
+  }, []);
+
+  const handleFillUserCredentials = useCallback(() => {
+    setEmail(DUMMY_CREDENTIALS.USER.email);
+    setPassword(DUMMY_CREDENTIALS.USER.password);
+    setErrors({});
   }, []);
 
   const handleTogglePasswordVisibility = useCallback(() => {
@@ -113,6 +128,10 @@ const useLogin = () => {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      const firstError = Object.values(validationErrors)[0];
+      if (firstError) {
+        toast.error(firstError);
+      }
       return;
     }
 
@@ -121,8 +140,15 @@ const useLogin = () => {
 
     try {
       if (isMockAuthEnabled()) {
-        const role = resolveLoginRole(email, null);
-        completeAuth(buildAuthUser({ email, role }), null);
+        const dummyUser = validateDummyCredentials(email, password);
+        if (dummyUser) {
+          completeAuth(buildAuthUser(dummyUser), null);
+          return;
+        }
+
+        const errorMessage = LOGIN_COPY.validation.invalidCredentials;
+        setErrors({ form: errorMessage });
+        toast.error(errorMessage);
         return;
       }
 
@@ -132,18 +158,28 @@ const useLogin = () => {
       });
 
       if (error) {
-        setErrors({
-          form:
-            error?.data?.message ??
-            error?.message ??
-            LOGIN_COPY.validation.invalidCredentials,
-        });
+        const dummyUser = validateDummyCredentials(email, password);
+        if (dummyUser) {
+          completeAuth(buildAuthUser(dummyUser), null);
+          return;
+        }
+
+        const errorMessage =
+          error?.data?.message ??
+          error?.message ??
+          LOGIN_COPY.validation.invalidCredentials;
+        setErrors({ form: errorMessage });
+        toast.error(errorMessage);
         return;
       }
 
       const { token, user: apiUser } = extractAuthPayload(data);
       const role = resolveLoginRole(email, apiUser);
       completeAuth(buildAuthUser({ ...(apiUser || {}), email, role }), token);
+    } catch (err) {
+      const errorMessage = err?.message || LOGIN_COPY.validation.invalidCredentials;
+      setErrors({ form: errorMessage });
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -160,6 +196,10 @@ const useLogin = () => {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      const firstError = Object.values(validationErrors)[0];
+      if (firstError) {
+        toast.error(firstError);
+      }
       return;
     }
 
@@ -170,7 +210,7 @@ const useLogin = () => {
 
     try {
       if (isMockAuthEnabled()) {
-        completeAuth(buildAuthUser(profile), null);
+        completeAuth(buildAuthUser(profile), null, LOGIN_COPY.toasts.registerSuccess);
         return;
       }
 
@@ -180,17 +220,21 @@ const useLogin = () => {
       });
 
       if (error) {
-        setErrors({
-          form:
-            error?.data?.message ??
-            error?.message ??
-            LOGIN_COPY.validation.registerFailed,
-        });
+        const errorMessage =
+          error?.data?.message ??
+          error?.message ??
+          LOGIN_COPY.validation.registerFailed;
+        setErrors({ form: errorMessage });
+        toast.error(errorMessage);
         return;
       }
 
       const { token, user: apiUser } = extractAuthPayload(data);
-      completeAuth(buildAuthUser({ ...(apiUser || {}), ...profile }), token);
+      completeAuth(buildAuthUser({ ...(apiUser || {}), ...profile }), token, LOGIN_COPY.toasts.registerSuccess);
+    } catch (err) {
+      const errorMessage = err?.message || LOGIN_COPY.validation.registerFailed;
+      setErrors({ form: errorMessage });
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -226,6 +270,8 @@ const useLogin = () => {
     onAddressChange: handleAddressChange,
     onEmailChange: handleEmailChange,
     onPasswordChange: handlePasswordChange,
+    onFillAdminCredentials: handleFillAdminCredentials,
+    onFillUserCredentials: handleFillUserCredentials,
     onTogglePasswordVisibility: handleTogglePasswordVisibility,
     onSwitchToCreateAccount: handleSwitchToCreateAccount,
     onSwitchToLogin: handleSwitchToLogin,

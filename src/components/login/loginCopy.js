@@ -49,5 +49,9 @@ export const LOGIN_COPY = {
     invalidCredentials: 'Invalid email or password.',
     registerFailed: 'Unable to create your account. Please try again.',
   },
+  toasts: {
+    loginSuccess: 'Logged in successfully!',
+    registerSuccess: 'Account created successfully!',
+  },
   footerNote: (year, appName) => `© ${year} ${appName}`,
 };

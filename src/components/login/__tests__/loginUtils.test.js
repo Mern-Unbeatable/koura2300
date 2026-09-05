@@ -6,11 +6,35 @@ import {
   resolveLoginRole,
   resolvePostLoginPath,
   validateCreateAccountForm,
+  validateDummyCredentials,
   validateLoginForm,
 } from '../loginUtils';
 import { USER_ROLES } from '../loginData';
 
 describe('loginUtils', () => {
+  describe('validateDummyCredentials', () => {
+    it('authenticates admin@gmail.com with password123 as admin', () => {
+      const result = validateDummyCredentials('admin@gmail.com', 'password123');
+      expect(result).toMatchObject({
+        email: 'admin@gmail.com',
+        role: USER_ROLES.ADMIN,
+      });
+    });
+
+    it('authenticates user@gmail.com with password123 as user', () => {
+      const result = validateDummyCredentials('user@gmail.com', 'password123');
+      expect(result).toMatchObject({
+        email: 'user@gmail.com',
+        role: USER_ROLES.USER,
+      });
+    });
+
+    it('returns null for invalid email or wrong password', () => {
+      expect(validateDummyCredentials('random@gmail.com', 'password123')).toBeNull();
+      expect(validateDummyCredentials('admin@gmail.com', 'wrongpassword')).toBeNull();
+    });
+  });
+
   describe('isAdminUser', () => {
     it('returns true only for admin role', () => {
       expect(isAdminUser({ role: USER_ROLES.ADMIN })).toBe(true);

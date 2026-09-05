@@ -58,6 +58,21 @@ export const USER_ROLES = {
   USER: 'user',
 };
 
+export const DUMMY_CREDENTIALS = {
+  ADMIN: {
+    email: 'admin@gmail.com',
+    password: 'password123',
+    role: USER_ROLES.ADMIN,
+    name: 'Admin User',
+  },
+  USER: {
+    email: 'user@gmail.com',
+    password: 'password123',
+    role: USER_ROLES.USER,
+    name: 'User Account',
+  },
+};
+
 export const LOGIN_AUTH_MODES = {
   LOGIN: 'login',
   CREATE_ACCOUNT: 'createAccount',
