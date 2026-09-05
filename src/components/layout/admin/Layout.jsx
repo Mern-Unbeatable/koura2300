@@ -98,7 +98,7 @@ const Layout = () => {
           className="scrollbar-services-ash min-h-0 flex-1 overflow-y-auto overscroll-y-contain"
           data-lenis-prevent
         >
-          {/* Content-sized only — min-h-full / h-full here stretched every admin page. */}
+          {/* Content-sized only — min-h-ful / h-full here stretched every admin page. */}
           <div className="w-full px-6 py-5 sm:px-8 sm:py-6 lg:px-10 lg:py-8">
             <Outlet />
           </div>
