@@ -42,49 +42,49 @@ export const SIDEBAR_NAV_GROUPS = [
       { name: 'Services', path: ROUTES.ADMIN_SERVICES, icon: Wrench },
     ],
   },
-  {
-    id: 'management',
-    label: SIDEBAR_COPY.management,
-    items: [
-      {
-        name: 'Categories',
-        path: ROUTES.ADMIN_CATEGORIES,
-        icon: ChartColumnStacked,
-      },
-      {
-        name: 'Reviews',
-        path: ROUTES.ADMIN_REVIEWS,
-        icon: Star,
-      },
-      { name: 'Blog Post', path: ROUTES.ADMIN_BLOG, icon: FileText },
-      {
-        name: 'Ads Management',
-        path: ROUTES.ADMIN_ADS,
-        icon: Megaphone,
-      },
-    ],
-  },
-  {
-    id: 'other',
-    label: SIDEBAR_COPY.other,
-    items: [
-      {
-        name: 'Support',
-        path: ROUTES.ADMIN_MESSAGES,
-        icon: MessageCircle,
-      },
-      {
-        name: 'Settings',
-        path: ROUTES.ADMIN_SETTINGS,
-        icon: Settings,
-      },
-      {
-        name: SIDEBAR_COPY.profile,
-        path: ROUTES.ADMIN_PROFILE,
-        icon: UserRound,
-      },
-    ],
-  },
+  // {
+  //   id: 'management',
+  //   label: SIDEBAR_COPY.management,
+  //   items: [
+  //     {
+  //       name: 'Categories',
+  //       path: ROUTES.ADMIN_CATEGORIES,
+  //       icon: ChartColumnStacked,
+  //     },
+  //     {
+  //       name: 'Reviews',
+  //       path: ROUTES.ADMIN_REVIEWS,
+  //       icon: Star,
+  //     },
+  //     { name: 'Blog Post', path: ROUTES.ADMIN_BLOG, icon: FileText },
+  //     {
+  //       name: 'Ads Management',
+  //       path: ROUTES.ADMIN_ADS,
+  //       icon: Megaphone,
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 'other',
+  //   label: SIDEBAR_COPY.other,
+  //   items: [
+  //     {
+  //       name: 'Support',
+  //       path: ROUTES.ADMIN_MESSAGES,
+  //       icon: MessageCircle,
+  //     },
+  //     {
+  //       name: 'Settings',
+  //       path: ROUTES.ADMIN_SETTINGS,
+  //       icon: Settings,
+  //     },
+  //     {
+  //       name: SIDEBAR_COPY.profile,
+  //       path: ROUTES.ADMIN_PROFILE,
+  //       icon: UserRound,
+  //     },
+  //   ],
+  // },
 ];
 
 export const SIDEBAR_ICON_SIZE_PX = 20;
