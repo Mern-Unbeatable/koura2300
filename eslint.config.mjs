@@ -4,6 +4,9 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import tailwindPlugin from 'eslint-plugin-tailwindcss';
 import a11yPlugin from 'eslint-plugin-jsx-a11y';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 export default [
   // Base recommended rules
