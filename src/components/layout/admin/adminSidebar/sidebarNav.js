@@ -64,27 +64,27 @@ export const SIDEBAR_NAV_GROUPS = [
       },
     ],
   },
-  // {
-  //   id: 'other',
-  //   label: SIDEBAR_COPY.other,
-  //   items: [
-  //     {
-  //       name: 'Support',
-  //       path: ROUTES.ADMIN_MESSAGES,
-  //       icon: MessageCircle,
-  //     },
-  //     {
-  //       name: 'Settings',
-  //       path: ROUTES.ADMIN_SETTINGS,
-  //       icon: Settings,
-  //     },
-  //     {
-  //       name: SIDEBAR_COPY.profile,
-  //       path: ROUTES.ADMIN_PROFILE,
-  //       icon: UserRound,
-  //     },
-  //   ],
-  // },
+  {
+    id: 'other',
+    label: SIDEBAR_COPY.other,
+    items: [
+      {
+        name: 'Support',
+        path: ROUTES.ADMIN_MESSAGES,
+        icon: MessageCircle,
+      },
+      {
+        name: 'Settings',
+        path: ROUTES.ADMIN_SETTINGS,
+        icon: Settings,
+      },
+      {
+        name: SIDEBAR_COPY.profile,
+        path: ROUTES.ADMIN_PROFILE,
+        icon: UserRound,
+      },
+    ],
+  },
 ];
 
 export const SIDEBAR_ICON_SIZE_PX = 20;
