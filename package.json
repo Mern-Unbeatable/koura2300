@@ -4,10 +4,10 @@
   "description": "React app with Webpack, Tailwind CSS, and React Router DOM",
   "main": "index.js",
   "scripts": {
-    "start": "node scripts/serve-dist.js",
-    "build": "webpack --mode production",
+    "start": "node init && node scripts/serve-dist.js",
+    "build": "node init && webpack --mode production",
     "predev": "node scripts/kill-port.js 5173",
-    "dev": "webpack serve --mode development",
+    "dev": "node init && webpack serve --mode development",
     "dev:fresh": "npx kill-port 5173 && webpack serve --mode development",
     "test": "jest",
     "test:watch": "jest --watch",
