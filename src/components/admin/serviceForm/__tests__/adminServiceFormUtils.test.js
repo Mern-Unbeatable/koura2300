@@ -2,10 +2,18 @@ import {
   ADMIN_SERVICE_FORM_BANNER_MAX_FILES,
   ADMIN_SERVICE_FORM_EMPTY_VALUES,
   ADMIN_SERVICE_FORM_FIELDS,
+  ADMIN_SERVICE_FORM_FEATURE_KEYS,
   ADMIN_SERVICE_FORM_MODE,
+  ADMIN_SERVICE_FORM_OPTION_KEYS,
+  ADMIN_SERVICE_FORM_SIZE_KEYS,
+  createEmptyAdditionalFeatureRow,
+  createEmptyAdminServiceFormValues,
+  createEmptyOptionRow,
+  createEmptySizeRow,
   getAdminServiceFormSubcategoryOptions,
 } from '../adminServiceFormData';
 import {
+  appendAdminServiceFormRow,
   assertBannerFileLimit,
   createAdminServiceFormValues,
   createBannerImageFromFile,
@@ -13,6 +21,7 @@ import {
   getAdminServiceFormDetailsById,
   parsePriceInputValue,
   resolveAdminServiceFormMode,
+  updateAdminServiceFormRowField,
   validateAdminServiceForm,
 } from '../adminServiceFormUtils';
 import { SERVICES_SEED } from '../../services/servicesData';
@@ -33,13 +42,23 @@ describe('adminServiceFormUtils', () => {
     const service = SERVICES_SEED.find((item) => item.catalogTitle === 'Lighting');
     const details = getAdminServiceFormDetailsById(service.id);
     const values = createAdminServiceFormValues(details);
+    const emptyValues = createEmptyAdminServiceFormValues();
 
-    expect(createAdminServiceFormValues(null)).toEqual(ADMIN_SERVICE_FORM_EMPTY_VALUES);
+    expect(createAdminServiceFormValues(null)).toEqual(emptyValues);
+    expect(emptyValues[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(1);
+    expect(emptyValues[ADMIN_SERVICE_FORM_FIELDS.SIZES]).toHaveLength(1);
+    expect(emptyValues[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(1);
+    expect(emptyValues[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).not.toBe(
+      ADMIN_SERVICE_FORM_EMPTY_VALUES[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES],
+    );
     expect(values[ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID]).toBe(service.catalogTitle);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.SUBCATEGORY_ID]).toBe(service.category);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.TITLE]).toBe(service.title);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.STANDARD_PRICE]).toMatch(/^\$/);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.INCLUDED].length).toBeGreaterThan(0);
+    expect(values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(1);
+    expect(values[ADMIN_SERVICE_FORM_FIELDS.SIZES]).toHaveLength(1);
+    expect(values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(1);
   });
 
   it('filters subcategory options by selected category', () => {
@@ -49,7 +68,7 @@ describe('adminServiceFormUtils', () => {
     expect(options.every((option) => option.categoryId === 'Lighting')).toBe(true);
   });
 
-  it('validates required fields and banner limits', () => {
+  it('validates required fields and banner limits without requiring long description', () => {
     const errors = validateAdminServiceForm(ADMIN_SERVICE_FORM_EMPTY_VALUES, {
       requireBanner: true,
     });
@@ -57,9 +76,55 @@ describe('adminServiceFormUtils', () => {
     expect(errors[ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID]).toBeTruthy();
     expect(errors[ADMIN_SERVICE_FORM_FIELDS.TITLE]).toBeTruthy();
     expect(errors[ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]).toBeTruthy();
+    expect(errors[ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION]).toBeUndefined();
     expect(assertBannerFileLimit([{ name: 'a' }, { name: 'b' }])).toBeTruthy();
     expect(assertBannerFileLimit([{ name: 'a' }])).toBeNull();
     expect(ADMIN_SERVICE_FORM_BANNER_MAX_FILES).toBe(1);
+  });
+
+  it('appends and updates dynamic feature, size, and option rows immutably', () => {
+    const featureRows = [createEmptyAdditionalFeatureRow('feature-row-1')];
+    const sizeRows = [createEmptySizeRow('size-row-1')];
+    const optionRows = [createEmptyOptionRow('option-row-1')];
+
+    const nextFeatures = appendAdminServiceFormRow(
+      featureRows,
+      createEmptyAdditionalFeatureRow('feature-row-2'),
+    );
+    const nextSizes = appendAdminServiceFormRow(sizeRows, createEmptySizeRow('size-row-2'));
+    const nextOptions = appendAdminServiceFormRow(
+      optionRows,
+      createEmptyOptionRow('option-row-2'),
+    );
+
+    expect(nextFeatures).toHaveLength(2);
+    expect(nextSizes).toHaveLength(2);
+    expect(nextOptions).toHaveLength(2);
+    expect(featureRows).toHaveLength(1);
+
+    const updatedFeature = updateAdminServiceFormRowField(
+      nextFeatures,
+      'feature-row-1',
+      ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
+      '24 Inch',
+    );
+    const updatedSize = updateAdminServiceFormRowField(
+      nextSizes,
+      'size-row-1',
+      ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE,
+      '36 Inch',
+    );
+    const updatedOption = updateAdminServiceFormRowField(
+      nextOptions,
+      'option-row-1',
+      ADMIN_SERVICE_FORM_OPTION_KEYS.NAME,
+      'Option A',
+    );
+
+    expect(updatedFeature[0][ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]).toBe('24 Inch');
+    expect(updatedSize[0][ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]).toBe('36 Inch');
+    expect(updatedOption[0][ADMIN_SERVICE_FORM_OPTION_KEYS.NAME]).toBe('Option A');
+    expect(nextFeatures[0][ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]).toBe('');
   });
 
   it('creates a banner preview object from a file', async () => {

@@ -3,8 +3,11 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { ADMIN_SERVICE_FORM_COPY } from '../../components/admin/serviceForm/adminServiceFormCopy';
 import {
+  ADMIN_SERVICE_FORM_FEATURE_KEYS,
   ADMIN_SERVICE_FORM_FIELDS,
   ADMIN_SERVICE_FORM_MODE,
+  ADMIN_SERVICE_FORM_OPTION_KEYS,
+  ADMIN_SERVICE_FORM_SIZE_KEYS,
 } from '../../components/admin/serviceForm/adminServiceFormData';
 import { SERVICES_SEED } from '../../components/admin/services/servicesData';
 import { ROUTES } from '../../config';
@@ -44,6 +47,9 @@ describe('useAdminServiceForm', () => {
     expect(result.current.pageTitle).toBe(ADMIN_SERVICE_FORM_COPY.titles.create);
     expect(result.current.isNotFound).toBe(false);
     expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.TITLE]).toBe('');
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(1);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES]).toHaveLength(1);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(1);
   });
 
   it('prefills edit mode from catalog service details', () => {
@@ -64,7 +70,50 @@ describe('useAdminServiceForm', () => {
     expect(result.current.isNotFound).toBe(true);
   });
 
-  it('validates before upload and toasts on success', async () => {
+  it('appends and updates Additional Feature, Sizes, and Options rows', () => {
+    const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
+    const firstFeatureId =
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].id;
+    const firstSizeId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES][0].id;
+    const firstOptionId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0].id;
+
+    act(() => {
+      result.current.onAdditionalFeatureChange(
+        firstFeatureId,
+        ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
+      )({
+        target: { value: '24 Inch' },
+      });
+      result.current.onSizeChange(firstSizeId, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)({
+        target: { value: '36 Inch' },
+      });
+      result.current.onOptionChange(firstOptionId, ADMIN_SERVICE_FORM_OPTION_KEYS.NAME)({
+        target: { value: 'Option A' },
+      });
+      result.current.onAddAdditionalFeature();
+      result.current.onAddSize();
+      result.current.onAddOption();
+    });
+
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(2);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES]).toHaveLength(2);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(2);
+    expect(
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0][
+        ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME
+      ],
+    ).toBe('24 Inch');
+    expect(
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES][0][ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE],
+    ).toBe('36 Inch');
+    expect(
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0][
+        ADMIN_SERVICE_FORM_OPTION_KEYS.NAME
+      ],
+    ).toBe('Option A');
+  });
+
+  it('validates before upload and toasts on success without long description', async () => {
     const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
 
     act(() => {
@@ -96,9 +145,6 @@ describe('useAdminServiceForm', () => {
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION)({
         target: { value: 'Short' },
       });
-      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION)({
-        target: { value: 'Long' },
-      });
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)({
         target: { value: 'Included' },
       });
@@ -117,6 +163,7 @@ describe('useAdminServiceForm', () => {
       result.current.onSubmit({ preventDefault: jest.fn() });
     });
 
+    expect(result.current.errors[ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION]).toBeUndefined();
     expect(toast.success).toHaveBeenCalledWith(ADMIN_SERVICE_FORM_COPY.toasts.created);
   });
 });

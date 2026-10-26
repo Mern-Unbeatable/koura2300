@@ -29,11 +29,63 @@ export const ADMIN_SERVICE_FORM_FIELDS = {
   TITLE: 'title',
   SHORT_DESCRIPTION: 'shortDescription',
   LONG_DESCRIPTION: 'longDescription',
+  ADDITIONAL_FEATURES: 'additionalFeatures',
+  SIZES: 'sizes',
+  OPTIONS: 'options',
   INCLUDED: 'included',
   NOT_INCLUDED: 'notIncluded',
   BANNER_IMAGE: 'bannerImage',
   OTHER_IMAGES: 'otherImages',
 };
+
+export const ADMIN_SERVICE_FORM_FEATURE_KEYS = {
+  NAME: 'name',
+  QUANTITY: 'quantity',
+  STANDARD_PRICE: 'standardPrice',
+  PREMIUM_PRICE: 'premiumPrice',
+  NOTE_1: 'note1',
+  NOTE_2: 'note2',
+};
+
+export const ADMIN_SERVICE_FORM_SIZE_KEYS = {
+  SIZE: 'size',
+  STANDARD_PRICE: 'standardPrice',
+  PREMIUM_PRICE: 'premiumPrice',
+};
+
+export const ADMIN_SERVICE_FORM_OPTION_KEYS = {
+  NAME: 'name',
+  STANDARD_PRICE: 'standardPrice',
+  PREMIUM_PRICE: 'premiumPrice',
+};
+
+export const createEmptyAdditionalFeatureRow = (id) => ({
+  id,
+  [ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]: '',
+  [ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY]: '',
+  [ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE]: '',
+  [ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE]: '',
+  [ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1]: '',
+  [ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2]: '',
+});
+
+export const createEmptySizeRow = (id) => ({
+  id,
+  [ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]: '',
+  [ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE]: '',
+  [ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE]: '',
+});
+
+export const createEmptyOptionRow = (id) => ({
+  id,
+  [ADMIN_SERVICE_FORM_OPTION_KEYS.NAME]: '',
+  [ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE]: '',
+  [ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE]: '',
+});
+
+export const ADMIN_SERVICE_FORM_INITIAL_FEATURE_ROW_ID = 'feature-row-1';
+export const ADMIN_SERVICE_FORM_INITIAL_SIZE_ROW_ID = 'size-row-1';
+export const ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID = 'option-row-1';
 
 export const ADMIN_SERVICE_FORM_BANNER_MAX_FILES = 1;
 export const ADMIN_SERVICE_FORM_BACK_ICON_SIZE = 20;
@@ -56,11 +108,34 @@ export const ADMIN_SERVICE_FORM_EMPTY_VALUES = {
   [ADMIN_SERVICE_FORM_FIELDS.TITLE]: '',
   [ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION]: '',
   [ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION]: '',
+  [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: [
+    createEmptyAdditionalFeatureRow(ADMIN_SERVICE_FORM_INITIAL_FEATURE_ROW_ID),
+  ],
+  [ADMIN_SERVICE_FORM_FIELDS.SIZES]: [
+    createEmptySizeRow(ADMIN_SERVICE_FORM_INITIAL_SIZE_ROW_ID),
+  ],
+  [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: [
+    createEmptyOptionRow(ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID),
+  ],
   [ADMIN_SERVICE_FORM_FIELDS.INCLUDED]: '',
   [ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]: '',
   [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: null,
   [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: [],
 };
+
+export const createEmptyAdminServiceFormValues = () => ({
+  ...ADMIN_SERVICE_FORM_EMPTY_VALUES,
+  [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: [
+    createEmptyAdditionalFeatureRow(ADMIN_SERVICE_FORM_INITIAL_FEATURE_ROW_ID),
+  ],
+  [ADMIN_SERVICE_FORM_FIELDS.SIZES]: [
+    createEmptySizeRow(ADMIN_SERVICE_FORM_INITIAL_SIZE_ROW_ID),
+  ],
+  [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: [
+    createEmptyOptionRow(ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID),
+  ],
+  [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: [],
+});
 
 export const ADMIN_SERVICE_FORM_PAGE_CLASS =
   'flex min-w-0 flex-col gap-5 max-[425px]:gap-5 min-[426px]:gap-6 min-[768px]:gap-8';
@@ -76,6 +151,23 @@ export const ADMIN_SERVICE_FORM_ROW_CLASS =
   'grid min-w-0 grid-cols-1 gap-5 min-[768px]:grid-cols-2 min-[1440px]:grid-cols-3';
 export const ADMIN_SERVICE_FORM_PAIR_CLASS =
   'grid min-w-0 grid-cols-1 gap-5 min-[768px]:grid-cols-2';
+export const ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS =
+  'flex min-w-0 flex-col gap-[18px]';
+export const ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS =
+  'text-base font-medium leading-[1.2] text-[#0a0a0a]';
+export const ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS =
+  'flex min-w-0 flex-col gap-2';
+export const ADMIN_SERVICE_FORM_FEATURE_ROW_CLASS =
+  'grid min-w-0 grid-cols-1 gap-4 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-3 min-[1440px]:grid-cols-[minmax(0,260px)_minmax(0,124px)_minmax(0,154px)_minmax(0,118px)_minmax(0,1fr)_minmax(0,1fr)] min-[1440px]:gap-5';
+export const ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS =
+  'grid min-w-0 grid-cols-1 gap-4 min-[768px]:grid-cols-3 min-[768px]:gap-5';
+export const ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS =
+  'inline-flex w-fit cursor-pointer items-center text-base font-normal leading-[1.2] text-[#fc6f32] transition-colors hover:text-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const ADMIN_SERVICE_FORM_ROW_ID_PREFIX = {
+  FEATURE: 'feature-row',
+  SIZE: 'size-row',
+  OPTION: 'option-row',
+};
 export const ADMIN_SERVICE_FORM_FIELD_CLASS = 'flex min-w-0 flex-col gap-2';
 export const ADMIN_SERVICE_FORM_LABEL_CLASS =
   'text-sm leading-5 text-[#2d3036] min-[376px]:text-base';

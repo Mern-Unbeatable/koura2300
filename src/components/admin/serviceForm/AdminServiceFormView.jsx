@@ -40,6 +40,12 @@ const AdminServiceFormView = ({
   categoryOptions,
   isNotFound,
   onFieldChange,
+  onAdditionalFeatureChange,
+  onSizeChange,
+  onOptionChange,
+  onAddAdditionalFeature,
+  onAddSize,
+  onAddOption,
   onBannerFilesSelected,
   onOtherFilesSelected,
   onSubmit,
@@ -70,6 +76,12 @@ const AdminServiceFormView = ({
           errors={errors}
           categoryOptions={categoryOptions}
           onFieldChange={onFieldChange}
+          onAdditionalFeatureChange={onAdditionalFeatureChange}
+          onSizeChange={onSizeChange}
+          onOptionChange={onOptionChange}
+          onAddAdditionalFeature={onAddAdditionalFeature}
+          onAddSize={onAddSize}
+          onAddOption={onAddOption}
         />
 
         <AdminServiceFormUploadZone

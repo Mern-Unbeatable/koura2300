@@ -5,9 +5,9 @@ import {
 import { ADMIN_SERVICE_FORM_COPY } from './adminServiceFormCopy';
 import {
   ADMIN_SERVICE_FORM_BANNER_MAX_FILES,
-  ADMIN_SERVICE_FORM_EMPTY_VALUES,
   ADMIN_SERVICE_FORM_FIELDS,
   ADMIN_SERVICE_FORM_MODE,
+  createEmptyAdminServiceFormValues,
 } from './adminServiceFormData';
 
 const PRICE_PREFIX = '$';
@@ -58,7 +58,7 @@ const getPackageById = (packages, packageId) =>
 
 export const createAdminServiceFormValues = (details) => {
   if (!details?.service) {
-    return { ...ADMIN_SERVICE_FORM_EMPTY_VALUES };
+    return createEmptyAdminServiceFormValues();
   }
 
   const { service, packages = [], overview = '', includedItems = [], excludedItems = [] } =
@@ -67,7 +67,7 @@ export const createAdminServiceFormValues = (details) => {
   const premiumPackage = getPackageById(packages, SERVICE_PACKAGES.PREMIUM);
 
   return {
-    ...ADMIN_SERVICE_FORM_EMPTY_VALUES,
+    ...createEmptyAdminServiceFormValues(),
     [ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID]: service.catalogTitle ?? '',
     [ADMIN_SERVICE_FORM_FIELDS.SUBCATEGORY_ID]: service.category ?? '',
     [ADMIN_SERVICE_FORM_FIELDS.DURATION]: service.duration ?? '',
@@ -97,6 +97,20 @@ export const createAdminServiceFormValues = (details) => {
     [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: [],
   };
 };
+
+export const appendAdminServiceFormRow = (rows, nextRow) => [...(rows ?? []), nextRow];
+
+export const updateAdminServiceFormRowField = (rows, rowId, fieldKey, nextValue) =>
+  (rows ?? []).map((row) =>
+    row.id === rowId
+      ? {
+          ...row,
+          [fieldKey]: nextValue,
+        }
+      : row,
+  );
+
+export const createAdminServiceFormRowId = (prefix, sequence) => `${prefix}-${sequence}`;
 
 export const getAdminServiceFormDetailsById = (serviceId) => {
   const details = getCatalogServiceDetails(serviceId);
@@ -166,10 +180,6 @@ export const validateAdminServiceForm = (
 
   if (isBlank(formValues[ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION])) {
     errors[ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION] = copyErrors.shortDescriptionRequired;
-  }
-
-  if (isBlank(formValues[ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION])) {
-    errors[ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION] = copyErrors.longDescriptionRequired;
   }
 
   if (isBlank(formValues[ADMIN_SERVICE_FORM_FIELDS.INCLUDED])) {
