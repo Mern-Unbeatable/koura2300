@@ -1,15 +1,12 @@
 import { memo, useId, useRef, useState } from 'react';
-import { Check, CloudUpload } from 'lucide-react';
 import {
   ADMIN_SERVICE_FORM_ACCEPT,
   ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS,
   ADMIN_SERVICE_FORM_LABEL_CLASS,
-  ADMIN_SERVICE_FORM_META_ICON_SIZE,
   ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS,
   ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS,
   ADMIN_SERVICE_FORM_PREVIEW_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_HINT_CLASS,
-  ADMIN_SERVICE_FORM_UPLOAD_ICON_SIZE,
   ADMIN_SERVICE_FORM_UPLOAD_ICON_WRAP_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_META_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_META_ITEM_CLASS,
@@ -18,6 +15,10 @@ import {
   ADMIN_SERVICE_FORM_UPLOAD_ZONE_ACTIVE_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_ZONE_CLASS,
 } from './adminServiceFormData';
+import {
+  AdminServiceFormUploadCloudIcon,
+  AdminServiceFormUploadMetaCheckIcon,
+} from './AdminServiceFormUploadIcons';
 import { filterAcceptedImageFiles, toFileArray } from './adminServiceFormUtils';
 
 const PREVIEW_LAYOUT = {
@@ -27,7 +28,7 @@ const PREVIEW_LAYOUT = {
 
 const UploadMetaItem = memo(({ label }) => (
   <span className={ADMIN_SERVICE_FORM_UPLOAD_META_ITEM_CLASS}>
-    <Check size={ADMIN_SERVICE_FORM_META_ICON_SIZE} aria-hidden="true" />
+    <AdminServiceFormUploadMetaCheckIcon />
     {label}
   </span>
 ));
@@ -131,7 +132,7 @@ const AdminServiceFormUploadZone = memo(
           onDrop={handleDrop}
         >
           <span className={ADMIN_SERVICE_FORM_UPLOAD_ICON_WRAP_CLASS}>
-            <CloudUpload size={ADMIN_SERVICE_FORM_UPLOAD_ICON_SIZE} className="text-[#0f172a]" />
+            <AdminServiceFormUploadCloudIcon />
           </span>
           <span className={ADMIN_SERVICE_FORM_UPLOAD_TITLE_CLASS}>{dropTitle}</span>
           <span className={ADMIN_SERVICE_FORM_UPLOAD_HINT_CLASS}>{dropHint}</span>

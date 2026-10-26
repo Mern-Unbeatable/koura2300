@@ -71,7 +71,7 @@ export const ADMIN_SERVICE_FORM_COPY = {
     dropHint: 'Or click to browse from your computer',
     formats: 'JPEG, PNG',
     maxBanner: 'Max 1 photos',
-    resolution: '1920x1080px recommended',
+    resolution: '1920×1080px recommended',
     bannerInputLabel: 'Upload product banner image',
     otherInputLabel: 'Upload other service images',
   },

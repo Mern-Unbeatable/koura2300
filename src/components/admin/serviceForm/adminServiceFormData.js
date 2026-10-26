@@ -89,8 +89,11 @@ export const ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID = 'option-row-1';
 
 export const ADMIN_SERVICE_FORM_BANNER_MAX_FILES = 1;
 export const ADMIN_SERVICE_FORM_BACK_ICON_SIZE = 20;
-export const ADMIN_SERVICE_FORM_UPLOAD_ICON_SIZE = 28;
-export const ADMIN_SERVICE_FORM_META_ICON_SIZE = 12;
+export const ADMIN_SERVICE_FORM_UPLOAD_ICON_WIDTH = 27.5;
+export const ADMIN_SERVICE_FORM_UPLOAD_ICON_HEIGHT = 20;
+export const ADMIN_SERVICE_FORM_UPLOAD_ICON_COLOR = '#001F3D';
+export const ADMIN_SERVICE_FORM_META_ICON_SIZE = 11.67;
+export const ADMIN_SERVICE_FORM_META_ICON_COLOR = '#94A3B8';
 export const ADMIN_SERVICE_FORM_ACCEPT = 'image/jpeg,image/png';
 
 export const ADMIN_SERVICE_FORM_CATEGORY_OPTIONS = SERVICES_CATEGORY_OPTIONS.filter(
@@ -198,17 +201,19 @@ export const ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS = 'text-xs text-[#f31d2c]';
 export const ADMIN_SERVICE_FORM_UPLOAD_SECTION_CLASS =
   'flex min-w-0 flex-col gap-2';
 export const ADMIN_SERVICE_FORM_UPLOAD_ZONE_CLASS =
-  'relative flex min-h-[200px] w-full cursor-pointer flex-col items-center justify-center gap-2 overflow-hidden rounded-xl border-2 border-dashed border-[rgba(0,31,61,0.2)] bg-white px-4 py-8 text-center transition-colors hover:border-brand-orange focus-within:border-brand-orange min-[426px]:min-h-[252px]';
+  'relative flex min-h-[200px] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-[rgba(0,31,61,0.2)] bg-white px-6 py-10 text-center transition-colors hover:border-brand-orange focus-within:border-brand-orange min-[426px]:min-h-[252px]';
 export const ADMIN_SERVICE_FORM_UPLOAD_ICON_WRAP_CLASS =
-  'flex size-14 items-center justify-center rounded-full bg-[rgba(0,31,61,0.05)] min-[426px]:size-16';
+  'mb-4 flex size-14 shrink-0 items-center justify-center rounded-full bg-[rgba(0,31,61,0.05)] min-[426px]:size-16';
+export const ADMIN_SERVICE_FORM_UPLOAD_ICON_CLASS = 'block shrink-0';
 export const ADMIN_SERVICE_FORM_UPLOAD_TITLE_CLASS =
   'text-base font-bold leading-7 text-[#0f172a] min-[376px]:text-lg';
 export const ADMIN_SERVICE_FORM_UPLOAD_HINT_CLASS =
-  'text-sm leading-5 text-[#64748b]';
+  'mt-1 text-sm leading-5 text-[#64748b]';
 export const ADMIN_SERVICE_FORM_UPLOAD_META_CLASS =
-  'mt-1 flex flex-wrap items-center justify-center gap-3 text-sm font-medium leading-4 text-[#94a3b8] min-[768px]:gap-4';
+  'mt-2 flex flex-wrap items-center justify-center gap-3 text-sm font-medium leading-4 text-[#94a3b8] min-[768px]:gap-4';
 export const ADMIN_SERVICE_FORM_UPLOAD_META_ITEM_CLASS =
   'inline-flex items-center gap-1';
+export const ADMIN_SERVICE_FORM_UPLOAD_META_ICON_CLASS = 'block shrink-0';
 export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_COLUMNS = 5;
 export const ADMIN_SERVICE_FORM_BANNER_PREVIEW_WIDTH_PX = 367;
 export const ADMIN_SERVICE_FORM_BANNER_PREVIEW_HEIGHT_PX = 208;
