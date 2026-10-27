@@ -260,194 +260,248 @@ const SelectField = memo(({ id, label, value, placeholder, options, error, onCha
 SelectField.displayName = 'SelectField';
 
 const AdditionalFeatureRows = memo(
-  ({ copy, rows, onAdditionalFeatureChange, onAddAdditionalFeature }) => (
-    <section className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} aria-label={copy.sections.additionalFeature}>
-      <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>
-        {copy.sections.additionalFeature}
-      </h2>
+  ({
+    copy,
+    rows,
+    onAdditionalFeatureChange,
+    onAddAdditionalFeature,
+    onRemoveAdditionalFeature,
+  }) => {
+    const canRemove = rows.length > 1;
+
+    return (
+      <section
+        className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS}
+        aria-label={copy.sections.additionalFeature}
+      >
+        <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>
+          {copy.sections.additionalFeature}
+        </h2>
+        <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
+          {rows.map((row) => (
+            <div key={row.id} className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
+              <div className={ADMIN_SERVICE_FORM_FEATURE_ROW_CLASS}>
+                <TextField
+                  id={`service-form-feature-name-${row.id}`}
+                  label={copy.fields.featureName}
+                  placeholder={copy.placeholders.featureName}
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="any"
+                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]}
+                  onChange={onAdditionalFeatureChange(
+                    row.id,
+                    ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
+                  )}
+                />
+                <SelectField
+                  id={`service-form-feature-measurement-${row.id}`}
+                  label={copy.fields.featureMeasurementUnit}
+                  placeholder={copy.placeholders.featureMeasurementUnit}
+                  options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
+                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT]}
+                  onChange={onAdditionalFeatureChange(
+                    row.id,
+                    ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT,
+                  )}
+                />
+                <TextField
+                  id={`service-form-feature-quantity-${row.id}`}
+                  label={copy.fields.featureQuantity}
+                  placeholder={copy.placeholders.featureQuantity}
+                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY]}
+                  onChange={onAdditionalFeatureChange(
+                    row.id,
+                    ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY,
+                  )}
+                />
+                <TextField
+                  id={`service-form-feature-standard-price-${row.id}`}
+                  label={copy.fields.standardPrice}
+                  placeholder={copy.placeholders.featureStandardPrice}
+                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE]}
+                  onChange={onAdditionalFeatureChange(
+                    row.id,
+                    ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE,
+                  )}
+                />
+                <TextField
+                  id={`service-form-feature-premium-price-${row.id}`}
+                  label={copy.fields.premiumPrice}
+                  placeholder={copy.placeholders.featurePremiumPrice}
+                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE]}
+                  onChange={onAdditionalFeatureChange(
+                    row.id,
+                    ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE,
+                  )}
+                />
+                <TextField
+                  id={`service-form-feature-note-1-${row.id}`}
+                  label={copy.fields.featureNote1}
+                  placeholder={copy.placeholders.featureNote}
+                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1]}
+                  onChange={onAdditionalFeatureChange(
+                    row.id,
+                    ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1,
+                  )}
+                />
+                <TextField
+                  id={`service-form-feature-note-2-${row.id}`}
+                  label={copy.fields.featureNote2}
+                  placeholder={copy.placeholders.featureNote}
+                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2]}
+                  onChange={onAdditionalFeatureChange(
+                    row.id,
+                    ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2,
+                  )}
+                />
+              </div>
+              {canRemove ? (
+                <button
+                  type="button"
+                  className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+                  onClick={() => onRemoveAdditionalFeature(row.id)}
+                >
+                  {copy.actions.removeFeature}
+                </button>
+              ) : null}
+            </div>
+          ))}
+          <button
+            type="button"
+            className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
+            onClick={onAddAdditionalFeature}
+          >
+            {copy.actions.addAdditionalFeature}
+          </button>
+        </div>
+      </section>
+    );
+  },
+);
+
+AdditionalFeatureRows.displayName = 'AdditionalFeatureRows';
+
+const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) => {
+  const canRemove = rows.length > 1;
+
+  return (
+    <section className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} aria-label={copy.sections.sizes}>
+      <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>{copy.sections.sizes}</h2>
       <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
         {rows.map((row) => (
-          <div key={row.id} className={ADMIN_SERVICE_FORM_FEATURE_ROW_CLASS}>
-            <TextField
-              id={`service-form-feature-name-${row.id}`}
-              label={copy.fields.featureName}
-              placeholder={copy.placeholders.featureName}
-              type="number"
-              inputMode="decimal"
-              min="0"
-              step="any"
-              value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]}
-              onChange={onAdditionalFeatureChange(
-                row.id,
-                ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
-              )}
-            />
-            <SelectField
-              id={`service-form-feature-measurement-${row.id}`}
-              label={copy.fields.featureMeasurementUnit}
-              placeholder={copy.placeholders.featureMeasurementUnit}
-              options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
-              value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT]}
-              onChange={onAdditionalFeatureChange(
-                row.id,
-                ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT,
-              )}
-            />
-            <TextField
-              id={`service-form-feature-quantity-${row.id}`}
-              label={copy.fields.featureQuantity}
-              placeholder={copy.placeholders.featureQuantity}
-              value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY]}
-              onChange={onAdditionalFeatureChange(
-                row.id,
-                ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY,
-              )}
-            />
-            <TextField
-              id={`service-form-feature-standard-price-${row.id}`}
-              label={copy.fields.standardPrice}
-              placeholder={copy.placeholders.featureStandardPrice}
-              value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE]}
-              onChange={onAdditionalFeatureChange(
-                row.id,
-                ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE,
-              )}
-            />
-            <TextField
-              id={`service-form-feature-premium-price-${row.id}`}
-              label={copy.fields.premiumPrice}
-              placeholder={copy.placeholders.featurePremiumPrice}
-              value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE]}
-              onChange={onAdditionalFeatureChange(
-                row.id,
-                ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE,
-              )}
-            />
-            <TextField
-              id={`service-form-feature-note-1-${row.id}`}
-              label={copy.fields.featureNote1}
-              placeholder={copy.placeholders.featureNote}
-              value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1]}
-              onChange={onAdditionalFeatureChange(
-                row.id,
-                ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1,
-              )}
-            />
-            <TextField
-              id={`service-form-feature-note-2-${row.id}`}
-              label={copy.fields.featureNote2}
-              placeholder={copy.placeholders.featureNote}
-              value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2]}
-              onChange={onAdditionalFeatureChange(
-                row.id,
-                ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2,
-              )}
-            />
+          <div key={row.id} className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
+            <div className={ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS}>
+              <TextField
+                id={`service-form-size-${row.id}`}
+                label={copy.fields.size}
+                placeholder={copy.placeholders.size}
+                type="number"
+                inputMode="decimal"
+                min="0"
+                step="any"
+                value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]}
+                onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)}
+              />
+              <SelectField
+                id={`service-form-size-measurement-${row.id}`}
+                label={copy.fields.sizeMeasurementUnit}
+                placeholder={copy.placeholders.sizeMeasurementUnit}
+                options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
+                value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT]}
+                onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT)}
+              />
+              <TextField
+                id={`service-form-size-standard-price-${row.id}`}
+                label={copy.fields.standardPrice}
+                placeholder={copy.placeholders.price}
+                value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE]}
+                onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE)}
+              />
+              <TextField
+                id={`service-form-size-premium-price-${row.id}`}
+                label={copy.fields.premiumPrice}
+                placeholder={copy.placeholders.price}
+                value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE]}
+                onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE)}
+              />
+            </div>
+            {canRemove ? (
+              <button
+                type="button"
+                className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+                onClick={() => onRemoveSize(row.id)}
+              >
+                {copy.actions.removeSize}
+              </button>
+            ) : null}
+          </div>
+        ))}
+        <button type="button" className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS} onClick={onAddSize}>
+          {copy.actions.addAnotherSize}
+        </button>
+      </div>
+    </section>
+  );
+});
+
+SizeRows.displayName = 'SizeRows';
+
+const OptionRows = memo(({ copy, rows, onOptionChange, onAddOption, onRemoveOption }) => {
+  const canRemove = rows.length > 1;
+
+  return (
+    <section className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} aria-label={copy.sections.options}>
+      <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>{copy.sections.options}</h2>
+      <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
+        {rows.map((row) => (
+          <div key={row.id} className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
+            <div className={ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS}>
+              <TextField
+                id={`service-form-option-name-${row.id}`}
+                label={copy.fields.optionName}
+                placeholder={copy.placeholders.optionName}
+                value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.NAME]}
+                onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.NAME)}
+              />
+              <TextField
+                id={`service-form-option-standard-price-${row.id}`}
+                label={copy.fields.standardPrice}
+                placeholder={copy.placeholders.price}
+                value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE]}
+                onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE)}
+              />
+              <TextField
+                id={`service-form-option-premium-price-${row.id}`}
+                label={copy.fields.premiumPrice}
+                placeholder={copy.placeholders.price}
+                value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE]}
+                onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE)}
+              />
+            </div>
+            {canRemove ? (
+              <button
+                type="button"
+                className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+                onClick={() => onRemoveOption(row.id)}
+              >
+                {copy.actions.removeOption}
+              </button>
+            ) : null}
           </div>
         ))}
         <button
           type="button"
           className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
-          onClick={onAddAdditionalFeature}
+          onClick={onAddOption}
         >
-          {copy.actions.addAdditionalFeature}
+          {copy.actions.addAnotherOption}
         </button>
       </div>
     </section>
-  ),
-);
-
-AdditionalFeatureRows.displayName = 'AdditionalFeatureRows';
-
-const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize }) => (
-  <section className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} aria-label={copy.sections.sizes}>
-    <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>{copy.sections.sizes}</h2>
-    <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
-      {rows.map((row) => (
-        <div key={row.id} className={ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS}>
-          <TextField
-            id={`service-form-size-${row.id}`}
-            label={copy.fields.size}
-            placeholder={copy.placeholders.size}
-            type="number"
-            inputMode="decimal"
-            min="0"
-            step="any"
-            value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]}
-            onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)}
-          />
-          <SelectField
-            id={`service-form-size-measurement-${row.id}`}
-            label={copy.fields.sizeMeasurementUnit}
-            placeholder={copy.placeholders.sizeMeasurementUnit}
-            options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
-            value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT]}
-            onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT)}
-          />
-          <TextField
-            id={`service-form-size-standard-price-${row.id}`}
-            label={copy.fields.standardPrice}
-            placeholder={copy.placeholders.price}
-            value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE]}
-            onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE)}
-          />
-          <TextField
-            id={`service-form-size-premium-price-${row.id}`}
-            label={copy.fields.premiumPrice}
-            placeholder={copy.placeholders.price}
-            value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE]}
-            onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE)}
-          />
-        </div>
-      ))}
-      <button type="button" className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS} onClick={onAddSize}>
-        {copy.actions.addAnotherSize}
-      </button>
-    </div>
-  </section>
-));
-
-SizeRows.displayName = 'SizeRows';
-
-const OptionRows = memo(({ copy, rows, onOptionChange, onAddOption }) => (
-  <section className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} aria-label={copy.sections.options}>
-    <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>{copy.sections.options}</h2>
-    <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
-      {rows.map((row) => (
-        <div key={row.id} className={ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS}>
-          <TextField
-            id={`service-form-option-name-${row.id}`}
-            label={copy.fields.optionName}
-            placeholder={copy.placeholders.optionName}
-            value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.NAME]}
-            onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.NAME)}
-          />
-          <TextField
-            id={`service-form-option-standard-price-${row.id}`}
-            label={copy.fields.standardPrice}
-            placeholder={copy.placeholders.price}
-            value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE]}
-            onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE)}
-          />
-          <TextField
-            id={`service-form-option-premium-price-${row.id}`}
-            label={copy.fields.premiumPrice}
-            placeholder={copy.placeholders.price}
-            value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE]}
-            onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE)}
-          />
-        </div>
-      ))}
-      <button
-        type="button"
-        className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
-        onClick={onAddOption}
-      >
-        {copy.actions.addAnotherOption}
-      </button>
-    </div>
-  </section>
-));
+  );
+});
 
 OptionRows.displayName = 'OptionRows';
 
@@ -461,6 +515,9 @@ const CatalogDynamicSections = memo(
     onAddAdditionalFeature,
     onAddSize,
     onAddOption,
+    onRemoveAdditionalFeature,
+    onRemoveSize,
+    onRemoveOption,
   }) => (
     <>
       <AdditionalFeatureRows
@@ -468,18 +525,21 @@ const CatalogDynamicSections = memo(
         rows={values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] ?? []}
         onAdditionalFeatureChange={onAdditionalFeatureChange}
         onAddAdditionalFeature={onAddAdditionalFeature}
+        onRemoveAdditionalFeature={onRemoveAdditionalFeature}
       />
       <SizeRows
         copy={copy}
         rows={values[ADMIN_SERVICE_FORM_FIELDS.SIZES] ?? []}
         onSizeChange={onSizeChange}
         onAddSize={onAddSize}
+        onRemoveSize={onRemoveSize}
       />
       <OptionRows
         copy={copy}
         rows={values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS] ?? []}
         onOptionChange={onOptionChange}
         onAddOption={onAddOption}
+        onRemoveOption={onRemoveOption}
       />
     </>
   ),
@@ -501,6 +561,9 @@ const AdminServiceFormFields = memo(
     onAddAdditionalFeature = () => {},
     onAddSize = () => {},
     onAddOption = () => {},
+    onRemoveAdditionalFeature = () => {},
+    onRemoveSize = () => {},
+    onRemoveOption = () => {},
     onAddTextLine = () => {},
     onRemoveTextLine = () => {},
   }) => {
@@ -614,6 +677,9 @@ const AdminServiceFormFields = memo(
             onAddAdditionalFeature={onAddAdditionalFeature}
             onAddSize={onAddSize}
             onAddOption={onAddOption}
+            onRemoveAdditionalFeature={onRemoveAdditionalFeature}
+            onRemoveSize={onRemoveSize}
+            onRemoveOption={onRemoveOption}
           />
         ) : (
           <TextAreaField

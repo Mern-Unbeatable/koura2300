@@ -223,6 +223,36 @@ const useAdminServiceForm = () => {
     }));
   }, []);
 
+  const handleRemoveAdditionalFeature = useCallback((rowId) => {
+    setValues((current) => ({
+      ...current,
+      [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: removeAdminServiceFormRow(
+        current[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES],
+        rowId,
+      ),
+    }));
+  }, []);
+
+  const handleRemoveSize = useCallback((rowId) => {
+    setValues((current) => ({
+      ...current,
+      [ADMIN_SERVICE_FORM_FIELDS.SIZES]: removeAdminServiceFormRow(
+        current[ADMIN_SERVICE_FORM_FIELDS.SIZES],
+        rowId,
+      ),
+    }));
+  }, []);
+
+  const handleRemoveOption = useCallback((rowId) => {
+    setValues((current) => ({
+      ...current,
+      [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: removeAdminServiceFormRow(
+        current[ADMIN_SERVICE_FORM_FIELDS.OPTIONS],
+        rowId,
+      ),
+    }));
+  }, []);
+
   const textLineFieldConfig = useMemo(
     () => ({
       [ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]: {
@@ -428,6 +458,9 @@ const useAdminServiceForm = () => {
     onAddAdditionalFeature: handleAddAdditionalFeature,
     onAddSize: handleAddSize,
     onAddOption: handleAddOption,
+    onRemoveAdditionalFeature: handleRemoveAdditionalFeature,
+    onRemoveSize: handleRemoveSize,
+    onRemoveOption: handleRemoveOption,
     onAddTextLine: handleAddTextLine,
     onRemoveTextLine: handleRemoveTextLine,
     onBannerFilesSelected: handleBannerFilesSelected,

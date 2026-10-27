@@ -20,7 +20,9 @@ import {
   ADMIN_SERVICE_FORM_SELECT_MENU_CLASS,
   ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS,
   ADMIN_SERVICE_FORM_VIEWPORT,
+  createEmptyAdditionalFeatureRow,
   createEmptyAdminServiceFormValues,
+  createEmptySizeRow,
   createEmptyTextLineRow,
 } from '../adminServiceFormData';
 import AdminServiceFormView from '../AdminServiceFormView';
@@ -232,6 +234,33 @@ describe('AdminServiceFormView', () => {
 
     await user.click(removeButtons[0]);
     expect(removeHandler).toHaveBeenCalledWith('standard-featured-1');
+  });
+
+  it('removes additional feature and size rows when multiple exist', async () => {
+    const user = userEvent.setup();
+    const values = createFormValues();
+    values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] = [
+      createEmptyAdditionalFeatureRow('feature-row-1'),
+      createEmptyAdditionalFeatureRow('feature-row-2'),
+    ];
+    values[ADMIN_SERVICE_FORM_FIELDS.SIZES] = [
+      createEmptySizeRow('size-row-1'),
+      createEmptySizeRow('size-row-2'),
+    ];
+    const onRemoveAdditionalFeature = jest.fn();
+    const onRemoveSize = jest.fn();
+
+    renderForm({ values, onRemoveAdditionalFeature, onRemoveSize });
+
+    await user.click(
+      screen.getAllByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.removeFeature })[0],
+    );
+    await user.click(
+      screen.getAllByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.removeSize })[0],
+    );
+
+    expect(onRemoveAdditionalFeature).toHaveBeenCalledWith('feature-row-1');
+    expect(onRemoveSize).toHaveBeenCalledWith('size-row-1');
   });
 
   it('shows edit title and submits the form', async () => {

@@ -47,6 +47,9 @@ const AdminServiceFormView = ({
   onAddAdditionalFeature,
   onAddSize,
   onAddOption,
+  onRemoveAdditionalFeature,
+  onRemoveSize,
+  onRemoveOption,
   onAddTextLine,
   onRemoveTextLine,
   onBannerFilesSelected,
@@ -88,6 +91,9 @@ const AdminServiceFormView = ({
           onAddAdditionalFeature={onAddAdditionalFeature}
           onAddSize={onAddSize}
           onAddOption={onAddOption}
+          onRemoveAdditionalFeature={onRemoveAdditionalFeature}
+          onRemoveSize={onRemoveSize}
+          onRemoveOption={onRemoveOption}
           onAddTextLine={onAddTextLine}
           onRemoveTextLine={onRemoveTextLine}
         />

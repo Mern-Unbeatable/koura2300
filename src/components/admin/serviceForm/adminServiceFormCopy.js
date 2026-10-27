@@ -15,7 +15,9 @@ export const ADMIN_SERVICE_FORM_COPY = {
     addAdditionalFeature: 'Add additional feature',
     removeFeature: 'Remove feature',
     addAnotherSize: 'Add another size',
+    removeSize: 'Remove size',
     addAnotherOption: 'Add another option',
+    removeOption: 'Remove option',
   },
   titles: {
     create: 'Add New Service',
