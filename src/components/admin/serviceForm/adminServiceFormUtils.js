@@ -164,6 +164,15 @@ export const createAdminServiceFormValues = (details) => {
 
 export const appendAdminServiceFormRow = (rows, nextRow) => [...(rows ?? []), nextRow];
 
+export const removeAdminServiceFormRow = (rows, rowId) => {
+  const currentRows = Array.isArray(rows) ? rows : [];
+  if (currentRows.length <= 1) {
+    return currentRows;
+  }
+
+  return currentRows.filter((row) => row.id !== rowId);
+};
+
 export const updateAdminServiceFormRowField = (rows, rowId, fieldKey, nextValue) =>
   (rows ?? []).map((row) =>
     row.id === rowId

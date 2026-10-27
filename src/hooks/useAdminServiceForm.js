@@ -25,6 +25,7 @@ import {
   getAdminServiceFormDetailsById,
   getAdminServiceFormSeo,
   getAdminServiceFormTitle,
+  removeAdminServiceFormRow,
   resolveAdminServiceFormMode,
   revokePreviewUrl,
   revokePreviewUrls,
@@ -292,6 +293,16 @@ const useAdminServiceForm = () => {
     [textLineFieldConfig],
   );
 
+  const handleRemoveTextLine = useCallback(
+    (fieldName) => (rowId) => {
+      setValues((current) => ({
+        ...current,
+        [fieldName]: removeAdminServiceFormRow(current[fieldName], rowId),
+      }));
+    },
+    [],
+  );
+
   const handleBannerFilesSelected = useCallback(async (files) => {
     const selectedFiles = Array.isArray(files) ? files : Array.from(files ?? []);
     const limitError = assertBannerFileLimit(selectedFiles);
@@ -418,6 +429,7 @@ const useAdminServiceForm = () => {
     onAddSize: handleAddSize,
     onAddOption: handleAddOption,
     onAddTextLine: handleAddTextLine,
+    onRemoveTextLine: handleRemoveTextLine,
     onBannerFilesSelected: handleBannerFilesSelected,
     onOtherFilesSelected: handleOtherFilesSelected,
     onRemoveBannerImage: handleRemoveBannerImage,

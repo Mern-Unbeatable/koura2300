@@ -10,6 +10,7 @@ import {
   createEmptyAdminServiceFormValues,
   createEmptyOptionRow,
   createEmptySizeRow,
+  createEmptyTextLineRow,
   getAdminServiceFormSubcategoryOptions,
 } from '../adminServiceFormData';
 import {
@@ -20,6 +21,7 @@ import {
   formatPriceInputValue,
   getAdminServiceFormDetailsById,
   parsePriceInputValue,
+  removeAdminServiceFormRow,
   resolveAdminServiceFormMode,
   updateAdminServiceFormRowField,
   validateAdminServiceForm,
@@ -83,6 +85,21 @@ describe('adminServiceFormUtils', () => {
     expect(assertBannerFileLimit([{ name: 'a' }, { name: 'b' }])).toBeTruthy();
     expect(assertBannerFileLimit([{ name: 'a' }])).toBeNull();
     expect(ADMIN_SERVICE_FORM_BANNER_MAX_FILES).toBe(1);
+  });
+
+  it('removes text-line rows but always keeps at least one', () => {
+    const single = [createEmptyTextLineRow('featured-1')];
+    const multiple = [
+      createEmptyTextLineRow('featured-1'),
+      createEmptyTextLineRow('featured-2'),
+      createEmptyTextLineRow('featured-3'),
+    ];
+
+    expect(removeAdminServiceFormRow(single, 'featured-1')).toHaveLength(1);
+    expect(removeAdminServiceFormRow(multiple, 'featured-2')).toEqual([
+      createEmptyTextLineRow('featured-1'),
+      createEmptyTextLineRow('featured-3'),
+    ]);
   });
 
   it('appends and updates dynamic feature, size, and option rows immutably', () => {

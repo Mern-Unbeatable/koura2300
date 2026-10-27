@@ -221,6 +221,10 @@ export const ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS =
   'grid min-w-0 grid-cols-1 gap-4 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-4 min-[1020px]:gap-5';
 export const ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS =
   'inline-flex w-fit cursor-pointer items-center text-base font-normal leading-[1.2] text-[#fc6f32] transition-colors hover:text-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS =
+  'inline-flex w-fit cursor-pointer items-center text-base font-normal leading-[1.2] text-[#697076] transition-colors hover:text-[#dc2626] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const ADMIN_SERVICE_FORM_TEXT_LINE_ACTIONS_CLASS =
+  'flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1';
 export const ADMIN_SERVICE_FORM_TEXT_LINES_CLASS = 'flex min-w-0 flex-col gap-2';
 export const ADMIN_SERVICE_FORM_FIELD_CLASS = 'flex min-w-0 flex-col gap-2';
 export const ADMIN_SERVICE_FORM_LABEL_CLASS =

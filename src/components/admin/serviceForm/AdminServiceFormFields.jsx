@@ -17,6 +17,7 @@ import {
   ADMIN_SERVICE_FORM_MEASUREMENT_UNITS,
   ADMIN_SERVICE_FORM_OPTION_KEYS,
   ADMIN_SERVICE_FORM_PAIR_CLASS,
+  ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS,
   ADMIN_SERVICE_FORM_ROW_CLASS,
   ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE,
   ADMIN_SERVICE_FORM_SELECT_ICON_CLASS,
@@ -30,6 +31,7 @@ import {
   ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS,
   ADMIN_SERVICE_FORM_SIZE_KEYS,
   ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS,
+  ADMIN_SERVICE_FORM_TEXT_LINE_ACTIONS_CLASS,
   ADMIN_SERVICE_FORM_TEXT_LINE_KEYS,
   ADMIN_SERVICE_FORM_TEXT_LINES_CLASS,
   ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS,
@@ -109,54 +111,73 @@ const TextLinesField = memo(
     error,
     onChange,
     onAdd,
+    onRemove,
     addLabel,
+    removeLabel,
     long = false,
-  }) => (
-    <div className={ADMIN_SERVICE_FORM_TEXT_LINES_CLASS}>
-      {(rows ?? []).map((row, index) => {
-        const fieldId = `${idPrefix}-${row.id}`;
-        const showError = index === 0 ? error : undefined;
-        const value = row[ADMIN_SERVICE_FORM_TEXT_LINE_KEYS.VALUE] ?? '';
-        return (
-          <div key={row.id} className={ADMIN_SERVICE_FORM_FIELD_CLASS}>
-            <label htmlFor={fieldId} className={ADMIN_SERVICE_FORM_LABEL_CLASS}>
-              {label}
-            </label>
-            {long ? (
-              <textarea
-                id={fieldId}
-                value={value}
-                placeholder={placeholder}
-                onChange={onChange(row.id)}
-                className={`${ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS} ${
-                  showError ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
-                }`}
-              />
-            ) : (
-              <input
-                id={fieldId}
-                type="text"
-                value={value}
-                placeholder={placeholder}
-                onChange={onChange(row.id)}
-                className={`${ADMIN_SERVICE_FORM_CONTROL_CLASS} ${
-                  showError ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
-                }`}
-              />
-            )}
-            {index === 0 ? <FieldError error={showError} /> : null}
-            <button
-              type="button"
-              className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
-              onClick={onAdd}
-            >
-              {addLabel}
-            </button>
-          </div>
-        );
-      })}
-    </div>
-  ),
+  }) => {
+    const lineRows = rows ?? [];
+    const canRemove = lineRows.length > 1;
+
+    return (
+      <div className={ADMIN_SERVICE_FORM_TEXT_LINES_CLASS}>
+        {lineRows.map((row, index) => {
+          const fieldId = `${idPrefix}-${row.id}`;
+          const showError = index === 0 ? error : undefined;
+          const value = row[ADMIN_SERVICE_FORM_TEXT_LINE_KEYS.VALUE] ?? '';
+
+          return (
+            <div key={row.id} className={ADMIN_SERVICE_FORM_FIELD_CLASS}>
+              <label htmlFor={fieldId} className={ADMIN_SERVICE_FORM_LABEL_CLASS}>
+                {label}
+              </label>
+              {long ? (
+                <textarea
+                  id={fieldId}
+                  value={value}
+                  placeholder={placeholder}
+                  onChange={onChange(row.id)}
+                  className={`${ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS} ${
+                    showError ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
+                  }`}
+                />
+              ) : (
+                <input
+                  id={fieldId}
+                  type="text"
+                  value={value}
+                  placeholder={placeholder}
+                  onChange={onChange(row.id)}
+                  className={`${ADMIN_SERVICE_FORM_CONTROL_CLASS} ${
+                    showError ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
+                  }`}
+                />
+              )}
+              {index === 0 ? <FieldError error={showError} /> : null}
+              <div className={ADMIN_SERVICE_FORM_TEXT_LINE_ACTIONS_CLASS}>
+                <button
+                  type="button"
+                  className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
+                  onClick={onAdd}
+                >
+                  {addLabel}
+                </button>
+                {canRemove ? (
+                  <button
+                    type="button"
+                    className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+                    onClick={() => onRemove(row.id)}
+                  >
+                    {removeLabel}
+                  </button>
+                ) : null}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  },
 );
 
 TextLinesField.displayName = 'TextLinesField';
@@ -481,6 +502,7 @@ const AdminServiceFormFields = memo(
     onAddSize = () => {},
     onAddOption = () => {},
     onAddTextLine = () => {},
+    onRemoveTextLine = () => {},
   }) => {
     const subcategoryOptions = getAdminServiceFormSubcategoryOptions(
       values[ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID],
@@ -535,7 +557,9 @@ const AdminServiceFormFields = memo(
             error={errors[ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]}
             onChange={onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED)}
             onAdd={onAddTextLine(ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED)}
+            onRemove={onRemoveTextLine(ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED)}
             addLabel={copy.actions.addAdditionalFeature}
+            removeLabel={copy.actions.removeFeature}
           />
         </div>
 
@@ -556,7 +580,9 @@ const AdminServiceFormFields = memo(
             error={errors[ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]}
             onChange={onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED)}
             onAdd={onAddTextLine(ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED)}
+            onRemove={onRemoveTextLine(ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED)}
             addLabel={copy.actions.addAdditionalFeature}
+            removeLabel={copy.actions.removeFeature}
           />
         </div>
 
@@ -609,7 +635,9 @@ const AdminServiceFormFields = memo(
           error={errors[ADMIN_SERVICE_FORM_FIELDS.INCLUDED]}
           onChange={onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)}
           onAdd={onAddTextLine(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)}
+          onRemove={onRemoveTextLine(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)}
           addLabel={copy.actions.addAdditionalFeature}
+          removeLabel={copy.actions.removeFeature}
           long
         />
 
@@ -621,7 +649,9 @@ const AdminServiceFormFields = memo(
           error={errors[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]}
           onChange={onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)}
           onAdd={onAddTextLine(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)}
+          onRemove={onRemoveTextLine(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)}
           addLabel={copy.actions.addAdditionalFeature}
+          removeLabel={copy.actions.removeFeature}
           long
         />
       </>

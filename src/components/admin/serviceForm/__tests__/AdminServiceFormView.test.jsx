@@ -21,6 +21,7 @@ import {
   ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS,
   ADMIN_SERVICE_FORM_VIEWPORT,
   createEmptyAdminServiceFormValues,
+  createEmptyTextLineRow,
 } from '../adminServiceFormData';
 import AdminServiceFormView from '../AdminServiceFormView';
 
@@ -32,6 +33,7 @@ const renderForm = (props = {}) => {
   const onAddSize = jest.fn();
   const onAddOption = jest.fn();
   const onAddTextLine = jest.fn(() => () => {});
+  const onRemoveTextLine = jest.fn(() => () => {});
   const onAdditionalFeatureChange = jest.fn(() => () => {});
   const onSizeChange = jest.fn(() => () => {});
   const onOptionChange = jest.fn(() => () => {});
@@ -55,6 +57,7 @@ const renderForm = (props = {}) => {
         onAddSize={onAddSize}
         onAddOption={onAddOption}
         onAddTextLine={onAddTextLine}
+        onRemoveTextLine={onRemoveTextLine}
         onBannerFilesSelected={jest.fn()}
         onOtherFilesSelected={jest.fn()}
         onSubmit={onSubmit}
@@ -69,6 +72,7 @@ const renderForm = (props = {}) => {
     onAddSize,
     onAddOption,
     onAddTextLine,
+    onRemoveTextLine,
   };
 };
 
@@ -205,6 +209,29 @@ describe('AdminServiceFormView', () => {
     expect(onAddTextLine).toHaveBeenCalled();
     expect(onAddSize).toHaveBeenCalledTimes(1);
     expect(onAddOption).toHaveBeenCalledTimes(1);
+  });
+
+  it('shows remove feature only when multiple featured rows exist and invokes remove', async () => {
+    const user = userEvent.setup();
+    const values = createFormValues();
+    values[ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED] = [
+      createEmptyTextLineRow('standard-featured-1'),
+      createEmptyTextLineRow('standard-featured-2'),
+    ];
+    const removeHandler = jest.fn();
+    const onRemoveTextLine = jest.fn((fieldName) =>
+      fieldName === ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED ? removeHandler : () => {},
+    );
+
+    renderForm({ values, onRemoveTextLine });
+
+    const removeButtons = screen.getAllByRole('button', {
+      name: ADMIN_SERVICE_FORM_COPY.actions.removeFeature,
+    });
+    expect(removeButtons.length).toBeGreaterThanOrEqual(2);
+
+    await user.click(removeButtons[0]);
+    expect(removeHandler).toHaveBeenCalledWith('standard-featured-1');
   });
 
   it('shows edit title and submits the form', async () => {

@@ -13,6 +13,7 @@ export const ADMIN_SERVICE_FORM_COPY = {
     back: 'Back',
     upload: 'Upload',
     addAdditionalFeature: 'Add additional feature',
+    removeFeature: 'Remove feature',
     addAnotherSize: 'Add another size',
     addAnotherOption: 'Add another option',
   },
