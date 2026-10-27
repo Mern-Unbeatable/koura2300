@@ -1,6 +1,7 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import useAddService from '../../hooks/useAddService';
 import useLandingSearch from '../../hooks/useLandingSearch';
+import usePostedCatalogServices from '../../hooks/usePostedCatalogServices';
 import useScrollToTop from '../../hooks/useScrollToTop';
 import useTopRatedServices from '../../hooks/useTopRatedServices';
 import LandingFooter from '../home/LandingFooter';
@@ -8,17 +9,22 @@ import LandingHeader from '../home/LandingHeader';
 import TopRatedServicesView from './TopRatedServicesView';
 import { TOP_RATED_SERVICES_CONTENT } from './topRatedServicesCopy';
 import {
+  buildTopRatedServices,
   TOP_RATED_MAIN_CLASS,
   TOP_RATED_PAGE_CLASS,
   TOP_RATED_PAGE_SIZE,
-  TOP_RATED_SERVICES,
 } from './topRatedServicesData';
 
 const TopRatedServicesContent = memo(() => {
   useScrollToTop();
+  const catalogServices = usePostedCatalogServices();
+  const topRatedServices = useMemo(
+    () => buildTopRatedServices(catalogServices),
+    [catalogServices],
+  );
 
   const { filteredServices, searchValue, handleSearchChange, handleSearchSubmit } =
-    useLandingSearch(TOP_RATED_SERVICES);
+    useLandingSearch(topRatedServices);
   const catalog = useTopRatedServices(filteredServices, TOP_RATED_PAGE_SIZE);
   const handleAddService = useAddService();
 

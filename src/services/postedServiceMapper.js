@@ -1,4 +1,5 @@
 import { ROUTES } from '../config';
+import { resolvePostedMediaUrl } from './postedMediaStore';
 
 const SERVICE_PACKAGES = {
   STANDARD: 'standard',
@@ -197,7 +198,7 @@ export const toCatalogServiceFromPosted = (postedService) => {
     duration: postedService.duration,
     price: postedService.price,
     rating: postedService.rating,
-    image: postedService.image,
+    image: resolvePostedMediaUrl(postedService.image),
     imageAlt: postedService.imageAlt,
     isPosted: true,
   };

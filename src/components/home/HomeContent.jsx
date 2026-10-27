@@ -1,5 +1,6 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import useLandingSearch from '../../hooks/useLandingSearch';
+import usePostedCatalogServices from '../../hooks/usePostedCatalogServices';
 import FeaturedCategories from './FeaturedCategories';
 import LandingFooter from './LandingFooter';
 import LandingHeader from './LandingHeader';
@@ -11,8 +12,16 @@ import { LANDING_CONTENT } from './landingContent';
 import { SERVICE_ITEMS } from './landingData';
 
 const HomeContent = memo(() => {
+  const catalogServices = usePostedCatalogServices(SERVICE_ITEMS);
+  const homeServices = useMemo(() => {
+    const postedServices = catalogServices.filter((service) => service.isPosted);
+    const postedIds = new Set(postedServices.map((service) => service.id));
+    const featuredSeed = SERVICE_ITEMS.filter((service) => !postedIds.has(service.id));
+    return [...postedServices, ...featuredSeed];
+  }, [catalogServices]);
+
   const { filteredServices, searchValue, handleSearchChange, handleSearchSubmit } =
-    useLandingSearch(SERVICE_ITEMS);
+    useLandingSearch(homeServices);
 
   return (
     <div className="min-h-screen overflow-x-clip bg-white font-inter text-brand-ink">

@@ -1,6 +1,7 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock3, Plus, Star } from 'lucide-react';
+import { POSTED_MEDIA_DEFAULT_IMAGE } from '../../services/postedMediaStore';
 import { LANDING_CONTENT } from './landingContent';
 
 const RATING_STARS = 5;
@@ -59,15 +60,29 @@ const VARIANT_STYLES = {
 const ServiceCardMedia = memo(({ service, variantStyles, isAdmin }) => {
   const categoryLabel = service.catalogTitle ?? service.category;
   const subcategoryLabel = service.catalogTitle ? service.category : service.subcategory;
+  const [imageSrc, setImageSrc] = useState(
+    () => service.image || POSTED_MEDIA_DEFAULT_IMAGE,
+  );
+
+  useEffect(() => {
+    setImageSrc(service.image || POSTED_MEDIA_DEFAULT_IMAGE);
+  }, [service.image]);
+
+  const handleImageError = useCallback(() => {
+    setImageSrc((current) =>
+      current === POSTED_MEDIA_DEFAULT_IMAGE ? current : POSTED_MEDIA_DEFAULT_IMAGE,
+    );
+  }, []);
 
   return (
     <div className="relative">
       <img
-        src={service.image}
+        src={imageSrc}
         alt={service.imageAlt}
         width={variantStyles.imageWidth}
         height={variantStyles.imageHeight}
         loading="lazy"
+        onError={handleImageError}
         className={`w-full object-cover ${variantStyles.image}`}
       />
       <div className="absolute left-3 top-3 z-[1] flex max-w-[calc(100%-1.5rem)] flex-wrap gap-2">

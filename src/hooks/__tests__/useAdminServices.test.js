@@ -118,12 +118,12 @@ describe('useAdminServices', () => {
     ).toBe(true);
   });
 
-  it('deletes a service and shows a success toast', () => {
+  it('deletes a service and shows a success toast', async () => {
     const { result } = renderUseAdminServices();
     const targetId = SERVICES_SEED[0].id;
 
-    act(() => {
-      result.current.onDeleteService(targetId);
+    await act(async () => {
+      await result.current.onDeleteService(targetId);
     });
 
     expect(toast.success).toHaveBeenCalledWith(SERVICES_COPY.toasts.deleteService);

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
@@ -28,16 +28,22 @@ import {
   deletePostedServiceById,
   listPostedServices,
 } from '../services/postedServicesStore';
+import usePostedMediaHydration from './usePostedMediaHydration';
 
 const getAdminServicesList = () =>
   mergePostedServicesWithSeed(SERVICES_SEED, listPostedServices());
 
 const useAdminServices = () => {
   const navigate = useNavigate();
+  const mediaVersion = usePostedMediaHydration();
   const [services, setServices] = useState(getAdminServicesList);
   const [selectedCategoryId, setSelectedCategoryId] = useState(SERVICES_ALL_FILTER_ID);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(SERVICES_ALL_FILTER_ID);
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setServices(getAdminServicesList());
+  }, [mediaVersion]);
 
   const filteredServices = useMemo(
     () => filterServices(services, selectedCategoryId, selectedSubcategoryId),

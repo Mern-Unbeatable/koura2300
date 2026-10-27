@@ -1,4 +1,5 @@
 import { ROUTES, SERVICE_DETAILS_PREFIX, CATALOG_ALL_CATEGORY } from '../../config';
+import { resolvePostedMediaUrl } from '../../services/postedMediaStore';
 import { toCatalogServiceFromPosted } from '../../services/postedServiceMapper';
 import {
   getPostedServiceById,
@@ -56,12 +57,43 @@ export const getCatalogServiceById = (serviceId) => {
   return ALL_CATALOG_SERVICES.find((service) => service.id === serviceId);
 };
 
-export const listCatalogServicesWithPosted = () => {
-  const postedServices = listPostedServices().map(toCatalogServiceFromPosted);
-  const postedIds = new Set(postedServices.map((service) => service.id));
-  const seedServices = ALL_CATALOG_SERVICES.filter((service) => !postedIds.has(service.id));
-  return [...postedServices, ...seedServices];
+const toDisplayCatalogService = (service) => {
+  if (!service) {
+    return service;
+  }
+
+  return {
+    ...service,
+    image: resolvePostedMediaUrl(service.image),
+  };
 };
+
+export const mergePostedIntoCatalogServices = (seedServices = [], matcher = {}) => {
+  const { catalogTitle, catalogPath } = matcher;
+  let postedServices = listPostedServices().map(toCatalogServiceFromPosted);
+
+  if (catalogTitle) {
+    postedServices = postedServices.filter(
+      (service) => service.catalogTitle === catalogTitle,
+    );
+  } else if (catalogPath) {
+    postedServices = postedServices.filter((service) => service.catalogPath === catalogPath);
+  }
+
+  const postedIds = new Set(postedServices.map((service) => service.id));
+  const seedWithoutPosted = (Array.isArray(seedServices) ? seedServices : []).filter(
+    (service) => !postedIds.has(service.id),
+  );
+
+  return [...postedServices, ...seedWithoutPosted].map(toDisplayCatalogService);
+};
+
+export const listCatalogServicesWithPosted = () =>
+  mergePostedIntoCatalogServices(ALL_CATALOG_SERVICES);
+
+export const resolveCatalogPathForSeedServices = (seedServices) =>
+  CATALOG_COLLECTIONS.find((collection) => collection.services === seedServices)?.path ??
+  null;
 
 const isSameCatalogSibling = (candidate, service) =>
   candidate.catalogPath === service.catalogPath && candidate.id !== service.id;
@@ -78,7 +110,7 @@ export const getPromotionalServices = (
 ) => {
   const isAllTab = String(selectedCategory === CATALOG_ALL_CATEGORY);
 
-  return ALL_CATALOG_SERVICES.filter((candidate) =>
+  return listCatalogServicesWithPosted().filter((candidate) =>
     PROMOTIONAL_MATCHERS[isAllTab](candidate, service, selectedCategory),
   );
 };

@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import useAddService from '../../hooks/useAddService';
 import useLandingSearch from '../../hooks/useLandingSearch';
+import usePostedCatalogServices from '../../hooks/usePostedCatalogServices';
 import useScrollToTop from '../../hooks/useScrollToTop';
 import useServiceCatalog from '../../hooks/useServiceCatalog';
 import LandingFooter from '../home/LandingFooter';
@@ -19,9 +20,10 @@ import ServiceCatalogSubcategoryGrid from './ServiceCatalogSubcategoryGrid';
 const ServiceCatalogContent = memo(
   ({ services, categories, priceRanges, allCategory, pageSize, content }) => {
     useScrollToTop();
+    const servicesWithPosted = usePostedCatalogServices(services);
 
     const { filteredServices, searchValue, handleSearchChange, handleSearchSubmit } =
-      useLandingSearch(services);
+      useLandingSearch(servicesWithPosted);
     const catalog = useServiceCatalog({
       services: filteredServices,
       allCategory,
