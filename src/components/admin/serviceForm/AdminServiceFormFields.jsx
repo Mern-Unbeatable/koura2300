@@ -118,6 +118,7 @@ const TextLinesField = memo(
   }) => {
     const lineRows = rows ?? [];
     const canRemove = lineRows.length > 1;
+    const lastRow = lineRows[lineRows.length - 1];
 
     return (
       <div className={ADMIN_SERVICE_FORM_TEXT_LINES_CLASS}>
@@ -125,6 +126,7 @@ const TextLinesField = memo(
           const fieldId = `${idPrefix}-${row.id}`;
           const showError = index === 0 ? error : undefined;
           const value = row[ADMIN_SERVICE_FORM_TEXT_LINE_KEYS.VALUE] ?? '';
+          const isLast = index === lineRows.length - 1;
 
           return (
             <div key={row.id} className={ADMIN_SERVICE_FORM_FIELD_CLASS}>
@@ -154,27 +156,32 @@ const TextLinesField = memo(
                 />
               )}
               {index === 0 ? <FieldError error={showError} /> : null}
-              <div className={ADMIN_SERVICE_FORM_TEXT_LINE_ACTIONS_CLASS}>
+              {!isLast && canRemove ? (
                 <button
                   type="button"
-                  className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
-                  onClick={onAdd}
+                  className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+                  onClick={() => onRemove(row.id)}
                 >
-                  {addLabel}
+                  {removeLabel}
                 </button>
-                {canRemove ? (
-                  <button
-                    type="button"
-                    className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
-                    onClick={() => onRemove(row.id)}
-                  >
-                    {removeLabel}
-                  </button>
-                ) : null}
-              </div>
+              ) : null}
             </div>
           );
         })}
+        <div className={ADMIN_SERVICE_FORM_TEXT_LINE_ACTIONS_CLASS}>
+          <button type="button" className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS} onClick={onAdd}>
+            {addLabel}
+          </button>
+          {canRemove && lastRow ? (
+            <button
+              type="button"
+              className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+              onClick={() => onRemove(lastRow.id)}
+            >
+              {removeLabel}
+            </button>
+          ) : null}
+        </div>
       </div>
     );
   },
@@ -268,6 +275,7 @@ const AdditionalFeatureRows = memo(
     onRemoveAdditionalFeature,
   }) => {
     const canRemove = rows.length > 1;
+    const lastRow = rows[rows.length - 1];
 
     return (
       <section
@@ -278,103 +286,118 @@ const AdditionalFeatureRows = memo(
           {copy.sections.additionalFeature}
         </h2>
         <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
-          {rows.map((row) => (
-            <div key={row.id} className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
-              <div className={ADMIN_SERVICE_FORM_FEATURE_ROW_CLASS}>
-                <TextField
-                  id={`service-form-feature-name-${row.id}`}
-                  label={copy.fields.featureName}
-                  placeholder={copy.placeholders.featureName}
-                  type="number"
-                  inputMode="decimal"
-                  min="0"
-                  step="any"
-                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]}
-                  onChange={onAdditionalFeatureChange(
-                    row.id,
-                    ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
-                  )}
-                />
-                <SelectField
-                  id={`service-form-feature-measurement-${row.id}`}
-                  label={copy.fields.featureMeasurementUnit}
-                  placeholder={copy.placeholders.featureMeasurementUnit}
-                  options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
-                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT]}
-                  onChange={onAdditionalFeatureChange(
-                    row.id,
-                    ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT,
-                  )}
-                />
-                <TextField
-                  id={`service-form-feature-quantity-${row.id}`}
-                  label={copy.fields.featureQuantity}
-                  placeholder={copy.placeholders.featureQuantity}
-                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY]}
-                  onChange={onAdditionalFeatureChange(
-                    row.id,
-                    ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY,
-                  )}
-                />
-                <TextField
-                  id={`service-form-feature-standard-price-${row.id}`}
-                  label={copy.fields.standardPrice}
-                  placeholder={copy.placeholders.featureStandardPrice}
-                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE]}
-                  onChange={onAdditionalFeatureChange(
-                    row.id,
-                    ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE,
-                  )}
-                />
-                <TextField
-                  id={`service-form-feature-premium-price-${row.id}`}
-                  label={copy.fields.premiumPrice}
-                  placeholder={copy.placeholders.featurePremiumPrice}
-                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE]}
-                  onChange={onAdditionalFeatureChange(
-                    row.id,
-                    ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE,
-                  )}
-                />
-                <TextField
-                  id={`service-form-feature-note-1-${row.id}`}
-                  label={copy.fields.featureNote1}
-                  placeholder={copy.placeholders.featureNote}
-                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1]}
-                  onChange={onAdditionalFeatureChange(
-                    row.id,
-                    ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1,
-                  )}
-                />
-                <TextField
-                  id={`service-form-feature-note-2-${row.id}`}
-                  label={copy.fields.featureNote2}
-                  placeholder={copy.placeholders.featureNote}
-                  value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2]}
-                  onChange={onAdditionalFeatureChange(
-                    row.id,
-                    ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2,
-                  )}
-                />
+          {rows.map((row, index) => {
+            const isLast = index === rows.length - 1;
+
+            return (
+              <div key={row.id} className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
+                <div className={ADMIN_SERVICE_FORM_FEATURE_ROW_CLASS}>
+                  <TextField
+                    id={`service-form-feature-name-${row.id}`}
+                    label={copy.fields.featureName}
+                    placeholder={copy.placeholders.featureName}
+                    type="number"
+                    inputMode="decimal"
+                    min="0"
+                    step="any"
+                    value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]}
+                    onChange={onAdditionalFeatureChange(
+                      row.id,
+                      ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
+                    )}
+                  />
+                  <SelectField
+                    id={`service-form-feature-measurement-${row.id}`}
+                    label={copy.fields.featureMeasurementUnit}
+                    placeholder={copy.placeholders.featureMeasurementUnit}
+                    options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
+                    value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT]}
+                    onChange={onAdditionalFeatureChange(
+                      row.id,
+                      ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT,
+                    )}
+                  />
+                  <TextField
+                    id={`service-form-feature-quantity-${row.id}`}
+                    label={copy.fields.featureQuantity}
+                    placeholder={copy.placeholders.featureQuantity}
+                    value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY]}
+                    onChange={onAdditionalFeatureChange(
+                      row.id,
+                      ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY,
+                    )}
+                  />
+                  <TextField
+                    id={`service-form-feature-standard-price-${row.id}`}
+                    label={copy.fields.standardPrice}
+                    placeholder={copy.placeholders.featureStandardPrice}
+                    value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE]}
+                    onChange={onAdditionalFeatureChange(
+                      row.id,
+                      ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE,
+                    )}
+                  />
+                  <TextField
+                    id={`service-form-feature-premium-price-${row.id}`}
+                    label={copy.fields.premiumPrice}
+                    placeholder={copy.placeholders.featurePremiumPrice}
+                    value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE]}
+                    onChange={onAdditionalFeatureChange(
+                      row.id,
+                      ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE,
+                    )}
+                  />
+                  <TextField
+                    id={`service-form-feature-note-1-${row.id}`}
+                    label={copy.fields.featureNote1}
+                    placeholder={copy.placeholders.featureNote}
+                    value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1]}
+                    onChange={onAdditionalFeatureChange(
+                      row.id,
+                      ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1,
+                    )}
+                  />
+                  <TextField
+                    id={`service-form-feature-note-2-${row.id}`}
+                    label={copy.fields.featureNote2}
+                    placeholder={copy.placeholders.featureNote}
+                    value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2]}
+                    onChange={onAdditionalFeatureChange(
+                      row.id,
+                      ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2,
+                    )}
+                  />
+                </div>
+                {!isLast && canRemove ? (
+                  <button
+                    type="button"
+                    className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+                    onClick={() => onRemoveAdditionalFeature(row.id)}
+                  >
+                    {copy.actions.removeFeature}
+                  </button>
+                ) : null}
               </div>
-              {canRemove ? (
-                <button
-                  type="button"
-                  className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
-                  onClick={() => onRemoveAdditionalFeature(row.id)}
-                >
-                  {copy.actions.removeFeature}
-                </button>
-              ) : null}
-            </div>
-          ))}
-          <button
-            type="button"
-            className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
-            onClick={onAddAdditionalFeature}
-          >
-            {copy.actions.addAdditionalFeature}
-          </button>
+            );
+          })}
+          <div className={ADMIN_SERVICE_FORM_TEXT_LINE_ACTIONS_CLASS}>
+            <button
+              type="button"
+              className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
+              onClick={onAddAdditionalFeature}
+            >
+              {copy.actions.addAdditionalFeature}
+            </button>
+            {canRemove && lastRow ? (
+              <button
+                type="button"
+                className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+                onClick={() => onRemoveAdditionalFeature(lastRow.id)}
+              >
+                {copy.actions.removeFeature}
+              </button>
+            ) : null}
+          </div>
         </div>
       </section>
     );
@@ -385,62 +408,82 @@ AdditionalFeatureRows.displayName = 'AdditionalFeatureRows';
 
 const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) => {
   const canRemove = rows.length > 1;
+  const lastRow = rows[rows.length - 1];
 
   return (
     <section className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} aria-label={copy.sections.sizes}>
       <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>{copy.sections.sizes}</h2>
       <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
-        {rows.map((row) => (
-          <div key={row.id} className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
-            <div className={ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS}>
-              <TextField
-                id={`service-form-size-${row.id}`}
-                label={copy.fields.size}
-                placeholder={copy.placeholders.size}
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step="any"
-                value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]}
-                onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)}
-              />
-              <SelectField
-                id={`service-form-size-measurement-${row.id}`}
-                label={copy.fields.sizeMeasurementUnit}
-                placeholder={copy.placeholders.sizeMeasurementUnit}
-                options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
-                value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT]}
-                onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT)}
-              />
-              <TextField
-                id={`service-form-size-standard-price-${row.id}`}
-                label={copy.fields.standardPrice}
-                placeholder={copy.placeholders.price}
-                value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE]}
-                onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE)}
-              />
-              <TextField
-                id={`service-form-size-premium-price-${row.id}`}
-                label={copy.fields.premiumPrice}
-                placeholder={copy.placeholders.price}
-                value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE]}
-                onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE)}
-              />
+        {rows.map((row, index) => {
+          const isLast = index === rows.length - 1;
+
+          return (
+            <div key={row.id} className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
+              <div className={ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS}>
+                <TextField
+                  id={`service-form-size-${row.id}`}
+                  label={copy.fields.size}
+                  placeholder={copy.placeholders.size}
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="any"
+                  value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]}
+                  onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)}
+                />
+                <SelectField
+                  id={`service-form-size-measurement-${row.id}`}
+                  label={copy.fields.sizeMeasurementUnit}
+                  placeholder={copy.placeholders.sizeMeasurementUnit}
+                  options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
+                  value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT]}
+                  onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT)}
+                />
+                <TextField
+                  id={`service-form-size-standard-price-${row.id}`}
+                  label={copy.fields.standardPrice}
+                  placeholder={copy.placeholders.price}
+                  value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE]}
+                  onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE)}
+                />
+                <TextField
+                  id={`service-form-size-premium-price-${row.id}`}
+                  label={copy.fields.premiumPrice}
+                  placeholder={copy.placeholders.price}
+                  value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE]}
+                  onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE)}
+                />
+              </div>
+              {!isLast && canRemove ? (
+                <button
+                  type="button"
+                  className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+                  onClick={() => onRemoveSize(row.id)}
+                >
+                  {copy.actions.removeSize}
+                </button>
+              ) : null}
             </div>
-            {canRemove ? (
-              <button
-                type="button"
-                className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
-                onClick={() => onRemoveSize(row.id)}
-              >
-                {copy.actions.removeSize}
-              </button>
-            ) : null}
-          </div>
-        ))}
-        <button type="button" className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS} onClick={onAddSize}>
-          {copy.actions.addAnotherSize}
-        </button>
+          );
+        })}
+        <div className={ADMIN_SERVICE_FORM_TEXT_LINE_ACTIONS_CLASS}>
+          <button
+            type="button"
+            className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
+            onClick={onAddSize}
+          >
+            {copy.actions.addAnotherSize}
+          </button>
+          {canRemove && lastRow ? (
+            <button
+              type="button"
+              className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+              onClick={() => onRemoveSize(lastRow.id)}
+            >
+              {copy.actions.removeSize}
+            </button>
+          ) : null}
+        </div>
       </div>
     </section>
   );
@@ -450,54 +493,70 @@ SizeRows.displayName = 'SizeRows';
 
 const OptionRows = memo(({ copy, rows, onOptionChange, onAddOption, onRemoveOption }) => {
   const canRemove = rows.length > 1;
+  const lastRow = rows[rows.length - 1];
 
   return (
     <section className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} aria-label={copy.sections.options}>
       <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>{copy.sections.options}</h2>
       <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
-        {rows.map((row) => (
-          <div key={row.id} className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
-            <div className={ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS}>
-              <TextField
-                id={`service-form-option-name-${row.id}`}
-                label={copy.fields.optionName}
-                placeholder={copy.placeholders.optionName}
-                value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.NAME]}
-                onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.NAME)}
-              />
-              <TextField
-                id={`service-form-option-standard-price-${row.id}`}
-                label={copy.fields.standardPrice}
-                placeholder={copy.placeholders.price}
-                value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE]}
-                onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE)}
-              />
-              <TextField
-                id={`service-form-option-premium-price-${row.id}`}
-                label={copy.fields.premiumPrice}
-                placeholder={copy.placeholders.price}
-                value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE]}
-                onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE)}
-              />
+        {rows.map((row, index) => {
+          const isLast = index === rows.length - 1;
+
+          return (
+            <div key={row.id} className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
+              <div className={ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS}>
+                <TextField
+                  id={`service-form-option-name-${row.id}`}
+                  label={copy.fields.optionName}
+                  placeholder={copy.placeholders.optionName}
+                  value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.NAME]}
+                  onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.NAME)}
+                />
+                <TextField
+                  id={`service-form-option-standard-price-${row.id}`}
+                  label={copy.fields.standardPrice}
+                  placeholder={copy.placeholders.price}
+                  value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE]}
+                  onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE)}
+                />
+                <TextField
+                  id={`service-form-option-premium-price-${row.id}`}
+                  label={copy.fields.premiumPrice}
+                  placeholder={copy.placeholders.price}
+                  value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE]}
+                  onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE)}
+                />
+              </div>
+              {!isLast && canRemove ? (
+                <button
+                  type="button"
+                  className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+                  onClick={() => onRemoveOption(row.id)}
+                >
+                  {copy.actions.removeOption}
+                </button>
+              ) : null}
             </div>
-            {canRemove ? (
-              <button
-                type="button"
-                className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
-                onClick={() => onRemoveOption(row.id)}
-              >
-                {copy.actions.removeOption}
-              </button>
-            ) : null}
-          </div>
-        ))}
-        <button
-          type="button"
-          className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
-          onClick={onAddOption}
-        >
-          {copy.actions.addAnotherOption}
-        </button>
+          );
+        })}
+        <div className={ADMIN_SERVICE_FORM_TEXT_LINE_ACTIONS_CLASS}>
+          <button
+            type="button"
+            className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
+            onClick={onAddOption}
+          >
+            {copy.actions.addAnotherOption}
+          </button>
+          {canRemove && lastRow ? (
+            <button
+              type="button"
+              className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
+              onClick={() => onRemoveOption(lastRow.id)}
+            >
+              {copy.actions.removeOption}
+            </button>
+          ) : null}
+        </div>
       </div>
     </section>
   );
