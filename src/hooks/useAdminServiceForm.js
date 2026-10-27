@@ -8,10 +8,12 @@ import {
   ADMIN_SERVICE_FORM_FIELDS,
   ADMIN_SERVICE_FORM_MODE,
   ADMIN_SERVICE_FORM_ROW_ID_PREFIX,
+  ADMIN_SERVICE_FORM_TEXT_LINE_KEYS,
   createEmptyAdditionalFeatureRow,
   createEmptyAdminServiceFormValues,
   createEmptyOptionRow,
   createEmptySizeRow,
+  createEmptyTextLineRow,
 } from '../components/admin/serviceForm/adminServiceFormData';
 import {
   appendAdminServiceFormRow,
@@ -51,11 +53,21 @@ const useAdminServiceForm = () => {
       : createEmptyAdminServiceFormValues(),
   );
   const [errors, setErrors] = useState({});
-  const rowSequenceRef = useRef({
-    feature: 1,
-    size: 1,
-    option: 1,
-  });
+  const getRowSequenceSeed = useCallback((formValues) => {
+    const countRows = (fieldName) =>
+      Math.max(1, (formValues?.[fieldName] ?? []).length);
+
+    return {
+      feature: countRows(ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES),
+      size: countRows(ADMIN_SERVICE_FORM_FIELDS.SIZES),
+      option: countRows(ADMIN_SERVICE_FORM_FIELDS.OPTIONS),
+      standardFeatured: countRows(ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED),
+      premiumFeatured: countRows(ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED),
+      included: countRows(ADMIN_SERVICE_FORM_FIELDS.INCLUDED),
+      notIncluded: countRows(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED),
+    };
+  }, []);
+  const rowSequenceRef = useRef(getRowSequenceSeed(values));
   const valuesRef = useRef(values);
   valuesRef.current = values;
 
@@ -64,10 +76,12 @@ const useAdminServiceForm = () => {
       return undefined;
     }
 
-    setValues(createAdminServiceFormValues(details));
+    const nextValues = createAdminServiceFormValues(details);
+    setValues(nextValues);
+    rowSequenceRef.current = getRowSequenceSeed(nextValues);
     setErrors({});
     return undefined;
-  }, [details, isEditMode, serviceId]);
+  }, [details, getRowSequenceSeed, isEditMode, serviceId]);
 
   useEffect(
     () => () => {
@@ -208,6 +222,76 @@ const useAdminServiceForm = () => {
     }));
   }, []);
 
+  const textLineFieldConfig = useMemo(
+    () => ({
+      [ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]: {
+        sequenceKey: 'standardFeatured',
+        prefix: ADMIN_SERVICE_FORM_ROW_ID_PREFIX.STANDARD_FEATURED,
+      },
+      [ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]: {
+        sequenceKey: 'premiumFeatured',
+        prefix: ADMIN_SERVICE_FORM_ROW_ID_PREFIX.PREMIUM_FEATURED,
+      },
+      [ADMIN_SERVICE_FORM_FIELDS.INCLUDED]: {
+        sequenceKey: 'included',
+        prefix: ADMIN_SERVICE_FORM_ROW_ID_PREFIX.INCLUDED,
+      },
+      [ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]: {
+        sequenceKey: 'notIncluded',
+        prefix: ADMIN_SERVICE_FORM_ROW_ID_PREFIX.NOT_INCLUDED,
+      },
+    }),
+    [],
+  );
+
+  const handleTextLineChange = useCallback(
+    (fieldName) => (rowId) => (event) => {
+      const nextValue = event.target.value;
+      setValues((current) => ({
+        ...current,
+        [fieldName]: updateAdminServiceFormRowField(
+          current[fieldName],
+          rowId,
+          ADMIN_SERVICE_FORM_TEXT_LINE_KEYS.VALUE,
+          nextValue,
+        ),
+      }));
+      setErrors((current) => {
+        if (!current[fieldName]) {
+          return current;
+        }
+        const nextErrors = { ...current };
+        delete nextErrors[fieldName];
+        return nextErrors;
+      });
+    },
+    [],
+  );
+
+  const handleAddTextLine = useCallback(
+    (fieldName) => () => {
+      const config = textLineFieldConfig[fieldName];
+      if (!config) {
+        return;
+      }
+
+      rowSequenceRef.current[config.sequenceKey] += 1;
+      const nextId = createAdminServiceFormRowId(
+        config.prefix,
+        rowSequenceRef.current[config.sequenceKey],
+      );
+
+      setValues((current) => ({
+        ...current,
+        [fieldName]: appendAdminServiceFormRow(
+          current[fieldName],
+          createEmptyTextLineRow(nextId),
+        ),
+      }));
+    },
+    [textLineFieldConfig],
+  );
+
   const handleBannerFilesSelected = useCallback(async (files) => {
     const selectedFiles = Array.isArray(files) ? files : Array.from(files ?? []);
     const limitError = assertBannerFileLimit(selectedFiles);
@@ -329,9 +413,11 @@ const useAdminServiceForm = () => {
     onAdditionalFeatureChange: handleAdditionalFeatureChange,
     onSizeChange: handleSizeChange,
     onOptionChange: handleOptionChange,
+    onTextLineChange: handleTextLineChange,
     onAddAdditionalFeature: handleAddAdditionalFeature,
     onAddSize: handleAddSize,
     onAddOption: handleAddOption,
+    onAddTextLine: handleAddTextLine,
     onBannerFilesSelected: handleBannerFilesSelected,
     onOtherFilesSelected: handleOtherFilesSelected,
     onRemoveBannerImage: handleRemoveBannerImage,

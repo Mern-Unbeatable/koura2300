@@ -75,6 +75,16 @@ const splitMultilineItems = (value) =>
     .map((item) => item.trim())
     .filter(Boolean);
 
+const splitTextLineItems = (value) => {
+  if (Array.isArray(value)) {
+    return value
+      .map((row) => String(row?.value ?? row ?? '').trim())
+      .filter(Boolean);
+  }
+
+  return splitMultilineItems(value);
+};
+
 const hasFilledFeatureRow = (row) =>
   !isBlank(row?.name) ||
   !isBlank(row?.measurementUnit) ||
@@ -156,20 +166,20 @@ export const mapAdminFormValuesToPostedService = (formValues, { existingId } = {
     isPosted: true,
     details: {
       overview: String(formValues[FORM_FIELDS.LONG_DESCRIPTION] ?? '').trim(),
-      includedItems: splitMultilineItems(formValues[FORM_FIELDS.INCLUDED]),
-      excludedItems: splitMultilineItems(formValues[FORM_FIELDS.NOT_INCLUDED]),
+      includedItems: splitTextLineItems(formValues[FORM_FIELDS.INCLUDED]),
+      excludedItems: splitTextLineItems(formValues[FORM_FIELDS.NOT_INCLUDED]),
       packages: [
         {
           id: SERVICE_PACKAGES.STANDARD,
           title: 'Standard',
           price: Number.isFinite(standardPrice) ? standardPrice : 0,
-          features: splitMultilineItems(formValues[FORM_FIELDS.STANDARD_FEATURED]),
+          features: splitTextLineItems(formValues[FORM_FIELDS.STANDARD_FEATURED]),
         },
         {
           id: SERVICE_PACKAGES.PREMIUM,
           title: 'Premium',
           price: Number.isFinite(premiumPrice) ? premiumPrice : 0,
-          features: splitMultilineItems(formValues[FORM_FIELDS.PREMIUM_FEATURED]),
+          features: splitTextLineItems(formValues[FORM_FIELDS.PREMIUM_FEATURED]),
         },
       ],
       additionalFeatures: filterFilledAdditionalFeatures(

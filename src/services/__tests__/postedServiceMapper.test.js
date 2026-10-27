@@ -13,14 +13,17 @@ describe('postedServiceMapper', () => {
       subcategoryId: 'Vanity Services',
       duration: '1-2 hours',
       standardPrice: '$200.00',
-      standardFeatured: 'Standard install',
+      standardFeatured: [{ id: 'standard-featured-1', value: 'Standard install' }],
       premiumPrice: '$250.00',
-      premiumFeatured: 'Premium install',
+      premiumFeatured: [{ id: 'premium-featured-1', value: 'Premium install' }],
       title: 'Vanity Handle Replacement',
       shortDescription: 'Short copy',
       longDescription: '',
-      included: 'Labor\nCleanup',
-      notIncluded: 'Parts',
+      included: [
+        { id: 'included-1', value: 'Labor' },
+        { id: 'included-2', value: 'Cleanup' },
+      ],
+      notIncluded: [{ id: 'not-included-1', value: 'Parts' }],
       additionalFeatures: [
         {
           id: 'feature-1',

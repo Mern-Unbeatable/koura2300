@@ -53,6 +53,33 @@ export const parsePriceInputValue = (priceText) => {
 const joinListItems = (items) =>
   Array.isArray(items) ? items.filter(Boolean).join('\n') : '';
 
+export const joinTextLineRows = (rows) =>
+  (Array.isArray(rows) ? rows : [])
+    .map((row) => String(row?.value ?? '').trim())
+    .filter(Boolean)
+    .join('\n');
+
+export const createTextLineRowsFromItems = (items, idPrefix) => {
+  const lines = Array.isArray(items)
+    ? items.map((item) => String(item ?? '').trim()).filter(Boolean)
+    : String(items ?? '')
+        .split(/\r?\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+
+  if (lines.length === 0) {
+    return [{ id: `${idPrefix}-1`, value: '' }];
+  }
+
+  return lines.map((value, index) => ({
+    id: `${idPrefix}-${index + 1}`,
+    value,
+  }));
+};
+
+export const hasFilledTextLineRows = (rows) =>
+  (Array.isArray(rows) ? rows : []).some((row) => String(row?.value ?? '').trim());
+
 const getPackageById = (packages, packageId) =>
   packages.find((item) => item.id === packageId) ?? null;
 
@@ -84,12 +111,14 @@ export const createAdminServiceFormValues = (details) => {
     [ADMIN_SERVICE_FORM_FIELDS.STANDARD_PRICE]: formatPriceInputValue(
       standardPackage?.price ?? service.price,
     ),
-    [ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]: joinListItems(
-      standardPackage?.features?.slice(0, 1),
+    [ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]: createTextLineRowsFromItems(
+      standardPackage?.features,
+      'standard-featured',
     ),
     [ADMIN_SERVICE_FORM_FIELDS.PREMIUM_PRICE]: formatPriceInputValue(premiumPackage?.price),
-    [ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]: joinListItems(
-      premiumPackage?.features?.slice(0, 1),
+    [ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]: createTextLineRowsFromItems(
+      premiumPackage?.features,
+      'premium-featured',
     ),
     [ADMIN_SERVICE_FORM_FIELDS.TITLE]: service.title ?? '',
     [ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION]: service.description ?? '',
@@ -106,8 +135,14 @@ export const createAdminServiceFormValues = (details) => {
       Array.isArray(options) && options.length > 0
         ? options
         : emptyValues[ADMIN_SERVICE_FORM_FIELDS.OPTIONS],
-    [ADMIN_SERVICE_FORM_FIELDS.INCLUDED]: joinListItems(includedItems),
-    [ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]: joinListItems(excludedItems),
+    [ADMIN_SERVICE_FORM_FIELDS.INCLUDED]: createTextLineRowsFromItems(
+      includedItems,
+      'included',
+    ),
+    [ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]: createTextLineRowsFromItems(
+      excludedItems,
+      'not-included',
+    ),
     [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: service.image
       ? {
           id: `existing-banner-${service.id}`,
@@ -211,11 +246,11 @@ export const validateAdminServiceForm = (
     errors[ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION] = copyErrors.shortDescriptionRequired;
   }
 
-  if (isBlank(formValues[ADMIN_SERVICE_FORM_FIELDS.INCLUDED])) {
+  if (!hasFilledTextLineRows(formValues[ADMIN_SERVICE_FORM_FIELDS.INCLUDED])) {
     errors[ADMIN_SERVICE_FORM_FIELDS.INCLUDED] = copyErrors.includedRequired;
   }
 
-  if (isBlank(formValues[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED])) {
+  if (!hasFilledTextLineRows(formValues[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED])) {
     errors[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED] = copyErrors.notIncludedRequired;
   }
 

@@ -55,7 +55,10 @@ describe('adminServiceFormUtils', () => {
     expect(values[ADMIN_SERVICE_FORM_FIELDS.SUBCATEGORY_ID]).toBe(service.category);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.TITLE]).toBe(service.title);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.STANDARD_PRICE]).toMatch(/^\$/);
+    expect(Array.isArray(values[ADMIN_SERVICE_FORM_FIELDS.INCLUDED])).toBe(true);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.INCLUDED].length).toBeGreaterThan(0);
+    expect(Array.isArray(values[ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED])).toBe(true);
+    expect(values[ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED].length).toBeGreaterThan(0);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(1);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.SIZES]).toHaveLength(1);
     expect(values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(1);

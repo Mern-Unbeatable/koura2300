@@ -58,7 +58,7 @@ export const ADMIN_SERVICE_FORM_COPY = {
     title: 'Portland Cement Quick Set',
     shortDescription: 'Brief summary of the service',
     longDescription: 'Detailed description of the service scope and approach',
-    featureName: '24 Inch',
+    featureName: '24',
     featureMeasurementUnit: 'inch,sq,ft,cm',
     featureQuantity: '1',
     featureStandardPrice: '25%',

@@ -68,6 +68,10 @@ export const ADMIN_SERVICE_FORM_OPTION_KEYS = {
   PREMIUM_PRICE: 'premiumPrice',
 };
 
+export const ADMIN_SERVICE_FORM_TEXT_LINE_KEYS = {
+  VALUE: 'value',
+};
+
 export const createEmptyAdditionalFeatureRow = (id) => ({
   id,
   [ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]: '',
@@ -94,9 +98,18 @@ export const createEmptyOptionRow = (id) => ({
   [ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE]: '',
 });
 
+export const createEmptyTextLineRow = (id) => ({
+  id,
+  [ADMIN_SERVICE_FORM_TEXT_LINE_KEYS.VALUE]: '',
+});
+
 export const ADMIN_SERVICE_FORM_INITIAL_FEATURE_ROW_ID = 'feature-row-1';
 export const ADMIN_SERVICE_FORM_INITIAL_SIZE_ROW_ID = 'size-row-1';
 export const ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID = 'option-row-1';
+export const ADMIN_SERVICE_FORM_INITIAL_STANDARD_FEATURED_ID = 'standard-featured-1';
+export const ADMIN_SERVICE_FORM_INITIAL_PREMIUM_FEATURED_ID = 'premium-featured-1';
+export const ADMIN_SERVICE_FORM_INITIAL_INCLUDED_ID = 'included-1';
+export const ADMIN_SERVICE_FORM_INITIAL_NOT_INCLUDED_ID = 'not-included-1';
 
 export const ADMIN_SERVICE_FORM_BANNER_MAX_FILES = 1;
 export const ADMIN_SERVICE_FORM_BACK_ICON_SIZE = 20;
@@ -117,9 +130,13 @@ export const ADMIN_SERVICE_FORM_EMPTY_VALUES = {
   [ADMIN_SERVICE_FORM_FIELDS.SUBCATEGORY_ID]: '',
   [ADMIN_SERVICE_FORM_FIELDS.DURATION]: '',
   [ADMIN_SERVICE_FORM_FIELDS.STANDARD_PRICE]: '',
-  [ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]: '',
+  [ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]: [
+    createEmptyTextLineRow(ADMIN_SERVICE_FORM_INITIAL_STANDARD_FEATURED_ID),
+  ],
   [ADMIN_SERVICE_FORM_FIELDS.PREMIUM_PRICE]: '',
-  [ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]: '',
+  [ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]: [
+    createEmptyTextLineRow(ADMIN_SERVICE_FORM_INITIAL_PREMIUM_FEATURED_ID),
+  ],
   [ADMIN_SERVICE_FORM_FIELDS.TITLE]: '',
   [ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION]: '',
   [ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION]: '',
@@ -132,14 +149,24 @@ export const ADMIN_SERVICE_FORM_EMPTY_VALUES = {
   [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: [
     createEmptyOptionRow(ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID),
   ],
-  [ADMIN_SERVICE_FORM_FIELDS.INCLUDED]: '',
-  [ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]: '',
+  [ADMIN_SERVICE_FORM_FIELDS.INCLUDED]: [
+    createEmptyTextLineRow(ADMIN_SERVICE_FORM_INITIAL_INCLUDED_ID),
+  ],
+  [ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]: [
+    createEmptyTextLineRow(ADMIN_SERVICE_FORM_INITIAL_NOT_INCLUDED_ID),
+  ],
   [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: null,
   [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: [],
 };
 
 export const createEmptyAdminServiceFormValues = () => ({
   ...ADMIN_SERVICE_FORM_EMPTY_VALUES,
+  [ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]: [
+    createEmptyTextLineRow(ADMIN_SERVICE_FORM_INITIAL_STANDARD_FEATURED_ID),
+  ],
+  [ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]: [
+    createEmptyTextLineRow(ADMIN_SERVICE_FORM_INITIAL_PREMIUM_FEATURED_ID),
+  ],
   [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: [
     createEmptyAdditionalFeatureRow(ADMIN_SERVICE_FORM_INITIAL_FEATURE_ROW_ID),
   ],
@@ -149,8 +176,24 @@ export const createEmptyAdminServiceFormValues = () => ({
   [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: [
     createEmptyOptionRow(ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID),
   ],
+  [ADMIN_SERVICE_FORM_FIELDS.INCLUDED]: [
+    createEmptyTextLineRow(ADMIN_SERVICE_FORM_INITIAL_INCLUDED_ID),
+  ],
+  [ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]: [
+    createEmptyTextLineRow(ADMIN_SERVICE_FORM_INITIAL_NOT_INCLUDED_ID),
+  ],
   [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: [],
 });
+
+export const ADMIN_SERVICE_FORM_ROW_ID_PREFIX = {
+  FEATURE: 'feature-row',
+  SIZE: 'size-row',
+  OPTION: 'option-row',
+  STANDARD_FEATURED: 'standard-featured',
+  PREMIUM_FEATURED: 'premium-featured',
+  INCLUDED: 'included',
+  NOT_INCLUDED: 'not-included',
+};
 
 export const ADMIN_SERVICE_FORM_PAGE_CLASS =
   'flex min-w-0 flex-col gap-5 max-[425px]:gap-5 min-[426px]:gap-6 min-[768px]:gap-8';
@@ -178,11 +221,7 @@ export const ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS =
   'grid min-w-0 grid-cols-1 gap-4 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-4 min-[1020px]:gap-5';
 export const ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS =
   'inline-flex w-fit cursor-pointer items-center text-base font-normal leading-[1.2] text-[#fc6f32] transition-colors hover:text-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
-export const ADMIN_SERVICE_FORM_ROW_ID_PREFIX = {
-  FEATURE: 'feature-row',
-  SIZE: 'size-row',
-  OPTION: 'option-row',
-};
+export const ADMIN_SERVICE_FORM_TEXT_LINES_CLASS = 'flex min-w-0 flex-col gap-2';
 export const ADMIN_SERVICE_FORM_FIELD_CLASS = 'flex min-w-0 flex-col gap-2';
 export const ADMIN_SERVICE_FORM_LABEL_CLASS =
   'text-sm leading-5 text-[#2d3036] min-[376px]:text-base';

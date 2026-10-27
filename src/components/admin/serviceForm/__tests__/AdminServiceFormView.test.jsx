@@ -31,9 +31,11 @@ const renderForm = (props = {}) => {
   const onAddAdditionalFeature = jest.fn();
   const onAddSize = jest.fn();
   const onAddOption = jest.fn();
+  const onAddTextLine = jest.fn(() => () => {});
   const onAdditionalFeatureChange = jest.fn(() => () => {});
   const onSizeChange = jest.fn(() => () => {});
   const onOptionChange = jest.fn(() => () => {});
+  const onTextLineChange = jest.fn(() => () => () => {});
 
   render(
     <MemoryRouter>
@@ -48,9 +50,11 @@ const renderForm = (props = {}) => {
         onAdditionalFeatureChange={onAdditionalFeatureChange}
         onSizeChange={onSizeChange}
         onOptionChange={onOptionChange}
+        onTextLineChange={onTextLineChange}
         onAddAdditionalFeature={onAddAdditionalFeature}
         onAddSize={onAddSize}
         onAddOption={onAddOption}
+        onAddTextLine={onAddTextLine}
         onBannerFilesSelected={jest.fn()}
         onOtherFilesSelected={jest.fn()}
         onSubmit={onSubmit}
@@ -64,6 +68,7 @@ const renderForm = (props = {}) => {
     onAddAdditionalFeature,
     onAddSize,
     onAddOption,
+    onAddTextLine,
   };
 };
 
@@ -98,7 +103,10 @@ describe('AdminServiceFormView', () => {
 
     expect(
       within(additionalFeatureSection).getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featureName),
-    ).toBeInTheDocument();
+    ).toHaveAttribute('type', 'number');
+    expect(
+      within(sizesSection).getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.size),
+    ).toHaveAttribute('type', 'number');
     expect(
       within(additionalFeatureSection).getByLabelText(
         ADMIN_SERVICE_FORM_COPY.fields.featureMeasurementUnit,
@@ -123,13 +131,21 @@ describe('AdminServiceFormView', () => {
     ).toBeInTheDocument();
     expect(screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.optionName)).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAdditionalFeature }),
-    ).toBeInTheDocument();
+      screen.getAllByRole('button', {
+        name: ADMIN_SERVICE_FORM_COPY.actions.addAdditionalFeature,
+      }).length,
+    ).toBeGreaterThanOrEqual(5);
     expect(
       screen.getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAnotherSize }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAnotherOption }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getAllByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featured).length,
+    ).toBeGreaterThanOrEqual(2);
+    expect(
+      screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.included),
     ).toBeInTheDocument();
     expect(
       screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.notIncluded),
@@ -161,13 +177,23 @@ describe('AdminServiceFormView', () => {
     expect(ADMIN_SERVICE_FORM_CONTROL_CLASS).toContain('placeholder:text-[#b8bec6]');
   });
 
-  it('invokes add-row handlers for Additional Feature, Sizes, and Options', async () => {
+  it('invokes add-row handlers for Additional Feature, Sizes, Options, and text lines', async () => {
     const user = userEvent.setup();
-    const { onAddAdditionalFeature, onAddSize, onAddOption } = renderForm();
+    const { onAddAdditionalFeature, onAddSize, onAddOption, onAddTextLine } = renderForm();
+
+    const addFeatureButtons = screen.getAllByRole('button', {
+      name: ADMIN_SERVICE_FORM_COPY.actions.addAdditionalFeature,
+    });
+    const additionalFeatureSection = screen
+      .getByText(ADMIN_SERVICE_FORM_COPY.sections.additionalFeature)
+      .closest('section');
 
     await user.click(
-      screen.getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAdditionalFeature }),
+      within(additionalFeatureSection).getByRole('button', {
+        name: ADMIN_SERVICE_FORM_COPY.actions.addAdditionalFeature,
+      }),
     );
+    await user.click(addFeatureButtons[0]);
     await user.click(
       screen.getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAnotherSize }),
     );
@@ -176,6 +202,7 @@ describe('AdminServiceFormView', () => {
     );
 
     expect(onAddAdditionalFeature).toHaveBeenCalledTimes(1);
+    expect(onAddTextLine).toHaveBeenCalled();
     expect(onAddSize).toHaveBeenCalledTimes(1);
     expect(onAddOption).toHaveBeenCalledTimes(1);
   });

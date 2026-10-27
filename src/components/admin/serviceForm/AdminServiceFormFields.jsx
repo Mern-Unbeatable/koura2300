@@ -30,6 +30,8 @@ import {
   ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS,
   ADMIN_SERVICE_FORM_SIZE_KEYS,
   ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS,
+  ADMIN_SERVICE_FORM_TEXT_LINE_KEYS,
+  ADMIN_SERVICE_FORM_TEXT_LINES_CLASS,
   ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS,
   ADMIN_SERVICE_FORM_TEXTAREA_SHORT_CLASS,
   getAdminServiceFormSubcategoryOptions,
@@ -42,7 +44,18 @@ const FieldError = memo(({ error }) =>
 FieldError.displayName = 'FieldError';
 
 const TextField = memo(
-  ({ id, label, value, placeholder, error, onChange, type = 'text' }) => (
+  ({
+    id,
+    label,
+    value,
+    placeholder,
+    error,
+    onChange,
+    type = 'text',
+    inputMode,
+    min,
+    step,
+  }) => (
     <div className={ADMIN_SERVICE_FORM_FIELD_CLASS}>
       <label htmlFor={id} className={ADMIN_SERVICE_FORM_LABEL_CLASS}>
         {label}
@@ -50,6 +63,9 @@ const TextField = memo(
       <input
         id={id}
         type={type}
+        inputMode={inputMode}
+        min={min}
+        step={step}
         value={value}
         placeholder={placeholder}
         onChange={onChange}
@@ -83,6 +99,67 @@ const TextAreaField = memo(({ id, label, value, placeholder, error, onChange, lo
 ));
 
 TextAreaField.displayName = 'TextAreaField';
+
+const TextLinesField = memo(
+  ({
+    idPrefix,
+    label,
+    rows,
+    placeholder,
+    error,
+    onChange,
+    onAdd,
+    addLabel,
+    long = false,
+  }) => (
+    <div className={ADMIN_SERVICE_FORM_TEXT_LINES_CLASS}>
+      {(rows ?? []).map((row, index) => {
+        const fieldId = `${idPrefix}-${row.id}`;
+        const showError = index === 0 ? error : undefined;
+        const value = row[ADMIN_SERVICE_FORM_TEXT_LINE_KEYS.VALUE] ?? '';
+        return (
+          <div key={row.id} className={ADMIN_SERVICE_FORM_FIELD_CLASS}>
+            <label htmlFor={fieldId} className={ADMIN_SERVICE_FORM_LABEL_CLASS}>
+              {label}
+            </label>
+            {long ? (
+              <textarea
+                id={fieldId}
+                value={value}
+                placeholder={placeholder}
+                onChange={onChange(row.id)}
+                className={`${ADMIN_SERVICE_FORM_TEXTAREA_LONG_CLASS} ${
+                  showError ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
+                }`}
+              />
+            ) : (
+              <input
+                id={fieldId}
+                type="text"
+                value={value}
+                placeholder={placeholder}
+                onChange={onChange(row.id)}
+                className={`${ADMIN_SERVICE_FORM_CONTROL_CLASS} ${
+                  showError ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
+                }`}
+              />
+            )}
+            {index === 0 ? <FieldError error={showError} /> : null}
+            <button
+              type="button"
+              className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
+              onClick={onAdd}
+            >
+              {addLabel}
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  ),
+);
+
+TextLinesField.displayName = 'TextLinesField';
 
 const SelectField = memo(({ id, label, value, placeholder, options, error, onChange }) => {
   const { containerRef, isOpen, onToggle, onClose } = useServicesFilterMenu();
@@ -174,6 +251,10 @@ const AdditionalFeatureRows = memo(
               id={`service-form-feature-name-${row.id}`}
               label={copy.fields.featureName}
               placeholder={copy.placeholders.featureName}
+              type="number"
+              inputMode="decimal"
+              min="0"
+              step="any"
               value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]}
               onChange={onAdditionalFeatureChange(
                 row.id,
@@ -267,6 +348,10 @@ const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize }) => (
             id={`service-form-size-${row.id}`}
             label={copy.fields.size}
             placeholder={copy.placeholders.size}
+            type="number"
+            inputMode="decimal"
+            min="0"
+            step="any"
             value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]}
             onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)}
           />
@@ -391,9 +476,11 @@ const AdminServiceFormFields = memo(
     onAdditionalFeatureChange = () => () => {},
     onSizeChange = () => () => {},
     onOptionChange = () => () => {},
+    onTextLineChange = () => () => {},
     onAddAdditionalFeature = () => {},
     onAddSize = () => {},
     onAddOption = () => {},
+    onAddTextLine = () => {},
   }) => {
     const subcategoryOptions = getAdminServiceFormSubcategoryOptions(
       values[ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID],
@@ -440,13 +527,15 @@ const AdminServiceFormFields = memo(
             error={errors[ADMIN_SERVICE_FORM_FIELDS.STANDARD_PRICE]}
             onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.STANDARD_PRICE)}
           />
-          <TextField
-            id="service-form-standard-featured"
+          <TextLinesField
+            idPrefix="service-form-standard-featured"
             label={copy.fields.featured}
             placeholder={copy.placeholders.featured}
-            value={values[ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]}
+            rows={values[ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]}
             error={errors[ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED]}
-            onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED)}
+            onChange={onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED)}
+            onAdd={onAddTextLine(ADMIN_SERVICE_FORM_FIELDS.STANDARD_FEATURED)}
+            addLabel={copy.actions.addAdditionalFeature}
           />
         </div>
 
@@ -459,13 +548,15 @@ const AdminServiceFormFields = memo(
             error={errors[ADMIN_SERVICE_FORM_FIELDS.PREMIUM_PRICE]}
             onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.PREMIUM_PRICE)}
           />
-          <TextField
-            id="service-form-premium-featured"
+          <TextLinesField
+            idPrefix="service-form-premium-featured"
             label={copy.fields.featured}
             placeholder={copy.placeholders.featured}
-            value={values[ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]}
+            rows={values[ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]}
             error={errors[ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED]}
-            onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED)}
+            onChange={onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED)}
+            onAdd={onAddTextLine(ADMIN_SERVICE_FORM_FIELDS.PREMIUM_FEATURED)}
+            addLabel={copy.actions.addAdditionalFeature}
           />
         </div>
 
@@ -510,23 +601,27 @@ const AdminServiceFormFields = memo(
           />
         )}
 
-        <TextAreaField
-          id="service-form-included"
+        <TextLinesField
+          idPrefix="service-form-included"
           label={copy.fields.included}
           placeholder={copy.placeholders.included}
-          value={values[ADMIN_SERVICE_FORM_FIELDS.INCLUDED]}
+          rows={values[ADMIN_SERVICE_FORM_FIELDS.INCLUDED]}
           error={errors[ADMIN_SERVICE_FORM_FIELDS.INCLUDED]}
-          onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)}
+          onChange={onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)}
+          onAdd={onAddTextLine(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)}
+          addLabel={copy.actions.addAdditionalFeature}
           long
         />
 
-        <TextAreaField
-          id="service-form-not-included"
+        <TextLinesField
+          idPrefix="service-form-not-included"
           label={copy.fields.notIncluded}
           placeholder={copy.placeholders.notIncluded}
-          value={values[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]}
+          rows={values[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]}
           error={errors[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]}
-          onChange={onFieldChange(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)}
+          onChange={onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)}
+          onAdd={onAddTextLine(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)}
+          addLabel={copy.actions.addAdditionalFeature}
           long
         />
       </>

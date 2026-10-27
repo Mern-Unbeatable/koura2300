@@ -43,9 +43,11 @@ const AdminServiceFormView = ({
   onAdditionalFeatureChange,
   onSizeChange,
   onOptionChange,
+  onTextLineChange,
   onAddAdditionalFeature,
   onAddSize,
   onAddOption,
+  onAddTextLine,
   onBannerFilesSelected,
   onOtherFilesSelected,
   onRemoveBannerImage,
@@ -81,9 +83,11 @@ const AdminServiceFormView = ({
           onAdditionalFeatureChange={onAdditionalFeatureChange}
           onSizeChange={onSizeChange}
           onOptionChange={onOptionChange}
+          onTextLineChange={onTextLineChange}
           onAddAdditionalFeature={onAddAdditionalFeature}
           onAddSize={onAddSize}
           onAddOption={onAddOption}
+          onAddTextLine={onAddTextLine}
         />
 
         <AdminServiceFormUploadZone
