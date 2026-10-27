@@ -1,4 +1,9 @@
 import { ROUTES, SERVICE_DETAILS_PREFIX, CATALOG_ALL_CATEGORY } from '../../config';
+import { toCatalogServiceFromPosted } from '../../services/postedServiceMapper';
+import {
+  getPostedServiceById,
+  listPostedServices,
+} from '../../services/postedServicesStore';
 import { APPLIANCES_SERVICES } from '../appliances/appliancesData';
 import { BASEMENT_SERVICES } from '../basement/basementData';
 import { BATHROOM_SERVICES } from '../bathroom/bathroomData';
@@ -42,8 +47,21 @@ const attachCatalogMetadata = (collection) =>
 
 export const ALL_CATALOG_SERVICES = CATALOG_COLLECTIONS.flatMap(attachCatalogMetadata);
 
-export const getCatalogServiceById = (serviceId) =>
-  ALL_CATALOG_SERVICES.find((service) => service.id === serviceId);
+export const getCatalogServiceById = (serviceId) => {
+  const postedService = getPostedServiceById(serviceId);
+  if (postedService) {
+    return toCatalogServiceFromPosted(postedService);
+  }
+
+  return ALL_CATALOG_SERVICES.find((service) => service.id === serviceId);
+};
+
+export const listCatalogServicesWithPosted = () => {
+  const postedServices = listPostedServices().map(toCatalogServiceFromPosted);
+  const postedIds = new Set(postedServices.map((service) => service.id));
+  const seedServices = ALL_CATALOG_SERVICES.filter((service) => !postedIds.has(service.id));
+  return [...postedServices, ...seedServices];
+};
 
 const isSameCatalogSibling = (candidate, service) =>
   candidate.catalogPath === service.catalogPath && candidate.id !== service.id;

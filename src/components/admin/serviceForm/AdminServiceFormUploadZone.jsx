@@ -1,11 +1,17 @@
 import { memo, useId, useRef, useState } from 'react';
+import { X } from 'lucide-react';
 import {
   ADMIN_SERVICE_FORM_ACCEPT,
+  ADMIN_SERVICE_FORM_BANNER_PREVIEW_WRAP_CLASS,
   ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS,
   ADMIN_SERVICE_FORM_LABEL_CLASS,
   ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS,
   ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS,
+  ADMIN_SERVICE_FORM_OTHER_PREVIEW_ITEM_CLASS,
   ADMIN_SERVICE_FORM_PREVIEW_CLASS,
+  ADMIN_SERVICE_FORM_PREVIEW_REMOVE_BUTTON_CLASS,
+  ADMIN_SERVICE_FORM_PREVIEW_REMOVE_ICON_SIZE,
+  ADMIN_SERVICE_FORM_STACK_PREVIEW_LIST_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_HINT_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_ICON_WRAP_CLASS,
   ADMIN_SERVICE_FORM_UPLOAD_META_CLASS,
@@ -35,35 +41,72 @@ const UploadMetaItem = memo(({ label }) => (
 
 UploadMetaItem.displayName = 'UploadMetaItem';
 
-const UploadPreviewList = memo(({ previews, layout, previewImageClassName }) => {
-  if (previews.length === 0) {
-    return null;
-  }
+const PreviewRemoveButton = memo(({ label, onRemove }) => (
+  <button
+    type="button"
+    className={ADMIN_SERVICE_FORM_PREVIEW_REMOVE_BUTTON_CLASS}
+    aria-label={label}
+    onClick={(event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      onRemove();
+    }}
+  >
+    <X size={ADMIN_SERVICE_FORM_PREVIEW_REMOVE_ICON_SIZE} aria-hidden="true" />
+  </button>
+));
 
-  if (layout === PREVIEW_LAYOUT.GRID) {
+PreviewRemoveButton.displayName = 'PreviewRemoveButton';
+
+const UploadPreviewList = memo(
+  ({ previews, layout, previewImageClassName, removeLabel, onRemovePreview }) => {
+    if (previews.length === 0) {
+      return null;
+    }
+
+    if (layout === PREVIEW_LAYOUT.GRID) {
+      return (
+        <div className={ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS}>
+          {previews.map((preview) => (
+            <div key={preview.id} className={ADMIN_SERVICE_FORM_OTHER_PREVIEW_ITEM_CLASS}>
+              <img
+                src={preview.previewUrl}
+                alt=""
+                className={ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS}
+              />
+              {onRemovePreview ? (
+                <PreviewRemoveButton
+                  label={removeLabel}
+                  onRemove={() => onRemovePreview(preview.id)}
+                />
+              ) : null}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
     return (
-      <div className={ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS}>
+      <div className={ADMIN_SERVICE_FORM_STACK_PREVIEW_LIST_CLASS}>
         {previews.map((preview) => (
-          <img
-            key={preview.id}
-            src={preview.previewUrl}
-            alt=""
-            className={ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS}
-          />
+          <div key={preview.id} className={ADMIN_SERVICE_FORM_BANNER_PREVIEW_WRAP_CLASS}>
+            <img
+              src={preview.previewUrl}
+              alt=""
+              className={previewImageClassName}
+            />
+            {onRemovePreview ? (
+              <PreviewRemoveButton
+                label={removeLabel}
+                onRemove={() => onRemovePreview(preview.id)}
+              />
+            ) : null}
+          </div>
         ))}
       </div>
     );
-  }
-
-  return previews.map((preview) => (
-    <img
-      key={preview.id}
-      src={preview.previewUrl}
-      alt=""
-      className={previewImageClassName}
-    />
-  ));
-});
+  },
+);
 
 UploadPreviewList.displayName = 'UploadPreviewList';
 
@@ -77,9 +120,11 @@ const AdminServiceFormUploadZone = memo(
     multiple = false,
     previewLayout = PREVIEW_LAYOUT.STACK,
     previewImageClassName = ADMIN_SERVICE_FORM_PREVIEW_CLASS,
+    removeLabel = 'Remove image',
     error,
     previews = [],
     onFilesSelected,
+    onRemovePreview,
   }) => {
     const inputId = useId();
     const inputRef = useRef(null);
@@ -157,6 +202,8 @@ const AdminServiceFormUploadZone = memo(
           previews={previews}
           layout={previewLayout}
           previewImageClassName={previewImageClassName}
+          removeLabel={removeLabel}
+          onRemovePreview={onRemovePreview}
         />
       </div>
     );

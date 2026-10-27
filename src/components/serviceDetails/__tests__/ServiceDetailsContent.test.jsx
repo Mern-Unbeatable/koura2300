@@ -30,6 +30,9 @@ const PAINTING_SERVICE_ID = 'painting-interior';
 const DRYWALL_SERVICE_ID = 'drywall-services-installation';
 const INSULATION_SERVICE_ID = 'insulation-wall';
 const FRAMING_SERVICE_ID = 'framing-non-load-bearing-walls';
+const VANITY_HARDWARE_SERVICE_ID = 'vanity-services-hardware';
+const VANITY_INSTALLATION_SERVICE_ID = 'vanity-services-installation';
+const TOILET_INSTALLATION_SERVICE_ID = 'toilet-services-installation';
 const LIGHTING_DETAILS_PATH = buildServiceDetailsRoute(LIGHTING_SERVICE_ID);
 const FENCE_DETAILS_PATH = buildServiceDetailsRoute(FENCE_SERVICE_ID);
 
@@ -248,6 +251,37 @@ describe('Service details page', () => {
     ).toBeInTheDocument();
     expect(screen.queryByTestId('insulation-calculator')).not.toBeInTheDocument();
     expect(screen.queryByTestId('drywall-calculator')).not.toBeInTheDocument();
+  });
+
+  it('shows Additional Feature qty when admin overlay provides features', () => {
+    renderServiceDetails(VANITY_HARDWARE_SERVICE_ID);
+
+    expect(screen.getByTestId('service-additional-feature-qty')).toBeInTheDocument();
+    expect(screen.getByText('Number of ft')).toBeInTheDocument();
+    expect(screen.queryByTestId('service-variant-selector')).not.toBeInTheDocument();
+  });
+
+  it('shows size pills when admin overlay provides sizes', () => {
+    renderServiceDetails(VANITY_INSTALLATION_SERVICE_ID);
+
+    expect(screen.getByTestId('service-variant-selector')).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: '24 inch' })).toBeInTheDocument();
+    expect(screen.queryByTestId('service-additional-feature-qty')).not.toBeInTheDocument();
+  });
+
+  it('shows option pills when admin overlay provides options', () => {
+    renderServiceDetails(TOILET_INSTALLATION_SERVICE_ID);
+
+    expect(screen.getByTestId('service-variant-selector')).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Option A' })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: 'Option B' })).toBeInTheDocument();
+  });
+
+  it('hides admin-driven blocks on flat services without overlays', () => {
+    renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    expect(screen.queryByTestId('service-variant-selector')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('service-additional-feature-qty')).not.toBeInTheDocument();
   });
 
   it('keeps the parent catalog link current in the category navigation', () => {

@@ -17,6 +17,9 @@ import InsulationCalculator from './insulationCalculator/InsulationCalculator';
 import { hasInsulationCalculator } from './insulationCalculator/insulationCalculatorUtils';
 import FramingCalculator from './framingCalculator/FramingCalculator';
 import { hasFramingCalculator } from './framingCalculator/framingCalculatorUtils';
+import AdditionalFeatureQty from './additionalFeatureQty/AdditionalFeatureQty';
+import VariantSelector from './variantSelector/VariantSelector';
+import useVariantSelector from './variantSelector/useVariantSelector';
 import ServiceDetailsBooking from './ServiceDetailsBooking';
 import ServiceDetailsBreadcrumb from './ServiceDetailsBreadcrumb';
 import ServiceDetailsChat from './ServiceDetailsChat';
@@ -40,8 +43,14 @@ const ServiceDetailsView = memo(
     overview,
     includedItems,
     excludedItems,
+    additionalFeatures = [],
+    sizes = [],
+    options = [],
+    galleryImages = [],
   }) => {
-    const booking = useServiceBooking(service, packages);
+    const variantSelector = useVariantSelector({ sizes, options, packages });
+    const displayPackages = variantSelector.displayPackages;
+    const booking = useServiceBooking(service, displayPackages);
     const handleAddService = useAddService();
     const showFlooringCalculator = hasFlooringCalculator(service);
     const showCountertopCalculator = hasCountertopCalculator(service);
@@ -61,7 +70,11 @@ const ServiceDetailsView = memo(
           />
 
           <div className={DETAILS_SPLIT_GRID_CLASS}>
-            <ServiceDetailsGallery image={service.image} imageAlt={service.imageAlt} />
+            <ServiceDetailsGallery
+              image={service.image}
+              imageAlt={service.imageAlt}
+              images={galleryImages}
+            />
 
             <div className="flex h-full min-w-0 flex-col gap-4">
               <ServiceDetailsSummary
@@ -78,13 +91,26 @@ const ServiceDetailsView = memo(
               {showDrywallCalculator ? <DrywallCalculator /> : null}
               {showInsulationCalculator ? <InsulationCalculator /> : null}
               {showFramingCalculator ? <FramingCalculator /> : null}
+              {variantSelector.isVisible ? (
+                <VariantSelector
+                  kind={variantSelector.kind}
+                  items={variantSelector.items}
+                  selectedId={variantSelector.selectedId}
+                  onSelectVariant={variantSelector.onSelectVariant}
+                />
+              ) : null}
               <div className="flex min-h-0 flex-1 flex-col">
                 <ServiceDetailsPackages
-                  packages={packages}
+                  packages={displayPackages}
                   selectedPackageId={booking.selectedPackageId}
                   onSelectPackage={booking.handleSelectPackage}
                 />
               </div>
+              <AdditionalFeatureQty
+                additionalFeatures={additionalFeatures}
+                selectedPackageId={booking.selectedPackageId}
+                selectedPackagePrice={booking.selectedPackage?.price}
+              />
               <ServiceDetailsBooking
                 needsMaterials={booking.needsMaterials}
                 recycleOldMaterials={booking.recycleOldMaterials}

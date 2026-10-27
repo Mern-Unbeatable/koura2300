@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { ROUTES } from '../config';
+import { buildServiceDetailsRoute, ROUTES } from '../config';
 import { ADMIN_SERVICE_FORM_COPY } from '../components/admin/serviceForm/adminServiceFormCopy';
 import {
   ADMIN_SERVICE_FORM_CATEGORY_OPTIONS,
@@ -29,6 +29,8 @@ import {
   updateAdminServiceFormRowField,
   validateAdminServiceForm,
 } from '../components/admin/serviceForm/adminServiceFormUtils';
+import { mapAdminFormValuesToPostedService } from '../services/postedServiceMapper';
+import { upsertPostedService } from '../services/postedServicesStore';
 
 const useAdminServiceForm = () => {
   const navigate = useNavigate();
@@ -255,8 +257,33 @@ const useAdminServiceForm = () => {
     }));
   }, []);
 
+  const handleRemoveBannerImage = useCallback(() => {
+    setValues((current) => {
+      revokePreviewUrl(current[ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]);
+      return {
+        ...current,
+        [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: null,
+      };
+    });
+  }, []);
+
+  const handleRemoveOtherImage = useCallback((imageId) => {
+    setValues((current) => {
+      const currentImages = current[ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES] ?? [];
+      const imageToRemove = currentImages.find((image) => image.id === imageId);
+      revokePreviewUrl(imageToRemove);
+
+      return {
+        ...current,
+        [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: currentImages.filter(
+          (image) => image.id !== imageId,
+        ),
+      };
+    });
+  }, []);
+
   const handleSubmit = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
 
       const nextErrors = validateAdminServiceForm(values, {
@@ -268,14 +295,25 @@ const useAdminServiceForm = () => {
         return;
       }
 
-      toast.success(
-        isEditMode
-          ? ADMIN_SERVICE_FORM_COPY.toasts.updated
-          : ADMIN_SERVICE_FORM_COPY.toasts.created,
-      );
-      navigate(ROUTES.ADMIN_SERVICES);
+      try {
+        const postedService = mapAdminFormValuesToPostedService(values, {
+          existingId: isEditMode ? serviceId : undefined,
+        });
+        const savedService = await upsertPostedService(postedService);
+
+        toast.success(
+          isEditMode
+            ? ADMIN_SERVICE_FORM_COPY.toasts.updated
+            : ADMIN_SERVICE_FORM_COPY.toasts.created,
+        );
+        navigate(buildServiceDetailsRoute(savedService.id));
+      } catch (error) {
+        toast.error(
+          error?.message || 'Could not save service locally. Try again with fewer images.',
+        );
+      }
     },
-    [isEditMode, navigate, values],
+    [isEditMode, navigate, serviceId, values],
   );
 
   return {
@@ -296,6 +334,8 @@ const useAdminServiceForm = () => {
     onAddOption: handleAddOption,
     onBannerFilesSelected: handleBannerFilesSelected,
     onOtherFilesSelected: handleOtherFilesSelected,
+    onRemoveBannerImage: handleRemoveBannerImage,
+    onRemoveOtherImage: handleRemoveOtherImage,
     onSubmit: handleSubmit,
   };
 };

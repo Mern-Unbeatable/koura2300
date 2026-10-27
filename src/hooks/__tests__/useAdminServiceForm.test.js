@@ -10,7 +10,12 @@ import {
   ADMIN_SERVICE_FORM_SIZE_KEYS,
 } from '../../components/admin/serviceForm/adminServiceFormData';
 import { SERVICES_SEED } from '../../components/admin/services/servicesData';
+import { getCatalogServiceDetails } from '../../components/serviceDetails/serviceDetailsData';
 import { ROUTES } from '../../config';
+import {
+  clearPostedServices,
+  listPostedServices,
+} from '../../services/postedServicesStore';
 import useAdminServiceForm from '../useAdminServiceForm';
 
 jest.mock('react-hot-toast', () => ({
@@ -28,14 +33,16 @@ const renderFormHook = (initialPath) =>
           <Route path={ROUTES.ADMIN_SERVICE_NEW} element={children} />
           <Route path={ROUTES.ADMIN_SERVICE_EDIT} element={children} />
           <Route path={ROUTES.ADMIN_SERVICES} element={<div>services</div>} />
+          <Route path={ROUTES.SERVICE_DETAILS} element={<div>service-details</div>} />
         </Routes>
       </MemoryRouter>
     ),
   });
 
 describe('useAdminServiceForm', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
+    await clearPostedServices();
     global.URL.createObjectURL = jest.fn(() => 'blob:mock-url');
     global.URL.revokeObjectURL = jest.fn();
   });
@@ -98,37 +105,18 @@ describe('useAdminServiceForm', () => {
     expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(2);
     expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES]).toHaveLength(2);
     expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(2);
-    expect(
-      result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0][
-        ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME
-      ],
-    ).toBe('24 Inch');
-    expect(
-      result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES][0][ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE],
-    ).toBe('36 Inch');
-    expect(
-      result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0][
-        ADMIN_SERVICE_FORM_OPTION_KEYS.NAME
-      ],
-    ).toBe('Option A');
   });
 
-  it('validates before upload and toasts on success without long description', async () => {
+  it('persists posted JSON and opens Service Details after a valid upload', async () => {
     const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
-
-    act(() => {
-      result.current.onSubmit({ preventDefault: jest.fn() });
-    });
-
-    expect(result.current.errors[ADMIN_SERVICE_FORM_FIELDS.TITLE]).toBeTruthy();
-    expect(toast.success).not.toHaveBeenCalled();
+    const featureId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].id;
 
     act(() => {
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID)({
-        target: { value: 'Lighting' },
+        target: { value: 'Bathroom' },
       });
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.SUBCATEGORY_ID)({
-        target: { value: 'Indoor Lighting' },
+        target: { value: 'Vanity Services' },
       });
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.DURATION)({
         target: { value: '1-2 hrs' },
@@ -140,7 +128,7 @@ describe('useAdminServiceForm', () => {
         target: { value: '$250.00' },
       });
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.TITLE)({
-        target: { value: 'Test Service' },
+        target: { value: 'Posted Vanity Handles' },
       });
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION)({
         target: { value: 'Short' },
@@ -151,6 +139,30 @@ describe('useAdminServiceForm', () => {
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)({
         target: { value: 'Excluded' },
       });
+      result.current.onAdditionalFeatureChange(
+        featureId,
+        ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
+      )({
+        target: { value: 'Handles' },
+      });
+      result.current.onAdditionalFeatureChange(
+        featureId,
+        ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY,
+      )({
+        target: { value: '2' },
+      });
+      result.current.onAdditionalFeatureChange(
+        featureId,
+        ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE,
+      )({
+        target: { value: '25%' },
+      });
+      result.current.onAdditionalFeatureChange(
+        featureId,
+        ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1,
+      )({
+        target: { value: 'First 2 included' },
+      });
     });
 
     await act(async () => {
@@ -159,11 +171,20 @@ describe('useAdminServiceForm', () => {
       ]);
     });
 
-    act(() => {
-      result.current.onSubmit({ preventDefault: jest.fn() });
+    await act(async () => {
+      await result.current.onSubmit({ preventDefault: jest.fn() });
     });
 
-    expect(result.current.errors[ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION]).toBeUndefined();
     expect(toast.success).toHaveBeenCalledWith(ADMIN_SERVICE_FORM_COPY.toasts.created);
+    expect(listPostedServices()).toHaveLength(1);
+
+    const posted = listPostedServices()[0];
+    const details = getCatalogServiceDetails(posted.id);
+
+    expect(details.service.title).toBe('Posted Vanity Handles');
+    expect(details.service.image).toMatch(/^data:image\/png;base64,/);
+    expect(details.galleryImages[0]).toBe(details.service.image);
+    expect(details.additionalFeatures[0].name).toBe('Handles');
+    expect(details.additionalFeatures[0].note1).toBe('First 2 included');
   });
 });

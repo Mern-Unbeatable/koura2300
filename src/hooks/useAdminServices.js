@@ -23,10 +23,18 @@ import {
   paginateServices,
   shouldShowServicesPagination,
 } from '../components/admin/services/servicesUtils';
+import { mergePostedServicesWithSeed } from '../services/postedServiceMapper';
+import {
+  deletePostedServiceById,
+  listPostedServices,
+} from '../services/postedServicesStore';
+
+const getAdminServicesList = () =>
+  mergePostedServicesWithSeed(SERVICES_SEED, listPostedServices());
 
 const useAdminServices = () => {
   const navigate = useNavigate();
-  const [services, setServices] = useState(SERVICES_SEED);
+  const [services, setServices] = useState(getAdminServicesList);
   const [selectedCategoryId, setSelectedCategoryId] = useState(SERVICES_ALL_FILTER_ID);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(SERVICES_ALL_FILTER_ID);
   const [currentPage, setCurrentPage] = useState(1);
@@ -98,7 +106,8 @@ const useAdminServices = () => {
     [navigate],
   );
 
-  const handleDeleteService = useCallback((serviceId) => {
+  const handleDeleteService = useCallback(async (serviceId) => {
+    await deletePostedServiceById(serviceId);
     setServices((currentServices) => deleteServiceById(currentServices, serviceId));
     toast.success(SERVICES_COPY.toasts.deleteService);
   }, []);

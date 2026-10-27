@@ -61,13 +61,23 @@ export const createAdminServiceFormValues = (details) => {
     return createEmptyAdminServiceFormValues();
   }
 
-  const { service, packages = [], overview = '', includedItems = [], excludedItems = [] } =
-    details;
+  const {
+    service,
+    packages = [],
+    overview = '',
+    includedItems = [],
+    excludedItems = [],
+    additionalFeatures,
+    sizes,
+    options,
+    otherImages = [],
+  } = details;
   const standardPackage = getPackageById(packages, SERVICE_PACKAGES.STANDARD);
   const premiumPackage = getPackageById(packages, SERVICE_PACKAGES.PREMIUM);
+  const emptyValues = createEmptyAdminServiceFormValues();
 
   return {
-    ...createEmptyAdminServiceFormValues(),
+    ...emptyValues,
     [ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID]: service.catalogTitle ?? '',
     [ADMIN_SERVICE_FORM_FIELDS.SUBCATEGORY_ID]: service.category ?? '',
     [ADMIN_SERVICE_FORM_FIELDS.DURATION]: service.duration ?? '',
@@ -84,6 +94,18 @@ export const createAdminServiceFormValues = (details) => {
     [ADMIN_SERVICE_FORM_FIELDS.TITLE]: service.title ?? '',
     [ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION]: service.description ?? '',
     [ADMIN_SERVICE_FORM_FIELDS.LONG_DESCRIPTION]: overview,
+    [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]:
+      Array.isArray(additionalFeatures) && additionalFeatures.length > 0
+        ? additionalFeatures
+        : emptyValues[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES],
+    [ADMIN_SERVICE_FORM_FIELDS.SIZES]:
+      Array.isArray(sizes) && sizes.length > 0
+        ? sizes
+        : emptyValues[ADMIN_SERVICE_FORM_FIELDS.SIZES],
+    [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]:
+      Array.isArray(options) && options.length > 0
+        ? options
+        : emptyValues[ADMIN_SERVICE_FORM_FIELDS.OPTIONS],
     [ADMIN_SERVICE_FORM_FIELDS.INCLUDED]: joinListItems(includedItems),
     [ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED]: joinListItems(excludedItems),
     [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: service.image
@@ -94,7 +116,14 @@ export const createAdminServiceFormValues = (details) => {
           isExisting: true,
         }
       : null,
-    [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: [],
+    [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: (Array.isArray(otherImages) ? otherImages : [])
+      .filter((image) => Boolean(image?.previewUrl))
+      .map((image, index) => ({
+        id: image.id || `existing-other-${service.id}-${index}`,
+        name: image.name || `image-${index + 1}`,
+        previewUrl: image.previewUrl,
+        isExisting: true,
+      })),
   };
 };
 

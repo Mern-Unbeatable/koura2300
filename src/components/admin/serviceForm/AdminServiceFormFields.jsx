@@ -14,6 +14,7 @@ import {
   ADMIN_SERVICE_FORM_FIELD_CLASS,
   ADMIN_SERVICE_FORM_FIELDS,
   ADMIN_SERVICE_FORM_LABEL_CLASS,
+  ADMIN_SERVICE_FORM_MEASUREMENT_UNITS,
   ADMIN_SERVICE_FORM_OPTION_KEYS,
   ADMIN_SERVICE_FORM_PAIR_CLASS,
   ADMIN_SERVICE_FORM_ROW_CLASS,
@@ -179,6 +180,17 @@ const AdditionalFeatureRows = memo(
                 ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
               )}
             />
+            <SelectField
+              id={`service-form-feature-measurement-${row.id}`}
+              label={copy.fields.featureMeasurementUnit}
+              placeholder={copy.placeholders.featureMeasurementUnit}
+              options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
+              value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT]}
+              onChange={onAdditionalFeatureChange(
+                row.id,
+                ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT,
+              )}
+            />
             <TextField
               id={`service-form-feature-quantity-${row.id}`}
               label={copy.fields.featureQuantity}
@@ -257,6 +269,14 @@ const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize }) => (
             placeholder={copy.placeholders.size}
             value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]}
             onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)}
+          />
+          <SelectField
+            id={`service-form-size-measurement-${row.id}`}
+            label={copy.fields.sizeMeasurementUnit}
+            placeholder={copy.placeholders.sizeMeasurementUnit}
+            options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
+            value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT]}
+            onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT)}
           />
           <TextField
             id={`service-form-size-standard-price-${row.id}`}

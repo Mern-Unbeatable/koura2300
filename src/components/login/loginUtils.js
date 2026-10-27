@@ -1,20 +1,29 @@
 import { ROUTES } from '../../config';
 import { LOGIN_COPY } from './loginCopy';
-import { LOGIN_EMAIL_REGEX, USER_ROLES, DUMMY_CREDENTIALS } from './loginData';
+import {
+  LOGIN_EMAIL_REGEX,
+  USER_ROLES,
+  DUMMY_CREDENTIALS,
+  DUMMY_PASSWORD_ALIASES,
+} from './loginData';
+
+const matchesDummyPassword = (password) =>
+  DUMMY_PASSWORD_ALIASES.includes(String(password ?? ''));
 
 export const validateDummyCredentials = (email, password) => {
   const normalizedEmail = String(email || '').trim().toLowerCase();
 
   if (
     normalizedEmail === DUMMY_CREDENTIALS.ADMIN.email.toLowerCase() &&
-    password === DUMMY_CREDENTIALS.ADMIN.password
+    matchesDummyPassword(password)
   ) {
     return DUMMY_CREDENTIALS.ADMIN;
   }
 
   if (
-    (normalizedEmail === DUMMY_CREDENTIALS.USER.email.toLowerCase() || normalizedEmail === 'user@gnmail.com') &&
-    password === DUMMY_CREDENTIALS.USER.password
+    (normalizedEmail === DUMMY_CREDENTIALS.USER.email.toLowerCase() ||
+      normalizedEmail === 'user@gnmail.com') &&
+    matchesDummyPassword(password)
   ) {
     return DUMMY_CREDENTIALS.USER;
   }

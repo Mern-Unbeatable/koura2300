@@ -21,6 +21,15 @@ describe('loginUtils', () => {
       });
     });
 
+    it('authenticates admin with common password aliases', () => {
+      expect(validateDummyCredentials('admin@gmail.com', 'password@123')).toMatchObject({
+        role: USER_ROLES.ADMIN,
+      });
+      expect(validateDummyCredentials('admin@gmail.com', 'Admin@123')).toMatchObject({
+        role: USER_ROLES.ADMIN,
+      });
+    });
+
     it('authenticates user@gmail.com with password123 as user', () => {
       const result = validateDummyCredentials('user@gmail.com', 'password123');
       expect(result).toMatchObject({

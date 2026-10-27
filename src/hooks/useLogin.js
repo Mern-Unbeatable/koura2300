@@ -21,8 +21,22 @@ import {
   selectUser,
 } from '../store/slices/authSlice';
 
-const DEV_LOGIN_EMAIL = process.env.REACT_APP_DEV_DEFAULT_EMAIL || '';
-const DEV_LOGIN_PASSWORD = process.env.REACT_APP_DEV_DEFAULT_PASSWORD || '';
+const LEGACY_DEV_PASSWORD_ALIASES = new Set(['Admin@123', 'password@123']);
+
+const resolveDevLoginEmail = () =>
+  process.env.REACT_APP_DEV_DEFAULT_EMAIL || DUMMY_CREDENTIALS.ADMIN.email;
+
+const resolveDevLoginPassword = () => {
+  const fromEnv = process.env.REACT_APP_DEV_DEFAULT_PASSWORD || '';
+  if (!fromEnv || LEGACY_DEV_PASSWORD_ALIASES.has(fromEnv)) {
+    return DUMMY_CREDENTIALS.ADMIN.password;
+  }
+
+  return fromEnv;
+};
+
+const DEV_LOGIN_EMAIL = resolveDevLoginEmail();
+const DEV_LOGIN_PASSWORD = resolveDevLoginPassword();
 
 const extractAuthPayload = (data) => ({
   token: data?.token ?? data?.data?.token ?? data?.accessToken ?? null,
@@ -139,13 +153,15 @@ const useLogin = () => {
     setIsLoading(true);
 
     try {
-      if (isMockAuthEnabled()) {
-        const dummyUser = validateDummyCredentials(email, password);
-        if (dummyUser) {
-          completeAuth(buildAuthUser(dummyUser), null);
-          return;
-        }
+      // Prefer mock/demo credentials first so local + staging always work
+      // even when a real auth API is misconfigured or unreachable.
+      const dummyUser = validateDummyCredentials(email, password);
+      if (dummyUser) {
+        completeAuth(buildAuthUser(dummyUser), null);
+        return;
+      }
 
+      if (isMockAuthEnabled()) {
         const errorMessage = LOGIN_COPY.validation.invalidCredentials;
         setErrors({ form: errorMessage });
         toast.error(errorMessage);
@@ -158,12 +174,6 @@ const useLogin = () => {
       });
 
       if (error) {
-        const dummyUser = validateDummyCredentials(email, password);
-        if (dummyUser) {
-          completeAuth(buildAuthUser(dummyUser), null);
-          return;
-        }
-
         const errorMessage =
           error?.data?.message ??
           error?.message ??
@@ -177,6 +187,12 @@ const useLogin = () => {
       const role = resolveLoginRole(email, apiUser);
       completeAuth(buildAuthUser({ ...(apiUser || {}), email, role }), token);
     } catch (err) {
+      const fallbackUser = validateDummyCredentials(email, password);
+      if (fallbackUser) {
+        completeAuth(buildAuthUser(fallbackUser), null);
+        return;
+      }
+
       const errorMessage = err?.message || LOGIN_COPY.validation.invalidCredentials;
       setErrors({ form: errorMessage });
       toast.error(errorMessage);

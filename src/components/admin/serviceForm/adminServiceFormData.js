@@ -40,6 +40,7 @@ export const ADMIN_SERVICE_FORM_FIELDS = {
 
 export const ADMIN_SERVICE_FORM_FEATURE_KEYS = {
   NAME: 'name',
+  MEASUREMENT_UNIT: 'measurementUnit',
   QUANTITY: 'quantity',
   STANDARD_PRICE: 'standardPrice',
   PREMIUM_PRICE: 'premiumPrice',
@@ -49,9 +50,17 @@ export const ADMIN_SERVICE_FORM_FEATURE_KEYS = {
 
 export const ADMIN_SERVICE_FORM_SIZE_KEYS = {
   SIZE: 'size',
+  MEASUREMENT_UNIT: 'measurementUnit',
   STANDARD_PRICE: 'standardPrice',
   PREMIUM_PRICE: 'premiumPrice',
 };
+
+export const ADMIN_SERVICE_FORM_MEASUREMENT_UNITS = [
+  { id: 'inch', label: 'inch' },
+  { id: 'sq', label: 'sq' },
+  { id: 'ft', label: 'ft' },
+  { id: 'cm', label: 'cm' },
+];
 
 export const ADMIN_SERVICE_FORM_OPTION_KEYS = {
   NAME: 'name',
@@ -62,6 +71,7 @@ export const ADMIN_SERVICE_FORM_OPTION_KEYS = {
 export const createEmptyAdditionalFeatureRow = (id) => ({
   id,
   [ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]: '',
+  [ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT]: '',
   [ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY]: '',
   [ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE]: '',
   [ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE]: '',
@@ -72,6 +82,7 @@ export const createEmptyAdditionalFeatureRow = (id) => ({
 export const createEmptySizeRow = (id) => ({
   id,
   [ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]: '',
+  [ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT]: '',
   [ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE]: '',
   [ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE]: '',
 });
@@ -89,6 +100,7 @@ export const ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID = 'option-row-1';
 
 export const ADMIN_SERVICE_FORM_BANNER_MAX_FILES = 1;
 export const ADMIN_SERVICE_FORM_BACK_ICON_SIZE = 20;
+export const ADMIN_SERVICE_FORM_PREVIEW_REMOVE_ICON_SIZE = 14;
 export const ADMIN_SERVICE_FORM_UPLOAD_ICON_WIDTH = 27.5;
 export const ADMIN_SERVICE_FORM_UPLOAD_ICON_HEIGHT = 20;
 export const ADMIN_SERVICE_FORM_UPLOAD_ICON_COLOR = '#001F3D';
@@ -161,9 +173,9 @@ export const ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS =
 export const ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS =
   'flex min-w-0 flex-col gap-2';
 export const ADMIN_SERVICE_FORM_FEATURE_ROW_CLASS =
-  'grid min-w-0 grid-cols-1 gap-4 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-3 min-[1440px]:grid-cols-[minmax(0,260px)_minmax(0,124px)_minmax(0,154px)_minmax(0,118px)_minmax(0,1fr)_minmax(0,1fr)] min-[1440px]:gap-5';
+  'grid min-w-0 grid-cols-1 gap-4 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-3 min-[1440px]:grid-cols-[minmax(0,200px)_minmax(0,160px)_minmax(0,100px)_minmax(0,130px)_minmax(0,130px)_minmax(0,1fr)_minmax(0,1fr)] min-[1440px]:gap-5';
 export const ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS =
-  'grid min-w-0 grid-cols-1 gap-4 min-[768px]:grid-cols-3 min-[768px]:gap-5';
+  'grid min-w-0 grid-cols-1 gap-4 min-[768px]:grid-cols-2 min-[1020px]:grid-cols-4 min-[1020px]:gap-5';
 export const ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS =
   'inline-flex w-fit cursor-pointer items-center text-base font-normal leading-[1.2] text-[#fc6f32] transition-colors hover:text-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
 export const ADMIN_SERVICE_FORM_ROW_ID_PREFIX = {
@@ -218,13 +230,19 @@ export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_COLUMNS = 5;
 export const ADMIN_SERVICE_FORM_BANNER_PREVIEW_WIDTH_PX = 367;
 export const ADMIN_SERVICE_FORM_BANNER_PREVIEW_HEIGHT_PX = 208;
 export const ADMIN_SERVICE_FORM_PREVIEW_CLASS =
-  'mt-3 h-40 w-full overflow-hidden rounded-lg border border-[rgba(0,0,0,0.2)] object-cover';
+  'h-40 w-full overflow-hidden rounded-lg border border-[rgba(0,0,0,0.2)] object-cover';
 export const ADMIN_SERVICE_FORM_BANNER_PREVIEW_CLASS =
-  'mt-3 mx-auto block h-52 w-full max-w-[367px] overflow-hidden rounded-2xl border border-gray-200 object-cover shadow-sm';
+  'mx-auto block h-52 w-full max-w-[367px] overflow-hidden rounded-2xl border border-gray-200 object-cover shadow-sm';
+export const ADMIN_SERVICE_FORM_BANNER_PREVIEW_WRAP_CLASS =
+  'relative mx-auto w-full max-w-[367px]';
 export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_GRID_CLASS =
   'mt-3 grid min-w-0 grid-cols-5 gap-2 min-[768px]:gap-3';
+export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_ITEM_CLASS = 'relative min-w-0';
 export const ADMIN_SERVICE_FORM_OTHER_PREVIEW_IMAGE_CLASS =
   'aspect-square w-full min-w-0 overflow-hidden rounded-lg border border-[rgba(0,0,0,0.2)] object-cover';
+export const ADMIN_SERVICE_FORM_PREVIEW_REMOVE_BUTTON_CLASS =
+  'absolute right-1.5 top-1.5 z-10 inline-flex size-7 cursor-pointer items-center justify-center rounded-full bg-[#0f172b]/90 text-white shadow-sm transition-colors hover:bg-[#0f172b] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange';
+export const ADMIN_SERVICE_FORM_STACK_PREVIEW_LIST_CLASS = 'mt-3 flex flex-col gap-3';
 export const ADMIN_SERVICE_FORM_UPLOAD_ZONE_ACTIVE_CLASS =
   'border-brand-orange bg-[#fff7f3]';
 export const ADMIN_SERVICE_FORM_SUBMIT_CLASS =

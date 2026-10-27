@@ -53,6 +53,7 @@ export const ADMIN_AD_FORM_COPY = {
     resolution: '1920x1080px recommended',
     bannerInputLabel: 'Upload product banner image',
     otherInputLabel: 'Upload other ad images',
+    removeImage: 'Remove image',
   },
   errors: {
     categoryRequired: 'Category is required.',

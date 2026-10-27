@@ -1,8 +1,7 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 import { SERVICE_DETAILS_CONTENT } from './serviceDetailsCopy';
 import {
   FIRST_PHOTO_NUMBER,
-  GALLERY_THUMBNAIL_COUNT,
   GALLERY_THUMBNAIL_GRID_CLASS,
   HERO_IMAGE_CLASS,
   HERO_IMAGE_HEIGHT,
@@ -10,6 +9,7 @@ import {
   INITIAL_IMAGE_INDEX,
   THUMBNAIL_IMAGE_CLASS,
   THUMBNAIL_IMAGE_HEIGHT,
+  buildGalleryImageList,
 } from './serviceDetailsData';
 
 const SELECTED_THUMBNAIL_CLASS =
@@ -43,23 +43,31 @@ const GalleryThumbnail = memo(({ image, imageAlt, imageIndex, isSelected, onSele
 
 GalleryThumbnail.displayName = 'GalleryThumbnail';
 
-const ServiceDetailsGallery = memo(({ image, imageAlt }) => {
+const ServiceDetailsGallery = memo(({ image, imageAlt, images }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(INITIAL_IMAGE_INDEX);
+  const galleryImages = useMemo(() => {
+    if (Array.isArray(images) && images.length > 0) {
+      return images;
+    }
+
+    return buildGalleryImageList(image);
+  }, [image, images]);
+  const heroImage = galleryImages[selectedImageIndex] ?? galleryImages[0] ?? image;
 
   return (
     <div className="flex h-full min-h-0 min-w-0 flex-col gap-3 lg:gap-5">
       <img
-        src={image}
+        src={heroImage}
         alt={imageAlt}
         width={HERO_IMAGE_WIDTH}
         height={HERO_IMAGE_HEIGHT}
         className={HERO_IMAGE_CLASS}
       />
       <div className={`grid gap-3 ${GALLERY_THUMBNAIL_GRID_CLASS}`}>
-        {Array.from({ length: GALLERY_THUMBNAIL_COUNT }, (_, imageIndex) => (
+        {galleryImages.map((galleryImage, imageIndex) => (
           <GalleryThumbnail
-            key={imageIndex}
-            image={image}
+            key={`${galleryImage}-${imageIndex}`}
+            image={galleryImage}
             imageAlt={imageAlt}
             imageIndex={imageIndex}
             isSelected={selectedImageIndex === imageIndex}

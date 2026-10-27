@@ -1,5 +1,7 @@
 import { getCatalogServiceById } from '../catalog/catalogRegistry';
+import { getPostedServiceById } from '../../services/postedServicesStore';
 import { SERVICE_DETAILS_CONTENT } from './serviceDetailsCopy';
+import { getServiceDetailsConfigOverlay } from './serviceDetailsConfigOverlays';
 
 export const SERVICE_PACKAGES = {
   STANDARD: 'standard',
@@ -193,6 +195,11 @@ export const EMPTY_CATALOG_SERVICE_DETAILS = {
   overview: '',
   includedItems: [],
   excludedItems: [],
+  additionalFeatures: [],
+  sizes: [],
+  options: [],
+  galleryImages: [],
+  otherImages: [],
 };
 
 export const DEFAULT_INCLUDED_ITEMS = [
@@ -276,12 +283,62 @@ export const getServicePackages = (service) => [
   },
 ];
 
+export const buildGalleryImageList = (primaryImage, otherImages = []) => {
+  const extraUrls = (Array.isArray(otherImages) ? otherImages : [])
+    .map((image) => image?.previewUrl)
+    .filter(Boolean);
+  const uniqueUrls = [...new Set([primaryImage, ...extraUrls].filter(Boolean))];
+
+  if (uniqueUrls.length === 0) {
+    return [];
+  }
+
+  return Array.from(
+    { length: GALLERY_THUMBNAIL_COUNT },
+    (_, index) => uniqueUrls[index % uniqueUrls.length],
+  );
+};
+
+const buildPostedServiceDetails = (postedService) => {
+  const service = getCatalogServiceById(postedService.id);
+  const details = postedService.details ?? {};
+  const otherImages = details.otherImages ?? [];
+
+  return {
+    service,
+    packages: details.packages ?? getServicePackages(service),
+    overview: details.overview || buildServiceOverview(service.title),
+    includedItems:
+      details.includedItems?.length > 0
+        ? details.includedItems
+        : getIncludedItems(service.catalogTitle),
+    excludedItems:
+      details.excludedItems?.length > 0
+        ? details.excludedItems
+        : getExcludedItems(service.catalogTitle),
+    additionalFeatures: details.additionalFeatures ?? [],
+    sizes: details.sizes ?? [],
+    options: details.options ?? [],
+    otherImages,
+    galleryImages: buildGalleryImageList(service?.image, otherImages),
+  };
+};
+
 export const getCatalogServiceDetails = (serviceId) => {
+  const postedService = getPostedServiceById(serviceId);
+  if (postedService) {
+    return buildPostedServiceDetails(postedService);
+  }
+
   const service = getCatalogServiceById(serviceId);
 
   if (!service) {
-    return EMPTY_CATALOG_SERVICE_DETAILS;
+    return {
+      ...EMPTY_CATALOG_SERVICE_DETAILS,
+    };
   }
+
+  const overlay = getServiceDetailsConfigOverlay(service);
 
   return {
     service,
@@ -289,6 +346,11 @@ export const getCatalogServiceDetails = (serviceId) => {
     overview: buildServiceOverview(service.title),
     includedItems: getIncludedItems(service.catalogTitle),
     excludedItems: getExcludedItems(service.catalogTitle),
+    additionalFeatures: overlay.additionalFeatures,
+    sizes: overlay.sizes,
+    options: overlay.options,
+    otherImages: [],
+    galleryImages: buildGalleryImageList(service.image),
   };
 };
 

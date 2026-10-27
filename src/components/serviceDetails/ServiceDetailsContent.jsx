@@ -2,6 +2,7 @@ import React, { memo, useMemo } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { CATALOG_ALL_CATEGORY, SERVICE_DETAILS_CATEGORY_PARAM } from '../../config';
 import useLandingSearch from '../../hooks/useLandingSearch';
+import usePostedMediaHydration from '../../hooks/usePostedMediaHydration';
 import useScrollToTop from '../../hooks/useScrollToTop';
 import { useSEO } from '../../hooks/useSEO';
 import { ALL_CATALOG_SERVICES, getPromotionalServices } from '../catalog/catalogRegistry';
@@ -21,10 +22,20 @@ const buildServiceSeo = (service, overview) => ({
 const ServiceDetailsContent = memo(() => {
   const { serviceId } = useParams();
   const [searchParams] = useSearchParams();
+  const mediaVersion = usePostedMediaHydration();
   const selectedCategory =
     searchParams.get(SERVICE_DETAILS_CATEGORY_PARAM) ?? CATALOG_ALL_CATEGORY;
-  const { service, packages, overview, includedItems, excludedItems } =
-    getCatalogServiceDetails(serviceId);
+  const {
+    service,
+    packages,
+    overview,
+    includedItems,
+    excludedItems,
+    additionalFeatures,
+    sizes,
+    options,
+    galleryImages,
+  } = useMemo(() => getCatalogServiceDetails(serviceId), [mediaVersion, serviceId]);
   const relatedServices = useMemo(
     () => (service ? getPromotionalServices(service, selectedCategory) : []),
     [selectedCategory, service],
@@ -53,6 +64,10 @@ const ServiceDetailsContent = memo(() => {
           overview={overview}
           includedItems={includedItems}
           excludedItems={excludedItems}
+          additionalFeatures={additionalFeatures}
+          sizes={sizes}
+          options={options}
+          galleryImages={galleryImages}
         />
       ) : (
         <ServiceDetailsNotFound />

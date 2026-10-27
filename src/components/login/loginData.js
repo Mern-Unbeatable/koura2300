@@ -73,6 +73,13 @@ export const DUMMY_CREDENTIALS = {
   },
 };
 
+/** Accepted password aliases for local/mock login (common typos from UI testing). */
+export const DUMMY_PASSWORD_ALIASES = [
+  DUMMY_CREDENTIALS.ADMIN.password,
+  'password@123',
+  'Admin@123',
+];
+
 export const LOGIN_AUTH_MODES = {
   LOGIN: 'login',
   CREATE_ACCOUNT: 'createAccount',

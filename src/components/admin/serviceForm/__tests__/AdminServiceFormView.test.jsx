@@ -91,15 +91,36 @@ describe('AdminServiceFormView', () => {
     ).toBeInTheDocument();
     expect(screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.sizes)).toBeInTheDocument();
     expect(screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.options)).toBeInTheDocument();
+    const additionalFeatureSection = screen
+      .getByText(ADMIN_SERVICE_FORM_COPY.sections.additionalFeature)
+      .closest('section');
+    const sizesSection = screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.sizes).closest('section');
+
     expect(
-      screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featureName),
+      within(additionalFeatureSection).getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featureName),
     ).toBeInTheDocument();
     expect(
-      screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featureQuantity),
+      within(additionalFeatureSection).getByLabelText(
+        ADMIN_SERVICE_FORM_COPY.fields.featureMeasurementUnit,
+      ),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featureNote1)).toBeInTheDocument();
-    expect(screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featureNote2)).toBeInTheDocument();
-    expect(screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.size)).toBeInTheDocument();
+    expect(
+      within(additionalFeatureSection).getByLabelText(
+        ADMIN_SERVICE_FORM_COPY.fields.featureQuantity,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(additionalFeatureSection).getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featureNote1),
+    ).toBeInTheDocument();
+    expect(
+      within(additionalFeatureSection).getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featureNote2),
+    ).toBeInTheDocument();
+    expect(
+      within(sizesSection).getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.size),
+    ).toBeInTheDocument();
+    expect(
+      within(sizesSection).getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.sizeMeasurementUnit),
+    ).toBeInTheDocument();
     expect(screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.optionName)).toBeInTheDocument();
     expect(
       screen.getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAdditionalFeature }),
@@ -122,7 +143,7 @@ describe('AdminServiceFormView', () => {
     expect(ADMIN_SERVICE_FORM_ROW_CLASS).toContain('min-[1440px]:grid-cols-3');
     expect(ADMIN_SERVICE_FORM_PAIR_CLASS).toContain('min-[768px]:grid-cols-2');
     expect(ADMIN_SERVICE_FORM_FEATURE_ROW_CLASS).toContain('min-[1440px]:grid-cols-');
-    expect(ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS).toContain('min-[768px]:grid-cols-3');
+    expect(ADMIN_SERVICE_FORM_SIZE_OPTION_ROW_CLASS).toContain('min-[1020px]:grid-cols-4');
     expect(ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS).toContain('gap-[18px]');
     expect(ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS).toContain('font-medium');
     expect(ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS).toContain('text-[#fc6f32]');
@@ -240,5 +261,42 @@ describe('AdminServiceFormView', () => {
 
     expect(section).not.toBeNull();
     expect(within(section).getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.featureName)).toBeInTheDocument();
+  });
+
+  it('removes banner and other image previews from the close buttons', async () => {
+    const user = userEvent.setup();
+    const onRemoveBannerImage = jest.fn();
+    const onRemoveOtherImage = jest.fn();
+
+    renderForm({
+      values: {
+        ...ADMIN_SERVICE_FORM_EMPTY_VALUES,
+        [ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]: {
+          id: 'existing-banner',
+          previewUrl: '/assets/landing/service-plumbing.png',
+          isExisting: true,
+        },
+        [ADMIN_SERVICE_FORM_FIELDS.OTHER_IMAGES]: [
+          {
+            id: 'other-1',
+            previewUrl: '/assets/landing/service-faucet.png',
+            isExisting: false,
+          },
+        ],
+      },
+      onRemoveBannerImage,
+      onRemoveOtherImage,
+    });
+
+    const removeButtons = screen.getAllByRole('button', {
+      name: ADMIN_SERVICE_FORM_COPY.upload.removeImage,
+    });
+    expect(removeButtons).toHaveLength(2);
+
+    await user.click(removeButtons[0]);
+    await user.click(removeButtons[1]);
+
+    expect(onRemoveBannerImage).toHaveBeenCalledTimes(1);
+    expect(onRemoveOtherImage).toHaveBeenCalledWith('other-1');
   });
 });

@@ -48,6 +48,8 @@ const AdminServiceFormView = ({
   onAddOption,
   onBannerFilesSelected,
   onOtherFilesSelected,
+  onRemoveBannerImage,
+  onRemoveOtherImage,
   onSubmit,
 }) => {
   if (isNotFound) {
@@ -93,7 +95,9 @@ const AdminServiceFormView = ({
           error={errors[ADMIN_SERVICE_FORM_FIELDS.BANNER_IMAGE]}
           previews={bannerPreview ? [bannerPreview] : []}
           previewImageClassName={ADMIN_SERVICE_FORM_BANNER_PREVIEW_CLASS}
+          removeLabel={copy.upload.removeImage || 'Remove image'}
           onFilesSelected={onBannerFilesSelected}
+          onRemovePreview={onRemoveBannerImage ? () => onRemoveBannerImage() : undefined}
         />
 
         <AdminServiceFormUploadZone
@@ -105,7 +109,9 @@ const AdminServiceFormView = ({
           multiple
           previewLayout={PREVIEW_LAYOUT.GRID}
           previews={otherPreviews}
+          removeLabel={copy.upload.removeImage || 'Remove image'}
           onFilesSelected={onOtherFilesSelected}
+          onRemovePreview={onRemoveOtherImage}
         />
 
         <button type="submit" className={ADMIN_SERVICE_FORM_SUBMIT_CLASS}>
