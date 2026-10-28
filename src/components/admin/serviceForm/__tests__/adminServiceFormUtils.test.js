@@ -22,6 +22,7 @@ import {
   getAdminServiceFormDetailsById,
   isAdditionalFeatureSectionInUse,
   isOptionsSectionInUse,
+  isSizesSectionInUse,
   parsePriceInputValue,
   reconcileExclusiveCatalogSections,
   removeAdminServiceFormRow,
@@ -159,7 +160,7 @@ describe('adminServiceFormUtils', () => {
     expect(banner.isExisting).toBe(false);
   });
 
-  it('detects Additional Feature / Options section use and reconciles exclusivity', () => {
+  it('detects catalog section use and reconciles exclusivity', () => {
     const emptyFeature = createEmptyAdditionalFeatureRow('feature-row-1');
     const filledFeature = {
       ...emptyFeature,
@@ -169,6 +170,11 @@ describe('adminServiceFormUtils', () => {
     const filledOption = {
       ...emptyOption,
       [ADMIN_SERVICE_FORM_OPTION_KEYS.NAME]: 'Option A',
+    };
+    const emptySize = createEmptySizeRow('size-row-1');
+    const filledSize = {
+      ...emptySize,
+      [ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]: '36',
     };
 
     expect(isAdditionalFeatureSectionInUse([emptyFeature])).toBe(false);
@@ -181,15 +187,25 @@ describe('adminServiceFormUtils', () => {
     ).toBe(true);
     expect(isOptionsSectionInUse([emptyOption])).toBe(false);
     expect(isOptionsSectionInUse([filledOption])).toBe(true);
+    expect(isSizesSectionInUse([emptySize])).toBe(false);
+    expect(isSizesSectionInUse([filledSize])).toBe(true);
 
-    const reconciled = reconcileExclusiveCatalogSections({
+    const reconciledFeatures = reconcileExclusiveCatalogSections({
       ...createEmptyAdminServiceFormValues(),
       [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: [filledFeature],
       [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: [filledOption],
     });
 
-    expect(reconciled[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].name).toBe('24');
-    expect(reconciled[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(1);
-    expect(reconciled[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0].name).toBe('');
+    expect(reconciledFeatures[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].name).toBe('24');
+    expect(reconciledFeatures[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0].name).toBe('');
+
+    const reconciledSizes = reconcileExclusiveCatalogSections({
+      ...createEmptyAdminServiceFormValues(),
+      [ADMIN_SERVICE_FORM_FIELDS.SIZES]: [filledSize],
+      [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: [filledOption],
+    });
+
+    expect(reconciledSizes[ADMIN_SERVICE_FORM_FIELDS.SIZES][0].size).toBe('36');
+    expect(reconciledSizes[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0].name).toBe('');
   });
 });

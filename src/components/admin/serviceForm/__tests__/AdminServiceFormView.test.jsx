@@ -87,7 +87,6 @@ describe('AdminServiceFormView', () => {
       screen.getByRole('heading', { name: ADMIN_SERVICE_FORM_COPY.titles.create }),
     ).toBeInTheDocument();
     expect(screen.getByText(ADMIN_SERVICE_FORM_COPY.subtitle)).toBeInTheDocument();
-    expect(ADMIN_SERVICE_FORM_COPY.subtitle).toContain('—');
     expect(screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.category)).toBeInTheDocument();
     expect(screen.getByLabelText(ADMIN_SERVICE_FORM_COPY.fields.duration)).toBeInTheDocument();
     expect(ADMIN_SERVICE_FORM_SELECT_MENU_CLASS).toContain('scrollbar-services-ash');
@@ -264,7 +263,7 @@ describe('AdminServiceFormView', () => {
     expect(onRemoveSize).toHaveBeenCalledWith('size-row-1');
   });
 
-  it('disables Options when Additional Feature is in use and vice versa', () => {
+  it('disables Options when Additional Feature is in use and disables Sizes when Options is in use', () => {
     const featureValues = createFormValues();
     featureValues[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] = [
       {
@@ -300,11 +299,9 @@ describe('AdminServiceFormView', () => {
     );
 
     expect(
-      screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.optionsDisabledByAdditionalFeature),
-    ).toBeInTheDocument();
-    expect(
       screen.getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAnotherOption }),
     ).toBeDisabled();
+    expect(screen.getByRole('heading', { name: ADMIN_SERVICE_FORM_COPY.sections.sizes })).toBeInTheDocument();
 
     unmount();
 
@@ -343,12 +340,15 @@ describe('AdminServiceFormView', () => {
     );
 
     expect(
-      screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.additionalFeatureDisabledByOptions),
-    ).toBeInTheDocument();
-    expect(
       within(
         screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.additionalFeature).closest('section'),
       ).getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAdditionalFeature }),
+    ).toBeDisabled();
+    expect(
+      within(screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.sizes).closest('section')).getByRole(
+        'button',
+        { name: ADMIN_SERVICE_FORM_COPY.actions.addAnotherSize },
+      ),
     ).toBeDisabled();
   });
 

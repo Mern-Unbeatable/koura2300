@@ -6,7 +6,6 @@ import {
   ADMIN_SERVICE_FORM_CONTROL_CLASS,
   ADMIN_SERVICE_FORM_CONTROL_DISABLED_CLASS,
   ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS,
-  ADMIN_SERVICE_FORM_DISABLED_HINT_CLASS,
   ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS,
   ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS,
   ADMIN_SERVICE_FORM_DYNAMIC_SECTION_DISABLED_CLASS,
@@ -45,6 +44,7 @@ import {
 import {
   isAdditionalFeatureSectionInUse,
   isOptionsSectionInUse,
+  isSizesSectionInUse,
 } from './adminServiceFormUtils';
 
 const FieldError = memo(({ error }) =>
@@ -304,11 +304,6 @@ const AdditionalFeatureRows = memo(
         <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>
           {copy.sections.additionalFeature}
         </h2>
-        {disabled ? (
-          <p className={ADMIN_SERVICE_FORM_DISABLED_HINT_CLASS}>
-            {copy.sections.additionalFeatureDisabledByOptions}
-          </p>
-        ) : null}
         <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
           {rows.map((row, index) => {
             const isLast = index === rows.length - 1;
@@ -438,12 +433,20 @@ const AdditionalFeatureRows = memo(
 
 AdditionalFeatureRows.displayName = 'AdditionalFeatureRows';
 
-const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) => {
+const SizeRows = memo(
+  ({ copy, rows, disabled = false, onSizeChange, onAddSize, onRemoveSize }) => {
   const canRemove = rows.length > 1;
   const lastRow = rows[rows.length - 1];
+  const sectionClassName = disabled
+    ? `${ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} ${ADMIN_SERVICE_FORM_DYNAMIC_SECTION_DISABLED_CLASS}`
+    : ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS;
 
   return (
-    <section className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} aria-label={copy.sections.sizes}>
+    <section
+      className={sectionClassName}
+      aria-label={copy.sections.sizes}
+      aria-disabled={disabled}
+    >
       <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>{copy.sections.sizes}</h2>
       <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
         {rows.map((row, index) => {
@@ -461,6 +464,7 @@ const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) =>
                   min="0"
                   step="any"
                   value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE]}
+                  disabled={disabled}
                   onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)}
                 />
                 <SelectField
@@ -469,6 +473,7 @@ const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) =>
                   placeholder={copy.placeholders.sizeMeasurementUnit}
                   options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
                   value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT]}
+                  disabled={disabled}
                   onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.MEASUREMENT_UNIT)}
                 />
                 <TextField
@@ -476,6 +481,7 @@ const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) =>
                   label={copy.fields.standardPrice}
                   placeholder={copy.placeholders.price}
                   value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE]}
+                  disabled={disabled}
                   onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.STANDARD_PRICE)}
                 />
                 <TextField
@@ -483,10 +489,11 @@ const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) =>
                   label={copy.fields.premiumPrice}
                   placeholder={copy.placeholders.price}
                   value={row[ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE]}
+                  disabled={disabled}
                   onChange={onSizeChange(row.id, ADMIN_SERVICE_FORM_SIZE_KEYS.PREMIUM_PRICE)}
                 />
               </div>
-              {!isLast && canRemove ? (
+              {!isLast && canRemove && !disabled ? (
                 <button
                   type="button"
                   className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
@@ -503,10 +510,11 @@ const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) =>
             type="button"
             className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
             onClick={onAddSize}
+            disabled={disabled}
           >
             {copy.actions.addAnotherSize}
           </button>
-          {canRemove && lastRow ? (
+          {canRemove && lastRow && !disabled ? (
             <button
               type="button"
               className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
@@ -519,7 +527,8 @@ const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) =>
       </div>
     </section>
   );
-});
+},
+);
 
 SizeRows.displayName = 'SizeRows';
 
@@ -538,11 +547,6 @@ const OptionRows = memo(
       aria-disabled={disabled}
     >
       <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>{copy.sections.options}</h2>
-      {disabled ? (
-        <p className={ADMIN_SERVICE_FORM_DISABLED_HINT_CLASS}>
-          {copy.sections.optionsDisabledByAdditionalFeature}
-        </p>
-      ) : null}
       <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
         {rows.map((row, index) => {
           const isLast = index === rows.length - 1;
@@ -629,8 +633,10 @@ const CatalogDynamicSections = memo(
     onRemoveOption,
   }) => {
     const featureRows = values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] ?? [];
+    const sizeRows = values[ADMIN_SERVICE_FORM_FIELDS.SIZES] ?? [];
     const optionRows = values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS] ?? [];
     const featuresInUse = isAdditionalFeatureSectionInUse(featureRows);
+    const sizesInUse = isSizesSectionInUse(sizeRows);
     const optionsInUse = isOptionsSectionInUse(optionRows);
 
     return (
@@ -645,7 +651,8 @@ const CatalogDynamicSections = memo(
         />
         <SizeRows
           copy={copy}
-          rows={values[ADMIN_SERVICE_FORM_FIELDS.SIZES] ?? []}
+          rows={sizeRows}
+          disabled={optionsInUse}
           onSizeChange={onSizeChange}
           onAddSize={onAddSize}
           onRemoveSize={onRemoveSize}
@@ -653,7 +660,7 @@ const CatalogDynamicSections = memo(
         <OptionRows
           copy={copy}
           rows={optionRows}
-          disabled={featuresInUse}
+          disabled={featuresInUse || sizesInUse}
           onOptionChange={onOptionChange}
           onAddOption={onAddOption}
           onRemoveOption={onRemoveOption}

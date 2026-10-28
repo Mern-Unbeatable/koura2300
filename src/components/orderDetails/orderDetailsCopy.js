@@ -54,7 +54,7 @@ export const ORDER_DETAILS_CONTENT = {
   },
   actions: {
     back: 'Back',
-    payMaterials: (amount) => `Pay Materials — ${amount}`,
+    payMaterials: (amount) => `Pay Materials (${amount})`,
     payNow: 'Pay Now',
   },
   feedback: {

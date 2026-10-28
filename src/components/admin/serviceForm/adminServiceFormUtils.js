@@ -8,10 +8,12 @@ import {
   ADMIN_SERVICE_FORM_FIELDS,
   ADMIN_SERVICE_FORM_INITIAL_FEATURE_ROW_ID,
   ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID,
+  ADMIN_SERVICE_FORM_INITIAL_SIZE_ROW_ID,
   ADMIN_SERVICE_FORM_MODE,
   createEmptyAdditionalFeatureRow,
   createEmptyAdminServiceFormValues,
   createEmptyOptionRow,
+  createEmptySizeRow,
 } from './adminServiceFormData';
 
 const PRICE_PREFIX = '$';
@@ -102,6 +104,14 @@ const hasFilledOptionRow = (row) =>
       String(row?.premiumPrice ?? '').trim(),
   );
 
+const hasFilledSizeRow = (row) =>
+  Boolean(
+    String(row?.size ?? '').trim() ||
+      String(row?.measurementUnit ?? '').trim() ||
+      String(row?.standardPrice ?? '').trim() ||
+      String(row?.premiumPrice ?? '').trim(),
+  );
+
 export const isAdditionalFeatureSectionInUse = (rows) => {
   const list = Array.isArray(rows) ? rows : [];
   return list.length > 1 || list.some(hasFilledAdditionalFeatureRow);
@@ -112,6 +122,11 @@ export const isOptionsSectionInUse = (rows) => {
   return list.length > 1 || list.some(hasFilledOptionRow);
 };
 
+export const isSizesSectionInUse = (rows) => {
+  const list = Array.isArray(rows) ? rows : [];
+  return list.length > 1 || list.some(hasFilledSizeRow);
+};
+
 export const createResetAdditionalFeatureRows = () => [
   createEmptyAdditionalFeatureRow(ADMIN_SERVICE_FORM_INITIAL_FEATURE_ROW_ID),
 ];
@@ -120,19 +135,37 @@ export const createResetOptionRows = () => [
   createEmptyOptionRow(ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID),
 ];
 
-/** Prefer Additional Feature when both sections have data (mutually exclusive UIs). */
+export const createResetSizeRows = () => [
+  createEmptySizeRow(ADMIN_SERVICE_FORM_INITIAL_SIZE_ROW_ID),
+];
+
+/**
+ * Catalog UIs are exclusive:
+ * - Additional Feature and Options cannot both be active
+ * - Sizes and Options cannot both be active (prefer Sizes when both exist)
+ */
 export const reconcileExclusiveCatalogSections = (formValues) => {
-  const features = formValues?.[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES];
-  const options = formValues?.[ADMIN_SERVICE_FORM_FIELDS.OPTIONS];
+  let next = formValues;
+  const features = next?.[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES];
+  const options = next?.[ADMIN_SERVICE_FORM_FIELDS.OPTIONS];
+  const sizes = next?.[ADMIN_SERVICE_FORM_FIELDS.SIZES];
 
   if (isAdditionalFeatureSectionInUse(features) && isOptionsSectionInUse(options)) {
-    return {
-      ...formValues,
+    next = {
+      ...next,
       [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: createResetOptionRows(),
     };
   }
 
-  return formValues;
+  const nextOptions = next?.[ADMIN_SERVICE_FORM_FIELDS.OPTIONS];
+  if (isSizesSectionInUse(sizes) && isOptionsSectionInUse(nextOptions)) {
+    next = {
+      ...next,
+      [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: createResetOptionRows(),
+    };
+  }
+
+  return next;
 };
 
 const getPackageById = (packages, packageId) =>

@@ -107,11 +107,10 @@ describe('useAdminServiceForm', () => {
     ).toBe('');
   });
 
-  it('keeps Additional Feature and Options mutually exclusive', () => {
+  it('keeps Additional Feature, Sizes, and Options mutually exclusive', () => {
     const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
-    const firstFeatureId =
-      result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].id;
     const firstOptionId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0].id;
+    const firstSizeId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES][0].id;
 
     act(() => {
       result.current.onOptionChange(firstOptionId, ADMIN_SERVICE_FORM_OPTION_KEYS.NAME)({
@@ -121,23 +120,16 @@ describe('useAdminServiceForm', () => {
     });
 
     expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(2);
-    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(1);
 
     act(() => {
-      result.current.onAdditionalFeatureChange(
-        result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].id,
-        ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
-      )({
-        target: { value: '24' },
+      result.current.onSizeChange(firstSizeId, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)({
+        target: { value: '36' },
       });
     });
 
     expect(
-      result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0][
-        ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME
-      ],
-    ).toBe('24');
-    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(1);
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES][0][ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE],
+    ).toBe('36');
     expect(
       result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0][
         ADMIN_SERVICE_FORM_OPTION_KEYS.NAME
@@ -149,7 +141,9 @@ describe('useAdminServiceForm', () => {
     });
 
     expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(2);
-    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(1);
+    expect(
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES][0][ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE],
+    ).toBe('');
     expect(
       result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0][
         ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME

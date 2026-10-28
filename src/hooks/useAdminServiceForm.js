@@ -24,11 +24,13 @@ import {
   createOtherImagesFromFiles,
   createResetAdditionalFeatureRows,
   createResetOptionRows,
+  createResetSizeRows,
   getAdminServiceFormDetailsById,
   getAdminServiceFormSeo,
   getAdminServiceFormTitle,
   isAdditionalFeatureSectionInUse,
   isOptionsSectionInUse,
+  isSizesSectionInUse,
   removeAdminServiceFormRow,
   resolveAdminServiceFormMode,
   revokePreviewUrl,
@@ -162,15 +164,27 @@ const useAdminServiceForm = () => {
   const handleSizeChange = useCallback(
     (rowId, fieldKey) => (event) => {
       const nextValue = event.target.value;
-      setValues((current) => ({
-        ...current,
-        [ADMIN_SERVICE_FORM_FIELDS.SIZES]: updateAdminServiceFormRowField(
+      setValues((current) => {
+        const nextSizes = updateAdminServiceFormRowField(
           current[ADMIN_SERVICE_FORM_FIELDS.SIZES],
           rowId,
           fieldKey,
           nextValue,
-        ),
-      }));
+        );
+        const next = {
+          ...current,
+          [ADMIN_SERVICE_FORM_FIELDS.SIZES]: nextSizes,
+        };
+
+        if (
+          isSizesSectionInUse(nextSizes) &&
+          isOptionsSectionInUse(current[ADMIN_SERVICE_FORM_FIELDS.OPTIONS])
+        ) {
+          next[ADMIN_SERVICE_FORM_FIELDS.OPTIONS] = createResetOptionRows();
+        }
+
+        return next;
+      });
     },
     [],
   );
@@ -190,14 +204,21 @@ const useAdminServiceForm = () => {
           [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: nextOptions,
         };
 
+        if (!isOptionsSectionInUse(nextOptions)) {
+          return next;
+        }
+
         if (
-          isOptionsSectionInUse(nextOptions) &&
           isAdditionalFeatureSectionInUse(
             current[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES],
           )
         ) {
           next[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] =
             createResetAdditionalFeatureRows();
+        }
+
+        if (isSizesSectionInUse(current[ADMIN_SERVICE_FORM_FIELDS.SIZES])) {
+          next[ADMIN_SERVICE_FORM_FIELDS.SIZES] = createResetSizeRows();
         }
 
         return next;
@@ -238,13 +259,22 @@ const useAdminServiceForm = () => {
       rowSequenceRef.current.size,
     );
 
-    setValues((current) => ({
-      ...current,
-      [ADMIN_SERVICE_FORM_FIELDS.SIZES]: appendAdminServiceFormRow(
+    setValues((current) => {
+      const nextSizes = appendAdminServiceFormRow(
         current[ADMIN_SERVICE_FORM_FIELDS.SIZES],
         createEmptySizeRow(nextId),
-      ),
-    }));
+      );
+      const next = {
+        ...current,
+        [ADMIN_SERVICE_FORM_FIELDS.SIZES]: nextSizes,
+      };
+
+      if (isOptionsSectionInUse(current[ADMIN_SERVICE_FORM_FIELDS.OPTIONS])) {
+        next[ADMIN_SERVICE_FORM_FIELDS.OPTIONS] = createResetOptionRows();
+      }
+
+      return next;
+    });
   }, []);
 
   const handleAddOption = useCallback(() => {
@@ -271,6 +301,10 @@ const useAdminServiceForm = () => {
       ) {
         next[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] =
           createResetAdditionalFeatureRows();
+      }
+
+      if (isSizesSectionInUse(current[ADMIN_SERVICE_FORM_FIELDS.SIZES])) {
+        next[ADMIN_SERVICE_FORM_FIELDS.SIZES] = createResetSizeRows();
       }
 
       return next;

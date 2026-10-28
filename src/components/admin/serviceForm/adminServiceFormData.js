@@ -235,8 +235,6 @@ export const ADMIN_SERVICE_FORM_CONTROL_CLASS =
 export const ADMIN_SERVICE_FORM_CONTROL_DISABLED_CLASS =
   'cursor-not-allowed bg-[#f5f6f7] opacity-60';
 export const ADMIN_SERVICE_FORM_DYNAMIC_SECTION_DISABLED_CLASS = 'opacity-60';
-export const ADMIN_SERVICE_FORM_DISABLED_HINT_CLASS =
-  'text-sm leading-5 text-[#697076]';
 export const ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE = 16;
 export const ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS = 'relative w-full min-w-0';
 export const ADMIN_SERVICE_FORM_SELECT_TRIGGER_CLASS =

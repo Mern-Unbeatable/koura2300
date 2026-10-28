@@ -99,7 +99,7 @@ describe('CheckoutView Figma layout', () => {
       ),
     ).toBeInTheDocument();
     expect(screen.getByText('Click to upload photos or drag & drop')).toBeInTheDocument();
-    expect(screen.getByText('JPG, PNG, MP4 — max 20MB each')).toBeInTheDocument();
+    expect(screen.getByText('JPG, PNG, MP4 (max 20MB each)')).toBeInTheDocument();
   });
 
   it('shows the Figma preferred contact method cards', () => {

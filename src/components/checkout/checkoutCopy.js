@@ -30,7 +30,7 @@ export const CHECKOUT_CONTENT = {
   uploadDescription:
     'Help your pro prepare by showing them the work area. Optional but highly recommended.',
   uploadAction: 'Click to upload photos or drag & drop',
-  uploadTypes: 'JPG, PNG, MP4 — max 20MB each',
+  uploadTypes: 'JPG, PNG, MP4 (max 20MB each)',
   contactTitle: 'Preferred Contact Method',
   contactHint: 'How should your pro reach you for updates and confirmation?',
   phoneSms: 'Phone / SMS',
