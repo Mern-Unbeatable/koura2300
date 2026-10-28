@@ -43,8 +43,10 @@ export const MOUNT_ENTER_DURATION = 0.45;
 export const DETAILS_SPLIT_GRID_CLASS =
   'mt-6 grid min-w-0 items-stretch gap-x-5 gap-y-4 lg:grid-cols-2';
 export const ZIP_PANEL_GRID_CELL_CLASS = 'min-w-0 lg:col-start-2';
-export const HERO_IMAGE_CLASS =
-  'h-64 w-full min-w-0 max-w-full rounded-xl object-cover sm:h-80 lg:h-auto lg:min-h-0 lg:flex-1';
+/** Frame keeps prior column fill/alignment; image covers it so swaps never resize layout. */
+export const HERO_FRAME_CLASS =
+  'relative h-64 w-full min-w-0 overflow-hidden rounded-xl sm:h-80 lg:h-auto lg:min-h-0 lg:flex-1';
+export const HERO_IMAGE_CLASS = 'absolute inset-0 size-full object-cover';
 export const PACKAGE_CARD_MIN_HEIGHT_CLASS = 'min-h-[310px]';
 export const THUMBNAIL_IMAGE_CLASS =
   'h-16 w-full min-w-0 max-w-full object-cover sm:h-24 lg:h-[136px]';

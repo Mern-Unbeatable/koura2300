@@ -316,7 +316,8 @@ describe('Service details page', () => {
     });
 
     expect(serviceImages.length).toBeGreaterThanOrEqual(5);
-    expect(serviceImages[0]).toHaveClass('max-w-full');
+    expect(serviceImages[0]).toHaveClass('object-cover');
+    expect(serviceImages[0].parentElement).toHaveClass('lg:flex-1');
   });
 
   it('selects the standard package by default and can switch to premium', async () => {
@@ -513,7 +514,9 @@ describe('Service details page', () => {
 
     expect(zipPanel).toBeInTheDocument();
     expect(zipPanel.parentElement).toHaveClass('lg:col-start-2');
-    expect(heroImage).toHaveClass('lg:flex-1');
+    expect(heroImage).toHaveClass('object-cover');
+    expect(heroImage.parentElement).toHaveClass('lg:flex-1');
+    expect(heroImage.parentElement).toHaveClass('rounded-xl');
     expect(heroImage.compareDocumentPosition(zipPanel) & Node.DOCUMENT_POSITION_FOLLOWING).toBe(
       Node.DOCUMENT_POSITION_FOLLOWING,
     );

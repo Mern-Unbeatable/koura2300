@@ -3,6 +3,7 @@ import { SERVICE_DETAILS_CONTENT } from './serviceDetailsCopy';
 import {
   FIRST_PHOTO_NUMBER,
   GALLERY_THUMBNAIL_GRID_CLASS,
+  HERO_FRAME_CLASS,
   HERO_IMAGE_CLASS,
   HERO_IMAGE_HEIGHT,
   HERO_IMAGE_WIDTH,
@@ -56,14 +57,16 @@ const ServiceDetailsGallery = memo(({ image, imageAlt, images }) => {
 
   return (
     <div className="flex h-full min-h-0 min-w-0 flex-col gap-3 lg:gap-5">
-      <img
-        src={heroImage}
-        alt={imageAlt}
-        width={HERO_IMAGE_WIDTH}
-        height={HERO_IMAGE_HEIGHT}
-        className={HERO_IMAGE_CLASS}
-      />
-      <div className={`grid gap-3 ${GALLERY_THUMBNAIL_GRID_CLASS}`}>
+      <div className={HERO_FRAME_CLASS}>
+        <img
+          src={heroImage}
+          alt={imageAlt}
+          width={HERO_IMAGE_WIDTH}
+          height={HERO_IMAGE_HEIGHT}
+          className={HERO_IMAGE_CLASS}
+        />
+      </div>
+      <div className={`shrink-0 grid gap-3 ${GALLERY_THUMBNAIL_GRID_CLASS}`}>
         {galleryImages.map((galleryImage, imageIndex) => (
           <GalleryThumbnail
             key={`${galleryImage}-${imageIndex}`}
