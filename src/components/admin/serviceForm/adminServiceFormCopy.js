@@ -28,6 +28,10 @@ export const ADMIN_SERVICE_FORM_COPY = {
     additionalFeature: 'Additional Feature',
     sizes: 'Sizes',
     options: 'Options',
+    additionalFeatureDisabledByOptions:
+      'Options is in use — clear Options to edit Additional Feature.',
+    optionsDisabledByAdditionalFeature:
+      'Additional Feature is in use — clear Additional Feature to edit Options.',
   },
   fields: {
     category: 'Category',

@@ -20,7 +20,10 @@ import {
   createBannerImageFromFile,
   formatPriceInputValue,
   getAdminServiceFormDetailsById,
+  isAdditionalFeatureSectionInUse,
+  isOptionsSectionInUse,
   parsePriceInputValue,
+  reconcileExclusiveCatalogSections,
   removeAdminServiceFormRow,
   resolveAdminServiceFormMode,
   updateAdminServiceFormRowField,
@@ -154,5 +157,39 @@ describe('adminServiceFormUtils', () => {
     expect(banner.name).toBe('banner.png');
     expect(banner.previewUrl).toMatch(/^data:image\/png;base64,/);
     expect(banner.isExisting).toBe(false);
+  });
+
+  it('detects Additional Feature / Options section use and reconciles exclusivity', () => {
+    const emptyFeature = createEmptyAdditionalFeatureRow('feature-row-1');
+    const filledFeature = {
+      ...emptyFeature,
+      [ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]: '24',
+    };
+    const emptyOption = createEmptyOptionRow('option-row-1');
+    const filledOption = {
+      ...emptyOption,
+      [ADMIN_SERVICE_FORM_OPTION_KEYS.NAME]: 'Option A',
+    };
+
+    expect(isAdditionalFeatureSectionInUse([emptyFeature])).toBe(false);
+    expect(isAdditionalFeatureSectionInUse([filledFeature])).toBe(true);
+    expect(
+      isAdditionalFeatureSectionInUse([
+        emptyFeature,
+        createEmptyAdditionalFeatureRow('feature-row-2'),
+      ]),
+    ).toBe(true);
+    expect(isOptionsSectionInUse([emptyOption])).toBe(false);
+    expect(isOptionsSectionInUse([filledOption])).toBe(true);
+
+    const reconciled = reconcileExclusiveCatalogSections({
+      ...createEmptyAdminServiceFormValues(),
+      [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: [filledFeature],
+      [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: [filledOption],
+    });
+
+    expect(reconciled[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].name).toBe('24');
+    expect(reconciled[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(1);
+    expect(reconciled[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0].name).toBe('');
   });
 });

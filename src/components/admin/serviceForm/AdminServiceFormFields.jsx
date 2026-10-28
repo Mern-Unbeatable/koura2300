@@ -4,9 +4,12 @@ import useServicesFilterMenu from '../services/useServicesFilterMenu';
 import {
   ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS,
   ADMIN_SERVICE_FORM_CONTROL_CLASS,
+  ADMIN_SERVICE_FORM_CONTROL_DISABLED_CLASS,
   ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS,
+  ADMIN_SERVICE_FORM_DISABLED_HINT_CLASS,
   ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS,
   ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS,
+  ADMIN_SERVICE_FORM_DYNAMIC_SECTION_DISABLED_CLASS,
   ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS,
   ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS,
   ADMIN_SERVICE_FORM_FEATURE_KEYS,
@@ -26,6 +29,7 @@ import {
   ADMIN_SERVICE_FORM_SELECT_OPTION_CLASS,
   ADMIN_SERVICE_FORM_SELECT_PLACEHOLDER_CLASS,
   ADMIN_SERVICE_FORM_SELECT_TRIGGER_CLASS,
+  ADMIN_SERVICE_FORM_SELECT_TRIGGER_DISABLED_CLASS,
   ADMIN_SERVICE_FORM_SELECT_TRIGGER_LABEL_CLASS,
   ADMIN_SERVICE_FORM_SELECT_VALUE_CLASS,
   ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS,
@@ -38,6 +42,10 @@ import {
   ADMIN_SERVICE_FORM_TEXTAREA_SHORT_CLASS,
   getAdminServiceFormSubcategoryOptions,
 } from './adminServiceFormData';
+import {
+  isAdditionalFeatureSectionInUse,
+  isOptionsSectionInUse,
+} from './adminServiceFormUtils';
 
 const FieldError = memo(({ error }) =>
   error ? <p className={ADMIN_SERVICE_FORM_ERROR_TEXT_CLASS}>{error}</p> : null,
@@ -57,6 +65,7 @@ const TextField = memo(
     inputMode,
     min,
     step,
+    disabled = false,
   }) => (
     <div className={ADMIN_SERVICE_FORM_FIELD_CLASS}>
       <label htmlFor={id} className={ADMIN_SERVICE_FORM_LABEL_CLASS}>
@@ -71,9 +80,10 @@ const TextField = memo(
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        disabled={disabled}
         className={`${ADMIN_SERVICE_FORM_CONTROL_CLASS} ${
           error ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
-        }`}
+        } ${disabled ? ADMIN_SERVICE_FORM_CONTROL_DISABLED_CLASS : ''}`}
       />
       <FieldError error={error} />
     </div>
@@ -189,7 +199,8 @@ const TextLinesField = memo(
 
 TextLinesField.displayName = 'TextLinesField';
 
-const SelectField = memo(({ id, label, value, placeholder, options, error, onChange }) => {
+const SelectField = memo(
+  ({ id, label, value, placeholder, options, error, onChange, disabled = false }) => {
   const { containerRef, isOpen, onToggle, onClose } = useServicesFilterMenu();
   const selectedOption = options.find((option) => option.id === value);
   const displayLabel = selectedOption?.label || placeholder;
@@ -214,10 +225,12 @@ const SelectField = memo(({ id, label, value, placeholder, options, error, onCha
           aria-labelledby={`${id}-label`}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
+          aria-disabled={disabled}
+          disabled={disabled}
           className={`${ADMIN_SERVICE_FORM_SELECT_TRIGGER_CLASS} ${
             error ? ADMIN_SERVICE_FORM_CONTROL_ERROR_CLASS : ''
-          }`}
-          onClick={onToggle}
+          } ${disabled ? ADMIN_SERVICE_FORM_SELECT_TRIGGER_DISABLED_CLASS : ''}`}
+          onClick={disabled ? undefined : onToggle}
         >
           <span className={`${ADMIN_SERVICE_FORM_SELECT_TRIGGER_LABEL_CLASS} ${labelClassName}`}>
             {displayLabel}
@@ -229,7 +242,7 @@ const SelectField = memo(({ id, label, value, placeholder, options, error, onCha
           />
         </button>
 
-        {isOpen ? (
+        {isOpen && !disabled ? (
           <ul
             role="listbox"
             aria-labelledby={`${id}-label`}
@@ -262,7 +275,8 @@ const SelectField = memo(({ id, label, value, placeholder, options, error, onCha
       <FieldError error={error} />
     </div>
   );
-});
+},
+);
 
 SelectField.displayName = 'SelectField';
 
@@ -270,21 +284,31 @@ const AdditionalFeatureRows = memo(
   ({
     copy,
     rows,
+    disabled = false,
     onAdditionalFeatureChange,
     onAddAdditionalFeature,
     onRemoveAdditionalFeature,
   }) => {
     const canRemove = rows.length > 1;
     const lastRow = rows[rows.length - 1];
+    const sectionClassName = disabled
+      ? `${ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} ${ADMIN_SERVICE_FORM_DYNAMIC_SECTION_DISABLED_CLASS}`
+      : ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS;
 
     return (
       <section
-        className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS}
+        className={sectionClassName}
         aria-label={copy.sections.additionalFeature}
+        aria-disabled={disabled}
       >
         <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>
           {copy.sections.additionalFeature}
         </h2>
+        {disabled ? (
+          <p className={ADMIN_SERVICE_FORM_DISABLED_HINT_CLASS}>
+            {copy.sections.additionalFeatureDisabledByOptions}
+          </p>
+        ) : null}
         <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
           {rows.map((row, index) => {
             const isLast = index === rows.length - 1;
@@ -301,6 +325,7 @@ const AdditionalFeatureRows = memo(
                     min="0"
                     step="any"
                     value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME]}
+                    disabled={disabled}
                     onChange={onAdditionalFeatureChange(
                       row.id,
                       ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
@@ -312,6 +337,7 @@ const AdditionalFeatureRows = memo(
                     placeholder={copy.placeholders.featureMeasurementUnit}
                     options={ADMIN_SERVICE_FORM_MEASUREMENT_UNITS}
                     value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT]}
+                    disabled={disabled}
                     onChange={onAdditionalFeatureChange(
                       row.id,
                       ADMIN_SERVICE_FORM_FEATURE_KEYS.MEASUREMENT_UNIT,
@@ -322,6 +348,7 @@ const AdditionalFeatureRows = memo(
                     label={copy.fields.featureQuantity}
                     placeholder={copy.placeholders.featureQuantity}
                     value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY]}
+                    disabled={disabled}
                     onChange={onAdditionalFeatureChange(
                       row.id,
                       ADMIN_SERVICE_FORM_FEATURE_KEYS.QUANTITY,
@@ -332,6 +359,7 @@ const AdditionalFeatureRows = memo(
                     label={copy.fields.standardPrice}
                     placeholder={copy.placeholders.featureStandardPrice}
                     value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE]}
+                    disabled={disabled}
                     onChange={onAdditionalFeatureChange(
                       row.id,
                       ADMIN_SERVICE_FORM_FEATURE_KEYS.STANDARD_PRICE,
@@ -342,6 +370,7 @@ const AdditionalFeatureRows = memo(
                     label={copy.fields.premiumPrice}
                     placeholder={copy.placeholders.featurePremiumPrice}
                     value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE]}
+                    disabled={disabled}
                     onChange={onAdditionalFeatureChange(
                       row.id,
                       ADMIN_SERVICE_FORM_FEATURE_KEYS.PREMIUM_PRICE,
@@ -352,6 +381,7 @@ const AdditionalFeatureRows = memo(
                     label={copy.fields.featureNote1}
                     placeholder={copy.placeholders.featureNote}
                     value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1]}
+                    disabled={disabled}
                     onChange={onAdditionalFeatureChange(
                       row.id,
                       ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_1,
@@ -362,13 +392,14 @@ const AdditionalFeatureRows = memo(
                     label={copy.fields.featureNote2}
                     placeholder={copy.placeholders.featureNote}
                     value={row[ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2]}
+                    disabled={disabled}
                     onChange={onAdditionalFeatureChange(
                       row.id,
                       ADMIN_SERVICE_FORM_FEATURE_KEYS.NOTE_2,
                     )}
                   />
                 </div>
-                {!isLast && canRemove ? (
+                {!isLast && canRemove && !disabled ? (
                   <button
                     type="button"
                     className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
@@ -385,10 +416,11 @@ const AdditionalFeatureRows = memo(
               type="button"
               className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
               onClick={onAddAdditionalFeature}
+              disabled={disabled}
             >
               {copy.actions.addAdditionalFeature}
             </button>
-            {canRemove && lastRow ? (
+            {canRemove && lastRow && !disabled ? (
               <button
                 type="button"
                 className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
@@ -491,13 +523,26 @@ const SizeRows = memo(({ copy, rows, onSizeChange, onAddSize, onRemoveSize }) =>
 
 SizeRows.displayName = 'SizeRows';
 
-const OptionRows = memo(({ copy, rows, onOptionChange, onAddOption, onRemoveOption }) => {
+const OptionRows = memo(
+  ({ copy, rows, disabled = false, onOptionChange, onAddOption, onRemoveOption }) => {
   const canRemove = rows.length > 1;
   const lastRow = rows[rows.length - 1];
+  const sectionClassName = disabled
+    ? `${ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} ${ADMIN_SERVICE_FORM_DYNAMIC_SECTION_DISABLED_CLASS}`
+    : ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS;
 
   return (
-    <section className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_CLASS} aria-label={copy.sections.options}>
+    <section
+      className={sectionClassName}
+      aria-label={copy.sections.options}
+      aria-disabled={disabled}
+    >
       <h2 className={ADMIN_SERVICE_FORM_DYNAMIC_SECTION_TITLE_CLASS}>{copy.sections.options}</h2>
+      {disabled ? (
+        <p className={ADMIN_SERVICE_FORM_DISABLED_HINT_CLASS}>
+          {copy.sections.optionsDisabledByAdditionalFeature}
+        </p>
+      ) : null}
       <div className={ADMIN_SERVICE_FORM_DYNAMIC_ROWS_CLASS}>
         {rows.map((row, index) => {
           const isLast = index === rows.length - 1;
@@ -510,6 +555,7 @@ const OptionRows = memo(({ copy, rows, onOptionChange, onAddOption, onRemoveOpti
                   label={copy.fields.optionName}
                   placeholder={copy.placeholders.optionName}
                   value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.NAME]}
+                  disabled={disabled}
                   onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.NAME)}
                 />
                 <TextField
@@ -517,6 +563,7 @@ const OptionRows = memo(({ copy, rows, onOptionChange, onAddOption, onRemoveOpti
                   label={copy.fields.standardPrice}
                   placeholder={copy.placeholders.price}
                   value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE]}
+                  disabled={disabled}
                   onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.STANDARD_PRICE)}
                 />
                 <TextField
@@ -524,10 +571,11 @@ const OptionRows = memo(({ copy, rows, onOptionChange, onAddOption, onRemoveOpti
                   label={copy.fields.premiumPrice}
                   placeholder={copy.placeholders.price}
                   value={row[ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE]}
+                  disabled={disabled}
                   onChange={onOptionChange(row.id, ADMIN_SERVICE_FORM_OPTION_KEYS.PREMIUM_PRICE)}
                 />
               </div>
-              {!isLast && canRemove ? (
+              {!isLast && canRemove && !disabled ? (
                 <button
                   type="button"
                   className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
@@ -544,10 +592,11 @@ const OptionRows = memo(({ copy, rows, onOptionChange, onAddOption, onRemoveOpti
             type="button"
             className={ADMIN_SERVICE_FORM_ADD_ROW_BUTTON_CLASS}
             onClick={onAddOption}
+            disabled={disabled}
           >
             {copy.actions.addAnotherOption}
           </button>
-          {canRemove && lastRow ? (
+          {canRemove && lastRow && !disabled ? (
             <button
               type="button"
               className={ADMIN_SERVICE_FORM_REMOVE_ROW_BUTTON_CLASS}
@@ -560,7 +609,8 @@ const OptionRows = memo(({ copy, rows, onOptionChange, onAddOption, onRemoveOpti
       </div>
     </section>
   );
-});
+},
+);
 
 OptionRows.displayName = 'OptionRows';
 
@@ -577,31 +627,40 @@ const CatalogDynamicSections = memo(
     onRemoveAdditionalFeature,
     onRemoveSize,
     onRemoveOption,
-  }) => (
-    <>
-      <AdditionalFeatureRows
-        copy={copy}
-        rows={values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] ?? []}
-        onAdditionalFeatureChange={onAdditionalFeatureChange}
-        onAddAdditionalFeature={onAddAdditionalFeature}
-        onRemoveAdditionalFeature={onRemoveAdditionalFeature}
-      />
-      <SizeRows
-        copy={copy}
-        rows={values[ADMIN_SERVICE_FORM_FIELDS.SIZES] ?? []}
-        onSizeChange={onSizeChange}
-        onAddSize={onAddSize}
-        onRemoveSize={onRemoveSize}
-      />
-      <OptionRows
-        copy={copy}
-        rows={values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS] ?? []}
-        onOptionChange={onOptionChange}
-        onAddOption={onAddOption}
-        onRemoveOption={onRemoveOption}
-      />
-    </>
-  ),
+  }) => {
+    const featureRows = values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] ?? [];
+    const optionRows = values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS] ?? [];
+    const featuresInUse = isAdditionalFeatureSectionInUse(featureRows);
+    const optionsInUse = isOptionsSectionInUse(optionRows);
+
+    return (
+      <>
+        <AdditionalFeatureRows
+          copy={copy}
+          rows={featureRows}
+          disabled={optionsInUse}
+          onAdditionalFeatureChange={onAdditionalFeatureChange}
+          onAddAdditionalFeature={onAddAdditionalFeature}
+          onRemoveAdditionalFeature={onRemoveAdditionalFeature}
+        />
+        <SizeRows
+          copy={copy}
+          rows={values[ADMIN_SERVICE_FORM_FIELDS.SIZES] ?? []}
+          onSizeChange={onSizeChange}
+          onAddSize={onAddSize}
+          onRemoveSize={onRemoveSize}
+        />
+        <OptionRows
+          copy={copy}
+          rows={optionRows}
+          disabled={featuresInUse}
+          onOptionChange={onOptionChange}
+          onAddOption={onAddOption}
+          onRemoveOption={onRemoveOption}
+        />
+      </>
+    );
+  },
 );
 
 CatalogDynamicSections.displayName = 'CatalogDynamicSections';

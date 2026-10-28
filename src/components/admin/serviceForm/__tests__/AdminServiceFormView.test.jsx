@@ -22,6 +22,7 @@ import {
   ADMIN_SERVICE_FORM_VIEWPORT,
   createEmptyAdditionalFeatureRow,
   createEmptyAdminServiceFormValues,
+  createEmptyOptionRow,
   createEmptySizeRow,
   createEmptyTextLineRow,
 } from '../adminServiceFormData';
@@ -261,6 +262,94 @@ describe('AdminServiceFormView', () => {
 
     expect(onRemoveAdditionalFeature).toHaveBeenCalledWith('feature-row-1');
     expect(onRemoveSize).toHaveBeenCalledWith('size-row-1');
+  });
+
+  it('disables Options when Additional Feature is in use and vice versa', () => {
+    const featureValues = createFormValues();
+    featureValues[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] = [
+      {
+        ...createEmptyAdditionalFeatureRow('feature-row-1'),
+        name: '24',
+      },
+    ];
+
+    const { unmount } = render(
+      <MemoryRouter>
+        <AdminServiceFormView
+          copy={ADMIN_SERVICE_FORM_COPY}
+          pageTitle={ADMIN_SERVICE_FORM_COPY.titles.create}
+          values={featureValues}
+          errors={{}}
+          categoryOptions={[{ id: 'Lighting', label: 'Lighting' }]}
+          isNotFound={false}
+          onFieldChange={() => () => {}}
+          onAdditionalFeatureChange={() => () => {}}
+          onSizeChange={() => () => {}}
+          onOptionChange={() => () => {}}
+          onTextLineChange={() => () => () => {}}
+          onAddAdditionalFeature={jest.fn()}
+          onAddSize={jest.fn()}
+          onAddOption={jest.fn()}
+          onAddTextLine={() => () => {}}
+          onRemoveTextLine={() => () => {}}
+          onBannerFilesSelected={jest.fn()}
+          onOtherFilesSelected={jest.fn()}
+          onSubmit={jest.fn((event) => event.preventDefault())}
+        />
+      </MemoryRouter>,
+    );
+
+    expect(
+      screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.optionsDisabledByAdditionalFeature),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAnotherOption }),
+    ).toBeDisabled();
+
+    unmount();
+
+    const optionValues = createFormValues();
+    optionValues[ADMIN_SERVICE_FORM_FIELDS.OPTIONS] = [
+      {
+        ...createEmptyOptionRow('option-row-1'),
+        name: 'Option A',
+      },
+    ];
+
+    render(
+      <MemoryRouter>
+        <AdminServiceFormView
+          copy={ADMIN_SERVICE_FORM_COPY}
+          pageTitle={ADMIN_SERVICE_FORM_COPY.titles.create}
+          values={optionValues}
+          errors={{}}
+          categoryOptions={[{ id: 'Lighting', label: 'Lighting' }]}
+          isNotFound={false}
+          onFieldChange={() => () => {}}
+          onAdditionalFeatureChange={() => () => {}}
+          onSizeChange={() => () => {}}
+          onOptionChange={() => () => {}}
+          onTextLineChange={() => () => () => {}}
+          onAddAdditionalFeature={jest.fn()}
+          onAddSize={jest.fn()}
+          onAddOption={jest.fn()}
+          onAddTextLine={() => () => {}}
+          onRemoveTextLine={() => () => {}}
+          onBannerFilesSelected={jest.fn()}
+          onOtherFilesSelected={jest.fn()}
+          onSubmit={jest.fn((event) => event.preventDefault())}
+        />
+      </MemoryRouter>,
+    );
+
+    expect(
+      screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.additionalFeatureDisabledByOptions),
+    ).toBeInTheDocument();
+    expect(
+      within(
+        screen.getByText(ADMIN_SERVICE_FORM_COPY.sections.additionalFeature).closest('section'),
+      ).getByRole('button', { name: ADMIN_SERVICE_FORM_COPY.actions.addAdditionalFeature }),
+    ).toBeDisabled();
   });
 
   it('shows edit title and submits the form', async () => {

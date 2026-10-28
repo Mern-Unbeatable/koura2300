@@ -22,9 +22,13 @@ import {
   createAdminServiceFormValues,
   createBannerImageFromFile,
   createOtherImagesFromFiles,
+  createResetAdditionalFeatureRows,
+  createResetOptionRows,
   getAdminServiceFormDetailsById,
   getAdminServiceFormSeo,
   getAdminServiceFormTitle,
+  isAdditionalFeatureSectionInUse,
+  isOptionsSectionInUse,
   removeAdminServiceFormRow,
   resolveAdminServiceFormMode,
   revokePreviewUrl,
@@ -130,15 +134,27 @@ const useAdminServiceForm = () => {
   const handleAdditionalFeatureChange = useCallback(
     (rowId, fieldKey) => (event) => {
       const nextValue = event.target.value;
-      setValues((current) => ({
-        ...current,
-        [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: updateAdminServiceFormRowField(
+      setValues((current) => {
+        const nextFeatures = updateAdminServiceFormRowField(
           current[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES],
           rowId,
           fieldKey,
           nextValue,
-        ),
-      }));
+        );
+        const next = {
+          ...current,
+          [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: nextFeatures,
+        };
+
+        if (
+          isAdditionalFeatureSectionInUse(nextFeatures) &&
+          isOptionsSectionInUse(current[ADMIN_SERVICE_FORM_FIELDS.OPTIONS])
+        ) {
+          next[ADMIN_SERVICE_FORM_FIELDS.OPTIONS] = createResetOptionRows();
+        }
+
+        return next;
+      });
     },
     [],
   );
@@ -162,15 +178,30 @@ const useAdminServiceForm = () => {
   const handleOptionChange = useCallback(
     (rowId, fieldKey) => (event) => {
       const nextValue = event.target.value;
-      setValues((current) => ({
-        ...current,
-        [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: updateAdminServiceFormRowField(
+      setValues((current) => {
+        const nextOptions = updateAdminServiceFormRowField(
           current[ADMIN_SERVICE_FORM_FIELDS.OPTIONS],
           rowId,
           fieldKey,
           nextValue,
-        ),
-      }));
+        );
+        const next = {
+          ...current,
+          [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: nextOptions,
+        };
+
+        if (
+          isOptionsSectionInUse(nextOptions) &&
+          isAdditionalFeatureSectionInUse(
+            current[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES],
+          )
+        ) {
+          next[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] =
+            createResetAdditionalFeatureRows();
+        }
+
+        return next;
+      });
     },
     [],
   );
@@ -182,13 +213,22 @@ const useAdminServiceForm = () => {
       rowSequenceRef.current.feature,
     );
 
-    setValues((current) => ({
-      ...current,
-      [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: appendAdminServiceFormRow(
+    setValues((current) => {
+      const nextFeatures = appendAdminServiceFormRow(
         current[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES],
         createEmptyAdditionalFeatureRow(nextId),
-      ),
-    }));
+      );
+      const next = {
+        ...current,
+        [ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]: nextFeatures,
+      };
+
+      if (isOptionsSectionInUse(current[ADMIN_SERVICE_FORM_FIELDS.OPTIONS])) {
+        next[ADMIN_SERVICE_FORM_FIELDS.OPTIONS] = createResetOptionRows();
+      }
+
+      return next;
+    });
   }, []);
 
   const handleAddSize = useCallback(() => {
@@ -214,13 +254,27 @@ const useAdminServiceForm = () => {
       rowSequenceRef.current.option,
     );
 
-    setValues((current) => ({
-      ...current,
-      [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: appendAdminServiceFormRow(
+    setValues((current) => {
+      const nextOptions = appendAdminServiceFormRow(
         current[ADMIN_SERVICE_FORM_FIELDS.OPTIONS],
         createEmptyOptionRow(nextId),
-      ),
-    }));
+      );
+      const next = {
+        ...current,
+        [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: nextOptions,
+      };
+
+      if (
+        isAdditionalFeatureSectionInUse(
+          current[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES],
+        )
+      ) {
+        next[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES] =
+          createResetAdditionalFeatureRows();
+      }
+
+      return next;
+    });
   }, []);
 
   const handleRemoveAdditionalFeature = useCallback((rowId) => {

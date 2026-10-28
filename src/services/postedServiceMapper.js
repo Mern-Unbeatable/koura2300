@@ -186,7 +186,11 @@ export const mapAdminFormValuesToPostedService = (formValues, { existingId } = {
         formValues[FORM_FIELDS.ADDITIONAL_FEATURES],
       ),
       sizes: filterFilledSizes(formValues[FORM_FIELDS.SIZES]),
-      options: filterFilledOptions(formValues[FORM_FIELDS.OPTIONS]),
+      // Additional Feature and Options are mutually exclusive client UIs.
+      options:
+        filterFilledAdditionalFeatures(formValues[FORM_FIELDS.ADDITIONAL_FEATURES]).length > 0
+          ? []
+          : filterFilledOptions(formValues[FORM_FIELDS.OPTIONS]),
       // Heavy data URLs are moved to IndexedDB by postedServicesStore on upsert.
       otherImages: mapOtherImagesForPost(formValues[FORM_FIELDS.OTHER_IMAGES]),
     },

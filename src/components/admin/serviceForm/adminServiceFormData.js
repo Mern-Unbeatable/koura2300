@@ -232,10 +232,17 @@ export const ADMIN_SERVICE_FORM_LABEL_CLASS =
 export const ADMIN_SERVICE_FORM_PLACEHOLDER_COLOR = '#b8bec6';
 export const ADMIN_SERVICE_FORM_CONTROL_CLASS =
   'h-10 w-full rounded border border-[rgba(0,0,0,0.2)] bg-white px-2.5 text-xs leading-4 text-[#3b3f46] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[768px]:text-sm';
+export const ADMIN_SERVICE_FORM_CONTROL_DISABLED_CLASS =
+  'cursor-not-allowed bg-[#f5f6f7] opacity-60';
+export const ADMIN_SERVICE_FORM_DYNAMIC_SECTION_DISABLED_CLASS = 'opacity-60';
+export const ADMIN_SERVICE_FORM_DISABLED_HINT_CLASS =
+  'text-sm leading-5 text-[#697076]';
 export const ADMIN_SERVICE_FORM_SELECT_CHEVRON_SIZE = 16;
 export const ADMIN_SERVICE_FORM_SELECT_WRAP_CLASS = 'relative w-full min-w-0';
 export const ADMIN_SERVICE_FORM_SELECT_TRIGGER_CLASS =
   'inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded border border-[rgba(0,0,0,0.2)] bg-white px-2.5 text-left text-xs leading-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange min-[768px]:text-sm';
+export const ADMIN_SERVICE_FORM_SELECT_TRIGGER_DISABLED_CLASS =
+  'cursor-not-allowed bg-[#f5f6f7] opacity-60';
 export const ADMIN_SERVICE_FORM_SELECT_TRIGGER_LABEL_CLASS = 'min-w-0 flex-1 truncate';
 export const ADMIN_SERVICE_FORM_SELECT_PLACEHOLDER_CLASS = 'text-[#b8bec6]';
 export const ADMIN_SERVICE_FORM_SELECT_VALUE_CLASS = 'text-[#191c1f]';

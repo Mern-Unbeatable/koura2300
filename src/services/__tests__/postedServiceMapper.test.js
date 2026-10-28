@@ -81,6 +81,55 @@ describe('postedServiceMapper', () => {
     expect(filterFilledAdditionalFeatures(values.additionalFeatures)).toHaveLength(1);
   });
 
+  it('drops Options when Additional Feature rows are filled', () => {
+    const values = {
+      categoryId: 'Bathroom',
+      subcategoryId: 'Vanity Services',
+      duration: '1-2 hours',
+      standardPrice: '$200.00',
+      standardFeatured: [{ id: 'standard-featured-1', value: 'Standard install' }],
+      premiumPrice: '$250.00',
+      premiumFeatured: [{ id: 'premium-featured-1', value: 'Premium install' }],
+      title: 'Exclusive Sections',
+      shortDescription: 'Short copy',
+      longDescription: '',
+      included: [{ id: 'included-1', value: 'Labor' }],
+      notIncluded: [{ id: 'not-included-1', value: 'Parts' }],
+      additionalFeatures: [
+        {
+          id: 'feature-1',
+          name: 'Handles',
+          measurementUnit: 'inch',
+          quantity: '2',
+          standardPrice: '12',
+          premiumPrice: '',
+          note1: '',
+          note2: '',
+        },
+      ],
+      sizes: [],
+      options: [
+        {
+          id: 'option-1',
+          name: 'Option A',
+          standardPrice: '100',
+          premiumPrice: '120',
+        },
+      ],
+      bannerImage: {
+        id: 'banner-1',
+        previewUrl: 'data:image/png;base64,iVBORw0KGgo=',
+        isExisting: false,
+      },
+      otherImages: [],
+    };
+
+    const posted = mapAdminFormValuesToPostedService(values);
+
+    expect(posted.details.additionalFeatures).toHaveLength(1);
+    expect(posted.details.options).toEqual([]);
+  });
+
   it('resolves catalog paths and merges posted services ahead of seed', () => {
     expect(resolveCatalogPathByTitle('Kitchen')).toBe(ROUTES.KITCHEN);
 

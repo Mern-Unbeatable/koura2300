@@ -6,8 +6,12 @@ import { ADMIN_SERVICE_FORM_COPY } from './adminServiceFormCopy';
 import {
   ADMIN_SERVICE_FORM_BANNER_MAX_FILES,
   ADMIN_SERVICE_FORM_FIELDS,
+  ADMIN_SERVICE_FORM_INITIAL_FEATURE_ROW_ID,
+  ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID,
   ADMIN_SERVICE_FORM_MODE,
+  createEmptyAdditionalFeatureRow,
   createEmptyAdminServiceFormValues,
+  createEmptyOptionRow,
 } from './adminServiceFormData';
 
 const PRICE_PREFIX = '$';
@@ -80,6 +84,57 @@ export const createTextLineRowsFromItems = (items, idPrefix) => {
 export const hasFilledTextLineRows = (rows) =>
   (Array.isArray(rows) ? rows : []).some((row) => String(row?.value ?? '').trim());
 
+const hasFilledAdditionalFeatureRow = (row) =>
+  Boolean(
+    String(row?.name ?? '').trim() ||
+      String(row?.measurementUnit ?? '').trim() ||
+      String(row?.note1 ?? '').trim() ||
+      String(row?.note2 ?? '').trim() ||
+      String(row?.standardPrice ?? '').trim() ||
+      String(row?.premiumPrice ?? '').trim() ||
+      String(row?.quantity ?? '').trim(),
+  );
+
+const hasFilledOptionRow = (row) =>
+  Boolean(
+    String(row?.name ?? '').trim() ||
+      String(row?.standardPrice ?? '').trim() ||
+      String(row?.premiumPrice ?? '').trim(),
+  );
+
+export const isAdditionalFeatureSectionInUse = (rows) => {
+  const list = Array.isArray(rows) ? rows : [];
+  return list.length > 1 || list.some(hasFilledAdditionalFeatureRow);
+};
+
+export const isOptionsSectionInUse = (rows) => {
+  const list = Array.isArray(rows) ? rows : [];
+  return list.length > 1 || list.some(hasFilledOptionRow);
+};
+
+export const createResetAdditionalFeatureRows = () => [
+  createEmptyAdditionalFeatureRow(ADMIN_SERVICE_FORM_INITIAL_FEATURE_ROW_ID),
+];
+
+export const createResetOptionRows = () => [
+  createEmptyOptionRow(ADMIN_SERVICE_FORM_INITIAL_OPTION_ROW_ID),
+];
+
+/** Prefer Additional Feature when both sections have data (mutually exclusive UIs). */
+export const reconcileExclusiveCatalogSections = (formValues) => {
+  const features = formValues?.[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES];
+  const options = formValues?.[ADMIN_SERVICE_FORM_FIELDS.OPTIONS];
+
+  if (isAdditionalFeatureSectionInUse(features) && isOptionsSectionInUse(options)) {
+    return {
+      ...formValues,
+      [ADMIN_SERVICE_FORM_FIELDS.OPTIONS]: createResetOptionRows(),
+    };
+  }
+
+  return formValues;
+};
+
 const getPackageById = (packages, packageId) =>
   packages.find((item) => item.id === packageId) ?? null;
 
@@ -103,7 +158,7 @@ export const createAdminServiceFormValues = (details) => {
   const premiumPackage = getPackageById(packages, SERVICE_PACKAGES.PREMIUM);
   const emptyValues = createEmptyAdminServiceFormValues();
 
-  return {
+  return reconcileExclusiveCatalogSections({
     ...emptyValues,
     [ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID]: service.catalogTitle ?? '',
     [ADMIN_SERVICE_FORM_FIELDS.SUBCATEGORY_ID]: service.category ?? '',
@@ -159,7 +214,7 @@ export const createAdminServiceFormValues = (details) => {
         previewUrl: image.previewUrl,
         isExisting: true,
       })),
-  };
+  });
 };
 
 export const appendAdminServiceFormRow = (rows, nextRow) => [...(rows ?? []), nextRow];

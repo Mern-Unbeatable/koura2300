@@ -77,12 +77,11 @@ describe('useAdminServiceForm', () => {
     expect(result.current.isNotFound).toBe(true);
   });
 
-  it('appends and updates Additional Feature, Sizes, and Options rows', () => {
+  it('appends and updates Additional Feature and Sizes rows', () => {
     const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
     const firstFeatureId =
       result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].id;
     const firstSizeId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES][0].id;
-    const firstOptionId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0].id;
 
     act(() => {
       result.current.onAdditionalFeatureChange(
@@ -94,22 +93,75 @@ describe('useAdminServiceForm', () => {
       result.current.onSizeChange(firstSizeId, ADMIN_SERVICE_FORM_SIZE_KEYS.SIZE)({
         target: { value: '36 Inch' },
       });
-      result.current.onOptionChange(firstOptionId, ADMIN_SERVICE_FORM_OPTION_KEYS.NAME)({
-        target: { value: 'Option A' },
-      });
       result.current.onAddAdditionalFeature();
       result.current.onAddSize();
-      result.current.onAddOption();
     });
 
     expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(2);
     expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.SIZES]).toHaveLength(2);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(1);
+    expect(
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0][
+        ADMIN_SERVICE_FORM_OPTION_KEYS.NAME
+      ],
+    ).toBe('');
+  });
+
+  it('keeps Additional Feature and Options mutually exclusive', () => {
+    const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
+    const firstFeatureId =
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].id;
+    const firstOptionId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0].id;
+
+    act(() => {
+      result.current.onOptionChange(firstOptionId, ADMIN_SERVICE_FORM_OPTION_KEYS.NAME)({
+        target: { value: 'Option A' },
+      });
+      result.current.onAddOption();
+    });
+
     expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(2);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(1);
+
+    act(() => {
+      result.current.onAdditionalFeatureChange(
+        result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].id,
+        ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME,
+      )({
+        target: { value: '24' },
+      });
+    });
+
+    expect(
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0][
+        ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME
+      ],
+    ).toBe('24');
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(1);
+    expect(
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS][0][
+        ADMIN_SERVICE_FORM_OPTION_KEYS.NAME
+      ],
+    ).toBe('');
+
+    act(() => {
+      result.current.onAddOption();
+    });
+
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.OPTIONS]).toHaveLength(2);
+    expect(result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES]).toHaveLength(1);
+    expect(
+      result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0][
+        ADMIN_SERVICE_FORM_FEATURE_KEYS.NAME
+      ],
+    ).toBe('');
   });
 
   it('persists posted JSON and opens Service Details after a valid upload', async () => {
     const { result } = renderFormHook(ROUTES.ADMIN_SERVICE_NEW);
     const featureId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.ADDITIONAL_FEATURES][0].id;
+    const includedId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.INCLUDED][0].id;
+    const notIncludedId = result.current.values[ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED][0].id;
 
     act(() => {
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.CATEGORY_ID)({
@@ -133,10 +185,10 @@ describe('useAdminServiceForm', () => {
       result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.SHORT_DESCRIPTION)({
         target: { value: 'Short' },
       });
-      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)({
+      result.current.onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.INCLUDED)(includedId)({
         target: { value: 'Included' },
       });
-      result.current.onFieldChange(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)({
+      result.current.onTextLineChange(ADMIN_SERVICE_FORM_FIELDS.NOT_INCLUDED)(notIncludedId)({
         target: { value: 'Excluded' },
       });
       result.current.onAdditionalFeatureChange(
