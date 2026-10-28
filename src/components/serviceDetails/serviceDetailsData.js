@@ -51,6 +51,11 @@ export const THUMBNAIL_IMAGE_CLASS =
 export const GALLERY_THUMBNAIL_GRID_CLASS = 'min-w-0 grid-cols-4';
 export const SUMMARY_TITLE_CLASS =
   'text-2xl font-semibold text-brand-ink sm:text-[32px] sm:leading-10';
+export const SUMMARY_META_CLASS =
+  'mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-500';
+export const SUMMARY_RATING_META_CLASS =
+  'flex items-center gap-1 border-r border-[#878787] pr-4';
+export const SUMMARY_DURATION_META_CLASS = 'flex items-center gap-1';
 export const LIGHTING_CATALOG_TITLE = 'Lighting';
 export const INCLUSION_HEADING_CLASS = 'text-2xl font-bold text-gray-700';
 export const INCLUSION_LIST_CARD_CLASS = 'mt-6 min-h-[248px] rounded-2xl bg-white p-8';

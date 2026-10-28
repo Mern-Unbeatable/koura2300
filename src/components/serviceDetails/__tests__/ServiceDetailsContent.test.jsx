@@ -306,6 +306,11 @@ describe('Service details page', () => {
     ).toBeInTheDocument();
     expect(screen.getAllByText('1-2 hrs').length).toBeGreaterThan(0);
     expect(screen.getAllByText('4.9 (312)').length).toBeGreaterThan(0);
+    expect(
+      screen
+        .getAllByText('4.9 (312)')
+        .some((node) => node.closest('span')?.className?.includes('border-r')),
+    ).toBe(true);
     const serviceImages = screen.getAllByRole('img', {
       name: 'Chrome lighting fixture above a white sink',
     });
