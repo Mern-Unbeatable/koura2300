@@ -22,8 +22,8 @@ describe('additionalFeatureQtyUtils', () => {
     quantity: '2',
     standardPrice: '25%',
     premiumPrice: '30%',
-    note1: 'First 2 ft included',
-    note2: 'Each additional ft adds a surcharge',
+    note1: 'First 2 ft: included in base labor price.',
+    note2: 'Each additional: +25% of selected labor price.',
   };
 
   it('exposes responsive viewport breakpoints', () => {
@@ -50,8 +50,8 @@ describe('additionalFeatureQtyUtils', () => {
     expect(hasAdditionalFeatures([feature])).toBe(true);
     expect(getFilledAdditionalFeatures([feature])).toHaveLength(1);
     expect(getAdditionalFeatureNotes(feature)).toEqual([
-      'First 2 ft included',
-      'Each additional ft adds a surcharge',
+      'First 2 ft: included in base labor price.',
+      'Each additional: +25% of selected labor price.',
     ]);
   });
 

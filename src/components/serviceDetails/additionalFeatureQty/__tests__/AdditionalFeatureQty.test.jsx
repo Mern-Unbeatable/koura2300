@@ -34,8 +34,10 @@ describe('AdditionalFeatureQty', () => {
 
     expect(screen.getByTestId('service-additional-feature-qty')).toBeInTheDocument();
     expect(ADDITIONAL_FEATURE_QTY_CONTROL_CLASS).toContain('flex-col');
-    expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[426px]:flex-row');
-    expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[426px]:justify-between');
+    expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[768px]:flex-row');
+    expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[768px]:items-stretch');
+    expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[768px]:h-[86px]');
+    expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[768px]:justify-between');
     expect(screen.getByText('Number of ft')).toBeInTheDocument();
     expect(screen.getByText('01')).toBeInTheDocument();
     expect(
