@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ROUTES } from '../../../config';
+import authReducer from '../../../store/slices/authSlice';
 import cartReducer from '../../../store/slices/cartSlice';
 import OrdersContent from '../OrdersContent';
 import { ORDER_ITEMS } from '../ordersData';
@@ -12,6 +13,7 @@ import { ORDER_ITEMS } from '../ordersData';
 const createTestStore = () =>
   configureStore({
     reducer: {
+      auth: authReducer,
       cart: cartReducer,
     },
   });
@@ -45,8 +47,8 @@ describe('OrdersContent', () => {
     expect(screen.getByText('Upcoming Appt.')).toBeInTheDocument();
     // Active = Pending Review + Payment Required + Technician + In Progress
     expect(screen.getByText('Active Orders').previousElementSibling).toHaveTextContent('4');
-    // Upcoming = active statuses with appointment after today
-    expect(screen.getByText('Upcoming Appt.').previousElementSibling).toHaveTextContent('3');
+    // Upcoming = active statuses with appointment after today (seed dates are Aug–Sep 2026)
+    expect(screen.getByText('Upcoming Appt.').previousElementSibling).toHaveTextContent('0');
     expect(screen.getByText('Pending Payment').previousElementSibling).toHaveTextContent('1');
     expect(
       screen.getAllByText('Completed').find((el) => el.tagName === 'P')?.previousElementSibling,

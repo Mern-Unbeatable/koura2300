@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ROUTES } from '../../../config';
+import authReducer from '../../../store/slices/authSlice';
 import cartReducer from '../../../store/slices/cartSlice';
 import OrderDetailsContent from '../OrderDetailsContent';
 import { ORDER_DETAILS_SAMPLE_ID } from '../orderDetailsData';
@@ -12,6 +13,7 @@ import { ORDER_DETAILS_SAMPLE_ID } from '../orderDetailsData';
 const createTestStore = () =>
   configureStore({
     reducer: {
+      auth: authReducer,
       cart: cartReducer,
     },
   });
@@ -164,5 +166,30 @@ describe('OrderDetailsContent', () => {
       'href',
       '/orders',
     );
+  });
+
+  it('shows material feedback only on completed order details', async () => {
+    const user = userEvent.setup();
+
+    renderOrderDetails('ord-2024-004');
+
+    expect(
+      screen.getByRole('heading', { name: 'How was your material quality?' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Rate 4 out of 5' }));
+    await user.type(screen.getByPlaceholderText('Write here'), 'Great materials');
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+
+    expect(screen.getByText('Thanks for your feedback.')).toBeInTheDocument();
+  });
+
+  it('hides material feedback for non-completed orders', () => {
+    renderOrderDetails(ORDER_DETAILS_SAMPLE_ID);
+
+    expect(
+      screen.queryByRole('heading', { name: 'How was your material quality?' }),
+    ).not.toBeInTheDocument();
   });
 });

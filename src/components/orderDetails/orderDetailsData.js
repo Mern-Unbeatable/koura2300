@@ -33,6 +33,25 @@ export const ORDER_DETAILS_SIDEBAR_CLASS =
   'flex min-w-0 flex-col gap-4 lg:sticky lg:top-32 lg:self-start';
 export const ORDER_DETAILS_SECTION_CLASS =
   'overflow-hidden rounded-2xl border border-[#f1f5f9] bg-white shadow-sm';
+export const ORDER_DETAILS_FEEDBACK_STAR_COUNT = 5;
+export const ORDER_DETAILS_FEEDBACK_STAR_SIZE = 28;
+export const ORDER_DETAILS_FEEDBACK_CARD_CLASS =
+  'rounded-2xl border border-[#f1f5f9] bg-white p-5 shadow-sm sm:p-6';
+export const ORDER_DETAILS_FEEDBACK_SECTION_CLASS = 'flex flex-col gap-5';
+export const ORDER_DETAILS_FEEDBACK_TITLE_CLASS = 'text-base font-bold leading-6 text-[#0f172b]';
+export const ORDER_DETAILS_FEEDBACK_SUBTITLE_CLASS = 'mt-1 text-sm leading-5 text-[#62748e]';
+export const ORDER_DETAILS_FEEDBACK_FIELD_CLASS = 'flex flex-col gap-2';
+export const ORDER_DETAILS_FEEDBACK_LABEL_CLASS = 'text-sm font-semibold leading-5 text-[#0f172b]';
+export const ORDER_DETAILS_FEEDBACK_STARS_CLASS = 'flex items-center gap-1';
+export const ORDER_DETAILS_FEEDBACK_STAR_ACTIVE_CLASS = 'text-[#fc6f32]';
+export const ORDER_DETAILS_FEEDBACK_STAR_IDLE_CLASS = 'text-[#e2e8f0]';
+export const ORDER_DETAILS_FEEDBACK_STAR_BUTTON_CLASS =
+  'inline-flex cursor-pointer items-center justify-center rounded p-0.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-default';
+export const ORDER_DETAILS_FEEDBACK_TEXTAREA_CLASS =
+  'min-h-[96px] w-full resize-y rounded-lg border border-[#e2e8f0] bg-white px-3 py-2.5 text-sm leading-5 text-[#0f172b] placeholder:text-[#b8bec6] focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:bg-[#f8fafc]';
+export const ORDER_DETAILS_FEEDBACK_SUBMIT_CLASS =
+  'inline-flex min-h-11 w-full cursor-pointer items-center justify-center rounded-lg bg-[#fc6f32] px-4 text-base font-semibold text-white transition-colors hover:bg-brand-orange-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange disabled:cursor-not-allowed disabled:opacity-60';
+export const ORDER_DETAILS_FEEDBACK_DONE_CLASS = 'text-sm font-medium leading-5 text-[#00a63e]';
 export const ORDER_DETAILS_SECTION_HEADER_CLASS =
   'flex w-full cursor-pointer items-start justify-between gap-3 px-4 py-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-orange sm:px-5';
 export const ORDER_DETAILS_SECTION_HEADER_MAIN_CLASS = 'flex min-w-0 flex-1 items-start gap-3';

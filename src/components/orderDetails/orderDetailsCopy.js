@@ -57,9 +57,21 @@ export const ORDER_DETAILS_CONTENT = {
     payMaterials: (amount) => `Pay Materials — ${amount}`,
     payNow: 'Pay Now',
   },
+  feedback: {
+    title: 'How was your material quality?',
+    subtitle: 'Your feedback helps other builders and contractors make better decisions.',
+    rateLabel: 'Rate Your Product',
+    reviewLabel: 'Review',
+    reviewPlaceholder: 'Write here',
+    submit: 'Submit',
+    starLabel: (rating) => `Rate ${rating} out of 5`,
+    submitted: 'Thanks for your feedback.',
+  },
   toasts: {
     payMaterials: 'Redirecting to material payment.',
     payNow: 'Redirecting to payment.',
+    feedbackSubmitted: 'Feedback submitted. Thank you!',
+    feedbackRatingRequired: 'Please select a star rating.',
   },
   materialPayHint:
     'Pay the material cost online now to move your booking forward. The service cost is collected separately after the work is completed.',

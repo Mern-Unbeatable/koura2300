@@ -34,6 +34,7 @@ const OrderDetailsContent = memo(() => {
           onToggleSection={details.toggleSection}
           onPayMaterials={details.handlePayMaterials}
           onPayNow={details.handlePayNow}
+          onSubmitFeedback={details.handleSubmitFeedback}
         />
       </main>
       <LandingFooter />

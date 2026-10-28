@@ -2,8 +2,10 @@ import React, { memo } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../config';
+import { ORDER_STATUS } from '../orders/ordersData';
 import OrderDetailsBookingPayment from './OrderDetailsBookingPayment';
 import OrderDetailsBookingSummary from './OrderDetailsBookingSummary';
+import OrderDetailsFeedback from './OrderDetailsFeedback';
 import OrderDetailsMaterials from './OrderDetailsMaterials';
 import OrderDetailsServiceInfo from './OrderDetailsServiceInfo';
 import OrderDetailsSidebar from './OrderDetailsSidebar';
@@ -42,10 +44,20 @@ const OrderDetailsNotFound = memo(() => (
 OrderDetailsNotFound.displayName = 'OrderDetailsNotFound';
 
 const OrderDetailsView = memo(
-  ({ order, openSections, sectionIds, onToggleSection, onPayMaterials, onPayNow }) => {
+  ({
+    order,
+    openSections,
+    sectionIds,
+    onToggleSection,
+    onPayMaterials,
+    onPayNow,
+    onSubmitFeedback,
+  }) => {
     if (!order) {
       return <OrderDetailsNotFound />;
     }
+
+    const isCompleted = order.status === ORDER_STATUS.COMPLETED;
 
     return (
       <div>
@@ -83,6 +95,13 @@ const OrderDetailsView = memo(
               isOpen={openSections[sectionIds.bookingPayment]}
               onToggle={onToggleSection}
             />
+            {isCompleted ? (
+              <OrderDetailsFeedback
+                orderId={order.id}
+                copy={ORDER_DETAILS_CONTENT.feedback}
+                onSubmit={onSubmitFeedback}
+              />
+            ) : null}
           </div>
           <OrderDetailsSidebar order={order} onPayNow={onPayNow} />
         </div>

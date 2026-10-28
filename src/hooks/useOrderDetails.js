@@ -38,6 +38,16 @@ const useOrderDetails = (orderId) => {
     toast.success(ORDER_DETAILS_CONTENT.toasts.payNow);
   }, []);
 
+  const handleSubmitFeedback = useCallback(({ rating }) => {
+    if (!rating) {
+      toast.error(ORDER_DETAILS_CONTENT.toasts.feedbackRatingRequired);
+      return false;
+    }
+
+    toast.success(ORDER_DETAILS_CONTENT.toasts.feedbackSubmitted);
+    return true;
+  }, []);
+
   return {
     order,
     openSections,
@@ -45,6 +55,7 @@ const useOrderDetails = (orderId) => {
     toggleSection,
     handlePayMaterials,
     handlePayNow,
+    handleSubmitFeedback,
   };
 };
 
