@@ -24,6 +24,7 @@ export const ROUTES = {
   BATHROOM: '/bathroom',
   WALLS_CEILINGS: '/walls-ceilings',
   SERVICE_DETAILS: '/service/:serviceId',
+  SERVICE_REVIEWS: '/service/:serviceId/reviews',
   BLOG_DETAILS: '/blog/:slug',
   PRIVACY_POLICY: '/privacy-policy',
   TERMS: '/terms-and-conditions',
@@ -92,6 +93,9 @@ export const buildServiceDetailsRoute = (serviceId, category = CATALOG_ALL_CATEG
 
   return `${SERVICE_DETAILS_PREFIX}${serviceId}?${searchParams.toString()}`;
 };
+
+export const buildServiceReviewsRoute = (serviceId) =>
+  `${SERVICE_DETAILS_PREFIX}${serviceId}/reviews`;
 
 export const API_CONFIG = {
   BASE_URL: process.env.REACT_APP_API_BASE_URL || 'https://backend.c4r.co.uk',

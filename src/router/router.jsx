@@ -37,6 +37,7 @@ const Bathroom = lazy(() => import('../pages/Bathroom'));
 const WallsCeilings = lazy(() => import('../pages/WallsCeilings'));
 const BlogDetails = lazy(() => import('../pages/BlogDetails'));
 const ServiceDetails = lazy(() => import('../pages/ServiceDetails'));
+const ServiceReviews = lazy(() => import('../pages/ServiceReviews'));
 const Login = lazy(() => import('../pages/Login'));
 const Checkout = lazy(() => import('../pages/Checkout'));
 const OrdersPage = lazy(() => import('../pages/Orders'));
@@ -301,6 +302,15 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={<PageLoader />}>
             <BlogDetails />
+          </Suspense>
+        }
+      />
+
+      <Route
+        path={ROUTES.SERVICE_REVIEWS}
+        element={
+          <Suspense fallback={<PageLoader />}>
+            <ServiceReviews />
           </Suspense>
         }
       />

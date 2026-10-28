@@ -78,6 +78,7 @@ const ServiceDetailsView = memo(
 
             <div className="flex h-full min-w-0 flex-col gap-4">
               <ServiceDetailsSummary
+                serviceId={service.id}
                 title={service.title}
                 overview={overview}
                 duration={service.duration}

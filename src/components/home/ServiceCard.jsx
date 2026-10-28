@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock3, Plus, Star } from 'lucide-react';
+import { buildServiceReviewsRoute } from '../../config';
 import { POSTED_MEDIA_DEFAULT_IMAGE } from '../../services/postedMediaStore';
 import { LANDING_CONTENT } from './landingContent';
 
@@ -171,6 +172,7 @@ const ServiceCard = memo(
   }) => {
     const variantStyles = VARIANT_STYLES[variant] ?? VARIANT_STYLES[SERVICE_CARD_VARIANTS.DEFAULT];
     const isAdmin = variant === SERVICE_CARD_VARIANTS.ADMIN;
+    const reviewsPath = service?.id ? buildServiceReviewsRoute(service.id) : null;
 
     return (
       <article
@@ -202,14 +204,29 @@ const ServiceCard = memo(
               <p className={`${variantStyles.price} font-bold text-brand-blue`}>
                 Starting at ${service.price}
               </p>
-              <div className="flex items-center gap-1">
-                <span className="flex text-brand-orange" aria-hidden="true">
-                  {Array.from({ length: RATING_STARS }, (_, starIndex) => (
-                    <Star key={starIndex} size={STAR_ICON_SIZE} fill="currentColor" />
-                  ))}
-                </span>
-                <span className="text-xs text-gray-500">{service.rating}</span>
-              </div>
+              {reviewsPath && !isAdmin ? (
+                <Link
+                  to={reviewsPath}
+                  aria-label={`View reviews for ${service.title}`}
+                  className={`${CARD_ACTION_LAYER_CLASS} mt-1 inline-flex items-center gap-1 text-xs text-gray-500 transition-colors hover:text-brand-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange`}
+                >
+                  <span className="flex text-brand-orange" aria-hidden="true">
+                    {Array.from({ length: RATING_STARS }, (_, starIndex) => (
+                      <Star key={starIndex} size={STAR_ICON_SIZE} fill="currentColor" />
+                    ))}
+                  </span>
+                  <span>{service.rating}</span>
+                </Link>
+              ) : (
+                <div className="mt-1 flex items-center gap-1">
+                  <span className="flex text-brand-orange" aria-hidden="true">
+                    {Array.from({ length: RATING_STARS }, (_, starIndex) => (
+                      <Star key={starIndex} size={STAR_ICON_SIZE} fill="currentColor" />
+                    ))}
+                  </span>
+                  <span className="text-xs text-gray-500">{service.rating}</span>
+                </div>
+              )}
             </div>
 
             {isAdmin ? null : (

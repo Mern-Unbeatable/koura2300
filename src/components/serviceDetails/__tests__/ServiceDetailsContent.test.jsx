@@ -309,7 +309,7 @@ describe('Service details page', () => {
     expect(
       screen
         .getAllByText('4.9 (312)')
-        .some((node) => node.closest('span')?.className?.includes('border-r')),
+        .some((node) => node.closest('a, span')?.className?.includes('border-r')),
     ).toBe(true);
     const serviceImages = screen.getAllByRole('img', {
       name: 'Chrome lighting fixture above a white sink',
