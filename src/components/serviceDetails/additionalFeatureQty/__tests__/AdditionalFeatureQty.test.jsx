@@ -2,7 +2,11 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SERVICE_PACKAGES } from '../../serviceDetailsData';
 import { ADDITIONAL_FEATURE_QTY_COPY } from '../additionalFeatureQtyCopy';
-import { ADDITIONAL_FEATURE_QTY_ASSETS } from '../additionalFeatureQtyData';
+import {
+  ADDITIONAL_FEATURE_QTY_ASSETS,
+  ADDITIONAL_FEATURE_QTY_CONTROL_CLASS,
+  ADDITIONAL_FEATURE_QTY_SECTION_CLASS,
+} from '../additionalFeatureQtyData';
 import AdditionalFeatureQty from '../AdditionalFeatureQty';
 
 describe('AdditionalFeatureQty', () => {
@@ -29,6 +33,9 @@ describe('AdditionalFeatureQty', () => {
     );
 
     expect(screen.getByTestId('service-additional-feature-qty')).toBeInTheDocument();
+    expect(ADDITIONAL_FEATURE_QTY_CONTROL_CLASS).toContain('flex-col');
+    expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[426px]:flex-row');
+    expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[426px]:justify-between');
     expect(screen.getByText('Number of ft')).toBeInTheDocument();
     expect(screen.getByText('01')).toBeInTheDocument();
     expect(

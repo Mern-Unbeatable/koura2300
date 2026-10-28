@@ -21,16 +21,18 @@ export const ADDITIONAL_FEATURE_QTY_ASSETS = {
   noteCheck: `${ADDITIONAL_FEATURE_QTY_ASSET_PATH}/note-check.svg`,
 };
 
-/** Figma 750:952 — row uses space-between across the package column width. */
-export const ADDITIONAL_FEATURE_QTY_SECTION_CLASS = 'flex min-w-0 flex-col gap-3';
+/** Figma 750:2043 — label+stepper column beside notes, space-between. */
+export const ADDITIONAL_FEATURE_QTY_SECTION_CLASS =
+  'flex min-w-0 flex-col gap-3 min-[426px]:flex-row min-[426px]:items-center min-[426px]:justify-between min-[426px]:gap-4';
+
+/** Figma 750:2118 — label above stepper in one column. */
+export const ADDITIONAL_FEATURE_QTY_CONTROL_CLASS =
+  'flex min-w-0 shrink-0 flex-col items-start justify-between gap-[11px]';
 
 export const ADDITIONAL_FEATURE_QTY_UNIT_LABEL_CLASS =
-  'text-sm font-medium leading-5 text-[#0b1e3d] min-[426px]:text-base';
+  'text-base font-medium leading-[19px] text-[#0b1e3d] whitespace-nowrap';
 
-export const ADDITIONAL_FEATURE_QTY_ROW_CLASS =
-  'flex min-w-0 flex-col gap-3 min-[426px]:flex-row min-[426px]:items-center min-[426px]:justify-between min-[426px]:gap-0';
-
-/** Figma 750:917 — 164×56, border #E4E7E9 2px, radius 3px, px-20 py-16. */
+/** Figma 750:2044 — 164×56, border #E4E7E9 2px, radius 3px, px-20 py-16. */
 export const ADDITIONAL_FEATURE_QTY_STEPPER_CLASS =
   'inline-flex h-14 w-[164px] shrink-0 items-center justify-between rounded-[3px] border-2 border-solid border-[#e4e7e9] bg-white px-5 py-4';
 
@@ -43,7 +45,7 @@ export const ADDITIONAL_FEATURE_QTY_STEP_ICON_CLASS = 'block size-4';
 export const ADDITIONAL_FEATURE_QTY_VALUE_CLASS =
   'min-w-[17px] text-center text-base font-normal leading-6 text-[#475156]';
 
-/** Figma 750:927 — #F8F8F8, radius 12, padding 16, gap 10. */
+/** Figma 750:2048 — #F8F8F8, radius 12, padding 16, gap 10. */
 export const ADDITIONAL_FEATURE_QTY_NOTES_CLASS =
   'flex min-w-0 shrink-0 flex-col items-start gap-2.5 rounded-xl bg-[#f8f8f8] p-4';
 

@@ -2,10 +2,10 @@ import { memo } from 'react';
 import { ADDITIONAL_FEATURE_QTY_COPY } from './additionalFeatureQtyCopy';
 import {
   ADDITIONAL_FEATURE_QTY_ASSETS,
+  ADDITIONAL_FEATURE_QTY_CONTROL_CLASS,
   ADDITIONAL_FEATURE_QTY_NOTE_CLASS,
   ADDITIONAL_FEATURE_QTY_NOTE_ICON_CLASS,
   ADDITIONAL_FEATURE_QTY_NOTES_CLASS,
-  ADDITIONAL_FEATURE_QTY_ROW_CLASS,
   ADDITIONAL_FEATURE_QTY_SECTION_CLASS,
   ADDITIONAL_FEATURE_QTY_STEP_BUTTON_CLASS,
   ADDITIONAL_FEATURE_QTY_STEP_ICON_CLASS,
@@ -41,9 +41,8 @@ const AdditionalFeatureQty = memo(
         aria-label={unitLabel}
         data-testid="service-additional-feature-qty"
       >
-        <p className={ADDITIONAL_FEATURE_QTY_UNIT_LABEL_CLASS}>{unitLabel}</p>
-
-        <div className={ADDITIONAL_FEATURE_QTY_ROW_CLASS}>
+        <div className={ADDITIONAL_FEATURE_QTY_CONTROL_CLASS}>
+          <p className={ADDITIONAL_FEATURE_QTY_UNIT_LABEL_CLASS}>{unitLabel}</p>
           <div className={ADDITIONAL_FEATURE_QTY_STEPPER_CLASS}>
             <button
               type="button"
@@ -80,25 +79,25 @@ const AdditionalFeatureQty = memo(
               />
             </button>
           </div>
-
-          {notes.length > 0 ? (
-            <ul className={ADDITIONAL_FEATURE_QTY_NOTES_CLASS}>
-              {notes.map((note) => (
-                <li key={note} className={ADDITIONAL_FEATURE_QTY_NOTE_CLASS}>
-                  <img
-                    src={ADDITIONAL_FEATURE_QTY_ASSETS.noteCheck}
-                    alt=""
-                    width={22}
-                    height={22}
-                    className={ADDITIONAL_FEATURE_QTY_NOTE_ICON_CLASS}
-                    aria-hidden="true"
-                  />
-                  <span>{note}</span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
         </div>
+
+        {notes.length > 0 ? (
+          <ul className={ADDITIONAL_FEATURE_QTY_NOTES_CLASS}>
+            {notes.map((note) => (
+              <li key={note} className={ADDITIONAL_FEATURE_QTY_NOTE_CLASS}>
+                <img
+                  src={ADDITIONAL_FEATURE_QTY_ASSETS.noteCheck}
+                  alt=""
+                  width={22}
+                  height={22}
+                  className={ADDITIONAL_FEATURE_QTY_NOTE_ICON_CLASS}
+                  aria-hidden="true"
+                />
+                <span>{note}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </section>
     );
   },
