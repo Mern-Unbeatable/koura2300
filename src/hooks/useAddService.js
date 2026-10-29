@@ -9,6 +9,7 @@ const getCartItem = ({
   needsMaterials,
   recycleOldMaterials,
   recycleSurcharge,
+  additionalFeatureSurcharge,
 }) => ({
   id,
   price,
@@ -16,6 +17,7 @@ const getCartItem = ({
   ...(needsMaterials !== undefined ? { needsMaterials } : {}),
   ...(recycleOldMaterials !== undefined ? { recycleOldMaterials } : {}),
   ...(recycleSurcharge !== undefined ? { recycleSurcharge } : {}),
+  ...(additionalFeatureSurcharge !== undefined ? { additionalFeatureSurcharge } : {}),
 });
 
 const useAddService = () => {

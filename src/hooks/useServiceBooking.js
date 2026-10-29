@@ -14,7 +14,10 @@ import {
   applyRecycleSurchargeToPackages,
   computeRecycleSurcharge,
   createConfirmedCartItem,
+  roundMoney,
 } from '../components/serviceDetails/serviceDetailsData';
+import useAdditionalFeatureQty from '../components/serviceDetails/additionalFeatureQty/useAdditionalFeatureQty';
+import { applyAdditionalFeatureSurchargeToPackages } from '../components/serviceDetails/additionalFeatureQty/additionalFeatureQtyUtils';
 
 const BOOKING_ACTION = {
   SELECT_PACKAGE: 'SELECT_PACKAGE',
@@ -130,7 +133,7 @@ const getCheckoutNavigationState = (location) => ({
   from: `${location.pathname}${location.search}`,
 });
 
-const useServiceBooking = (service, packages) => {
+const useServiceBooking = (service, packages, { additionalFeatures = [] } = {}) => {
   const addService = useAddService();
   const dispatchAuth = useDispatch();
   const navigate = useNavigate();
@@ -141,16 +144,30 @@ const useServiceBooking = (service, packages) => {
   const selectedPackage =
     packages.find((servicePackage) => servicePackage.id === state.selectedPackageId) ?? packages[0];
 
-  const recycleSurcharge = useMemo(
-    () =>
-      state.recycleOldMaterials ? computeRecycleSurcharge(selectedPackage?.price) : 0,
-    [selectedPackage?.price, state.recycleOldMaterials],
+  const featureQty = useAdditionalFeatureQty({
+    additionalFeatures,
+    selectedPackageId: state.selectedPackageId,
+    selectedPackagePrice: selectedPackage?.price,
+  });
+
+  const laborPrice = useMemo(
+    () => roundMoney(Number(selectedPackage?.price || 0) + featureQty.surcharge),
+    [featureQty.surcharge, selectedPackage?.price],
   );
 
-  const pricedPackages = useMemo(
-    () => applyRecycleSurchargeToPackages(packages, state.recycleOldMaterials),
-    [packages, state.recycleOldMaterials],
+  const recycleSurcharge = useMemo(
+    () => (state.recycleOldMaterials ? computeRecycleSurcharge(laborPrice) : 0),
+    [laborPrice, state.recycleOldMaterials],
   );
+
+  const pricedPackages = useMemo(() => {
+    const withFeatureQty = applyAdditionalFeatureSurchargeToPackages(
+      packages,
+      featureQty.feature,
+      featureQty.quantity,
+    );
+    return applyRecycleSurchargeToPackages(withFeatureQty, state.recycleOldMaterials);
+  }, [featureQty.feature, featureQty.quantity, packages, state.recycleOldMaterials]);
 
   const addConfirmedItem = useCallback(() => {
     dispatchAuth(clearCart());
@@ -160,9 +177,18 @@ const useServiceBooking = (service, packages) => {
         selectedPackage,
         needsMaterials: state.needsMaterials,
         recycleOldMaterials: state.recycleOldMaterials,
+        additionalFeatureSurcharge: featureQty.surcharge,
       }),
     );
-  }, [addService, dispatchAuth, selectedPackage, service, state.needsMaterials, state.recycleOldMaterials]);
+  }, [
+    addService,
+    dispatchAuth,
+    featureQty.surcharge,
+    selectedPackage,
+    service,
+    state.needsMaterials,
+    state.recycleOldMaterials,
+  ]);
 
   const handleSelectPackage = useCallback((packageId) => {
     dispatch({ type: BOOKING_ACTION.SELECT_PACKAGE, packageId });
@@ -252,6 +278,7 @@ const useServiceBooking = (service, packages) => {
     selectedPackage,
     pricedPackages,
     recycleSurcharge,
+    featureQty,
     needsMaterials: state.needsMaterials,
     recycleOldMaterials: state.recycleOldMaterials,
     isZipPanelOpen: state.isZipPanelOpen,

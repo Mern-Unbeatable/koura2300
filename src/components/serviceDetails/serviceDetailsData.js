@@ -413,16 +413,20 @@ export const createConfirmedCartItem = ({
   selectedPackage,
   needsMaterials,
   recycleOldMaterials,
+  additionalFeatureSurcharge = 0,
 }) => {
   const basePrice = Number(selectedPackage.price) || 0;
-  const recycleSurcharge = recycleOldMaterials ? computeRecycleSurcharge(basePrice) : 0;
+  const featureSurcharge = roundMoney(additionalFeatureSurcharge);
+  const laborPrice = roundMoney(basePrice + featureSurcharge);
+  const recycleSurcharge = recycleOldMaterials ? computeRecycleSurcharge(laborPrice) : 0;
 
   return {
     id: `${service.id}-${selectedPackage.id}`,
-    price: getPriceWithRecycleSurcharge(basePrice, recycleOldMaterials),
+    price: getPriceWithRecycleSurcharge(laborPrice, recycleOldMaterials),
     title: service.title,
     needsMaterials,
     recycleOldMaterials,
     recycleSurcharge,
+    additionalFeatureSurcharge: featureSurcharge,
   };
 };

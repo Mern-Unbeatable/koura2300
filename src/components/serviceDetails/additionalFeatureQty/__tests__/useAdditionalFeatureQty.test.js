@@ -9,7 +9,7 @@ describe('useAdditionalFeatureQty', () => {
     measurementUnit: 'ft',
     quantity: '3',
     standardPrice: '25%',
-    premiumPrice: '30%',
+    premiumPrice: '25%',
     note1: 'First 3 handles: included in base labor price.',
     note2: 'Each additional: +25% of selected labor price.',
   };
@@ -25,19 +25,23 @@ describe('useAdditionalFeatureQty', () => {
 
     expect(result.current.isVisible).toBe(true);
     expect(result.current.unitLabel).toBe('Number of ft');
-    expect(result.current.quantity).toBe(1);
-    expect(result.current.quantityLabel).toBe('01');
+    expect(result.current.quantity).toBe(0);
+    expect(result.current.quantityLabel).toBe('00');
     expect(result.current.surcharge).toBe(0);
     expect(result.current.canDecrement).toBe(false);
 
     act(() => {
       result.current.onIncrement();
-      result.current.onIncrement();
+    });
+    expect(result.current.quantity).toBe(1);
+    expect(result.current.quantityLabel).toBe('01');
+    expect(result.current.surcharge).toBe(50);
+
+    act(() => {
       result.current.onIncrement();
     });
-    expect(result.current.quantity).toBe(4);
-    expect(result.current.quantityLabel).toBe('04');
-    expect(result.current.surcharge).toBe(50);
+    expect(result.current.quantity).toBe(2);
+    expect(result.current.surcharge).toBe(100);
   });
 
   it('hides the qty UI when measurement unit is not selected', () => {

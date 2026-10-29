@@ -16,7 +16,7 @@ describe('AdditionalFeatureQty', () => {
     measurementUnit: 'ft',
     quantity: '3',
     standardPrice: '25%',
-    premiumPrice: '30%',
+    premiumPrice: '25%',
     note1: 'First 3 handles: included in base labor price.',
     note2: 'Each additional: +25% of selected labor price.',
   };
@@ -39,7 +39,7 @@ describe('AdditionalFeatureQty', () => {
     expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[768px]:h-[86px]');
     expect(ADDITIONAL_FEATURE_QTY_SECTION_CLASS).toContain('min-[768px]:justify-between');
     expect(screen.getByText('Number of ft')).toBeInTheDocument();
-    expect(screen.getByText('01')).toBeInTheDocument();
+    expect(screen.getByText('00')).toBeInTheDocument();
     expect(
       screen.getByText('First 3 handles: included in base labor price.'),
     ).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('AdditionalFeatureQty', () => {
     await user.click(
       screen.getByRole('button', { name: ADDITIONAL_FEATURE_QTY_COPY.increaseLabel }),
     );
-    expect(screen.getByText('02')).toBeInTheDocument();
+    expect(screen.getByText('01')).toBeInTheDocument();
   });
 
   it('renders nothing when measurement unit is not selected', () => {

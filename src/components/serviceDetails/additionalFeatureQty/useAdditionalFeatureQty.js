@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ADDITIONAL_FEATURE_QTY_COPY } from './additionalFeatureQtyCopy';
 import {
+  ADDITIONAL_FEATURE_QTY_INITIAL,
   ADDITIONAL_FEATURE_QTY_MIN,
   ADDITIONAL_FEATURE_QTY_STEP,
 } from './additionalFeatureQtyData';
@@ -27,10 +28,10 @@ const useAdditionalFeatureQty = ({
   // Details qty UI only shows when admin selected a Measurement_unit.
   const isVisible = hasSelectedMeasurementUnit(primaryFeature);
   const includedBaseline = parseIncludedBaseline(primaryFeature);
-  const [quantity, setQuantity] = useState(ADDITIONAL_FEATURE_QTY_MIN);
+  const [quantity, setQuantity] = useState(ADDITIONAL_FEATURE_QTY_INITIAL);
 
   useEffect(() => {
-    setQuantity(ADDITIONAL_FEATURE_QTY_MIN);
+    setQuantity(ADDITIONAL_FEATURE_QTY_INITIAL);
   }, [primaryFeature?.id]);
 
   const activeQuantity = Math.max(ADDITIONAL_FEATURE_QTY_MIN, quantity);
@@ -69,6 +70,7 @@ const useAdditionalFeatureQty = ({
 
   return {
     isVisible,
+    feature: primaryFeature,
     unitLabel,
     quantity: activeQuantity,
     quantityLabel: formatAdditionalFeatureQuantity(activeQuantity),

@@ -8,7 +8,10 @@ export const ADDITIONAL_FEATURE_QTY_VIEWPORT = {
 };
 
 export const ADDITIONAL_FEATURE_QTY_DEFAULT_INCLUDED = 1;
-export const ADDITIONAL_FEATURE_QTY_MIN = 1;
+export const ADDITIONAL_FEATURE_QTY_MIN = 0;
+export const ADDITIONAL_FEATURE_QTY_INITIAL = 0;
+/** Each qty unit adds this percent of Standard / Premium package price when admin % is blank. */
+export const ADDITIONAL_FEATURE_QTY_DEFAULT_RATE = 0.25;
 export const ADDITIONAL_FEATURE_QTY_STEP = 1;
 export const ADDITIONAL_FEATURE_QTY_PAD_LENGTH = 2;
 

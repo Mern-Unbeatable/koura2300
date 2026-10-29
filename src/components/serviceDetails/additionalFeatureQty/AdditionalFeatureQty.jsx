@@ -15,22 +15,16 @@ import {
 } from './additionalFeatureQtyData';
 import useAdditionalFeatureQty from './useAdditionalFeatureQty';
 
-const AdditionalFeatureQty = memo(
-  ({ additionalFeatures, selectedPackageId, selectedPackagePrice }) => {
-    const {
-      isVisible,
-      unitLabel,
-      quantityLabel,
-      notes,
-      canDecrement,
-      onIncrement,
-      onDecrement,
-    } = useAdditionalFeatureQty({
-      additionalFeatures,
-      selectedPackageId,
-      selectedPackagePrice,
-    });
-
+export const AdditionalFeatureQtyView = memo(
+  ({
+    isVisible,
+    unitLabel,
+    quantityLabel,
+    notes = [],
+    canDecrement,
+    onIncrement,
+    onDecrement,
+  }) => {
     if (!isVisible) {
       return null;
     }
@@ -99,6 +93,30 @@ const AdditionalFeatureQty = memo(
           </ul>
         ) : null}
       </section>
+    );
+  },
+);
+
+AdditionalFeatureQtyView.displayName = 'AdditionalFeatureQtyView';
+
+const AdditionalFeatureQty = memo(
+  ({ additionalFeatures, selectedPackageId, selectedPackagePrice }) => {
+    const featureQty = useAdditionalFeatureQty({
+      additionalFeatures,
+      selectedPackageId,
+      selectedPackagePrice,
+    });
+
+    return (
+      <AdditionalFeatureQtyView
+        isVisible={featureQty.isVisible}
+        unitLabel={featureQty.unitLabel}
+        quantityLabel={featureQty.quantityLabel}
+        notes={featureQty.notes}
+        canDecrement={featureQty.canDecrement}
+        onIncrement={featureQty.onIncrement}
+        onDecrement={featureQty.onDecrement}
+      />
     );
   },
 );

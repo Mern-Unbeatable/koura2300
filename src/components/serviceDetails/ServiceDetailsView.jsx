@@ -17,7 +17,7 @@ import InsulationCalculator from './insulationCalculator/InsulationCalculator';
 import { hasInsulationCalculator } from './insulationCalculator/insulationCalculatorUtils';
 import FramingCalculator from './framingCalculator/FramingCalculator';
 import { hasFramingCalculator } from './framingCalculator/framingCalculatorUtils';
-import AdditionalFeatureQty from './additionalFeatureQty/AdditionalFeatureQty';
+import { AdditionalFeatureQtyView } from './additionalFeatureQty/AdditionalFeatureQty';
 import VariantSelector from './variantSelector/VariantSelector';
 import useVariantSelector from './variantSelector/useVariantSelector';
 import ServiceDetailsBooking from './ServiceDetailsBooking';
@@ -50,7 +50,7 @@ const ServiceDetailsView = memo(
   }) => {
     const variantSelector = useVariantSelector({ sizes, options, packages });
     const displayPackages = variantSelector.displayPackages;
-    const booking = useServiceBooking(service, displayPackages);
+    const booking = useServiceBooking(service, displayPackages, { additionalFeatures });
     const handleAddService = useAddService();
     const showFlooringCalculator = hasFlooringCalculator(service);
     const showCountertopCalculator = hasCountertopCalculator(service);
@@ -107,10 +107,14 @@ const ServiceDetailsView = memo(
                   onSelectPackage={booking.handleSelectPackage}
                 />
               </div>
-              <AdditionalFeatureQty
-                additionalFeatures={additionalFeatures}
-                selectedPackageId={booking.selectedPackageId}
-                selectedPackagePrice={booking.selectedPackage?.price}
+              <AdditionalFeatureQtyView
+                isVisible={booking.featureQty.isVisible}
+                unitLabel={booking.featureQty.unitLabel}
+                quantityLabel={booking.featureQty.quantityLabel}
+                notes={booking.featureQty.notes}
+                canDecrement={booking.featureQty.canDecrement}
+                onIncrement={booking.featureQty.onIncrement}
+                onDecrement={booking.featureQty.onDecrement}
               />
               <ServiceDetailsBooking
                 needsMaterials={booking.needsMaterials}
