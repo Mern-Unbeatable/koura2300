@@ -13,6 +13,9 @@ module.exports = defineConfig({
   use: {
     baseURL,
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    actionTimeout: 15_000,
   },
   webServer: {
     command: 'npm run dev',

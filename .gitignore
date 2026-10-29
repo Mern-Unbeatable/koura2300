@@ -6,3 +6,9 @@ dist
 .env.development
 .env.production
 
+# Playwright generated artifacts (do not commit)
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
