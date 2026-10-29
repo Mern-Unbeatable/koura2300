@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from 'react';
-import { Check, Package, Send, X } from 'lucide-react';
+import { Package, Send, X } from 'lucide-react';
 import { getBubbleCorners, groupMessages } from '../chat/chatUtils';
 import useGsapMountEnter from '../../hooks/useGsapMountEnter';
 import useServiceDetailsChat from '../../hooks/useServiceDetailsChat';
@@ -16,7 +16,6 @@ import {
   SERVICE_CHAT_CONTENT_PADDING_CLASS,
   SERVICE_CHAT_OFFER_ICON_SIZE,
   SERVICE_CHAT_OFFER_ICON_WRAP_CLASS,
-  SERVICE_CHAT_OFFER_PAY_BUTTON_CLASS,
   SERVICE_CHAT_OFFER_TABLE_GRID_CLASS,
   SERVICE_CHAT_OFFER_QTY_CELL_CLASS,
   SERVICE_CHAT_OFFER_TABLE_HEADER_CLASS,
@@ -25,7 +24,6 @@ import {
   SERVICE_CHAT_OFFER_TABLE_WRAP_CLASS,
   SERVICE_CHAT_PANEL_MIN_HEIGHT_CLASS,
   SERVICE_CHAT_PANEL_SHADOW_CLASS,
-  SERVICE_CHAT_PAY_ICON_SIZE,
   SERVICE_CHAT_PRO,
   SERVICE_CHAT_PRO_AVATAR_SIZE,
   SERVICE_CHAT_PRO_ONLINE_DOT_SIZE,
@@ -157,11 +155,6 @@ const ServiceDetailsOfferCard = memo(({ offer, copy }) => (
         <span className="shrink-0 whitespace-nowrap text-right text-sm sm:text-base">{offer.totalLabel}</span>
       </div>
     </div>
-
-    <button type="button" className={SERVICE_CHAT_OFFER_PAY_BUTTON_CLASS}>
-      <Check size={SERVICE_CHAT_PAY_ICON_SIZE} aria-hidden="true" />
-      {copy.payNow}
-    </button>
   </article>
 ));
 

@@ -742,7 +742,7 @@ describe('Service details chat', () => {
     expect(screen.getByText('Booking ID')).toBeInTheDocument();
     expect(screen.getByText('BK-001')).toBeInTheDocument();
     expect(screen.getByText('$185')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Pay Now' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Pay Now' })).not.toBeInTheDocument();
     expect(screen.getByLabelText('Type a message')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Send message' })).toBeDisabled();
     expect(
