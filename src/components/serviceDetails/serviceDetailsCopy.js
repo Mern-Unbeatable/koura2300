@@ -15,6 +15,7 @@ export const SERVICE_DETAILS_CONTENT = {
     needMaterials: 'I Need Materials',
     haveMaterials: 'I Have Materials',
     recycle: 'Recycle old materials',
+    recycleFee: (amount) => `+$${amount} recycle fee (5%)`,
     confirmMaterial: 'Confirmed Material',
     confirmJob: 'Confirmed Job',
     success: 'Your job has been confirmed.',

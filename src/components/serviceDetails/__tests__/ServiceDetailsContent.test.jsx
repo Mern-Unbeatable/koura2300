@@ -421,6 +421,26 @@ describe('Service details page', () => {
     await user.click(screen.getByRole('checkbox', { name: 'Recycle old materials' }));
 
     expect(screen.getByRole('checkbox', { name: 'Recycle old materials' })).toBeChecked();
+    expect(screen.getByText(/\+\$\d+ recycle fee \(5%\)/)).toBeInTheDocument();
+  });
+
+  it('adds a 5% recycle surcharge to the confirmed package price', async () => {
+    const user = userEvent.setup();
+    const store = renderServiceDetails(LIGHTING_SERVICE_ID);
+
+    const standardPriceLabel = screen.getByRole('radio', { name: /Standard Price \$\d+/ });
+    const basePrice = Number(standardPriceLabel.getAttribute('aria-label').match(/\$(\d+)/)[1]);
+    const expectedTotal = basePrice + Math.round(basePrice * 0.05);
+
+    await user.click(screen.getByRole('checkbox', { name: 'Recycle old materials' }));
+    expect(screen.getByRole('radio', { name: `Standard Price $${expectedTotal}` })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Confirmed Material' }));
+    await user.click(screen.getByRole('button', { name: 'Apply' }));
+
+    expect(store.getState().cart.items[0].price).toBe(expectedTotal);
+    expect(store.getState().cart.items[0].recycleOldMaterials).toBe(true);
+    expect(store.getState().cart.items[0].recycleSurcharge).toBe(Math.round(basePrice * 0.05));
   });
 
   it('opens Create Account when a guest confirms with I Have Materials', async () => {

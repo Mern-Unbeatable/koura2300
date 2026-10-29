@@ -22,6 +22,8 @@ export const INCLUSION_ALERT_ICON_SIZE = 20;
 export const FEATURE_ICON_SIZE = 22;
 export const RADIO_ICON_SIZE = 20;
 export const RECYCLE_ICON_SIZE = 20;
+/** Recycle old materials adds this percent of the selected package price. */
+export const RECYCLE_SURCHARGE_RATE = 0.05;
 export const CLOSE_ICON_SIZE = 20;
 export const CONTACT_METHODS = {
   PHONE: 'phone',
@@ -361,15 +363,50 @@ export const getCatalogServiceDetails = (serviceId) => {
   };
 };
 
+export const computeRecycleSurcharge = (packagePrice) => {
+  const price = Number(packagePrice);
+  if (!Number.isFinite(price) || price <= 0) {
+    return 0;
+  }
+
+  return Math.round(price * RECYCLE_SURCHARGE_RATE);
+};
+
+export const getPriceWithRecycleSurcharge = (packagePrice, recycleOldMaterials) => {
+  const price = Number(packagePrice);
+  if (!Number.isFinite(price) || price <= 0) {
+    return 0;
+  }
+
+  const basePrice = Math.round(price);
+  if (!recycleOldMaterials) {
+    return basePrice;
+  }
+
+  return basePrice + computeRecycleSurcharge(basePrice);
+};
+
+export const applyRecycleSurchargeToPackages = (packages, recycleOldMaterials) =>
+  (Array.isArray(packages) ? packages : []).map((servicePackage) => ({
+    ...servicePackage,
+    price: getPriceWithRecycleSurcharge(servicePackage.price, recycleOldMaterials),
+  }));
+
 export const createConfirmedCartItem = ({
   service,
   selectedPackage,
   needsMaterials,
   recycleOldMaterials,
-}) => ({
-  id: `${service.id}-${selectedPackage.id}`,
-  price: selectedPackage.price,
-  title: service.title,
-  needsMaterials,
-  recycleOldMaterials,
-});
+}) => {
+  const basePrice = Number(selectedPackage.price) || 0;
+  const recycleSurcharge = recycleOldMaterials ? computeRecycleSurcharge(basePrice) : 0;
+
+  return {
+    id: `${service.id}-${selectedPackage.id}`,
+    price: getPriceWithRecycleSurcharge(basePrice, recycleOldMaterials),
+    title: service.title,
+    needsMaterials,
+    recycleOldMaterials,
+    recycleSurcharge,
+  };
+};

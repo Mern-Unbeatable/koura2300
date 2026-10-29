@@ -56,6 +56,7 @@ const ServiceDetailsBooking = memo(
   ({
     needsMaterials,
     recycleOldMaterials,
+    recycleSurcharge = 0,
     isZipPanelOpen,
     onNeedMaterials,
     onHaveMaterials,
@@ -68,16 +69,23 @@ const ServiceDetailsBooking = memo(
         onNeedMaterials={onNeedMaterials}
         onHaveMaterials={onHaveMaterials}
       />
-      <label className={RECYCLE_LABEL_CLASS}>
-        <input
-          type="checkbox"
-          checked={recycleOldMaterials}
-          onChange={onToggleRecycle}
-          className={RECYCLE_CHECKBOX_CLASS}
-        />
-        <Recycle size={RECYCLE_ICON_SIZE} aria-hidden="true" className={RECYCLE_ICON_CLASS} />
-        {booking.recycle}
-      </label>
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <label className={RECYCLE_LABEL_CLASS}>
+          <input
+            type="checkbox"
+            checked={recycleOldMaterials}
+            onChange={onToggleRecycle}
+            className={RECYCLE_CHECKBOX_CLASS}
+          />
+          <Recycle size={RECYCLE_ICON_SIZE} aria-hidden="true" className={RECYCLE_ICON_CLASS} />
+          {booking.recycle}
+        </label>
+        {recycleOldMaterials && recycleSurcharge > 0 ? (
+          <span className="text-xs font-medium text-brand-orange">
+            {booking.recycleFee(recycleSurcharge)}
+          </span>
+        ) : null}
+      </div>
       <button
         type="button"
         onClick={onConfirmJob}

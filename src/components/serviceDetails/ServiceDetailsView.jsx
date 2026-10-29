@@ -102,7 +102,7 @@ const ServiceDetailsView = memo(
               ) : null}
               <div className="flex min-h-0 flex-1 flex-col">
                 <ServiceDetailsPackages
-                  packages={displayPackages}
+                  packages={booking.pricedPackages}
                   selectedPackageId={booking.selectedPackageId}
                   onSelectPackage={booking.handleSelectPackage}
                 />
@@ -115,6 +115,7 @@ const ServiceDetailsView = memo(
               <ServiceDetailsBooking
                 needsMaterials={booking.needsMaterials}
                 recycleOldMaterials={booking.recycleOldMaterials}
+                recycleSurcharge={booking.recycleSurcharge}
                 isZipPanelOpen={booking.isZipPanelOpen}
                 onNeedMaterials={booking.handleNeedMaterials}
                 onHaveMaterials={booking.handleHaveMaterials}

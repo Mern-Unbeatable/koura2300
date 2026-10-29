@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useMemo, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -11,6 +11,8 @@ import {
   CONTACT_METHODS,
   SERVICE_PACKAGES,
   UNSELECTED_CONTACT_METHOD,
+  applyRecycleSurchargeToPackages,
+  computeRecycleSurcharge,
   createConfirmedCartItem,
 } from '../components/serviceDetails/serviceDetailsData';
 
@@ -139,6 +141,17 @@ const useServiceBooking = (service, packages) => {
   const selectedPackage =
     packages.find((servicePackage) => servicePackage.id === state.selectedPackageId) ?? packages[0];
 
+  const recycleSurcharge = useMemo(
+    () =>
+      state.recycleOldMaterials ? computeRecycleSurcharge(selectedPackage?.price) : 0,
+    [selectedPackage?.price, state.recycleOldMaterials],
+  );
+
+  const pricedPackages = useMemo(
+    () => applyRecycleSurchargeToPackages(packages, state.recycleOldMaterials),
+    [packages, state.recycleOldMaterials],
+  );
+
   const addConfirmedItem = useCallback(() => {
     dispatchAuth(clearCart());
     addService(
@@ -237,6 +250,8 @@ const useServiceBooking = (service, packages) => {
   return {
     selectedPackageId: state.selectedPackageId,
     selectedPackage,
+    pricedPackages,
+    recycleSurcharge,
     needsMaterials: state.needsMaterials,
     recycleOldMaterials: state.recycleOldMaterials,
     isZipPanelOpen: state.isZipPanelOpen,
