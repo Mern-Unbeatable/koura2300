@@ -26,6 +26,8 @@ module.exports = {
   },
 
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+  // Playwright e2e specs must not run under Jest
+  testPathIgnorePatterns: ['/node_modules/', '/e2e/', '/dist/'],
 
   collectCoverageFrom: [
     'src/**/*.{js,jsx}',
