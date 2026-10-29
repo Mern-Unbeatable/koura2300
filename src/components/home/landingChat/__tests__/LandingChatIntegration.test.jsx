@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import authReducer from '../../../../store/slices/authSlice';
 import cartReducer from '../../../../store/slices/cartSlice';
 import HomeContent from '../../HomeContent';
 import { LANDING_CHAT_COPY } from '../landingChatCopy';
@@ -10,6 +11,7 @@ import { LANDING_CHAT_COPY } from '../landingChatCopy';
 const createTestStore = () =>
   configureStore({
     reducer: {
+      auth: authReducer,
       cart: cartReducer,
     },
   });
