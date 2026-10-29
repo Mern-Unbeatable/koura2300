@@ -363,13 +363,29 @@ export const getCatalogServiceDetails = (serviceId) => {
   };
 };
 
+/** Round currency to 2 decimal places (e.g. 487 * 5% → 24.35). */
+export const roundMoney = (amount) => {
+  const value = Number(amount);
+  if (!Number.isFinite(value)) {
+    return 0;
+  }
+
+  return Math.round(value * 100) / 100;
+};
+
+/** Display money with 2 decimals only when needed ($145 vs $511.35). */
+export const formatMoneyAmount = (amount) => {
+  const value = roundMoney(amount);
+  return Number.isInteger(value) ? String(value) : value.toFixed(2);
+};
+
 export const computeRecycleSurcharge = (packagePrice) => {
   const price = Number(packagePrice);
   if (!Number.isFinite(price) || price <= 0) {
     return 0;
   }
 
-  return Math.round(price * RECYCLE_SURCHARGE_RATE);
+  return roundMoney(price * RECYCLE_SURCHARGE_RATE);
 };
 
 export const getPriceWithRecycleSurcharge = (packagePrice, recycleOldMaterials) => {
@@ -378,12 +394,12 @@ export const getPriceWithRecycleSurcharge = (packagePrice, recycleOldMaterials) 
     return 0;
   }
 
-  const basePrice = Math.round(price);
+  const basePrice = roundMoney(price);
   if (!recycleOldMaterials) {
     return basePrice;
   }
 
-  return basePrice + computeRecycleSurcharge(basePrice);
+  return roundMoney(basePrice + computeRecycleSurcharge(basePrice));
 };
 
 export const applyRecycleSurchargeToPackages = (packages, recycleOldMaterials) =>

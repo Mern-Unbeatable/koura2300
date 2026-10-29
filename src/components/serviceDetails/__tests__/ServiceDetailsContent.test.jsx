@@ -421,7 +421,7 @@ describe('Service details page', () => {
     await user.click(screen.getByRole('checkbox', { name: 'Recycle old materials' }));
 
     expect(screen.getByRole('checkbox', { name: 'Recycle old materials' })).toBeChecked();
-    expect(screen.getByText(/\+\$\d+ recycle fee \(5%\)/)).toBeInTheDocument();
+    expect(screen.getByText(/\+\$\d+(\.\d{2})? recycle fee \(5%\)/)).toBeInTheDocument();
   });
 
   it('adds a 5% recycle surcharge to the confirmed package price', async () => {
@@ -430,17 +430,23 @@ describe('Service details page', () => {
 
     const standardPriceLabel = screen.getByRole('radio', { name: /Standard Price \$\d+/ });
     const basePrice = Number(standardPriceLabel.getAttribute('aria-label').match(/\$(\d+)/)[1]);
-    const expectedTotal = basePrice + Math.round(basePrice * 0.05);
+    const expectedSurcharge = Math.round(basePrice * 0.05 * 100) / 100;
+    const expectedTotal = Math.round((basePrice + expectedSurcharge) * 100) / 100;
+    const expectedTotalLabel = Number.isInteger(expectedTotal)
+      ? String(expectedTotal)
+      : expectedTotal.toFixed(2);
 
     await user.click(screen.getByRole('checkbox', { name: 'Recycle old materials' }));
-    expect(screen.getByRole('radio', { name: `Standard Price $${expectedTotal}` })).toBeInTheDocument();
+    expect(
+      screen.getByRole('radio', { name: `Standard Price $${expectedTotalLabel}` }),
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Confirmed Material' }));
     await user.click(screen.getByRole('button', { name: 'Apply' }));
 
     expect(store.getState().cart.items[0].price).toBe(expectedTotal);
     expect(store.getState().cart.items[0].recycleOldMaterials).toBe(true);
-    expect(store.getState().cart.items[0].recycleSurcharge).toBe(Math.round(basePrice * 0.05));
+    expect(store.getState().cart.items[0].recycleSurcharge).toBe(expectedSurcharge);
   });
 
   it('opens Create Account when a guest confirms with I Have Materials', async () => {

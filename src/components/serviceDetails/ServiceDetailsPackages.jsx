@@ -8,6 +8,7 @@ import {
   RADIO_FILL_SELECTED,
   RADIO_ICON_SIZE,
   SERVICE_PACKAGES,
+  formatMoneyAmount,
 } from './serviceDetailsData';
 
 const PACKAGE_GRID_CLASS = 'grid h-full min-w-0 auto-rows-fr items-stretch gap-4 sm:grid-cols-2';
@@ -56,7 +57,8 @@ const PackageFeature = memo(({ feature }) => (
 PackageFeature.displayName = 'PackageFeature';
 
 const PackageCard = memo(({ servicePackage, isSelected, onSelect }) => {
-  const packageLabel = `${servicePackage.title} $${servicePackage.price}`;
+  const displayPrice = formatMoneyAmount(servicePackage.price);
+  const packageLabel = `${servicePackage.title} $${displayPrice}`;
   const appearance = PACKAGE_CARD_APPEARANCE[servicePackage.id];
   const selectedKey = String(isSelected);
 
@@ -77,7 +79,7 @@ const PackageCard = memo(({ servicePackage, isSelected, onSelect }) => {
         <Circle size={RADIO_ICON_SIZE} fill={RADIO_STATE_FILL[selectedKey]} />
       </span>
       <span className={appearance.title}>{servicePackage.title}</span>
-      <span className={appearance.price}>${servicePackage.price}</span>
+      <span className={appearance.price}>${displayPrice}</span>
       <ul className="mt-5 flex flex-1 flex-col gap-2">
         {servicePackage.features.map((feature) => (
           <PackageFeature key={feature} feature={feature} />
