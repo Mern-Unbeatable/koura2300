@@ -142,7 +142,7 @@ const ServiceDetailsOfferCard = memo(({ offer, copy }) => (
           key={lineItem.id}
           className={`${SERVICE_CHAT_OFFER_TABLE_GRID_CLASS} ${SERVICE_CHAT_OFFER_TABLE_ROW_CLASS} bg-white`}
         >
-          <span className="min-w-0 break-words font-medium text-[#314158]">{lineItem.item}</span>
+          <span className="min-w-0 wrap-break-word font-medium text-[#314158]">{lineItem.item}</span>
           <span className={`${SERVICE_CHAT_OFFER_QTY_CELL_CLASS} text-[#383838]`}>{lineItem.quantity}</span>
           <span className="whitespace-nowrap text-right font-semibold text-[#0f172b]">
             {lineItem.costLabel}
